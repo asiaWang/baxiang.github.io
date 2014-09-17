@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+  <head>
+    <meta name="baidu-site-verification" content="cUg5uSvSog" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="{{ site.author }}" />
+    <title>{{ page.title }} | {{ site.author }}</title>
+    <link href="/feed/" rel="alternate" title="{{ site.author }}" type="application/atom+xml" />
+    <link rel="stylesheet" href="/media/css/style.css">
+    <link rel="stylesheet" href="/media/css/highlight.css">
+    <script type="text/javascript" src="/media/js/jquery-1.7.1.min.js"></script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="main" role="main">
+        <header>
+        <h1>{{ page.title }} </h1>  <!--h6><a href=# onclick="javascript:addFavorite()">                         加入收藏</a></h6!-->
+
+        </header>
+        <nav>
+        <span><a title="home" class="" href="/">Home</a></span>
+        <span><a title="categories" class="" href="/categories/">Categories</a></span>
+        <span><a title="tags"  class="" href="/tags/">Tags</a></span>
+         <span><a title="link"  class="" href="/link/">Link</a></span>
+        <span><a title="about" class="" href="/about/">About</a></span>
+        </nav>
+        <article class="content">
+        {{ content }}
+        </article>
+      </div>
+
+    <footer align="center">
+        <p><small>Powered by <a href="https://github.com/mojombo/jekyll">Jekyll</a> | Copyright 2008 - {{site.time | date:"%Y"}} by <a href="http://baxiang.github.io/about/">小8</a> | <a href=# onclick="javascript:addFavorite()">收藏博客</a></small></p>
+        <small>不是因为有希望才坚持，而是因为坚持才有希望</small>
+        
+    </footer>
+	
+    </div>
+       
+	
+	 
+   <script> 
+	// JavaScript Document
+	//  加入收藏 
+
+	function addFavorite() {
+	    var url = window.location;
+	    var title = document.title;
+	    var ua = navigator.userAgent.toLowerCase();
+	    if (ua.indexOf("360se") > -1) {
+	        alert("由于360浏览器功能限制，请按 Ctrl+D 手动收藏！");
+	    }
+	    else if (ua.indexOf("msie 8") > -1) {
+	        window.external.AddToFavoritesBar(url, title); //IE8
+	    }
+	    else if (document.all) {
+	  try{
+	   window.external.addFavorite(url, title);
+	  }catch(e){
+	   alert('您的浏览器不支持,请按 Ctrl+D 手动收藏!');
+	  }
+	    }
+	    else if (window.sidebar) {
+	        window.sidebar.addPanel(title, url, "");
+	    }
+	    else {
+	  alert('您的浏览器不支持,请按 Ctrl+D 手动收藏!');
+	    }
+	}
+  </script>
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-54833785-1', 'auto');
+  ga('send', 'pageview');
+
+   </script>
+   <script type="text/javascript">
+   var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+   document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F71f7c0cb388fc12f8da335b0ee0b11d5' type='text/javascript'%3E%3C/script%3E"));
+   </script>
+   
+  </body>
+</html>
