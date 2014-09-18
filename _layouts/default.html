@@ -14,7 +14,7 @@
     <div id="container">
       <div id="main" role="main">
         <header>
-        <h1>{{ page.title }} </h1>  <!--h6><a href=# onclick="javascript:addFavorite()">                         加入收藏</a></h6!-->
+        <h1>{{ page.title }} </h1>  
 
         </header>
         <nav>
@@ -30,7 +30,7 @@
       </div>
 
     <footer align="center">
-        <p><small>Powered by <a href="https://github.com/mojombo/jekyll">Jekyll</a> | Copyright 2008 - {{site.time | date:"%Y"}} by <a href="http://baxiang.github.io/about/">小8</a> | <a href=# onclick="javascript:addFavorite()">收藏博客</a></small></p>
+        <p><small>Powered by <a href="https://github.com/mojombo/jekyll">Jekyll</a> | Copyright 2008 - {{site.time | date:"%Y"}} by <a href="http://baxiang.github.io/about/">小8</a> </small></p>
         <small>不是因为有希望才坚持，而是因为坚持才有希望</small>
         
     </footer>
@@ -39,37 +39,6 @@
        
 	
 	 
-   <script> 
-	// JavaScript Document
-	//  加入收藏 
-
-	function addFavorite() {
-	    var url = window.location;
-	    var title = document.title;
-	    var ua = navigator.userAgent.toLowerCase();
-	    if (ua.indexOf("360se") > -1) {
-	        alert("由于360浏览器功能限制，请按 Ctrl+D 手动收藏！");
-	    }
-	    else if (ua.indexOf("msie 8") > -1) {
-	        window.external.AddToFavoritesBar(url, title); //IE8
-	    }
-	    else if (document.all) {
-	  try{
-	   window.external.addFavorite(url, title);
-	  }catch(e){
-	   alert('您的浏览器不支持,请按 Ctrl+D 手动收藏!');
-	  }
-	    }
-	    else if (window.sidebar) {
-	        window.sidebar.addPanel(title, url, "");
-	    }
-	    else {
-	  alert('您的浏览器不支持,请按 Ctrl+D 手动收藏!');
-	    }
-	}
-  </script>
-	
-   
    <script type="text/javascript">
 var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
 document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fd811e8c9d300f1af279a81ea7923be4d' type='text/javascript'%3E%3C/script%3E"));
