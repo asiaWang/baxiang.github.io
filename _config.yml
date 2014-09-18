@@ -1,6 +1,6 @@
 markdown: rdiscount
 permalink: /:year/:month/:title/
-url: http://baxiang.github.io/
-author: baxiang
+url: http://www.baxiang123.com/
+author: xiao8
 pygments: true
 paginate: 15
