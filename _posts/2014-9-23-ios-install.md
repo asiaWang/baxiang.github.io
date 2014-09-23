@@ -2,7 +2,7 @@
 layout: post
 styles: [syntax]
 title: 222222222222test
-category: android
+category: summary
 ---
 
 ## Ubuntu下安装Atom编辑器
