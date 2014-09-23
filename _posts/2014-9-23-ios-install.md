@@ -2,7 +2,7 @@
 layout: post
 styles: [syntax]
 title: IOS安全
-category: test
+category: ios
 ---
 
 ##本地数据存储
