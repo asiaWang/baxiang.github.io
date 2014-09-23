@@ -1,11 +1,10 @@
----
-layout: post 
-title: iOS应用程序安全(25)-iOS开发安全编程实践 
-category: summary
-tags:   
-- iOS Security
----  
 
+---
+layout: post
+styles: [syntax]
+title: iOS应用程序安全(25)-iOS开发安全编程实践
+category: iOS
+---
 
 作者：Prateek Gianchandani  
 译者：吴发伟  
