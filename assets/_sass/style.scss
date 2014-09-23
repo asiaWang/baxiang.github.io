@@ -44,10 +44,10 @@ $blockquote-bd:   $border;
 
 $inline-code-bd:  $border;
 $inline-code-fg:  #fafafa;
-$inline-code-bg:  #000000;
+$inline-code-bg:  #fafafa;
 
 $selection-fg:    #fff;
-$selection-bg:    lighten($green, 5%);
+$selection-bg:    lighten($black, 5%);
 
 $flash:           $red;
 
