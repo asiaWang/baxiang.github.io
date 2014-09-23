@@ -1,72 +1,17 @@
 ---
-layout: default
+layout: index
 ---
 
-<section class="post">
-{{ content }}
-</section>
-<section class="meta">
-<span class="author">
-  <a href="http://wufawei.github.com">{{ site.author }}</a>
-</span>
-<span class="time">
-  /
-  <time datetime="{{ page.date | date:"%Y-%m-%d" }}">{{ page.date | date:"%Y-%m-%d" }}</time>
-</span>
-<br />
-<span class="license">
-  Published under <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">(CC) BY-NC-SA</a>
-</span>
-{% if page.categories %}
-<span class="categories">
-  in categories
-  {% for cat in page.categories %}
-  <a href="/categories/#{{ cat }}" title="{{ cat }}">{{ cat }}</a>&nbsp;
-  {% endfor %}
-</span>
-{% endif %}
-{% if page.tags %}
-<span class="tags">
-  tagged with 
-  {% for tag in page.tags %}
-  <a href="/tags/#{{ tag }}" title="{{ tag }}">{{ tag }}</a>&nbsp;
-  {% endfor %}
-</span>
-{% endif %}
-</section>
+<article id="post__content">
+  <h1 id="post__title" data-identifier="{{ page.date | date: "%Y%m%d" }}">{{ page.title }}</h1>
+  {{ content }}
+</article> <!-- end #post__content -->
 
-<!-- JiaThis Button BEGIN -->
-<div class="jiathis_style_32x32">
-	<a class="jiathis_button_qzone"></a>
-	<a class="jiathis_button_weixin"></a>
-	<a class="jiathis_button_tsina"></a>
-	<a class="jiathis_button_tqq"></a>
-	<a class="jiathis_button_renren"></a>
-	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	<a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1399944841085197" charset="utf-8"></script>
-<!-- JiaThis Button END -->
+<div id="post__share">
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=place_your_url_here{{ page.url }}&text={{ page.title }}" target="_blank"></a>
+  <a id="icon-cc" class="fontello" href="http://creativecommons.org/licenses/by-nc-sa/3.0" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=place_your_url_here{{ page.url }}&title={{ page.title }}" target="_blank"></a>
 
-{% include comments.md %}
-<script type="text/javascript">
-$(function(){
-  $(document).keydown(function(e) {
-    var url = false;
-        if (e.which == 37 || e.which == 74) {  // Left arrow and J
-            {% if page.previous %}
-        url = '{{ site.url }}{{ page.previous.url }}';
-        {% endif %}
-        }
-        else if (e.which == 39 || e.which == 75) {  // Right arrow and K
-            {% if page.next %}
-        url = '{{ site.url }}{{ page.next.url }}';
-        {% endif %}
-        }
-        if (url) {
-            window.location = url;
-        }
-  });
-})
-</script>
+</div> <!-- end #post__share -->
+
 

@@ -1,6 +1,1 @@
-markdown: rdiscount
-permalink: /:year/:month/:title/
-url: http://www.baxiang123.com/
-author: xiao8
 pygments: true
-paginate: 15
