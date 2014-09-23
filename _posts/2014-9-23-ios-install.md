@@ -2,7 +2,7 @@
 layout: post
 styles: [syntax]
 title: IOS安全
-category: iOS
+category: ubuntu
 ---
 
 ##本地数据存储
