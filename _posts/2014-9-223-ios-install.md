@@ -2,7 +2,7 @@
 layout: post
 styles: [syntax]
 title: 222222222222test
-category: summary
+category: tools_using
 ---
 
 ## Ubuntu下安装Atom编辑器
