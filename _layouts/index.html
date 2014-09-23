@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
+
+    <title>{{ page.title }}</title>
+    <meta name="description" content="jihuo,极火，极火网，极火IOS，Swift开发，IOS教程，IOS开发，Swift教程，IOS项目，IOS源码，Swift源码，最新IOS教程，最新swift教程">
+	<meta name="baidu-site-verification" content="brFhIKVjIL" />
+	<meta name="google-site-verification" content="WYBuGTlkhY6OMb2-5146lH4-pESwlhgvmh3L96kqYvY" />
+	<meta name="chinaz-site-verification" content="f16bb0f0-42ca-4fa7-add7-7d4ab77a3ac2" />
+	<meta name="KeyWords" content="jihuo,极火，极火网，极火IOS，Swift开发，IOS教程，IOS开发，Swift教程，IOS项目，IOS源码，Swift源码，最新IOS教程，最新swift教程" />
+	<meta name="google-site-verification" content="rRq3UW17GfbnRK3sCDArli0jqLBDRKOCvYB86qboku8" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+  </head>
+  <body>
+    <aside id="sidebar">
+      <nav id="tags">
+        <a href="/index.html" id="avatar"></a>
+
+        <ul id="tags__ul">
+          <li id="js-label1" class="tags__li tags-btn active">All Posts</li>
+          <li id="js-label2" class="tags__li tags-btn">Object-c</li>
+          <li id="js-label3" class="tags__li tags-btn">Swift</li>
+          <li id="js-label4" class="tags__li tags-btn">Git</li>
+          <li id="js-label5" class="tags__li tags-btn">UI</li>
+          <li id="js-label6" class="tags__li tags-btn">Course</li>
+        </ul>
+
+        <div id="tags__bottom">
+          <a href="mailto:place_your_email_address_here" id="icon-email" class="tags-btn fontello"></a>
+          <a href="/rss.xml" id="icon-feed" class="tags-btn fontello"></a>
+        </div>
+      </nav> <!-- end #tags -->
+
+      <div id="posts-list">
+		<script type="text/javascript">document.write(unescape('%3Cdiv id="bdcs"%3E%3C/div%3E%3Cscript charset="utf-8" src="http://rp.baidu.com/rp3w/3w.js?sid=11518898394791854591') + '&t=' + (Math.ceil(new Date()/3600000)) + unescape('"%3E%3C/script%3E'));</script>
+        <form action="" id="search-form">
+          <a href="/index.html" id="mobile-avatar"></a>
+          <!-- NOTE: input field is disabled by default -->
+          <input id="search-input" type="text" placeholder="搜索..."  >
+        </form>
+
+
+        <nav id="pl__container">
+        {% for post in site.posts %}
+          <a class="{{ post.categories }} pl__all" href="{{ post.url }}"><span class="pl__circle"></span><span class="pl__title">{{ post.title }}</span><span class="pl__date">{{ post.date | date: "%b %Y" }}</span></a>
+        {% endfor %}
+        </nav>
+      </div> <!-- end #posts-list -->
+    </aside> <!-- end #sidebar -->
+
+
+    <div id="post">
+      <div id="pjax">
+        {{ content }}
+        <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key={{ page.id}} data-title={{ paeg.title }} data-url={{ page.url }}></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"githuo"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+	  </div>
+
+      
+    </div> <!-- end #post -->
+
+
+
+    <button id="js-fullscreen"><span id="icon-arrow" class="fontello"></span></button>
+
+    <script src="/assets/js/jquery-2.0.3.min.js"></script>
+    <script src="/assets/js/jquery.pjax.js"></script>
+    <script src="/assets/js/nprogress.js"></script>
+    <script src="/assets/js/script.js"></script>
+    <script src="/assets/js/pdfobject.js"></script>
+    
+  </body>
+</html>
