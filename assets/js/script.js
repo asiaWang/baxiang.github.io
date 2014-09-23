@@ -12,11 +12,15 @@ if ($(window).width() <= 1280) {
 
 // Variables
     tag1       = $('.pl__all'),
-    tag2       = $('.object-c'),
-    tag3       = $('.swift'),
-    tag4       = $('.git'),
-    tag5       = $('.ui'),
-    tag6       = $('.course');
+    tag2       = $('.并发'),
+    tag3       = $('.jvm'),
+    tag4       = $('.算法'),
+    tag5       = $('.数据库'),
+    tag6       = $('.cache'),
+    tag7       = $('.c和os'),
+    tag8       = $('.网络');
+    tag9       = $('.工作');
+
 var sidebar    = $('#sidebar'),
     container  = $('#post'),
     content    = $('#pjax'),
@@ -30,8 +34,8 @@ var clickHandler = function(k) {
     window['tag'+k].delay(50).fadeIn(350);
   }
 };
-for (var i = 1; i <= 6; i++) {
-  $('#js-label' + i).on('click', clickHandler(i));
+for (var i = 1; i <= 9; i++) {
+  $('#js-label' + i).on('click', clickHandler(i)).find('.post_count').text(window['tag'+i].length);
 }
 
 // If sidebar has class 'mobile', hide it after clicking.
@@ -68,6 +72,7 @@ $(document).pjax('#avatar, #mobile-avatar, .pl__all', '#pjax', { fragment: '#pja
 $(document).on({
   'pjax:click': function() {
     content.removeClass('fadeIn').addClass('fadeOut');
+    $('#post__toc').hide();
     NProgress.start();
   },
   'pjax:start': function() {
@@ -97,10 +102,12 @@ function afterPjax() {
   // Generate post TOC for h1 h2 and h3
   var toc = $('#post__toc-ul');
   // Empty TOC and generate an entry for h1
-  toc.empty().append('<li class="post__toc-li post__toc-h1"><a href="#post__title" class="js-anchor-link">' + $('#post__title').text() + '</a></li>');
+  toc.empty();
+     // .append('<li class="post__toc-li post__toc-h1"><a href="#post__title" class="js-anchor-link">' + $('#post__title').text() + '</a></li>');
 
   // Generate entries for h2 and h3
-  $('#post__content').children('h2,h3').each(function() {
+  var onlyOneH1 = ($('#post__content').find('h1').length == 1);
+  $('#post__content').find('h1,h2,h3').each(function() {
     // Generate random ID for each heading
     $(this).attr('id', function() {
       var ID = "",
@@ -112,15 +119,20 @@ function afterPjax() {
       return ID;
     });
 
-    if ($(this).prop("tagName") == 'H2') {
-      toc.append('<li class="post__toc-li post__toc-h2"><a href="#' + $(this).attr('id') + '" class="js-anchor-link">' + $(this).text() + '</a></li>');
-    } else {
-      toc.append('<li class="post__toc-li post__toc-h3"><a href="#' + $(this).attr('id') + '" class="js-anchor-link">' + $(this).text() + '</a></li>');
-    }
+    var tagName = $(this).prop("tagName");
+    if(tagName == 'H3' && !onlyOneH1) return;
+
+    var asTag = onlyOneH1 ? tagName : (tagName == 'H1'?'h2':'h3');
+    toc.append('<li class="post__toc-li post__toc-'+asTag.toLowerCase()+'"><a href="#' + $(this).attr('id') + '" class="js-anchor-link">' + $(this).text() + '</a></li>');
+
+  });
+
+  $('#icon-list').off('click').on('click',function(){
+    $('#post__toc').toggle();
   });
 
   // Smooth scrolling
-  $('.js-anchor-link').on('click', function() {
+  $('.js-anchor-link').off('click').on('click', function() {
     var target = $(this.hash);
     container.animate({scrollTop: target.offset().top + container.scrollTop() - 70}, 500, function() {
       target.addClass('flash').delay(700).queue(function() {
@@ -129,35 +141,25 @@ function afterPjax() {
     });
   });
 
-
-
   // Lazy Loading Disqus
   // http://jsfiddle.net/dragoncrew/SHGwe/1/
-//   var ds_loaded = false,
-//       top = $('#disqus_thread').offset().top;
-//       identifier = $('#post__title').data('identifier');
-//   window.disqus_shortname = '';
-//   window.disqus_identifier = identifier;
-// 
-//   function check() {
-//     if ( !ds_loaded && container.scrollTop() + container.height() > top ) {
-//       $.ajax({
-//         type: 'GET',
-//         url: 'http://' + disqus_shortname + '.disqus.com/embed.js',
-//         dataType: 'script',
-//         cache: true
-//       });
-//       ds_loaded = true;
-//     }
-//   }check();
-//   container.scroll(check);
-// }afterPjax();
+  var ds_loaded = false,
+      top = $('#disqus_thread').offset().top;
+      identifier = $('#post__title').data('identifier');
+  window.disqus_shortname = 'novoland';
+  window.disqus_identifier = identifier;
 
-//duoshuojs
-
-
-
-
-
-
+  function check() {
+    if ( !ds_loaded && container.scrollTop() + container.height() > top ) {
+      $.ajax({
+        type: 'GET',
+        url: 'http://' + disqus_shortname + '.disqus.com/embed.js',
+        dataType: 'script',
+        cache: true
+      });
+      ds_loaded = true;
+    }
+  }check();
+  container.scroll(check);
+}afterPjax();
 
