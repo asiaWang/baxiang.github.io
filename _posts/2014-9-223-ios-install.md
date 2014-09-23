@@ -1,7 +1,7 @@
 ---
 layout: post
 styles: [syntax]
-title: Ubuntu 14.04 安装Atom编辑器
+title: 222222222222test
 category: summary
 ---
 
