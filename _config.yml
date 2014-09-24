@@ -4,21 +4,21 @@ markdown: redcarpet
 
 # 作者信息
 author: 
-  name: 闫肃
-  email: suyan0830@gmail.com
-  link: http://yansu.org
-  weibo: http://weibo.com/yansu0711
-  github: http://github.com/suyan
+  name: 小8
+  email: yangyucug@gmail.com
+  link: http://baxiang123.com
+  #weibo: http://weibo.com/yansu0711
+  github: http://github.com/baxiang
 
 # 站点信息
-title: 闫肃的博客 
-description: 闫肃的博客
-url: http://yansu.org
+title: 小8的技术博客 
+description: 小8的技术博客
+url: http://baxiang123.com
 rss_url: /pages/atom.xml
 
 # gavatar头像及Favicon
-gavatar: http://yansu-uploads.stor.sinaapp.com/imgs/gavatar.png
-favicon: http://yansu-uploads.stor.sinaapp.com/imgs/favicon.ico
+#gavatar: http://yansu-uploads.stor.sinaapp.com/imgs/gavatar.png
+#favicon: http://yansu-uploads.stor.sinaapp.com/imgs/favicon.ico
 
 # google analytics 设置
 ga:
