@@ -20,14 +20,7 @@ rss_url: /pages/atom.xml
 gavatar: https://avatars0.githubusercontent.com/u/2994323?v=2&s=460
 favicon: https://avatars0.githubusercontent.com/u/2994323?v=2&s=460
 
-# google analytics 设置
-# ga:
-# id: UA-54767140-1
- #  url: yansu.org
 
-# disqus 设置
-disqus:
-  shortname: suyan-zh
 
 # 主题设置，自动激活某个标签
 active: ios
@@ -35,7 +28,7 @@ active: ios
 # 首页除了最新文章外显示分类
 cates: 
  # - ios
- - ios
+ - 技术
 
 # 中文本地化
 locals:
