@@ -4,7 +4,7 @@ title: iOS应用程序安全(7)-不用证书安装应用到设备的方法
 categories:  
 - iOS  
 tags:    
-- iOS Security
+- iOS 
 ---   
 
 

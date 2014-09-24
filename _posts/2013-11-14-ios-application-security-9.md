@@ -4,7 +4,7 @@ title: iOS应用程序安全(9)-用Snoop-it分析iOS应用的安全
 categories:  
 - iOS  
 tags:    
-- iOS Security
+- iOS 
 ---   
 
 

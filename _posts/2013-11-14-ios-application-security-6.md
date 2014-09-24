@@ -4,7 +4,7 @@ title: iOS应用程序安全(6)-iOS 7的新安全功能
 categories:  
 - iOS  
 tags:    
-- iOS Security
+- iOS 
 ---   
 
 作者：Prateek Gianchandani  

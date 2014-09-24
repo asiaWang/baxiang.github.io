@@ -4,7 +4,7 @@ title: iOS应用程序安全(4)-用Cycript进行运行时分析(Yahoo天气应�
 categories:  
 - iOS  
 tags:    
-- iOS Security
+- iOS 
 ---   
 
 作者：Prateek Gianchandani  

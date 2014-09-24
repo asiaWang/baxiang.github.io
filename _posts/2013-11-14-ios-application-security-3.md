@@ -4,7 +4,7 @@ title: iOS应用程序安全(3)-理解Objective-C Runtime
 categories:  
 - iOS  
 tags:    
-- iOS Security
+- iOS
 ---   
 
 作者：Prateek Gianchandani  
