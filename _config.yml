@@ -1,5 +1,5 @@
 permalink: /:year/:month/:day/:title.html
-paginate: 30
+paginate: 15
 markdown: redcarpet
 
 # 作者信息
@@ -26,8 +26,8 @@ favicon: https://avatars0.githubusercontent.com/u/2994323?v=2&s=460
 active: ios
 
 # 首页除了最新文章外显示分类
-cates: 
-  - 技术
+#cates: 
+ #- 技术
  # -archive
 
 # 中文本地化
