@@ -4,7 +4,7 @@ title: iOS应用程序安全(13)-使用Sogeti Data Protection tools启动定制�
 categories:  
 - iOS  
 tags:    
-- iOS Security
+- 移动安全
 ---   
 
 作者：Prateek Gianchandani  
