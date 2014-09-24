@@ -1,10 +1,8 @@
 ---
 layout: post  
 title: iOS应用程序安全(1)-搭建移动渗透测试平台   
-categories:  
-- iOS  
-tags:    
-- iOS Security
+categories:iOS  
+tags:mobile Security
 ---   
 
  
