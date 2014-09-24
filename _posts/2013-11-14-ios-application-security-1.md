@@ -1,10 +1,11 @@
----
-layout: post
-title: iOS应用程序安全(1)-搭建移动渗透测试平台
-category: iOS
-tags: iOS Security
-description: iOS应用程序安全(1)-搭建移动渗透测试平台
----
+----
+layout: post  
+title: iOS应用程序安全(2)-获得iOS应用程序的类信息   
+categories:  
+- iOS  
+tags:    
+- iOS Security
+---   
  
 作者：Prateek Gianchandani  
 译者：吴发伟  
