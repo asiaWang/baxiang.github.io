@@ -27,7 +27,7 @@ active: ios
 
 # 首页除了最新文章外显示分类
 cates: 
-  ios
+  - ios
  # -archive
 
 # 中文本地化
