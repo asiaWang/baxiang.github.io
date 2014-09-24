@@ -21,9 +21,9 @@ gavatar: https://avatars0.githubusercontent.com/u/2994323?v=2&s=460
 favicon: https://avatars0.githubusercontent.com/u/2994323?v=2&s=460
 
 # google analytics 设置
-ga:
-  id: UA-54767140-1
-  url: yansu.org
+# ga:
+# id: UA-54767140-1
+ #  url: yansu.org
 
 # disqus 设置
 disqus:
@@ -34,7 +34,7 @@ active: ios
 
 # 首页除了最新文章外显示分类
 cates: 
-- ios
+ # - ios
  # - OpenStack
 
 # 中文本地化
