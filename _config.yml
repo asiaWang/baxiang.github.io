@@ -23,12 +23,12 @@ favicon: https://avatars0.githubusercontent.com/u/2994323?v=2&s=460
 
 
 # 主题设置，自动激活某个标签
-active: archive
+active: ios
 
 # 首页除了最新文章外显示分类
 cates: 
- # - ios
- - archive
+  ios
+ # -archive
 
 # 中文本地化
 locals:
