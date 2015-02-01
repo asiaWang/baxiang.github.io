@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: 
-
-Sitemap: http://msching.github.io/sitemap.xml 
