@@ -1,145 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://baxiang123.com//blog/2013/11/29/ios-application-security-25/</loc>
-    <lastmod>2013-11-29T00:00:00+08:00</lastmod>
+    <loc>http://baxiang123.com//blog/2014/11/14/gong-zuo-jing-yan-zong-jie-and-si-kao/</loc>
+    <lastmod>2014-11-14T10:39:56+08:00</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://baxiang123.com//blog/2013/11/26/ios-application-security-24/</loc>
-    <lastmod>2013-11-26T00:00:00+08:00</lastmod>
+    <loc>http://baxiang123.com//blog/2014/11/09/wei-ni-de-octopressjia-su/</loc>
+    <lastmod>2014-11-09T15:04:25+08:00</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://baxiang123.com//blog/2013/11/23/ios-application-security-23/</loc>
-    <lastmod>2013-11-23T00:00:00+08:00</lastmod>
+    <loc>http://baxiang123.com//blog/2014/11/09/fa-bu-ni-de-first-blog/</loc>
+    <lastmod>2014-11-09T05:37:27+08:00</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://baxiang123.com//blog/2013/11/17/ios-application-security-22/</loc>
-    <lastmod>2013-11-17T00:00:00+08:00</lastmod>
+    <loc>http://baxiang123.com//blog/2014/11/09/wei-ni-de-octopresstian-jia-greyshadezhu-ti/</loc>
+    <lastmod>2014-11-09T05:33:26+08:00</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://baxiang123.com//blog/2013/11/17/ios-application-security-21/</loc>
-    <lastmod>2013-11-17T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/16/ios-application-security-20/</loc>
-    <lastmod>2013-11-16T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/16/ios-application-security-19/</loc>
-    <lastmod>2013-11-16T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/16/ios-application-security-18/</loc>
-    <lastmod>2013-11-16T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/16/ios-application-security-17/</loc>
-    <lastmod>2013-11-16T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/15/ios-application-security-16/</loc>
-    <lastmod>2013-11-15T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/15/ios-application-security-15/</loc>
-    <lastmod>2013-11-15T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/15/ios-application-security-14/</loc>
-    <lastmod>2013-11-15T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/15/ios-application-security-13/</loc>
-    <lastmod>2013-11-15T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/15/ios-application-security-12/</loc>
-    <lastmod>2013-11-15T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/15/ios-application-security-11/</loc>
-    <lastmod>2013-11-15T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/15/ios-application-security-10/</loc>
-    <lastmod>2013-11-15T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/14/ios-application-security-9/</loc>
-    <lastmod>2013-11-14T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/14/ios-application-security-8/</loc>
-    <lastmod>2013-11-14T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/14/ios-application-security-7/</loc>
-    <lastmod>2013-11-14T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/14/ios-application-security-6/</loc>
-    <lastmod>2013-11-14T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/14/ios-application-security-5/</loc>
-    <lastmod>2013-11-14T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/14/ios-application-security-4/</loc>
-    <lastmod>2013-11-14T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/14/ios-application-security-3/</loc>
-    <lastmod>2013-11-14T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/14/ios-application-security-2/</loc>
-    <lastmod>2013-11-14T00:00:00+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://baxiang123.com//blog/2013/11/14/ios-application-security-1/</loc>
-    <lastmod>2013-11-14T00:00:00+08:00</lastmod>
+    <loc>http://baxiang123.com//blog/2014/11/09/li-yong-github-and-octopressda-jian-zi-ji-de-ge-ren-bo-ke/</loc>
+    <lastmod>2014-11-09T05:19:05+08:00</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>http://baxiang123.com//blog/archives/</loc>
-    <lastmod>2015-02-05T04:48:25+08:00</lastmod>
+    <lastmod>2015-02-05T04:52:27+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://baxiang123.com//</loc>
-    <lastmod>2015-02-05T04:48:25+08:00</lastmod>
+    <lastmod>2015-02-05T04:52:27+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://baxiang123.com//blog/categories/</loc>
-    <lastmod>2015-02-05T04:48:25+08:00</lastmod>
+    <lastmod>2015-02-05T04:52:27+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
