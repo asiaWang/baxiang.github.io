@@ -11,11 +11,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://baxiang123.com//blog/2014/11/09/fa-bu-ni-de-first-blog/</loc>
-    <lastmod>2014-11-09T05:37:27+08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>http://baxiang123.com//blog/2014/11/09/wei-ni-de-octopresstian-jia-greyshadezhu-ti/</loc>
     <lastmod>2014-11-09T05:33:26+08:00</lastmod>
     <priority>0.8</priority>
@@ -27,19 +22,19 @@
   </url>
   <url>
     <loc>http://baxiang123.com//blog/archives/</loc>
-    <lastmod>2015-02-05T04:52:27+08:00</lastmod>
+    <lastmod>2015-02-05T04:54:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://baxiang123.com//</loc>
-    <lastmod>2015-02-05T04:52:27+08:00</lastmod>
+    <lastmod>2015-02-05T04:54:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://baxiang123.com//blog/categories/</loc>
-    <lastmod>2015-02-05T04:52:27+08:00</lastmod>
+    <lastmod>2015-02-05T04:54:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
