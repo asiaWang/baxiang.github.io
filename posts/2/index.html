@@ -1,1142 +1,122 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[小巴童鞋]]></title>
-  <link href="http://baxiang123.com//atom.xml" rel="self"/>
-  <link href="http://baxiang123.com//"/>
-  <updated>2015-02-05T04:25:56+08:00</updated>
-  <id>http://baxiang123.com//</id>
-  <author>
-    <name><![CDATA[小巴]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE HTML>
 
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>小巴童鞋</title>
+	<meta name="author" content="小巴">
+
+	
+	<meta name="description" content="ios iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析 作者：Prateek Gianchandani
+译者：吴发伟
+原文网址：http://resources.infosecinstitute.com/part-15-static-analysis-of-ios- &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://baxiang123.com//posts/2/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+	<link href="/stylesheets/google-fonts.css" rel="stylesheet" type="text/css">
+	
   
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(25)-iOS开发安全编程实践]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/29/ios-application-security-25/"/>
-    <updated>2013-11-29T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/29/ios-application-security-25</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-25-secure-coding-practices-ios-development/">http://resources.infosecinstitute.com/ios-application-security-part-25-secure-coding-practices-ios-development/</a>
-版权声明：自由转载-非商用-保持署名</p>
 
-<p>本文我们将探讨iOS开发者应该遵循的最佳安全实践，使得应用不那么容易被攻击者利用。
-<br></p>
+</head>
 
-<h2>本地数据存储</h2>
 
-<p>对开发者来说非常重要的一点就是要知道哪些数据需要在应用本地存储。坦率的说，存储在应用本地的数据都是不安全的。在本系列的<a href="http://wufawei.com/2013/11/ios-application-security-20/">第20篇文章</a>中，我们详细查看了本地数据存储。</p>
-
-<ul>
-<li><p>重要数据如密码，会话ID等等绝不要存储在设备上。如果别无它法，那么应该存在keychain中。这是因为只要这个设备不越狱，攻击者不能从
-keychain中找出这些数据。因为超过70%的人都已经把他们的设备升级到iOS 7并且目前iOS 7还不能越狱，你能确定攻击者目前将不能够从keychain中获取数据。有人可能会说
-把数据保存到keychain不像把数据保存到NSUserDefaults那么简单。不过我们能够使用第3方封装的代码使得这个过程变得极其简单。例如，
-<a href="http://highaltitudehacks.com/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax/">这一篇文章</a>演示了如何使用PDKeychainBindings这个wrapper，展示了把数据保存到keychain中是多么的简单。下面就是用这个wrapper来把数据保存到keychain的代码示例。</p>
-
-<pre><code>   PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
-   [[[Model sharedModel] currentUser] setAuthToken:[bindings objectForKey:@"authToken"]];
-</code></pre></li>
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png" + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">Xiaoba&#8217;s technology blog</p>
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">主页 Blog</a></li>
+    <li><a href="http://about.me/shashankmehta">关于 About</a></li>
+    <li><a href="/blog/archives">归档 Archives</a></li>
 </ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		<a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo">Weibo</a>
+		
+		
+		<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner">
+<div itemscope itemtype="http://schema.org/Blog">
 
 
-<p>不过，请注意在越狱设备上，keychain中的信息并不安全。一个可取的方法就是在把字符串保存到keychain之前，先用你自己的加密方法加密一下。这样就有更高的安全性，
-因为即使攻击者从keychain中拿到这个加密字符串，他也不得不解密这个加密后的字符串。</p>
-
-<ul>
-<li><p>绝对不要把机密信息如密码，认证令牌等信息保存到NSUserDefaults。这是因为所有保存到NSUserDefaults的信息都是以未经加密的格式保存在一个plist文件的，位于你的应用程序
-bundle的Library -> Preferences -> $AppBundleId.plist。任何人都能够使用工具如iExplorer来窥视你的应用程序的bundle，然后得到这个plist文件，即使你的设备未越狱。</p></li>
-<li><p>绝对不要把机密信息如密码等信息保存到Plist文件，因为即使在未越狱设备上要获取这些plist文件也非常容易。所有保存到plist文件的内容都是以未加密的格式保存的。</p></li>
-<li><p>Cora Data文件同样是以未加密的数据库文件保存在应用程序bundle的。Core Data framework内部使用Sql查询来保存数据，因此所有文件都是.db文件。非常容易就能把这些文件复制到电脑上，
-然后用工具如sqlite3就能查看这些数据库文件中的所有内容。</p></li>
-</ul>
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
 
 
-<p><br></p>
-
-<h2>传输层安全</h2>
-
-<ul>
-<li>发布应用的时候不要允许使用自签名证书。大多数开发者在debug模式的时候会允许自签名证书，但是发布应用的时候，这一点要避免。</li>
-<li>不要使用设备唯一的参数（MAC地址， IP，UDID）来决定会话ID，认证令牌等等。</li>
-<li>重要的决定，比如认证和授权应该放在后台。请记住攻击者能够在运行时操纵你的应用。</li>
-<li>应当在客户端和服务端都做适当的输入验证。攻击者能够使用Burpsuite更改请求。非常重要的一点就是验证发到后台的参数，避免任何形式的注入攻击。</li>
-</ul>
 
 
-<p><br></p>
-
-<h2>使用加密</h2>
-
-<ul>
-<li>在保存重要文件之前先加密。要加密这些文件，你不必是一位密码学专家。有许多的第3方库能够为你完成这个工作。
-我曾经写过<a href="http://highaltitudehacks.com/2013/09/26/ios-dev-encrypted-images-and-saving-them-in-app-sandbox/">一篇文章</a>，介绍使用<a href="https://github.com/rnapier/RNCryptor">RNCryptor</a>（可以从github下载）来加密图片并保持到应用沙盒。</li>
-</ul>
 
 
-<blockquote><pre><code>UIImage *imageToEncrypt = [UIImage imageNamed:@"SomeImage"];
-NSString *imagePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/encryptedImage.png"];
-NSData *data = UIImagePNGRepresentation(fetchedImage);
-NSError *error;
-NSData *encryptedData = [RNEncryptor encryptData:data withSettings:kRNCryptorAES256Settings password:@"ABC123" error:&amp;error];
-[encryptedData writeToFile:imagePath atomically:YES];
-</code></pre></blockquote>
-
-<p>  要加密SQLite文件，你应当考虑<a href="http://sqlcipher.net/">SQLCipher</a></p>
-
-<p><br></p>
-
-<h2>增加检查以避免运行时分析</h2>
-
-<ul>
-<li>请记住只要有你的应用的二进制文件的拷贝，那一切都在攻击者控制之中。因此要使得攻击者分析的过程变得尽可能的难。其中一个方法就是阻止调试器附加到应用上。
-正如我们在本系列文章的<a href="http://wufawei.com/2013/11/ios-application-security-23/">第23篇</a>中介绍的那样。你的main.m文件看起来应该像这样&hellip;</li>
-</ul>
 
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112713_0635_IOSApplicat1.png" alt="" /></p>
-
-<p>这将会阻止攻击者附加到你的应用上。我们已经学过如何使用<a href="https://superevr.com/blog/2011/xss-in-skype-for-ios/">Snoop-it</a>来追踪方法调用。下面是从同一篇文章的截图。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112713_0635_IOSApplicat2.png" alt="" /></p>
-
-<p>使用了上述添加到main.m文件的那些代码，现在我们就不能这么做了。这是因为Snoop-it是在应用启动的时候，把调试器附加到应用上来追踪方法调用的，现在有了上述检查，它就不能再这么
-做了并且应用会crash。请注意这不会阻止工具如Cycript因为它并不追踪应用的方法调用。</p>
-
-<p><br></p>
-
-<h2>其他一些事情</h2>
-
-<ul>
-<li>用来输入密码的TextFields应用使用Secure选项。这是因为如果不使用Secure标签的话，iOS通常会缓存你输入到textfields的东西。请同时也禁用这些TextFields的AutoCorrection。如下图
-所示，你可以看到textfield的AutoCorrection被设置为NO，并且启用了Secure标签。</li>
-</ul>
-
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112713_0635_IOSApplicat3.png" alt="" /></p>
-
-<ul>
-<li>应用进入后台的时候应该清除剪贴板。你可以在AppDelegate的- (void)applicationDidEnterBackground:(UIApplication *)application 添加下面的代码。如果你使用自定义的剪贴板，
-用自定义的剪贴板替换[UIPasteboard generalPasteboard] 。</li>
-</ul>
-
-
-<blockquote><pre><code>- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-[UIPasteboard generalPasteboard].items = nil;
-}
-</code></pre></blockquote>
-
-<ul>
-<li>使用URL schemes做些重要事情的时候要增加提示或者验证。我们知道任意应用都能注册一个URL Scheme。例如Skype应用能够注册URL Scheme skype://并且任意应用都能用参数调用这个url。
-这就使得应用之间能够通信。在之前，Skype有一个漏洞，使得任意用户都能使用如下的url， skype://123123123?call，呼叫任何人。因为Skype呼叫之前并没有提示用户，这些就被直接发送出去了。
-在真正发出呼叫之前，提示一下用户会更好一些。URL shceme的输入也同样需要被验证。你可以把验证放在AppDelegate的- (BOOL)application:(UIApplication <em>)application handleOpenURL:(NSURL </em>)url 中。</li>
-</ul>
-
-
-<blockquote><pre><code>– (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-//Validate input from the url
-return YES;
-}
-</code></pre></blockquote>
-
-<ul>
-<li>有些应用使用UIWebView来展示来自URL的内容。在一些流行应用中已经发现了UIWebViews的<a href="https://superevr.com/blog/2011/xss-in-skype-for-ios/">漏洞</a>。UIWebViews也支持javascript，而且目前没有公开的API来禁用UIWebView中的javascript。因此，如果用户控制的任何输入被用作UIWebView的内容，它就可能被操纵在运行时在UIWebView中执行javascript代码。即使这个输入不受用户控制，攻击者也能够在运行时操纵添加到UIWebView的内容，因此执行他想执行的任意javascript代码。因为苹果所加的限制，开发者对此能做的也不多，开发者应该要通过如下方法来确保加载进UIWebView的内容不是恶意的，a）通过HTTPs加载数据。b)确保UIWebView的内容不依赖于用户的输入。c）通过NSData类提供的dataWithContentsOfURL函数来验证URL的内容。</li>
-</ul>
-
-]]></content>
-  </entry>
   
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(24)-越狱检测与绕过]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/26/ios-application-security-24/"/>
-    <updated>2013-11-26T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/26/ios-application-security-24</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟 <br/>
-版权声明：自由转载-非商用-保持署名</p>
 
-<p>本文我们将查看开发者在其应用中集成的、对运行其应用的设备是否越狱的检测方法。对你的应用来说，检测设备是否越狱有许多好处。我们已经知道，攻击者能够运行Cycript,GDB,Snoop-it等工具来执行运行时分析和窃取你的应用的敏感信息。 如果你确实想要为你的应用添加附加的安全层，你不应该允许你的应用在越狱设备上运行。请注意数百万的用户越狱了他们的设备，因此不让你的应用在越狱设备上运行可能会对你的用户基数造成较大的影响。你能做的另一件事就是禁用某些功能而不是整个应用。我们也将看看攻击者如何用Cycript来绕过应用内部的越狱检测。</p>
 
-<p>设备越狱之后，有许多文件和应用被安装到设备上。检测文件系统中的这些文件可以帮助我们确定这个设备越狱与否。例如，大多数越狱设备都会在越狱之后安装Cydia。因此，简单的检查下Cydia的文件路径就能判断设备越狱与否。</p>
+<time datetime="2013-11-15T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
 
-<pre><code>NSString *filePath = @"/Applications/Cydia.app";
-if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
-{
-   //Device is jailbroken
-}
-</code></pre>
 
-<p>不过，并不是所有的越狱设备都会安装Cydia。事实上，多数攻击者能够改变Cydia应用的位置。检查更多和越狱相关的其他文件能够让越狱检测更有效。例如，可以检查Mobile Substrate是否安装，许多越狱设备上的应用依赖它。也可以检查SSH Daemon的位置，或者shell解释器。把这些检查组合到一起，我们得到如下的方法。</p>
+	<a class='category' href='/blog/categories/ios/'>ios</a>
 
-<pre><code> +(BOOL)isJailbroken{
- if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"]){
- return YES;
- }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/MobileSubstrate.dylib"]){
- return YES;
- }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/bin/bash"]){
- return YES;
- }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/sbin/sshd"]){
- return YES;
- }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt"]){
- return YES;
- }
- return NO;
- }
-</code></pre>
 
-<p>从前面的系列文章中我们知道，以mobile用户运行的应用运行在沙盒环境中，位于/var/mobile/Applications目录，而以root用户运行的应用（比如苹果预加载的应用）并不属于任何沙盒环境，位于/Applications目录。运行越狱设备的用户可以把应用安装在/Applications目录，因此有root权限。因此，增加一个检测来看应用是否遵守沙盒规则能够让用户证实设备越狱与否。一个好方法就是检查看看我们是否能够修改应用bundle之外的文件。</p>
-
-<pre><code> NSError *error;
- NSString *stringToBeWritten = @"This is a test.";
- [stringToBeWritten writeToFile:@"/private/jailbreak.txt" atomically:YES
- encoding:NSUTF8StringEncoding error:&amp;error];
- if(error==nil){
- //Device is jailbroken
- return YES;
- } else {
- //Device is not jailbroken
- [[NSFileManager defaultManager] removeItemAtPath:@"/private/jailbreak.txt" error:nil];
- }
-</code></pre>
-
-<p>我们知道技艺熟练的攻击者能够修改应用的位置。不过，我们知道超过80%的越狱设备会安装Cydia，即使攻击者能够改变Cydia应用的位置，他很可能也不会去改变Cydia应用注册的URL scheme。如果我们从应用中调用Cydia的URL scheme(cydia://）并且返回成功，那么我们可以确定设备是越狱了的。</p>
-
-<pre><code> if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"cydia://package/com.example.package"]]){
- //Device is jailbroken
- }
-</code></pre>
-
-<p>让我们加一个条件使得这个检查代码只在真是设备上执行，在模拟器上不执行。在组合上述技巧之后，我们的方法看起来像下面这样。</p>
-
-<pre><code> +(BOOL)isJailbroken{
- #if !(TARGET_IPHONE_SIMULATOR)
- if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"]){
- return YES;
- }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/MobileSubstrate.dylib"]){
- return YES;
- }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/bin/bash"]){
- return YES;
- }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/sbin/sshd"]){
- return YES;
- }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt"]){
- return YES;
-}
- NSError *error;
- NSString *stringToBeWritten = @"This is a test.";
- [stringToBeWritten writeToFile:@"/private/jailbreak.txt" atomically:YES
- encoding:NSUTF8StringEncoding error:&amp;error];
- if(error==nil){
- //Device is jailbroken
- return YES;
- } else {
- [[NSFileManager defaultManager] removeItemAtPath:@"/private/jailbreak.txt" error:nil];
- }
- if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"cydia://package/com.example.package"]]){
- //Device is jailbroken
- return YES;
- }
- #endif
- //All checks have failed. Most probably, the device is not jailbroken
- return NO;
-}
-</code></pre>
-
-<p>老实说，没有万无一失的检测越狱设备的方法。技艺熟练的攻击者总是能够找到绕过的方法。攻击者能够从二进制文件中找到对应的指令，RNA好用No-op（译者注：汇编语言NOP，机器指令0x90）替换这些指令。攻击者也能够通过Cycript进行method swizzle来替换成他自己的实现。</p>
-
-<p>通过使用Class-dump-z，攻击者能够找到应用的类信息。攻击者能够在JailbreakDetector类中找到方法 + (BOOL)isJailbroken。请注意它是一个类方法，因为它以＋开头。很显然这个方法检测设备是否越狱，如果越狱，就返回YES。如果你不理解这里说的这些，你应该先读读<a href="http://wufawei.com/2013/11/ios-application-security-summary/">前面的文章</a>。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112513_1713_IOSApplicat1.png" alt="" /></p>
-
-<p>攻击者能够用Cycript挂钩进这个应用。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112513_1713_IOSApplicat2.png" alt="" /></p>
-
-<p>然后打印出JailbreakDetector这个类的所有方法。请注意我们使用JailbreakDetector->isa.messages，因为isJailbroken是一个类方法。要找出实例方法，使用JailbreakDetector.messages即可。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112513_1713_IOSApplicat3.png" alt="" /></p>
-
-<p>然后攻击者就能够用他自己的始终返回NO的方法来替换这个方法（isJailbroken）的实现。如果你不理解这些，我建议你读读关于<a href="http://wufawei.com/2013/11/ios-application-security-8/">Method Swizzling</a>这篇文章。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112513_1713_IOSApplicat4.png" alt="" /></p>
-
-<p>作为开发者，我们能做的就是改变这个方法的名字为一个不那么吸引攻击者注意力的名字。例如JailbreakDetector这个类名可以重命名为ColorAdditions， +(BOOL)isJailbroken 可以替换为+(BOOL)didChangeColor，而其实现不改变。这些名字不会吸引攻击者的注意。攻击者总是能够通过Snoop-it，GDB等工具来查看内部的方法调用，不过，像刚刚那样的一个小改动就能迷惑住攻击者。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(23)-对抗运行时分析和操作]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/23/ios-application-security-23/"/>
-    <updated>2013-11-23T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/23/ios-application-security-23</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/">http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<p>在前面的文章中，我们看到了如何使用调试器和工具如Cycript对iOS应用进行运行时分析和操作。我们也看到了在运行时通过使用GDB来修改寄存器的值是如何修改方法的具体实现的，看到了怎样使用工具如Cycript来进行<a href="http://wufawei.com/2013/11/ios-application-security-8/">swizzling</a>方法实现。有Cycript和GDB这样的工具在手，加上你的应用程序可执行文件的拷贝，一切就都在攻击者的掌控之中。不过，有一些技巧能够使得攻击者更难攻击。本文我们将查看开发者能够用来对抗运行时分析和操作的防御技巧。</p>
-
-<p>在Xcode中，开发者（译者注：原文写的是攻击者，按上下文理解应该是开发者）能够使用一些检测方法来查看一个应用是否正被调试。在Xcode中，你可以用下面的代码来检查调试器是否存在。</p>
-
-<pre><code>#ifndef DEBUG
-SEC_IS_BEING_DEBUGGED_RETURN_NIL();
-#endif
-</code></pre>
-
-<p>正如名字指出的，如果应用正被调试，那么这个宏会返回nil。你可以把这个检查放到一些重要的地方，比如访问或者返回重要数据的地方。如果在那时（访问或者返回重要数据的时候）应用正被调试，这个宏就会返回nil。因此你的应用就不会工作正常，因此攻击者就会遇到问题。或者你可以在一个Timer中调用，一旦你发现应用正被调试，你可以删除存储在应用中的所有重要信息、重要文件等等。但是，请注意攻击者使用Cycript能够劫持你的方法实现，因此比较明智的是只使用一个宏而不是在一个方法内使用这个宏。请注意这个宏只在release下能工作正常。要在你的设备上测试，你需要在build中选择release。选择scheme，然后点击Edit Scheme。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111313_1602_IOSApplicat1.png" alt="" /></p>
-
-<p>在Info下面，把Build Configuration设置为Release。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111313_1602_IOSApplicat2.png" alt="" /></p>
-
-<p>现在你可以使用Xcode在你的设备上运行这个应用，你会看到成功检测到调试器。这是因为Xcode会给正在运行的应用附加一个调试器。</p>
-
-<p>再次说一下，这个方法并不能保证应用不会被调试。一个技艺熟练的攻击者能够对应用程序的二进制文件对这个宏相关的汇编指令打补丁。作为开发者，你应该在多个地方检查，使得攻击者更难调试。</p>
-
-<p>另一个阻止调试器附加到应用程序的方法是使用ptrace函数。使用这个函数，传递一个特定的参数，能够阻止其它任何调试器附加到应用程序上。像GDB和LLDB在附加到进程的时候就会使用ptrace函数。使用ptrace，加上参数<code>PT_DENY_ATTACH</code>就会告诉这个函数，应用不允许追踪。下面是<a href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man2/ptrace.2.html">苹果官方文档</a>关于
-<code>PT_DENY_ATTACH</code> 的截图。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111313_1602_IOSApplicat3.png" alt="" /></p>
-
-<p>让我们试试。在Xcode中创建一个新工程。点击File->New->Project->Single View Application。然后在模拟器中运行。你会得到如下的视图。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111313_1602_IOSApplicat4.png" alt="" /></p>
-
-<p>现在，使用如下的代码来修改main.m文件。导入ptrace.文件，然后在main函数中增加如下代码。</p>
-
-<pre><code>#ifndef DEBUG
-ptrace(PT_DENY_ATTACH, 0, 0, 0);
-#endif
-</code></pre>
-
-<p>你的main.m看起来应该像这样。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111313_1602_IOSApplicat5.png" alt="" /></p>
-
-<p>现在运行程序，你会发现应用加载不起来。这是因为当Xcode加载应用的时候，它会把一个调试器(LLDB或者GDB)附加到应用上。因为我们在main.m中加了反调试代码，因此Xcode不能附加调试器，因此它就退出应用。</p>
-
-<p>双击模拟器上的home按钮，然后kill这个测试应用。再次运行，这次能够启动起来。这是因为我们没有通过Xcode加载，因此没有调试器附加到上面。</p>
-
-<p>当然，这个方法也不能保证你的应用就绝对安全。技术熟练的攻击者能够在解密应用之后对这个防检测代码打补丁。作为开发者，你应该在多个地方使用这个方法，使得攻击者的工作变得更难。</p>
-
-<p>需要注意的事，上述两种方法都将试图阻止调试器加载到应用上，但是它对Cycript没有用，因为Cycrit并不追踪应用。作为开发者，你能够做下面的一些检查使得攻击者的工作变得尽可能的难。例如，你可以在应用中增加一些假的方法，攻击者可能会对这些假方法感兴趣。例如，用<code>userDidLogin:(BOOL)didLogin;</code>作为名字，肯定会吸引攻击者的注意。当然，攻击者会试图用Cycript执行。在这个方法实现中，你可以清除应用中的所有数据，甚至报告服务器，这个应用已经被侵入。对于特别需要安全的银行应用，你也可以检查设备是否已经越狱。如果是，可以拒绝所有访问服务器并且删除所有存在应用本地的重要信息。在下一篇文章中，我们将查看如何检查设备是否越狱。另一件需要做的事情就是检查应用是否被破解，然后执行必要的步骤来防止攻击者获取信息。在<a href="http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/">github</a>上有一个很简单的类可以帮你完成这个工作。当然，攻击者总是能够劫持方法实现的，因此，把它改一个不那么起疑的名字。</p>
-
-<p>对于那些检查应用是否安全的方法，你也可以给它们改个名字以便它们看起来不那么重要。例如，一个检查应用是否正被调试的方法不应该被命名为<code>-(BOOL)isAppBeingDebugged</code>。这肯定将会引起攻击者的注意并替换方法实现。相反，命名为<code>-(BOOL)didChangeColor</code> 或者 <code>-(BOOL)didSetFont</code>。就不错。这个情况下，这个函数在攻击者看来就不那么重要了。</p>
-
-<p>如果你已经检测到可疑行为，并且认为最好退出应用，你可以使用下面的命令。</p>
-
-<pre><code>exit(-1);
-</code></pre>
-
-<p>这将退出应用。</p>
-
-<p>最好，一个需要注意的非常重要的一点就是，没有任何应用在一个技艺熟练的攻击者面前是安全的。有你的应用的二进制文件的拷贝，加上Cycript、GDB等工具在手，一切就都在攻击者的掌控之中。我们能做的就是使用尽可能多的检查，使得攻击者的任务变得困难以至于他放弃我们的应用去找那些更容易攻击的应用。</p>
-
-<p>译者注1：第一种方法，我在Xcode5上没有试成功，如果有人知道原因，麻烦说一下。 <br/>
-译者注2；SEC_IS_BEING_DEBUGGED_RETURN_NIL是一个自定义的宏，请参见<a href="http://www.raywenderlich.com/46223/ios-app-security-analysis-part-2">iOS App Security and Analysis: Part 2/2</a> 和 <a href="https://github.com/x128/MemeCollector/blob/master/Meme%20Collector/NSObject%2BdebugCheck.h">这</a> （感谢小伙伴 方彬@支付宝 给我提示）</p>
-
-<p>   <br/>
-本文原文 <a href="http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/">IOS Application Security Part 23 – Defending against runtime analysis and manipulation</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(22)-使用GDB进行运行时分析和操作]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/17/ios-application-security-22/"/>
-    <updated>2013-11-17T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/17/ios-application-security-22</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/">http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<p>本文我们将看看如何使用GDB来对iOS应用进行运行时分析。 在<a href="http://wufawei.com/">前面的文章</a>中，我们已经查看了如何使用Cycript来分析和操作iOS应用的运行时行为。我们学习了如何执行<a href="http://wufawei.com/2013/11/ios-application-security-8/">method swizzling</a>，并且调用我们自己的方法而不是原来的实现。因此，为什么我们还需要GDB呢？Cycript并不运行我们设置断点，不允许在某个特定指令后修改变量和寄存器的值。用GDB，我们可以更深入应用，观察底层的汇编指令，操作寄存器的值，因此可以完全改变程序的运行流程。</p>
-
-<p>你可以从我的github账号中下载<a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a>。然后确保安装和运行它到你的设备上。为了把这个设备运行到你的设备上，你不必成为一个注册的开发者，
-你可以依照<a href="http://wufawei.com/2013/11/ios-application-security-7/">这里</a>提到的步骤。在继续本文之前，我推荐你看看本系列关于GDB的上一篇<a href="http://wufawei.com/2013/11/ios-application-security-21/">文章</a>。这个例子应用是一个简单的单视图应用，要求你输入用户名和
-密码的组合来登入。然后它在本地验证你输入的凭证，如果用户名/密码输入正确，它会让你登录进去。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat2.png" alt="" /></p>
-
-<p>一旦应用安装到了设备上，ssh进入设备。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat2.png" alt="" />
-然后在你的设备上开启GDB-Demo这个应用。在GDB中，使用命令 attach GDB-Demo.PiD 附加到这个运行进程，这里的PID是GDB-Demo应用的进程ID。你那里的PID可能不一样。输入attach GDB-Demo然后点击TAB。就会给出你要追加的正确的进程ID。一旦你按了enter，GDB会挂钩进这个运行的进程。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat3.png" alt="" /></p>
-
-<p>从上一篇文章我们已经知道这个应用的类信息。我们知道它有一个方法叫做loginButtonTapped:。因此我们给它设置一个断点，然后输入命令c来继续运行这个应用。
-<img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat4.png" alt="" /></p>
-
-<p>现在输入任意的用户名和密码组合，然后点击登录。断点就会被触发。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat5.png" alt="" /></p>
-
-<p>使用disas来打印出这个函数的汇编信息。现在我们知道验证就会发生在这个函数内部，因为我们从这个应用的类信息里找不到其他感兴趣的其他相关信息。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat6.png" alt="" /></p>
-
-<p>从上一篇文章中，我们学习到每当一个外部方法或者属性被访问的时候，objc_msgSend就会被调用。不过，在任何程序中msgSend都会被调用成千上万次。
-我们只关心和这个函数（loginButtonTapped:）相关的objc_msgSend调用。因此，我们可以找出所有调用objc_msgSend的指令的地址，然后给它设置断点。
-一个非常简单的方法就是寻找blx指令，注意它(blx)的地址，然后为它设置一个断点。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat7.png" alt="" /></p>
-
-<p>现在我已经为这个函数调用objc_msgSend的入口设置了断点。现在我们一个一个的来看objc_msgSend指令，打印出寄存器的值，看看是否有感兴趣的。
-我们将要打印出每个objc_msgSend调用的r1的值。如果没有什么感兴趣的，输入命令c继续直到下一个断点触发。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat8.png" alt="" /></p>
-
-<p>这里有些有意思的东西。如果我们看看上图的底部，我们会看到方法isEqualToString:被调用了。因此这是一个和特定字符串的比较。利用从上一篇文章获得的知识
-我们可以知道寄存器r2会包含传递给这个函数的参数。并且，如果你有编写Objective-C代码的经验，你会知道每个Objective-C的对象都是一个指针。isEqualToString:这个函数也同样接收一个字符串指针作为参数，保存在r2寄存器中。要找出这个对象的值，GDB有一个特定的命令po，能够打印出这个寄存器中的指针的值。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat9.png" alt="" /></p>
-
-<p>因此，这个正被比较的字符串是“Admin”。这看起来像是用户名。看起来工作已经完成了一半。你也可以用如下图的方式打印出r2的值。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat10.png" alt="" /></p>
-
-<p>现在更明智的做法就是重新在应用中把用户名输入为Admin。这是因为执行流程可能还走不到检查密码的地方（因为用户名不对）。因此，让我们输入Admin作为
-用户名，输入任意的东西作为密码。让我们再次设置断点，然后看看我们是否能够找出密码。在经过一段做同样事情的时间之后，断点将会在isEqualToString:被调用的时候被触发。打印出r2的值，可以看到，密码是HELLOIOSAPPLICATIONEXPERTS。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat11.png" alt="" /></p>
-
-<p>现在我们输入找到的用户名和密码的组合，我们将看到。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat12.png" alt="" /></p>
-
-<p>另一个做到同样事情的方法就是操作寄存器的值。在汇编代码中，我们可以看到有2个调用cmp指令的地方。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat13.png" alt="" /></p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat14.png" alt="" /></p>
-
-<p>在这两个地方，r0寄存器的值都与0做比较，然后根据比较结果做决定。让我们为这两个地方都设置一个断点然后继续运行应用。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat15.png" alt="" /></p>
-
-<p>一旦断点触发，设置r0寄存器的值为1.你可以通过命令 set $r0 =1做到。在另一个地方做同样的事情然后继续运行应用。
-你会看到你成功登陆，即使你没有输入任何用户名/密码组合。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat16.png" alt="" /></p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat17.png" alt="" /></p>
-
-<p>顺便说一下，下面是我们破解的loginButtonTapped:的代码。</p>
-
-<pre><code>1. - (IBAction)loginButtonTapped:(id)sender {
-2. if([_usernameTextField.text isEqualToString:@"Admin"] &amp;&amp; [_passwordTextField.text isEqualToString:@"HELLOIOSAPPLICATIONEXPERTS"]){
-3. [self performSegueWithIdentifier:@"adminPage" sender:self];
-4. }else{
-5. [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Incorrect Username or password" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-6. }
-7. }
-</code></pre>
-
-<p><br>
-本文我们查看了如何通过GDB在运行时操作应用的执行流程。在整个逻辑都在一个函数内部的情况下，关于GDB的知识特别有用，因为我们不能够使用Cycript的method swizzling技术。掌握好GDB和ARM汇编的知识，修改和操作应用的执行流程的能力只受你的想象力限制。</p>
-
-<p> <br/>
-本文原文 <a href="http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/">IOS Application Security Part 22 – Runtime Analysis and Manipulation using GDB</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(21)-ARM和GDB基础]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/17/ios-application-security-21/"/>
-    <updated>2013-11-17T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/17/ios-application-security-21</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/">http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<p>直到现在，所有发布的iOS设备都是基于ARM架构的。我们开发iOS应用的时候编写的Objective-C代码会首先转换成ARM汇编，然后转换成机器指令（1s和0s。译者注：即0、1指令，机器指令都是由0、1组成的。）。对ARM汇编语言和使用GDB调试有很好掌握的话，攻击
-者是能够在运行时解密Objective-C代码甚至修改代码的。</p>
-
-<p>本文将使用的<a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a>例子程序可以从我的github账户上下载。请确保在你的设备上安装和运行。如果你没有一个注册的开发者账户，不能在你的设备上运行，请使用<a href="http://wufawei.com/2013/11/ios-application-security-7/">前文</a>提供的方法。</p>
-
-<p>现在让我们SSH进入设备。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat1.png" alt="" /></p>
-
-<p>现在我们开启GDB，然后让GDB在应用开启之后就挂钩这个应用。可以通过命令 attach -waitfor Appname来完成。你也可以
-在设备上运行这个应用，然后用attach命令挂钩这个运行的进程，如下图所示。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat2.png" alt="" /></p>
-
-<p>一旦GDB挂钩进了这个应用，你会注意到这个应用目前是在暂停状态。你可以用 c 命令让这个应用继续执行。不过在继续执行之前，
-让我们先做些调查。和任何其它架构一样，ARM中的内存也被分为寄存器（register）。所有的寄存器都是32位的（iOS 7中是64位的），并且它们的目的
-就是保存和相互之间移动数据。你可以使用 info registers命令来查看关于这些寄存器的信息。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat3.png" alt="" /></p>
-
-<p>请注意这个命令并没有把ARM中的所有寄存器都打印出来。要打印所有的寄存器，使用 info all-registers命令。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat4.png" alt="" /></p>
-
-<p>要导出汇编信息，使用disassemble 或者 disas 命令。这会给出后续几条指令的一些汇编信息。我们通过在
-disas命令后面提供函数名称来导出某个特定函数的汇编。例如要导出main函数的汇编，使用命令 disas main。如下图。</p>
-
-<p><img src="httpources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat5.png" alt="" /></p>
-
-<p>我们看看刚刚在设备上安装的应用，可以看到只是一个要求（输入）用户名和密码的简单应用。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat6.png" alt="" /></p>
-
-<p>我们也可以从用class-dump-z对这个应用导出的信息中找到有个类叫ViewController和一个方法叫做-(void)loginButtonTapped:(id)tapped;</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat7.png" alt="" /></p>
-
-<p>使用GDB，我们可以在应用中设置断点。只需要输入要断下来的方法名称。使用命令 b functionName。你也可以提供不带类信息的方法签名，
-如果你不确定的话，GDB会咨询你想要在那个类上设置断点。</p>
-
-<p><img src="httpources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat8.png" alt="" /></p>
-
-<p>请注意，实例方法前缀都带有一个&#8221;-&ldquo;，而类方法前缀带有&rdquo;+&ldquo;，如下图所示。例如，sharedInstance是一个类方法，方法一个单例类的共享实例。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat9.png" alt="" /></p>
-
-<p>可以通过命令info breakpoints看到所有的断点。</p>
-
-<p><img src="htt://repources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat10.png" alt="" /></p>
-
-<p>通过命令 delete 和 断点的ID就可以删除任何断点。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat11.png" alt="" /></p>
-
-<p>不管怎样，先给方法loginButtonTapped: 设置一个断点。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat12.png" alt="" /></p>
-
-<p>现在我们可以用命令continue或者c让应用重新run起来。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat13.png" alt="" /></p>
-
-<p>现在点击应用的登录按钮。这样就会触发我们的断点。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat14.png" alt="" /></p>
-
-<p>我们可以用disassemble命令查看随后的一些汇编信息。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat15.png" alt="" /></p>
-
-<p>要在任意的指令前面下断点，请在那个指令的地址前面加上&#8221;*&#8221;</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat16.png" alt="" /></p>
-
-<p>在本系列文章的<a href="http://wufawei.com/2013/11/ios-application-security-3/">第3篇</a>文章中，我们学习到了objc_msgSend函数。Objective-C是基于消息的，任何时候一有消息被发送，objc_msgSend
-就会被调用。</p>
-
-<p>在我们打印出的loginButtonTapped: 的汇编代码当中，这里有许多的objc_msgSend调用。要找出这个调用的一个好方法就是查找blx指令。
-在你看到blx指令的地方，你可以确认有一个objc_msgSend正在被调用。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat17.png" alt="" /></p>
-
-<p>当有新方法被调用，或者有属性（property）被访问的时候，objc_msgSend就会被调用。所以，如果我们在objc_msgSend下一个断点，我们可以
-打印出正被调用的方法和调用这个方法的对象，这将帮助我们理解app的整个流程。我们已经在本系列的<a href="http://wufawei.com/2013/11/ios-application-security-9/">第9篇</a>文章中学习过Snoop-it能够找到所有被追踪的调用。
- 要找出正在被调用的方法，我们首先需要查看ARM的调用约定（call convention）。下面是从<a href="http://en.wikipedia.org/wiki/Calling_convention">Wikipedia</a>截取的关于ARM调用约定的图。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat18.png" alt="" /></p>
-
-<p>其中有一行很重要。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat19.png" alt="" /></p>
-
-<p>因此，我们可以给每一个objc_msgSend设置断点，然后使用r0-r3寄存器的值找到传递给这个函数的参数。
-我们先看看objc_msgSend的签名。下面是Apple <a href="https://developer.apple.com/library/mac/documentation/cocoa/reference/objcruntimeref/Reference/reference.html">官方文档</a>的截图。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat20.png" alt="" /></p>
-
-<p>因此这个函数的前2个参数是self 和 op，self是一个用来接收这个消息的某个类的实例，op是要处理这个消息的方法的选择器(selector)。
-选择器（selector）是关于这个消息的签名。例如，如果一个方法的原型为 -(void)addOjectsToArray:(NSArray *)array，那么它的签名就是
-addOjectsToArray:。我们也知道r0-r3用来保存传递给子程序的参数值，因此我们可以推断r0会包含self，而r1会包含op。</p>
-
-<p>我们通过例子来理解。先给objc_msgSend下一个断点，然后继续执行知道断点被触发。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat21.png" alt="" /></p>
-
-<p>我们已经知道，r0会包含一个用来接收这个消息的某个类的实例，r1会包内选择器，从r2开始会是传递给方法的参数。不过，我们要先
-学下命令 x。x代表检查（examine），会以多种格式帮助我们查看内存。我们能够制定我们想要查看的内存的格式。要找出这个命令的所有
-选项，使用命令 help x。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat22.png" alt="" /></p>
-
-<p>我们先检查r0。我们知道r0会包含一个用来接收这个消息的某个类的实例，因此我们要使用的格式是x/a。我们在r0签名使用了$，因为我们想要查看内存，因此
-使用$。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat23.png" alt="" /></p>
-
-<p>我们可以看到接收者是UIRoundedRectButton类的一个实例。现在我们再检查下r1寄存器的值。我们知道它包含一个选择器，例如，方法的签名。
-这是一个字符串，因此我们使用 x/s。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat24.png" alt="" /></p>
-
-<p>现在，我们需要找出传递给这个方法的参数。这个可能会有些棘手，因为我们并不知道r2的格式。但是注意到选择器是respondsToSelector:
-用常识我们可以推断参数可能是一个选择器，因此我们再次使用x/s来检查内存。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat25.png" alt="" /></p>
-
-<p>所有参数就是debugDescription。从方法的选择器我们可以看到，这个函数只有一个参数，因此我们不必进一步检查其他寄存器。所以，
-现在我们可以说正在被调用的方式像下面这样。</p>
-
-<p>-[UIRoundedRectButton respondsToSelector:@selector(debugDescription)];</p>
-
-<p>这里会有太多的objc_msgSend会被调用，一个一个简单会非常痛苦。因此，让我们把这个过程自动化。在本系列的<a href="http://wufawei.com/2013/11/ios-application-security-3/">第3篇</a>文章中，我们学到了如何
-用gdb在断点触发的时候打印信息。我们这样也用用。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat26.png" alt="" /></p>
-
-<p>现在输入命令c继续，你可以看到所有被调用的方法。这可以告诉我们很多这个应用的内部信息。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat27.png" alt="" /></p>
-
-<p>让我们试试以Objective-C类似的语法打印出这些东西。我们将要使用苹果<a href="https://developer.apple.com/library/mac/documentation/cocoa/reference/objcruntimeref/Reference/reference.html">文档</a>中的class_getName。如你所见，它需要提供类对象作为参数，
-因此我们传递r0给它。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat28.png" alt="" /></p>
-
-<p>现在像下面这样重写调用命令。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat29.png" alt="" /></p>
-
-<p>输入命令c继续，现在你可以看到，信息是更可读的方式了。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat30.png" alt="" /></p>
-
-<p>这会告诉我们很多关于应用内部发生什么的信息。在接下来的文章中，我们将使用本文学到的东西来学习如何使用GDB执行运行时操作。</p>
-
-<p> <br/>
-本文原文 <a href="http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/">IOS Application Security Part 21 – ARM and GDB Basics</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(20)-本地数据存储及其安全性（NSUserDefaults, CoreData, Sqlite, Plist 文件）]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/16/ios-application-security-20/"/>
-    <updated>2013-11-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/16/ios-application-security-20</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-20-local-data-storage-nsuserdefaults-coredata-sqlite-plist-files/">http://resources.infosecinstitute.com/ios-application-security-part-20-local-data-storage-nsuserdefaults-coredata-sqlite-plist-files/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<p>本文我们将看看应用在本地存储数据有哪些方法以及这些不同方法的安全性。</p>
-
-<p>我们将会在一个demo上这些这些测试，你可以从我的<a href="https://github.com/prateek147/localDataStorageDemo">github</a>账号上下载这个例子程序。对于CoreData的例子，你可以从<a href="https://github.com/ChrisDrit/Core-Data-Example-Code">这</a>下载例子程序。本例有一个不同点就是我们将会在模拟器上运行这些应用，而不是在设备上运行。这样做的目的是为了证明在前面文章中的操作都可以通过Xcode来把这些应用运行在模拟器上。当然，你也可以使用<a href="http://wufawei.com/2013/11/ios-application-security-7/">前面文章中的步骤</a>把这应用安装到设备上。</p>
-
-<p><br></p>
-
-<h2>NSUserDefaults</h2>
-
-<p>保存用户信息和属性的一个非常普通的方法就是使用NSUserDefaults。保存在NSUserDefaults中的信息在你的应用关闭后再次打开之后依然存在。保存信息到NSUserDefaults的一个例子就是保存用户是否已登录的状态。我们把用户的登录状态保存到NSUserDefaults以便用户关闭应用再次打开应用的时候，应用能够从NSUserDefaults获取数据，根据用户是否登录展示不同的界面。有些应用也用这个功能来保存机密数据，比如用户的访问令牌，以便下次应用登录的时候，它们能够使用这个令牌来再次认证用户。</p>
-
-<p>从我的<a href="https://github.com/prateek147/localDataStorageDemo">github</a>可以下载例子应用，运行起来。你可以得到下面的界面，现在输入一些信息到与NSUserDefaults相关的文本框，然后点击下面的“Save in NSUserDefaults”。这样数据就保存到NSUserDefaults了。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/101613_1214_IOSApplicat1.png" alt="" /></p>
-
-<p>许多人不知道的是保存到NSUserDefaults的数据并没有加密，因此可以很容易的从应用的包中看到。NSUserDefaults被存在一个以应用的bundle id为名称的plist文件中。
-首先，我们需要找到我们应用的bundle id。因为我们在模拟器上运行，我们可以在/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/找到应用。我这的路径是：“Users/prateekgianchandani/Library/Application Support/iPhone Simulator/6.1/Applications”。</p>
-
-<p>一旦我们找到那个目录，我们可以看到一堆应用。我们可以用最近修改的日期找到我们的应用，因为它是最近修改的。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/101613_1214_IOSApplicat2.png" alt="" /></p>
-
-<p>进入到应用的bundle里面。通过NSUserDefaults保存的数据都可以在如下图所示的Library -> Preferences -> $AppBundleId.plist文件中找到。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/101613_1214_IOSApplicat3.png" alt="" /></p>
-
-<p>打开这个plist文件，我们可以清楚的看到这个文件的内容。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/101613_1214_IOSApplicat4.png" alt="" /></p>
-
-<p>有时候，plist文件会以二进制格式保存，因此可能第一下看到会觉得不可读。你可以用plutil工具把它转成xml格式，或者直接用iExplorer在设备上查看。</p>
-
-<p><br></p>
-
-<h2>Plist 文件</h2>
-
-<p>另一种保存数据普遍用的方法就是plist文件。<strong>Plist文件应该始终被用来保存那些非机密的文件，因为它们没有加密，因此即使在非越狱的设备上也非常容易被获取</strong>。已经有<a href="http://garethwright.com/facebook-mobile-ecurity-hole-allows-identity-theft/">漏洞</a>被爆出来，大公司把机密数据比如访问令牌，用户名和密码保存到plist文件中。在下面的demo中，我们输入一些信息并保存到plist文件。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/101613_1214_IOSApplicat5.png" alt="" /></p>
-
-<p>下面是把数据保存到plist文件的代码。</p>
-
-<pre><code>[plain]
-NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-NSString *documentsDirectory = [paths objectAtIndex:0];
-NSString *filePath = [documentsDirectory stringByAppendingString:@"/userInfo.plist"];
-NSMutableDictionary* plist = [[NSMutableDictionary alloc] init];
-[plist setValue:self.usernameTextField.text forKey:@"username"];
-[plist setValue:self.passwordTextField.text forKey:@"passwprd"];
-[plist writeToFile:filePath atomically:YES];
-[/plain]
-</code></pre>
-
-<p>如你所见，我们能够给plist文件指定路径。我们可以搜索整个应用的所有plist文件。在这里，我们找到一个叫做userinfo.plist的文件。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/101613_1214_IOSApplicat6.png" alt="" /></p>
-
-<p>可以看到，它包含了我们刚刚输入的用户名/密码的组合。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/101613_1214_IOSApplicat7.png" alt="" /></p>
-
-<p><br></p>
-
-<h2>CoreData和Sqlite文件</h2>
-
-<p>因为CoreData内部使用Sqlite来保存信息，因此我们这里将只会介绍下CoreData。如果你不知道什么是CoreData，下面是从苹果文档介绍CoreData截的图。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/101613_1214_IOSApplicat8.png" alt="" /></p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/101613_1214_IOSApplicat9.png" alt="" /></p>
-
-<p>因此，基本上，CoreData可以用来创建一个model，管理不同对象的关系，把数据保存到本地，然后当你查询的时候从本地缓存中获取它们。本例中，我们将使用一个demo，位于<a href="https://github.com/ChrisDrit/Core-Data-Example-Code">github</a>。运行起来，你会发现它只是一个简单的RSS feed。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/101613_1214_IOSApplicat10.png" alt="" /></p>
-
-<p>这个应用用CoreData保存数据。一个非常重要的一点就是CoreData内部使用sql，因此所有文件都以.db文件保存。我们到这个app的bundle中去看看。
-在这个app的bundle中，你可以看到那里有一个MyCoreData.sqlite的文件。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/101613_1214_IOSApplicat11.png" alt="" /></p>
-
-<p>我们可以用sqlite3分析。我这slite文件的地址是：~/Library/Application Support/iPhone Simulator/6.1/Applications/51038055-3CEC-4D90-98B8-A70BF12C7E9D/Documents.</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/101613_1214_IOSApplicat12.png" alt="" /></p>
-
-<p>我们可以看到，这里有个叫做ZSTORIES的表。在Core Data中，每个表名开头都会被追加一个Z。这意味着真正的实体名称是STORIES，如我们在工程的源码文件看到的那样。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/101613_1214_IOSApplicat13.png" alt="" /></p>
-
-<p>我们可以非常容易的导出这个表的所有值。请却表headers的状态是on。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/101613_1214_IOSApplicat14.png" alt="" /></p>
-
-<p>正如我们看到的那样，默认的，保存在CoreData的数据都是没有加密的，因此可以轻易的被取出。因此，我们不应该用CoreData保存机密数据。
-有些库包装了一下CoreData, 声称能够保存加密数据。也有些库能够把数据加密保存到设备上，不过不使用CoreData。例如，Salesforce Mobile SDK
-就使用了一个被称为<a href="http://www.modelmetrics.com/tomgersic/storing-data-offline-with-salesforce-mobile-sdk-smartstore/">SmartStore</a>的功能来把加密数据以&#8221;Soups&#8221;的形式保存到设备上。</p>
-
-<p><br></p>
-
-<h2>Keychain</h2>
-
-<p>有些开发者不太喜欢把数据保存到Keychain中，因为实现起来不那么直观。<strong>不过，把信息保存到Keychain中可能是非越狱设备上最安全的一种保存数据的方式了</strong>。<strong>而在越狱设备上，<a href="http://wufawei.com/2013/11/ios-application-security-12/">没有任何事情</a>是安全的。</strong><a href="http://highaltitudehacks.com/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax">这篇文章</a>展示了使用一个简单的wrapper类，把数据保存到keychain是多么的简单。使用这个wrapper来保存数据到keychain就像把数据保存到NSUserDefaults那么简单。下面就是一段把字符串保存到keychain的代码。请注意和使用NSUserDefaults的语法非常类似。</p>
-
-<pre><code>[plain]
-PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
-[bindings setObject:@"XYZ" forKey:@"authToken"];
-[/plain]
-下面是一段从keychain中取数据的代码。
-
-[plain]
-PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
-NSLog(@"Auth token is %@",[bindings objectForKey:@"authToken"]]);
-[/plain]
-</code></pre>
-
-<p><br></p>
-
-<h2>一些小技巧</h2>
-
-<p>正如之前讨论过的那样，没有任何信息在越狱设备上是安全的。攻击者能够拿到Plist文件，导出整个keychain，<a href="http://wufawei.com/2013/11/ios-application-security-8/">替换</a>方法实现，并且攻击者能做他想做的任何事情。<strong>不过开发者能够使用一些小技巧来使得脚本小子从应用获得信息变得更难。</strong>比如把<strong>文件加密</strong>放到本地设备上。<a href="http://highaltitudehacks.com/2013/09/26/ios-dev-encrypted-images-and-saving-them-in-app-sandbox">这里</a>这篇文章详细的讨论了这一点。或者你可以<strong>使得攻击者更难理解你的信息</strong>。比如考虑要把某个用户的认证令牌（authentication token）保存到keychain当中，脚本小子可能就会导出keychain中的这个数据，然后试图劫持用户的会话。我们只需再把这个认证令牌字符串<strong>反转</strong>一下（reverse），然后再保存到keychain中，那么攻击者就不太可能会知道认证令牌是反转保存的。当然，攻击者可以追踪你的应用的每一个调用，然后理解到这一点，但是，<strong>一个如此简单的技术就能够让脚本小子猜足够的时间，以至于他们会开始寻找其它应用的漏洞</strong>。另一个<strong>简单技巧</strong>就是在每个真正的值保存之前<strong>都追加一个常量字符串</strong>。</p>
-
-<p>在接下来的文章里，我们将讨论使用GDB进行运行时分析。</p>
-
-<p> <br/>
-本文原文 <a href="http://resources.infosecinstitute.com/ios-application-security-part-20-local-data-storage-nsuserdefaults-coredata-sqlite-plist-files/">IOS Application Security Part 20 – Local Data Storage (NSUserDefaults, CoreData, Sqlite, Plist files)</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(19)-在程序中使用Introspy]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/16/ios-application-security-19/"/>
-    <updated>2013-11-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/16/ios-application-security-19</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-19-programmatical-usage-of-introspy/">http://resources.infosecinstitute.com/ios-application-security-part-19-programmatical-usage-of-introspy/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<p>在本文当中，我们将看看如何在我们自己的脚本中使用Introspy这个模块。</p>
-
-<p>第一件事情就是引入Introspy模块，然后从argparse模块中引入Namespace。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/093013_1617_IOSApplicat1.png" alt="" /></p>
-
-<p>然后我们创建Introspy类的实例。我们需要提供数据库名、组名、子组名和列表作为参数。在这里，除了数据库地址之外，我们为其他所有参数提供None。
-因此，Introspy会包含所有的组而不是仅包含某个特定的组。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/093013_1617_IOSApplicat2.png" alt="" /></p>
-
-<p>现在让我们创建一个带有组(group)和子组(subgroup)的对象。但是，我在文档中找不到组和子组的不同类目，不过从我们在前面文章中Introspy
-生成的HTML报告中，我能找到组和子组的列表。看下图，所有的主要菜单项都可以用来作为组名称，而所有的子菜单项都可以用来作子组名称。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/093013_1617_IOSApplicat3.png" alt="" /></p>
-
-<p>所以，例如，组名可以为DataStorage，Crypto, Network，IPC等等，Network的子组名可以为HTTP。现在让我们创建一个Introspy对象，组为Netwrok,
-子组为HTTP。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/093013_1617_IOSApplicat4.png" alt="" /></p>
-
-<p>现在看看这个introspy对象的所有方法和属性。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/093013_1617_IOSApplicat5.png" alt="" /></p>
-
-<p>如我们所见，这个Introspy对象有一个analyzer属性。我们看看analyer属性的所有方法和属性。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/093013_1617_IOSApplicat6.png" alt="" /></p>
-
-<p>可以看到，所有的发现（findings）要么使用finding 属性要么使用get_finding方法。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/093013_1617_IOSApplicat7.png" alt="" /></p>
-
-<p>我们也可以通过signatures这个属性来查看analyzer的所有签名。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/093013_1617_IOSApplicat8.png" alt="" /></p>
-
-<p>不过，这些都是签名对象的实例。让我们从这些签名上获得些有意义的信息。如果我们看看signatures.py文件，我们会看到每个Signatures实例都有
-属性：标题名，描述，过滤器等等。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/093013_1617_IOSApplicat9.png" alt="" /></p>
-
-<p>现在，让我们迭代每一个签名队形，然后打印其标题名和描述</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/093013_1617_IOSApplicat10.png" alt="" /></p>
-
-<p>如你所见，我们能够从这些实例中找出许多我们想要的信息。在接下来的例子里，我将会打印出每个签名的所有类和方法的组合。
-请注意，这可能并不是filter所使用的方法实现，因为这个方法可能是类方法，也可能是实例方法。例如，如下面输出可见，这里并没有方法叫做
-[NSUserDefaults stringForKey:]  不过，有个实例方法是,  [[NSUserDefaults standardUserDefaults] stringForKey:]</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/093013_1617_IOSApplicat11.png" alt="" /></p>
-
-<p>每个analyzer对象都有一个tracedCalls属性，它是在运行时追踪到的方法调用列表。如果我们看看tracedCalls类的代码，我们可以看到它有callId，method,clazz等等
-属性。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/093013_1617_IOSApplicat12.png" alt="" /></p>
-
-<p>我们可以从任意的tracedCall分析我们想要的任何信息。如下图所示，我打印出了第一个被追踪的调用的属性。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/093013_1617_IOSApplicat13.png" alt="" /></p>
-
-<p><br/></p>
-
-<h2>总结</h2>
-
-<p>在本文当中，我们查看了如何在我们自己的脚本中使用Introspy这个模块，然后用它从生成的数据库文件中获取签名，tracedCalls等信息，然后用我们想要的方式展示出来。这可以用在对某个特定应用准备我们自己的分析报告的时候。这些信息也同样可以传入其他python脚本以便做进一步的工作，比如进行运行时操作等。</p>
-
-<p>References</p>
-
-<p>Introspy</p>
-
-<p><a href="https://github.com/iSECPartners/introspy">https://github.com/iSECPartners/introspy</a></p>
-
-<p> <br/>
-本文原文 <a href="http://resources.infosecinstitute.com/ios-application-security-part-19-programmatical-usage-of-introspy/">IOS Application Security Part 19 – Programmatical Usage of Introspy</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(18)-使用Introspy检测自定义签名]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/16/ios-application-security-18/"/>
-    <updated>2013-11-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/16/ios-application-security-18</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-18-detecting-custom-signatures-with-introspy/">http://resources.infosecinstitute.com/ios-application-security-part-18-detecting-custom-signatures-with-introspy/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<p>在前面的文章中，我们查看了如何使用Introspy对iOS应用进行黑盒评估。本文我们将看看如何使用Introspy来建立自定义的签名，然后在追踪应用的时候检测这些自定义签名。</p>
-
-<p>如果你对某个特定应用的某个方法特别有兴趣，并且你想直到它什么时候被调用，那么，建立预定义的签名可能会非常有用。Introsp已经有一些预定义的签名用来检测漏洞和不安全的配置。不过，它也允许我们添加自己的签名。</p>
-
-<p>你可以在分析器的文件夹里面的signatures.py找到预定义的签名。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat1.png" alt="" /></p>
-
-<p>从这里，我们可以看到一个签名由标题，描述，严重等级，以及一个由方法调用组成的过滤器。让我们看看例子签名。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat2.png" alt="" /></p>
-
-<p>在上面的图中，你可以看到这个签名检查应用是否使用了剪贴板（Pasteboards）。剪贴板不太安全，因为他们允许应用从其中拷贝信息。
-因此这个签名就说得通了。你可以看到这个过滤器（filter）有2个值，一个是classes_to_match，一个是methods_to_match。你也可以在
-签名中指定一个参数args_to_match。从这个例子签名中，可以看到如下面的方法实现会符合上面的签名。</p>
-
-<pre><code>* UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-
-* UIPasteboard *pasteboard = [UIPasteboard pasteboardWithName:@"XYZ" create:YES];
-
-* UIPasteboard *pasteboard = [UIPasteboard pasteboardWithUniqueName];
-</code></pre>
-
-<p>下图所示的另一个签名检查在连接远程服务器的时候绕过凭证验证。这会发生在你使用一个自签名的SSL证书，然后想信任它而不必进行
-任何验证的时候。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat3.png" alt="" /></p>
-
-<p>如果任意的LibC签名，让我们把classed_to_match设置为&#8221;C&#8221;</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat4.png" alt="" /></p>
-
-<p>现在，我们看看有参数并把参数也被当作过滤器的签名。这个过滤器能使用3个类来定义，这3各类可以在文件Filters.py中找到。这些类是
- ArgumentsFilter, ArgumentsNotSetFilter 和 ArgumentsWithMaskFilter。下面是从这些代码中用来表示其用途的截图。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat5.png" alt="" /></p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat6.png" alt="" /></p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat7.png" alt="" /></p>
-
-<p>下面是Signatures.py中的一个签名，用来检测当有数据没有secure protection domain(pdmn)又被写入keychain的时候。如你所见，</p>
-
-<p>ArgumentsFilter 和 ArgumentsNotSetFilter 过滤器已经被使用来检测签名。ArgumentsFilter 用来找出pdmn不安全的情况。而ArgumentsNotSetFilter
-用来找出没有提供accessibility 选型而默认是kSecAttrAccessibleAlways的情况。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat8.png" alt="" /></p>
-
-<p>现在，让我们往signature.py文件中添加一个自定义签名。在这里，我们将要检测任何取NSUserDefaults中字符串的场景。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat9.png" alt="" /></p>
-
-<p>现在运行introspy.py这个python脚本，参数是保存的数据库。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat10.png" alt="" /></p>
-
-<p>在报告的潜在发现里面（Potential Findings），你会看到这个签名在许多不同的地方都被识别出来了。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat11.png" alt="" /></p>
-
-<p><br></p>
-
-<h2>总结</h2>
-
-<p>本文我们查看了如何使用Introspy来建立自定义的签名，然后在追踪应用的时候检测这些
-自定义签名。在对这些应用进行静态分析的时候，如果你想追踪特定的方法实现，那么使用这些自定义签名会非常有用。</p>
-
-<p>References</p>
-
-<p> Introspy</p>
-
-<p><a href="https://github.com/iSECPartners/introspy">https://github.com/iSECPartners/introspy</a></p>
-
-<p> <br/>
-本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-18-detecting-custom-signatures-with-introspy/">IOS Application Security Part 18 – Detecting custom signatures with Introspy</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(17)-使用Introspy对iOS应用进行黑盒测试]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/16/ios-application-security-17/"/>
-    <updated>2013-11-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/16/ios-application-security-17</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-app-security-part-17-black-box-assess-ios-apps-using-introspy/">http://resources.infosecinstitute.com/ios-app-security-part-17-black-box-assess-ios-apps-using-introspy/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<p>本文我们将看看如何使用Introspy对iOS应用进行黑盒测试。Introspy由<a href="https://www.isecpartners.com/">ISEC partners</a>开发，其github地址在<a href="https://github.com/iSECPartners/introspy">这</a>。Introspy由两个单独的模块组成，一个追踪器，一个分析器。它是分析iOS应用程序安全毫无疑问的最强大工具之一。</p>
-
-<p>第一步就是在你的设备上安装Introspy追踪器。你可以在<a href="https://www.dropbox.com/s/z5cwqk5wti3zsvd/com.isecpartners.introspy-v0.3-iOS_6.1.deb?dl=1">这</a>下载到其deb包。下载成功之后，上传并安装到你的设备上。下图展示了上面提到的步骤需要执行的操作。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat1.png" alt="" /></p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat2.png" alt="" /></p>
-
-<p>一旦追踪器安装好了，重启你的设备。到设置应用，你会看到一个关于Introspy的不同区块。
-现在
-<img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat3.png" alt="" /></p>
-
-<p>Introspy App区块允许你选择想要分析的应用。因此，点击它，然后选择你想要分析的应用。我这里选择了Path应用来做分析。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat4.png" alt="" /></p>
-
-<p>现在到Introspy的Settings，确保每个选项都已选中，特别是选项Log to The Console（把日志输出到控制台）。如果我们选中
-这个选项，Introspy分析器将会把它找到的关于这个应用（app）所有信息都输出到控制台，这样我们就能在运行时看到这些信息。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat5.png" alt="" /></p>
-
-<p>一旦选中了Path应用，请确保它没有在运行。如果它正在运行，请退出并重启Path。另外，请确保你的设备和你的电脑连接好了，因为我们想要看Introspy
-分析器记录的日志。同时，请大家你机器上的Xcode（如果你在Mac上），到Window-> Organizer->Devices。在左边的菜单选择你的设备，然后选择控制台。
-现在你就可以看到你的设备的日志。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat6.png" alt="" /></p>
-
-<p>现在开启Path应用，然后尽可能多的使用这个应用。同时，Introspy分将会在后台运行，并且会尽可能多的收集关于这个应用的信息。你也可以看到设备的日志。
-这里，我们可以看到有一个向server发起的请求，我们可以看到这个请求的所有内容，包括路径和请求参数。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat7.png" alt="" /></p>
-
-<p>并且现在，你可以看到这个应用正在使用NSUserDefaults来验证userId这个键。这个信息其实应该保存在keychain的。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat8.png" alt="" /></p>
-
-<p>但是最有趣的的信息可以从下面的图中看到。正如你所见，这个应用使用NSUserDefaults来验证HangTracerEnabled这个布尔值。这个可能是
-用来看这个应用是否在运行时被分析，如果是的话，就退出。不过，这技巧看起来失败了，因为它没有能够检测到Introspy分析器。
-不过当我用Snoop-it分析Path应用的时候，它crash了。所以，这个布尔值确定无疑的是用来看应用是否正追踪（被分析）。我们将会在随后的
-文章中介绍这些概念。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat9.png" alt="" /></p>
-
-<p>除了在控制台展示这个应用的运行时信息，Introspy也能够把它保存到你设备上的一个sqlite数据库中。从你的电脑上，你可以获取这个数据库文件
-并且Introspy会把它转换成可展示的格式。要从你的iOS 设备上获取这个数据库，首先你需要github页面下载<a href="https://github.com/iSECPartners/introspy/archive/master.zip">Introspy</a>。到这个分析器的目录，
-然后使用如下图的命令。你需要指定在你本地机器上要把报告保存的位置，同时也要指定你的iOS设备的IP地址。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat9.png" alt="" /></p>
-
-<p>如你所见，Introspy会要求你选择一个数据库文件。这些数据库文件是为每个我们在Settings中选择的应用创建的。在这里，我们选择为Path应用创建的
-数据库。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat10.png" alt="" /></p>
-
-<p>你可以看到，这个数据库被保存在当前目录下面，同时，当前目录下有一个叫做Path-Report的文件夹被创建。如果我们进入那个文件夹，并且
-打开report.html，下图就是我们将会看到的内容。如你所见，Introspy已经用一个很不错的方法把全部信息都展示出来了。我们可以看到被追踪的调用
-和其参数。。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat12.png" alt="" /></p>
-
-<p>我们也可以看到其中有一列叫做&#8221;Potential Findings&#8221;。这些都是Introspy认为存在漏洞的地方。在这里，我们将看看存储数据不安全的问题。
-这可能不算是一个漏洞，因为保存的信息不一定非常重要。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat13.png" alt="" /></p>
-
-<p>你也可以像下图那样，选择某些选项来定制你看到的信息。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat14.png" alt="" /></p>
-
-<p>例如，我已经把它配置成只显示关于UserPreferences的方法。这个信息可能会非常有用，因为它可以帮我们找出那些可能被写入NSUserDefaults的一些重要信息。
-即使没有在下图中显示，我也能够容易的知道Path把我的用户id（userId）保存到NSUserDefaults，并且在很多地方都会用到（这个用户id）。这个信息理应保存在
-更安全的地方，比如，keychain。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat15.png" alt="" /></p>
-
-<p>我们也可以直接从命令行对保存的数据库文件进行分析。下面是使用信息。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat16.png" alt="" /></p>
-
-<p>让我们给这个命令传递参数http&#8217;。如你所见，它导出了一列通信方的列表。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat17.png" alt="" /></p>
-
-<p>Introspy也可以被其他Python脚本导入。我们也可以增加签名来标志漏洞或者不安全的配置。我们将在随后的文章中作介绍。</p>
-
-<p><br></p>
-
-<h2>总结</h2>
-
-<p>本文我们查看了如何使用Introspy对iOS应用进行黑盒测试。Introspy由两个模块组成，
-一个追踪器，一个分析器。我们可以用追踪器来对应用执行运行时分析。追踪器会把信息保存到sqlite文件中以便后续用分析器分析，追踪器也可以把所有信息都输出到设备的控制台上。分析器可以用这个数据库文件生成一个详尽的HTML报告。</p>
-
-<p>References</p>
-
-<p>Introspy</p>
-
-<p><a href="https://github.com/iSECPartners/introspy">https://github.com/iSECPartners/introspy</a></p>
-
-<p> <br/>
-本文原文是 <a href="http://resources.infosecinstitute.com/ios-app-security-part-17-black-box-assess-ios-apps-using-introspy/">IOS Application Security Part 17 – Black-box assessment of IOS Applications using Introspy</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(16)-使用iNalyzer对iOS应用进行动态分析]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/15/ios-application-security-16/"/>
-    <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/15/ios-application-security-16</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-app-security-part-16-runtime-analysis-of-ios-apps-using-inalyzer/">http://resources.infosecinstitute.com/ios-app-security-part-16-runtime-analysis-of-ios-apps-using-inalyzer/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<p>上一篇文章我们看到了如何使用iNalyzer对iOS应用进行静态分析。本文我们将看看如何用iNalyer对iOS应用进行运行时分析。我们能够在运行时调用方法，能够在应用的某个特殊时间找出特定实例变量的值，基本上能做我们用Cycript做的所有事情。</p>
-
-<p>在上一篇文章当中，我们成功的用Doxygen生成了html文件，并且打开它看到了关于这个应用的类信息和其他信息。我们将使用Firefox浏览器进行运行时分析。这个工具的开发者推荐我再进行运行时分析的时候使用Firefox浏览器，因为其它浏览器用起来可能会有问题。 不过，对我来说，在chrome上好像也工作正常。</p>
-
-<p>要打开运行时解释器，首先需要打开Doxygen为你想要分析的应用生成的index.html文件，然后双击左剪头键。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090913_1208_IOSApplicat1.png" alt="" /></p>
-
-<p>如上图所示，你可以看到有一个可以输入命令的控制台在顶部出现。第一件事情就是告诉iNalyer你设备的IP地址，在这里是10.0.1.23。输入IP地址后然后确定（按Enter）。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090913_1208_IOSApplicat2.png" alt="" /></p>
-
-<p>一旦IP地址设置好之后，请确保我们要分析的应用在设备上是打开的（例如，在前台），并且你的设备没有休眠。这非常重要，
-因为如果你的应用在后台或者你的设备在休眠，那你的应用是会被操作系统给暂停的，因此就不可能对这个应用进行任何运行时分析。</p>
-
-<p>一旦应用打开，在控制台输入任意命令，如你使用Cycript会输入的一样。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090913_1208_IOSApplicat3.png" alt="" /></p>
-
-<p>正如我们看到的那样，我们会得到一个响应。我们现在可以输入我们想要输入的任何cycript命令。</p>
-
-<p>让我们隐藏应用的状态栏。我们可以用这个命令， [[UIApplication sharedApplication] setStatusBarHidden:YES animated:YES];</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090913_1208_IOSApplicat4.png" alt="" /></p>
-
-<p>可以看到，我们并没有得到任何响应，那是因为这个方法返回空（void）。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090913_1208_IOSApplicat5.png" alt="" /></p>
-
-<p>不过，应用的状态栏已经隐藏起来了。我们在最上面已经看不到时间了。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090913_1208_IOSApplicat6.png" alt="" /></p>
-
-<p>类似的，我们可以找到这个应用的delegate类。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090913_1208_IOSApplicat7.png" alt="" /></p>
-
-<p>我们也可以设置应用的提醒数字。这里我们设置为9000。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090913_1208_IOSApplicat8.png" alt="" /></p>
-
-<p>可以看到，提醒数字成功设置。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090913_1208_IOSApplicat9.png" alt="" /></p>
-
-<p>因为这和有一个cycript控制台类似，我们也可以输入javascript代码和任何其他Cycript文档中的命令。
-下面就是我输入的从<a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">Cycript tricks</a>页面引用的一个命令。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090913_1208_IOSApplicat10.png" alt="" /></p>
-
-<p>类似的，我可以同时用javascript和Objective-C的语法来创建函数。如果你对这里说的Cycript不太理解，请
-参考本系列前面介绍Cycript和它的详细用法的文章。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090913_1208_IOSApplicat11.png" alt="" /></p>
-
-<p>我可以在想要使用这个函数的任何时刻用它。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090913_1208_IOSApplicat12.png" alt="" /></p>
-
-<p>在本系列的<a href="http://wufawei.com/2013/11/ios-application-security-9/">第9部分</a>，我们介绍了Snoop-it。iNalyer和Snoop-it非常类似。不过二者都有优点和不足。
-在本文写关于Snoop-it的时候，它并不支持method swizzling而iNalyer支持。蕾丝的，iNalyer不允许我们
-监控API调用而Snoop-it可以。因此，这两个应用都有它们的优点和不足。</p>
-
-<p><br></p>
-
-<h2>总结</h2>
-
-<p>本文我们学习了如何利用iNalyer来对iOS应用进行运行时分析。对于任何对iOS应用程序安全感兴趣的人来说，iNalyer都是武器库中非常棒的工具，它使得我们的工作更容易、更有效率。</p>
-
-<p>References</p>
-
-<p>iNalyzer
-<a href="https://appsec-labs.com/iNalyzer">https://appsec-labs.com/iNalyzer</a></p>
-
-<p> <br/>
-本文原文是 <a href="http://resources.infosecinstitute.com/ios-app-security-part-16-runtime-analysis-of-ios-apps-using-inalyzer/">IOS Application Security Part 16 – Static Analysis of IOS Applications using iNalyzer</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/15/ios-application-security-15/"/>
-    <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/15/ios-application-security-15</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-15/" itemprop="url">iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/">http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/</a><br/>
 版权声明：自由转载-非商用-保持署名</p>
@@ -1255,15 +235,41 @@ SQL和URL字符串。</p>
 
 <p> <br/>
 本文原文是 <a href="http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/">IOS Application Security Part 15 – Static Analysis of IOS Applications using iNalyzer</a></p>
-]]></content>
-  </entry>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(14)-使用Sogeti Data Protection tools收集信息]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/15/ios-application-security-14/"/>
-    <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/15/ios-application-security-14</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
+
+
+<time datetime="2013-11-15T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-14/" itemprop="url">iOS应用程序安全(14)-使用Sogeti Data Protection Tools收集信息</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/">http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/</a><br/>
 版权声明：自由转载-非商用-保持署名</p>
@@ -1364,15 +370,41 @@ python脚本。</p>
 
 <p><br/>
 本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/">IOS Application Security Part 14 – Gathering information using Sogeti Data Protection tools</a></p>
-]]></content>
-  </entry>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(13)-使用Sogeti Data Protection tools启动定制的Ramdisk]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/15/ios-application-security-13/"/>
-    <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/15/ios-application-security-13</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
+
+
+<time datetime="2013-11-15T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-13/" itemprop="url">iOS应用程序安全(13)-使用Sogeti Data Protection tools启动定制的Ramdisk</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/">http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/</a><br/>
 版权声明：自由转载-非商用-保持署名</p>
@@ -1497,15 +529,41 @@ Sogeti data protection tools，最主要的原因就是它提供了许多我们�
 
 <p><br/>
 本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/">IOS Application Security Part 13 – Booting a custom Ramdisk using Sogeti Data Protection tools</a></p>
-]]></content>
-  </entry>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(12)-导出Keychain数据]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/15/ios-application-security-12/"/>
-    <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/15/ios-application-security-12</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
+
+
+<time datetime="2013-11-15T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-12/" itemprop="url">iOS应用程序安全(12)-导出Keychain数据</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/">http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/</a><br/>
 版权声明：自由转载-非商用-保持署名</p>
@@ -1631,15 +689,41 @@ iOS默认允许4位数字口令（从0-9999），因此很容易被人在几分�
 本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/">IOS Application Security Part 12 – Dumping Keychain Data</a></p>
 
 <p>注：之前我写过一篇文章，<a href="http://wufawei.com/2013/06/Keychain-is-not-safe/">Keychain is not safe</a>,大家可以对照着看看，有的应用还是在keychain中保存密码。虽然本文说keychain也容易被破解，不过比NSUserDefaults和plist安全得多，只要我们注意不要在keychain中保存明文密码就会在很大程度上提升安全性。</p>
-]]></content>
-  </entry>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(11)-分析使用HTTP/HTTPS的网络流量]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/15/ios-application-security-11/"/>
-    <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/15/ios-application-security-11</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
+
+
+<time datetime="2013-11-15T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-11/" itemprop="url">iOS应用程序安全(11)-分析使用HTTP/HTTPS的网络流量</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/">http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/</a><br/>
 版权声明：自由转载-非商用-保持署名</p>
@@ -1792,15 +876,41 @@ iOS默认允许4位数字口令（从0-9999），因此很容易被人在几分�
 
 <p><br/>
 本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/">IOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS</a></p>
-]]></content>
-  </entry>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(10)-iOS文件系统和取证]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/15/ios-application-security-10/"/>
-    <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/15/ios-application-security-10</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
+
+
+<time datetime="2013-11-15T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-10/" itemprop="url">iOS应用程序安全(10)-iOS文件系统和取证</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-10-ios-filesystem-and-forensics/">http://resources.infosecinstitute.com/ios-application-security-part-10-ios-filesystem-and-forensics/</a><br/>
 版权声明：自由转载-非商用-保持署名</p>
@@ -1947,15 +1057,41 @@ Linkedin iOS应用被发现的一个漏洞就是它把用户的认证信息存�
 
 <p><br/>
 本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-10-ios-filesystem-and-forensics/">IOS Application Security Part 10 – IOS Filesystem and Forensics</a></p>
-]]></content>
-  </entry>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(9)-用Snoop-it分析iOS应用的安全]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/14/ios-application-security-9/"/>
-    <updated>2013-11-14T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/14/ios-application-security-9</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
+
+
+<time datetime="2013-11-14T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/14/ios-application-security-9/" itemprop="url">iOS应用程序安全(9)-用Snoop-it分析iOS应用的安全</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it/">http://resources.infosecinstitute.com/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it/</a><br/>
 版权声明：自由转载-非商用-保持署名</p>
@@ -2085,15 +1221,41 @@ Snoop-it，选择我们要分析的应用，在我这，我将要选择MethodSwi
 
 <p><br/>
 本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it/">IOS Application Security Part 9 – Analyzing Security of IOS Applications using Snoop-it</a></p>
-]]></content>
-  </entry>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(8)-用Cycript进行Method Swizzling]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/14/ios-application-security-8/"/>
-    <updated>2013-11-14T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/14/ios-application-security-8</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
+
+
+<time datetime="2013-11-14T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/14/ios-application-security-8/" itemprop="url">iOS应用程序安全(8)-用Cycript进行Method Swizzling</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-8-method-swizzling-using-cycript/">http://resources.infosecinstitute.com/ios-application-security-part-8-method-swizzling-using-cycript/</a><br/>
 版权声明：自由转载-非商用-保持署名</p>
@@ -2238,15 +1400,41 @@ UIApp.keyWindow.rootViewController</p>
 
 <p><br/>
 本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-8-method-swizzling-using-cycript/">IOS Application Security Part 8 – Method Swizzling using Cycript</a></p>
-]]></content>
-  </entry>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(7)-不用证书安装应用到设备的方法]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/14/ios-application-security-7/"/>
-    <updated>2013-11-14T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/14/ios-application-security-7</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
+
+
+<time datetime="2013-11-14T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/14/ios-application-security-7/" itemprop="url">iOS应用程序安全(7)-不用证书安装应用到设备的方法</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account/">http://resources.infosecinstitute.com/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account/</a><br/>
 版权声明：自由转载-非商用-保持署名</p>
@@ -2360,15 +1548,41 @@ Payload.zip）然后重命名Payload.zip为SelfSigned.ipa. 从这个系列的第
 
 <p><br/>
 本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account/">IOS Application Security Part 7 – Installing and Running Custom Applications on Device without a registered developer account</a></p>
-]]></content>
-  </entry>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(6)-iOS 7的新安全功能]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/14/ios-application-security-6/"/>
-    <updated>2013-11-14T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/14/ios-application-security-6</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
+
+
+<time datetime="2013-11-14T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/14/ios-application-security-6/" itemprop="url">iOS应用程序安全(6)-iOS 7的新安全功能</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-6-new-security-features-in-ios-7/">http://resources.infosecinstitute.com/ios-application-security-part-6-new-security-features-in-ios-7/</a><br/>
 版权声明：自由转载-非商用-保持署名</p>
@@ -2457,7 +1671,44 @@ References:
 
 <p><br/>
 本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-6-new-security-features-in-ios-7/">IOS Application Security Part 6 – New Security Features in IOS 7</a></p>
-]]></content>
-  </entry>
-  
-</feed>
+
+		
+		
+	</div>
+
+</article>
+
+</div>
+<nav id="pagenavi">
+    
+        <a href="1" class="prev">Prev</a>
+    
+    
+        <a href="3" class="next">Next</a>
+    
+    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
+</nav></div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+</body>
+</html>
