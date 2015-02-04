@@ -9,9 +9,9 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="ios iOS应用程序安全(5)-用Cycript做运行时分析的高级技巧(Yahoo天气应用) 作者：Prateek Gianchandani
+	<meta name="description" content="ios iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析 作者：Prateek Gianchandani
 译者：吴发伟
-原文网址：http://resources.infosecinstitute.com/ios-application-security- &hellip;">
+原文网址：http://resources.infosecinstitute.com/part-15-static-analysis-of-ios- &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -104,7 +104,7 @@
   
 
 
-<time datetime="2013-11-14T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+<time datetime="2013-11-15T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
 		<div class="tags">
 
 
@@ -114,110 +114,581 @@
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/11/14/ios-application-security-5/" itemprop="url">iOS应用程序安全(5)-用Cycript做运行时分析的高级技巧(Yahoo天气应用)</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-15/" itemprop="url">iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析</a></h1>
 	<div class="entry-content" itemprop="articleBody">
 		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app/">http://resources.infosecinstitute.com/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app/</a><br/>
+原文网址：<a href="http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/">http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/</a><br/>
 版权声明：自由转载-非商用-保持署名</p>
 
-<h2>引言</h2>
+<p>在前面的文章当中，我们看到了如何使用Sogeti Data protection tools利用bottom的漏洞，使用定制的ramdisk来启动iOS设备。本文我们将学习用iNalyzer工具来对iOS
+应用进行黑盒测试。iNalyzer允许我们查看类信息，执行运行时分析和其他一些事情。基本上它把解密应用、导出类信息这些事情自动化了，并且更好的展示了出来。我们也可以像Cycript那样挂钩运行的进程。iNalyzer由<a href="https://appsec-labs.com/">AppSec Labs</a>开发和维护，它的官方地址在<a href="https://appsec-labs.com/iNalyzer">这</a>。iNalyzer同时也已经开源了，gitub地址在<a href="https://github.com/appsec-labs/iNalyzer">这</a>。</p>
 
-<p>在前一篇文章中，我们学习了如何在设备上安装使用Cycript。本文我们将使用一些运行时分析的高级技巧。我们将看看如何获得特定类（方法，实例变量）的值并且在运行时修改它们。</p>
+<p>在用iNalyzer之前，有些依赖的软件需要先安装。请确保<a href="http://www.graphviz.org/download..php">Graphviz</a> 和<a href="http://www.stack.nl/~dimitri/doxygen/download.html">Doxygen</a>已经安装了，因为没有这2个工具，iNalyzer不会正常工作。并且，请注意，
+我在Mac OS X Mountain Lion 10.8.4上做的测试，但是我们用最新版本的Graphviz的时候它经常会挂起（hang）。因此，我下载了Graphviz的一个较老的版本（v 2.30.1）
+，并且这个老版本工作正常。你可以在<a href="http://www.graphviz.org/pub/graphviz/stable/macos/">这</a>找到Graphviz for Mac的老版本。</p>
+
+<p>第一步就是在你的iOS 设备上安装iNalyzer。先到Cydia->管理, 确保源<a href="http://appsec-labs.com/cydia/%E8%A2%AB%E6%88%90%E5%8A%9F%E6%B7%BB%E5%8A%A0%EF%BC%8C%E5%A6%82%E4%B8%8B%E5%9B%BE%E3%80%82">http://appsec-labs.com/cydia/%E8%A2%AB%E6%88%90%E5%8A%9F%E6%B7%BB%E5%8A%A0%EF%BC%8C%E5%A6%82%E4%B8%8B%E5%9B%BE%E3%80%82</a></p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat1.png" alt="" /></p>
+
+<p>然后到Cydia的搜索，搜索 iNalyzer。根据你现在设备上正在运行的iOS版本，选择对应版本的iNalyzer。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat2.png" alt="" /></p>
+
+<p>如你所见，我已经把iNalyzer安装好了。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat3.png" alt="" /></p>
+
+<p>现在ssh进入设备，，然后转到iNalyzer应用所在的目录。iNalyzer安装在/Applications目录，因为它需要以root用户权限运行。如果你不了解这个概念，请确保你读过本系列
+前面的文章。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat4.png" alt="" /></p>
+
+<p>输入./iNalyzer启动iNalyzer。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat5.png" alt="" /></p>
+
+<p>现在如果你到主屏幕，然后看看iNalyzer应用图标，你会看到有个提醒数字。这表明这个应用 可以通过web接口访问，然后这个提醒数字就代表的是端口号。
+如果你再次运行 ./iNalyzer，那么iNalyzer就会停止。因此，请确保记得./iNalyer是开启还是关闭这个应用。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat6.png" alt="" /></p>
+
+<p>现在你可以找到你的设备的IP地址，然后用ip:port的方式在浏览器上打开。这里端口是5544,IP地址是10.0.1.23.因此url地址是<a href="http://10.0.1.23:5544/%E3%80%82%E4%B8%80%E6%97%A6%E4%BD%A0%E6%89%93%E5%BC%80%E8%BF%99%E4%B8%AA%E9%A1%B5%E9%9D%A2%EF%BC%8C">http://10.0.1.23:5544/%E3%80%82%E4%B8%80%E6%97%A6%E4%BD%A0%E6%89%93%E5%BC%80%E8%BF%99%E4%B8%AA%E9%A1%B5%E9%9D%A2%EF%BC%8C</a>
+你会看到如下图的界面。你可以选择一个应用，然后iNalyzer就会准备一个zip文件，然后下载到你的系统上以便分析。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat7.png" alt="" /></p>
+
+<p>不过，我在这行这一步的时候却遇到一些问题。因此，我们将使用一个替代方法来完成这一步。首先确保iNalyer正在运行。然后转到iNalyer的目录下，然后不带任何参数的运行
+iNalyer5。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat8.png" alt="" /></p>
+
+<p>现在你可以看到一系列可以用来分析的应用。这里我们选择Defcon应用来分析。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat9.png" alt="" /></p>
+
+<p>你可以看到iNalyer已经开始工作。它首先解密应用，找出对应的类信息和其它一些信息。如下图所示，一旦iNalyzer完成它的工作，它就会创建一个ipa文件，然后把它
+保存到下图高亮的地址。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat10.png" alt="" /></p>
+
+<p>现在我们需要得到这个ipa文件，然后把它下载到我们的系统上（电脑上）。我们可以用sftp。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat11.png" alt="" /></p>
+
+<p>一旦我们得到ipa文件，把它后缀名改为zip，然后解压这个文件。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat12.png" alt="" /></p>
+
+<p>在终端（Terminal, 命令行）下，转到其内部的Payload－> Doxygen目录下。如下图。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat13.png" alt="" /></p>
+
+<p>你会看到有一个叫做doxMe.sh的shell脚本。如果你看看它的内容，你会看到它把运行Doxygen的工作自动化了。
+Doxygen也会运行Graphviz来产生图表，结果会保存在内部一个叫做html的文件夹下。基本上，iNalyzer已经把所有的类信息替我们保存在
+内部一个叫做Reversing Files的目录下了，而且它用Doxygen和Graphviz来把信息更友好的展示出来了。这个脚本同时也会把新创建的html文件夹内部的
+index.html文件打开。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat14.png" alt="" /></p>
+
+<p>现在，我们来运行这个脚本，让iNalyzer为我们做所有的事情。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat15.png" alt="" /></p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat16.png" alt="" /></p>
+
+<p>一旦这个命令完成，iNalyer会把新创建的html文件夹内部的index.html文件打开。 下面就是打开的样子。在这里，我用的是chrome。不过，这个工具的开发者
+推荐我再进行运行时分析的时候使用firefox浏览器，因为其它浏览器用起来可能会有问题。如下图所示，第一页给出了对整个应用的字符串分析。它把字符串分成了
+SQL和URL字符串。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat17.png" alt="" /></p>
+
+<p>你也可以看看应用中使用的所有的view controller。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat18.png" alt="" /></p>
+
+<p>点击任意的View controller，你可以看到它的方法和属性。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat19.png" alt="" /></p>
+
+<p>你也可以看看Info.plist文件的内容。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat20.png" alt="" /></p>
+
+<p>如果你选择Classes这个Tab，在Class Index下面你回看到所有应用中使用的类的列表。有些是苹果自己的类，有些是这个应用的开发者创建的。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat21.png" alt="" /></p>
+
+<p>如果你到Class Hierarchy Tab（类层次标签）下，你可以看到以图像方式展示的类信息和它们之间的关系。这会给你大量关于应用如何工作的知识。
+这些图使用Graphviz这个工具产生的。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat22.png" alt="" /></p>
+
+<p>如果你选择文件标签（files tab), 你可以看到iNalyer生成的所有接口文件。</p>
+
+<p> <br/></p>
+
+<h2>总结</h2>
+
+<p> 本文我们学习了如何使用iNalyer对iOS应用程序进行静态分析，可以看到它使我们的工作变得非常容易。在接下来的文章中，我们将看看如何用iNalyer对iOS应用进行运行时分析。</p>
+
+<p> <br/>
+本文原文是 <a href="http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/">IOS Application Security Part 15 – Static Analysis of IOS Applications using iNalyzer</a></p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-15T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-14/" itemprop="url">iOS应用程序安全(14)-使用Sogeti Data Protection Tools收集信息</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/">http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面一篇文章中，我们看到了如何使用Sogeti Data Protection tools用定制的ramdisk启动iOS设备。本文我们将如何用其中的一些工具来收集设备的信息，比如keychain的内容，导出整个文件系统甚至暴力破解口令。</p>
+
+<p>在上一篇文章当中，我们已经成功的用usbmux与设备建立了连接，ssh进设备，并且加载了分区。下面是分区包含的内容。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat1.png" alt="" /></p>
+
+<p>现在我们可以自由的在这些分区内部切换，做任何我们想要做的事情。正如我们看到的，iphone data protection tools给我们提供了一些可以使用的脚本。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat2.png" alt="" /></p>
+
+<p>现在让我们使用下暴力破解脚本。当前我这个ipod的口令（passcode）是“1234”。这意味着keychain以这个口令保护着（参见前面的文章），因此如果我们
+想要到处keychain中的数据，我们就需要找到口令。我们先运行这个脚本。如你所见，它开始执行暴力破解。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat3.png" alt="" /></p>
+
+<p>一段时间之后，我们可以看到它成功的找到我们的口令。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat4.png" alt="" /></p>
+
+<p>可以看到，这些结果被写入到一个plist文件。这个plist文件被其他python脚本使用，例如，被口令保护的keychain信息导出的时候需要使用口令。这里还有另一个python
+脚本可以用来暴力破解口令，位于data protection tools的python_scripts目录下。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat5.png" alt="" /></p>
+
+<p>一旦口令被算出，它就会以你的设备的UDID为名创建一个文件夹，然后把包含口令信息的plist文件保存到这个文件夹中。你可以在其他时候使用这个plist文件，
+比如解密keychain的时候。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat6.png" alt="" /></p>
+
+<p>下面就是那个plist文件保存的信息。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat7.png" alt="" /></p>
+
+<p>请注意，使用一个字母、数字组合的密码会让这个破解更困难，因此使得keychain的数据得到更好的保护。不过，大多数人都不关注这个，并且喜欢使用
+简单的4位数字密码。</p>
+
+<p>不管怎样，先回到设备上，这里有另一个脚本叫做device_infos可以用来导出关于设备的信息，比如序列号，Mac地址等等。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat8.png" alt="" /></p>
+
+<p>其中最重要的一个python脚本之一就是ios_examiner python脚本。不过，我在运行的时候，得到一个关于unicode字符串的错误提示，我在<a href="https://code.google.com/p/iphone-dataprotection/issues/detail?id=70">这个链接</a>的帮助下修改了这个
+python脚本。</p>
+
+<p>现在运行ios_examiner 这个python脚本。你会看到一个可以输入命令的解释器。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat9.png" alt="" /></p>
+
+<p>你可以通过输入help来看到所有的命令集合。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat10.png" alt="" /></p>
+
+<p>你可以输入keychain来导出keychain。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat11.png" alt="" /></p>
+
+<p>不过，你会注意到输出说“ Keybag state: locked”，因此有些条目没有显示（显示为？）。有些条目被更高的保护属性保护（比如AfterFirtUnlock)，
+因此它们需要设备的口令才能解密。不过，我们前面不是已经成功的找到了口令了呀？是的，虽然已经找出了口令，不过我们用了另一个python
+脚本，因此保持口令信息的plist文件被保存在另外的地方。最简单的方法就是在解释器中使用暴力破解脚本，输入口令，让它保存plist文件到当前
+位置，现在你可以再次使用keychain脚本了。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat12.png" alt="" /></p>
+
+<p>使用命令protected_files会给出一系列不是以NSProtectionNone保护的文件。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat13.png" alt="" /></p>
+
+<p>你也可以导出当前的分区为一个.dmg文件供后续加载分析使用。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat14.png" alt="" /></p>
+
+<p>还有另一个shell脚本可以为你导出分区。它把创建的.dmg文件保存到一个以设备的UDID命名的文件夹内。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat15.png" alt="" /></p>
+
+<p>一旦这个.dmg文件生成完毕，你可以选择它并加载。现在你可以在任意时候探索这个文件系统了 。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat16.png" alt="" /></p>
+
+<p>现在你可以使用reboot命令来重启系统，然后系统就会回到之前的状态。请确保设备与你的电脑断开之后再这么做（重启系统）。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082713_1245_IOSApplicat17.png" alt="" /></p>
+
+<p><br/></p>
+
+<h2>总结</h2>
+
+<p>本文我们学习了使用Sogeti Data Protection tools 来从设备上收集不同的信息，比如keychain数据，被保护的文件，等等。我们也可以导出整个文件系统以便随后再分析。
+这个技巧可以在任何使用A4芯片的设备上用bootrom 漏洞利用使用，而且并不需要对设备越狱，设备重启之后又会回到正常状态，因此，普通用户根本不知道发生了什么。</p>
+
+<p>References</p>
+
+<p> Iphone-dataprotection – IOS Forensics tools
+<a href="https://code.google.com/p/iphone-dataprotection/">https://code.google.com/p/iphone-dataprotection/</a></p>
+
+<p><br/>
+本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/">IOS Application Security Part 14 – Gathering information using Sogeti Data Protection tools</a></p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-15T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-13/" itemprop="url">iOS应用程序安全(13)-使用Sogeti Data Protection tools启动定制的Ramdisk</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/">http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面的文章当中，我们学习了如何使用Keychain-Dumper和Snoop-it来从iOS设备上导出和分析keychain的内容。本文我们将看看如何用一个自己的ramdisk来启动一个没有越狱的设备，并且分析该设备的内容。</p>
+
+<p>为什么要用一个定制的ramdisk来启动设备呢？假设一个场景，你只能短暂的访问一个设备，并且不能越狱它。你只能访问这个设备，比如：30分钟。
+这种情况下，你可以用定制的ramdisk启动设备，然后暴力破解口令，导出所有数据以便后续分析。为了执行这样的攻击，最好的情况就是这个设备不需要越狱。
+当然，如果设备使用字母数字组合的密码，那可能就需要更长的时间来暴力破解口令了。你可以把这种情况设想为用一个Linux live CD来启动一个windows机器，
+然后加载windows分区，然后使用Linux OS来访问硬盘的内容。不过，使用定制的ramdisk来加载设备需要一个bootrom漏洞。<a href="http://theiphonewiki.com/wiki/Bootrom">bootrom</a>是IDevice上运行的第一个重要的代码。
+bootrom漏洞允许我们在bootloader的低层次绕过bootrom签名验证，使得我们可以用定制的ramdisk启动设备。这样的漏洞能够让用户执行未签名的代码，因此可以创造一个
+untethered jailbreak。能够获得bottom漏洞列表在<a href="http://theiphonewiki.com/wiki/Category:Bootrom_Exploits">此</a>。一个bottom漏洞一旦被发现就不可能被苹果以发布一个新的iOS系统的方式来修复，只可能发布新硬件才能修复。
+在写本文的时候，从采用A5及以后（芯片）的设备，没有发现bootrom exploit。本文我们将要使用的bootrom利用将只能工作在使用A4的设备上。我将使用一个4代iPod touch，
+因为它有一个A4芯片。本文我们将专注在如何用定制的ramdisk来启动设备，我们将在下一篇文章中关注如何利用启动后的设备。</p>
+
+<p>一个非常容易的方法就是下载<a href="http://msftguy.blogspot.in/2012/01/automatic-ssh-ramdisk-creation-and.html">这个工具</a>，这个工具允许自动的SSH ramdisk生成。它非常易用，你可以看看这个<a href="http://www.youtube.com/watch?feature=player_embedded&amp;v=1dh5loiX1dU">视频</a>了解更多细节。不过，在本文当中，我们将会看看
+Sogeti data protection tools，最主要的原因就是它提供了许多我们可以利用的python脚本。</p>
+
+<p>关于如何使用定制的ramdisk来启动的指令可以看<a href="https://code.google.com/p/iphone-dataprotection/wiki/README">这</a>。我们将在运行Mac OSX 10.8.4的系统上运行同样的指令。</p>
+
+<p>首先，确保你的系统上安装了Mercurial。</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/082213_1252_IOSApplicat1.png" alt="" /></p>
+
+<p>然后，创建一个新目录，并进入到里面。然后安装ldid工具，请确保它是可执行的并把它移动到/usr/bin目录。</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/082213_1252_IOSApplicat2.png" alt="" /></p>
+
+<p>我们需要创建些符号连接。请注意下图的第二个命令，我们创建了一个到Xcode.app的符号连接。通常情况下如果你是iOS开发者，并且在系统上安装了多个Xcode版本，
+你可能已经把它们命名为不同的名字，比如Xcode-4.5.2或者Xcode-5.1。因此，请注意这个命令可能执行失败，并提示你iOS SDK找不到。一个解决方法就是
+把你的Xcode应用的文件夹命名为Xcode。</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/082213_1252_IOSApplicat3.png" alt="" /></p>
+
+<p>下一步，我们需要安装OSXFuse，可以用来为OS X创建文件系统。根据你运行的操作系统而定，有些版本的OSXFuse可能会不兼容。因此，请确保下载能在你的系统上运行的
+版本。我下载的是版本是2.5.4，在OS X 10.8.4上工作良好。</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/082213_1252_IOSApplicat4.png" alt="" /></p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat5.png" alt="" /></p>
+
+<p>然后你需要安装一些python模块</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/082213_1252_IOSApplicat6.png" alt="" /></p>
+
+<p>下一步就是构建定制的ramdisk和内核。我们需要先clone iphone data protection。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat7.png" alt="" /></p>
+
+<p>然后我们使用下面的命令来创建文件系统。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat8.png" alt="" /></p>
+
+<p>然后我们就可以下载redsn0w, 拷贝其中的Keys.plist文件</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat9.png" alt="" /></p>
+
+<p>现在你需要下载任意版本的iOS5的IPSW文件。与目标设备上目前正在运行什么操作系统没有关系。你可以根据你的设备从<a href="http://theiphonewiki.com/wiki/Firmware">这</a>下载IPSW文件。
+一旦IPSW文件下载完毕，把它复制到当前目录。然后用下面的命令给内核打补丁，参数就传刚刚下载的IPSW文件。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat10.png" alt="" /></p>
+
+<p>这样就会创建好一个.sh文件，我们可以用它来构建ramdisk。我们运行看看。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat11.png" alt="" /></p>
+
+<p>一旦ramdisk创建好了，你会在命令行看到你要启动这个ramdisk所需要的命令。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat12.png" alt="" /></p>
+
+<p>现在我们使用这个命令来启动定制的ramdisk然后给内核打补丁。请注意即使这个命令以redsn0w起头，我们已经移到redsn0w所在的目录并以该目录下的
+二进制文件替换掉命令中的redsn0w。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat13.png" alt="" /></p>
+
+<p>这样就会打开redsn0w.</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat14.png" alt="" /></p>
+
+<p>现在我的iPod正连接到设备，并且没有关机。因此我们按redsn0w的要求关机。一旦iPod关机，redsn0w上的下一步按钮就可以点击（enable）了。点击下一步，
+然后你会看到redsn0w要求你让设备进入DFU模式。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat15.png" alt="" /></p>
+
+<p>我们依照redsn0w的要求操作。一旦你的设备进入DFU模式，你会看到redsn0w已经开始注入漏洞利用程序。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat16.png" alt="" /></p>
+
+<p>然后它会重启设备。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat17.png" alt="" /></p>
+
+<p>你的设备看起来会像下面的图这样。一段时间之后，你会在屏幕之上看到一个大大的ok说明漏洞利用程序已经成功执行并且这个定制的ramdisk也已经开启了。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat19.jpg" alt="" /></p>
+
+<p>data protection tools中也包含一个python实用工具叫做 usbmux，现在我们可以用它通过ssh来访问设备。让我们用python脚本 tcprelay 先建立中继转发。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat20.png" alt="" /></p>
+
+<p>在一个不同的tab上，我们能够ssh进本地的2222端口，然后usbmux会把这个连接中继转发（forward）到通过USB连接到端口22的远程设备上。请注意你的设备需要
+通过USB连接到你的电脑上。然后输入ls。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat21.png" alt="" /></p>
+
+<p>我们可以看到一个mount_partitions shell脚本。我们可以用它来加载分区。然后我们回到root目录，我们可以看到2个分区，mnt1和mnt2。我们可以进入并探索这个文件系统了。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/082213_1252_IOSApplicat22.png" alt="" /></p>
+
+<p>恭喜你！我们已经成功的用一个定制的ramdisk启动设备了，我们现在能够进一步探索这个文件系统了。</p>
+
+<p><br/></p>
+
+<h2>总结</h2>
+
+<p>本文我们学习了如何通过定制的ramdisk启动iOS设备，并且可以用它来进一步探索该设备的文件系统。在接下来的文章中，我们将看看Sogeti data protection tools 提供的不同工具，然后用这些工具做不同的任务，比如暴力破解口令，导出keychain文件，甚至对整个文件系统做备份。</p>
+
+<p>References</p>
+
+<p>Iphone-dataprotection – IOS Forensics tools
+<a href="https://code.google.com/p/iphone-dataprotection/">https://code.google.com/p/iphone-dataprotection/</a></p>
+
+<p><br/>
+本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/">IOS Application Security Part 13 – Booting a custom Ramdisk using Sogeti Data Protection tools</a></p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-15T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-12/" itemprop="url">iOS应用程序安全(12)-导出Keychain数据</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/">http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面的文章中，我们查看了如何用不同的方法来分析应用的网络流量和API调用。本文我们将会从iOS设备中导出keychain的内容。</p>
 
 <p><br></p>
 
-<h2>找出特定类的方法</h2>
+<h2>Keychain 基础</h2>
 
-<p>现在假定我们正在一个程序运行的时候分析它的流程，那么，知道特定类或者特定view controller正在调用哪些方法将会给我们极大的帮助。因为Cycript能够混合使用Objective-C和javascript，我们能够写一个即有Objective-C又有Javascript语法的函数。我们那个能够在解释器中定义函数，然后在任意时候使用它们以帮助我们找到有用信息。一个能够找到这些有用代码块的地方位于<a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">这</a>。本文我们将使用这里的代码块。</p>
+<p>根据苹果的介绍，iOS设备中的Keychain是一个安全的存储容器，可以用来为不同应用保存敏感信息比如用户名，密码，网络密码，认证令牌。苹果自己用keychain来保存Wi-Fi网络密码，VPN凭证等等。它是一个sqlite数据库，位于/private/var/Keychains/keychain-2.db，其保存的所有数据都是加密过的。</p>
 
-<p>首先，确保我们挂钩进了正在运行的进程。</p>
+<p>开发者通常会希望能够利用操作系统提供的功能来保存凭证（credentials）而不是把它们（凭证）保存到NSUserDefaults,plist文件等地方。保存这些数据的原因是开发者不想用户每次都要登录，因此会把认证信息保存到设备上的某个地方并且在用户再次打开应用的时候用这些数据自动登录。Keychain的信息是存在于每个应用（app）的沙盒之外的。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat1.png" alt="" /></p>
+<p>通过keychain access groups可以在应用之间共享keychain中的数据。要求在保存数据到keychain的时候指定group。把数据保存到keychain的最好方法就是用苹果提供的KeychainItemWrapper。可以到<a href="http://developer.apple.com/library/ios/">这</a>下载例子工程。第一步就是创建这个类的实例。</p>
 
-<p>我们先定义一个能够打印出一个指定类的方法的函数。你可以在<a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">这</a>找到这些Cycript tricks。</p>
+<p>KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@”Password” accessGroup:nil];</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat2.png" alt="" /></p>
+<p>标识符（Identifier）在后面我们要从keychain中取数据的时候会用到。如果你想要在应用之间共享信息，那么你需要指定访问组（access group）。有同样的访问组
+的应用能够访问同样的keychain信息。</p>
 
-<p>既然我们已经定义好了方法，那么我们可以输入任何类，然后得到对应的方法列表。从上一片文章中，我们知道Yahoo Weather的delegate是YWAppDelegate. 因此，这里试试这个类包含的所有方法。</p>
+<p>KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@”Account Number” accessGroup:@”YOUR_APP_ID_HERE.com.yourcompany.GenericKeychainSuite”];</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat3.png" alt="" /></p>
+<p>要把信息保存到keychain中，使用 setObject:forKey: 方法。在这里， (id)kSecAttrAccount 是一个预先定义好的键（key），我们可以用它来保存账号名称。
+kSecClass指定了我们要保存的某类信息，在这里是一个通用的密码。kSecValueData可以被用来保存任意的数据，在这里是一个密码。</p>
 
-<p>上面打印出了YWAppDelegate定义的方法。 在@selector后面的就是方法名称。请注意，这里会给出关于私有方法的名称，也会给出定义在类中的属性的setter和getter函数。</p>
+<p>[keychainItemWrapper setObject:kSecClassGenericPassword forKey:(id)kSecClass];</p>
 
-<p>类似的，我们可以打印出YahooSlidingViewController的方法。</p>
+<p>[wrapper setObject:@&ldquo;username&rdquo; forKey:(id)kSecAttrAccount];</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat4.png" alt="" /></p>
+<p>[keychainItemWrapper setObject:@&ldquo;password&#8221;forKey:(id)kSecValueData];</p>
 
-<p>我们知道YahooSlidingViewController管理着slide菜单，并且充当着外观者（facade）的作用。为了找出真正负责显示天气的view controller，我们可以使用下面的命令。</p>
+<p>[wrapper setObject:(id)kSecAttrAccessibleAlwaysThisDeviceOnly forKey:(id)kSecAttrAccessible];</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat5.png" alt="" /></p>
+<p>kSecAttrAccessiblein变量用来指定这个应用合适需要访问这个数据。我们需要对这个选项特别注意，并且使用最严格的选项。这个键（key）可以设置6种值。</p>
 
-<p>因此，YWMainViewController就是当前负责显示天气的view controller。因此，下面的view实际上来自YWMainViewController。</p>
+<p>你可以从如下对苹果的<a href="http://developer.apple.com/library/mac/">文档</a>的截图看到。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat6.png" alt="" /></p>
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/080513_1630_IOSApplicat1.png" alt="" /></p>
 
-<p>让我们打印出YWMainViewController的方法。</p>
+<p>当然，我们应该绝对不要使用kSecAttrAccessibleAlways。一个安全点的选项是kSecAttrAccessibleWhenUnlocked。这也有些选项是以 ThisDeviceOnly 结尾的。如果选中了这个选项，那么数据就会被以硬件相关的密钥（key）加密，因此不能被传输到或者被其他设备看到。即使它们提供了进一步的安全性，使用它们可能不是一个好主意，除非你有
+一个更好的理由不允许数据在备份之间迁移。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat7.png" alt="" /></p>
+<p>要从keychain中获取数据，可以用
+NSString *accountName = [wrapper objectForKey:(id)kSecAttrAccount];</p>
 
-<p>你可以看到，这里有个方法叫做userDidrequestUpdate.</p>
+<p><br></p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat8.png" alt="" /></p>
+<h2>使用Snoop-it分析Keychain读写</h2>
 
-<p>从方法名称可以看出，一旦用户下拉刷新，这个方法就会被调用。有Cycript，我们可以随时调用这个方法。我们要先引用这个view controller，然后在其上调用这个方法。如下图所示。</p>
+<p>一个用来分析写到Keychain中的非常棒的工具就是Snoop-it。如果你还不知道Snoop-it，请查阅本系列的<a href="http://wufawei.com/2013/11/ios-application-security-9/">第9篇关于Snoop-it文章</a>。现在在你的越狱设备上运行工程<a href="http://developer.apple.com/library/ios/">GenericKeychain</a>，然后用Snoop-it来分析它。本系列<a href="http://wufawei.com/2013/11/ios-application-security-7/">第7篇</a>介绍如何用自签名的证书来让应用运行。这个应用使用同样的例子工程来演示如何使用Objective-C的一个wrapper类KeychainWrapper来读写keychain。请确保这个应用正被Snoop-it分析。现在打开应用，我们将看到如下的界面。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat9.png" alt="" /></p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/080513_1630_IOSApplicat2.png" alt="" /></p>
 
-<p>可以看到，即使我们并没有下拉刷新，应用也完成了更新。</p>
+<p>现在随意输入用户名和密码然后保存。这里我们输入用户名为“Test User”，密码为“password”。你可以看到Snoop-it可以检测到keychain的任何变话，然后告诉我们
+保存在keychain的信息。同时也会告诉我们保存的信息的保护级别（protectionn class)。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat10.png" alt="" /></p>
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/080513_1630_IOSApplicat3.png" alt="" /></p>
 
-<p>如上面所说，这些方法也包含属性的setter和getter。</p>
+<p>这里的信息给出了我们的用户名和密码。</p>
 
-<p>从安全的角度来说，能够在运行时操纵应用程序给了我们巨大的优势。我们能够在我们想要的时候调用任何方法。想像一下当用户第一次登陆的时候输入其用户名和密码，一旦登陆成功，一个叫做 didLogin的方法会被调用。我们可以直接调用这个方法而不用输入任何用户名/密码的组合。</p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/080513_1630_IOSApplicat4.png" alt="" /></p>
 
-<p>如果我们能够把特定view controller的变量都打印出来的话，那会很有用处的。因此，我们定义一个能够打印出所有实例变量的函数，你可以从<a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">这</a>找到代码块。</p>
+<p>现在输入账号。Snoop-it同样也能检测到。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat11.png" alt="" /></p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/080513_1630_IOSApplicat5.png" alt="" /></p>
 
-<p>现在，我们打印出YWMainViewController的实例变量。</p>
+<p>你可以看到，Snoop-it也能购检测到对keychain数据库的操作。</p>
 
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/061713_1158_IOSApplicat12.png" alt="" /></p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/080513_1630_IOSApplicat6.png" alt="" /></p>
 
-<p>你可以看到，这里有一个location view controller的实例变量，你可以向左和向右swipe滑动来查看不同的地方。从名字来看，locationViewControllers
-更像是一个viewcontroller数组。使用Cycript，我们能够打印出该变量的值。</p>
+<p><br></p>
 
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/061713_1158_IOSApplicat13.png" alt="" /></p>
+<h2>使用Keychain Dumper导出Keychain中的数据</h2>
 
-<p>现在我们向右滑到New York</p>
+<p>从Keychain中导出数据的最流行工具是ptoomey3的Keychain dumper。其github地址位于<a href="https://github.com/ptoomey3/Keychain-Dumper">此</a>。现在到这个地址把它下载下来。然后解压zip文件。在解压的文件夹内，我们感兴趣的文件是keychain_dumper这个二进制文件。一个应用能够访问的keychain数据是通过其entitlements文件指定的。keychain_dumper使用一个自签名文件，带有一个*通配符的entitlments，因此它能够访问keychain中的所有条目。 当然，也有其他方法来使得所有keychain信息都被授权，比如用一个包含所有访问组(access group)的entitlements文件，或者使用一个特定的访问组（access group）使得能够访问所有的keychain数据。
+例如，工具<a href="https://code.google.com/p/iphone-dataprotection/wiki/KeychainViewer">Keychain-viewer</a>就使用如下的entitlements.</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat14.png" alt="" /></p>
+<p>com.apple.keystore.access-keychain-keys</p>
 
-<p>现在我们打印出这个变量</p>
+<p>com.apple.keystore.device</p>
 
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/061713_1158_IOSApplicat15.png" alt="" /></p>
+<p>现在把这个二进制文件上传到你的设备的/tmp文件夹，确保它可执行。</p>
 
-<p>可以看到，这个数组始终包含3个location view，其他的都是nil。它并不把所有的location view controller都包含进来，以便更好的管理内存。所以在任何时刻，我们能够拥有当前正在看的，左边和右边的view controller。当我们想要去另一个不同地方的时候，它会自动的使得当前可见的位于中间并且实例化其左边和右边的view controller，因此当我们滑动的时候，不会感觉到任何的时延。这是个编写不占用过多内存的代码的好方法。</p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/080513_1630_IOSApplicat7.png" alt="" /></p>
+
+<p>现在请确保保存在/private/var/Keychains/keychain-2.db的keychain文件可以被读取。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/080513_1630_IOSApplicat8.png" alt="" /></p>
+
+<p>现在，运行这个可执行文件</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/080513_1630_IOSApplicat9.png" alt="" /></p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/080513_1630_IOSApplicat10.png" alt="" /></p>
+
+<p>如你所见，它可以导出所有的keychain信息。你可以看到许多保存在这里的用户名和密码。例如，你可以看到Mail应用把你账号的用户名和密码保存在keychain中。
+类似的，你也可以找到你之前连接过的无线网络的密码和其他更多的信息。上述命令默认只会导出通用和网络密码。你可以通过－h命令查看它的用法。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/080513_1630_IOSApplicat11.png" alt="" /></p>
+
+<p>你可以通过 “-a” 命令导出所有数据</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/080513_1630_IOSApplicat12.png" alt="" /></p>
+
+<p>使得keychain中的数据更安全的一个做法就是使用一个更强的口令。这是因为对某些特定的保护属性（protection attributes）来说，口令会被用作加密keychain中的数据。
+iOS默认允许4位数字口令（从0-9999），因此很容易被人在几分钟之内暴力破解。本系列的后续文章中我们会看看暴力破解口令。设置字母加数字的密码会让破解花更多的时间。
+一个合适的保护属性（protection attributes）和口令的组合会让keychain的数据更难被获取。</p>
 
 <p><br></p>
 
 <h2>总结</h2>
 
-<p>在前两篇文章中，我们对Yahoo weather应用进行了运行时分析。在接下来的文章中，我们将看到更多Cycript的技术，并且我们将关注method swizzling。</p>
+<p>在本文中，我们看到了从iOS设备的Keychain中导出数据是多么的容易。虽然在keychain中保存凭证（credentials）和敏感信息比NSUserDefaults和plist文件更安全，但是，
+想要破解它也不难。</p>
 
-<h3>References:</h3>
+<p>References</p>
 
-<p>Cycript</p>
-
-<p><a href="http://www.cycript.org/">http://www.cycript.org/</a></p>
-
-<p>Cycript tricks</p>
-
-<p><a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">http://iphonedevwiki.net/index.php/Cycript_Tricks</a></p>
+<p>Keychain-Dumper
+<a href="https://github.com/ptoomey3/Keychain-Dumper">https://github.com/ptoomey3/Keychain-Dumper</a></p>
 
 <p><br/>
-本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app/">IOS Application security Part 5 – Advanced Runtime analysis and manipulation using Cycript (Yahoo Weather App)</a></p>
+本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/">IOS Application Security Part 12 – Dumping Keychain Data</a></p>
+
+<p>注：之前我写过一篇文章，<a href="http://wufawei.com/2013/06/Keychain-is-not-safe/">Keychain is not safe</a>,大家可以对照着看看，有的应用还是在keychain中保存密码。虽然本文说keychain也容易被破解，不过比NSUserDefaults和plist安全得多，只要我们注意不要在keychain中保存明文密码就会在很大程度上提升安全性。</p>
 
 		
 		
@@ -240,7 +711,7 @@
   
 
 
-<time datetime="2013-11-14T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+<time datetime="2013-11-15T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
 		<div class="tags">
 
 
@@ -250,591 +721,161 @@
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/11/14/ios-application-security-4/" itemprop="url">iOS应用程序安全(4)-用Cycript进行运行时分析(Yahoo天气应用)</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-11/" itemprop="url">iOS应用程序安全(11)-分析使用HTTP/HTTPS的网络流量</a></h1>
 	<div class="entry-content" itemprop="articleBody">
 		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-4-runtime-analysis-using-cycript-yahoo-weather-app/">http://resources.infosecinstitute.com/ios-application-security-part-4-runtime-analysis-using-cycript-yahoo-weather-app/</a><br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/">http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/</a><br/>
 版权声明：自由转载-非商用-保持署名</p>
 
-<h2>引言</h2>
+<p>在前面的文章中，我们分析了iOS文件系统和取证。本文我们将看看如何分析iOS设备上的网络流量。分析应用的网络流量会带来几个方面的好处。它可以帮助我们推断应用是如何管理用户会话的，我们应用调用的另一方是谁，以及应用程序内部是如何工作的等等。我们也会看看如何分析使用SSL的网络流量。</p>
 
-<p>在前面的文章当中，我们学到了用Objective－C编写的、使用Cocoa framework的iOS应用的运行时能力。本文，我们将会使用一个很基本的工具Cycript来分析和修改iOS程序的运行时。本文将使用Yahoo 天气应用作为例子。</p>
+<p>监听网络流量有主动和被动两种方式。如果你对远程分析一个网络中的特定设备的流量感兴趣，那你需要wireshark这个工具。打开Wireshark,开始嗅探网络，添加一个过滤器（fliter，例如 ip.addr == 192.168.1.2）以便它只显示你的设备发出或者接收的网络流量。如果你的无线网卡不够好，那么有些数据包可能会丢失。</p>
 
-<p><br/></p>
+<p>如果你想要分析使用SSL的设备的网络流量，有许多方法可以达到目的，比如使用Arpspoof(ARP嗅探) 和SSLStrip的组合。不过，因为我们只对分析某个特定应用的网络流量感兴趣，我们将使用另一个不同的方法。先申明下，本文关注的是分析网络流量而不是劫持网络流量。并且，我们既能够分析通过Wi-Fi的流量，也能分析通过蜂窝网络(cellular)的流量。因为我们只是对分析某个特定应用的网络流量感兴趣，那选择哪种媒介（medium，这里指Wifi或者 celluar)事实上并不重要。</p>
 
-<h2>Cycript</h2>
+<p><br></p>
 
-<p>Cycript是一个理解Objective-C语法的javascript解释器，这意味着我们能够在一个命令中用Objective-C或者javascript，甚至2者兼用。它能够挂钩正在运行的进程，能够在运行时修改应用的很多东西。使用Cycript有如下好处：</p>
+<h2>使用TCPDump</h2>
 
-<ul>
-<li>1.我们能够挂钩正在运行的进程，并且找出正被使用的类信息，例如view controllers，内部和第3方库，甚至程序的delegate的名称。</li>
-<li>2.对于一个特定的类，例如View Controller, App delegate或者任何其他的类，我们能够得到所有被使用的方法名称。</li>
-<li>3.我们能够得到所有实例变量的名称和在程序运行的任意时刻实例变量的值。</li>
-<li>4.我们能够在运行时修改实例变量的值。</li>
-<li>5.我们能够执行Method Swizzling，例如替换一个特定方法的实现。</li>
-<li>6.我们可以在运行时调用任意方法，即使这个方法目前并不在应用的实际代码当中。</li>
-</ul>
+<p>抓取设备上的网络流量的一个最基本技巧是使用tcpdump。首先，请确保你的设备上安装了tcpdump。</p>
 
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat1.png" alt="" /></p>
 
-<p><br/></p>
+<p>现在，开始在某个特定的接口上抓取数据并且输出到一个文件。</p>
 
-<h2>安装Cycript</h2>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat2.png" alt="" /></p>
 
-<p>为了安装Cycript，你需要从官网上下载<a href="http://www.cycript.org/">最新的版本</a>。请确保下载的是最新的版本。</p>
+<p>为了在使用蜂窝数据的时候抓取数据，仅仅需要把上述命令中的接口换成你的蜂窝链接对应的IP地址即可。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/cycript-Fig1.png" alt="" /></p>
+<p>为了分析这个文件（抓包保存的文件），你可以把它传输到你的电脑上，然后用Wireshark分析。不过，正如你可能注意到的那样，这个过程确实很繁琐，通过Pipes
+可以更好的完成这个过程。更多的信息请看<a href="http://wiki.wireshark.org/CaptureSetup/Pipes">这</a>。用tcpdump给了我们太多底层的信息，很多信息对我们从分析应用的数据的角度来说并不感兴趣。更好的方法是使用Burpsuite和Snoop-it。</p>
 
-<p>一旦下载完成，用sftp把它从你的电脑上上传到越狱设备上。</p>
+<p><br></p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat2.jpg" alt="" /></p>
+<h2>使用Snoop-it</h2>
 
-<p>然后使用dpkg命令来安装它</p>
+<p>我们来看看如何通过Snoop-it来分析网络流量。顺便说一下，如果你还不知道Snoop-it是啥，请查看本系列文章关于Snoop-it的<a href="http://wufawei.com/2013/11/ios-application-security-9/">第9部分</a>。为了查看调用的api和网络请求，
+打开在Snoop-it的任意应用然后查看最左边的网络部分。例如，下图展示了Snapchat应用的网络调用情况。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat3.jpg" alt="" /></p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat3.png" alt="" /></p>
 
-<p>最后使用cycript命令来看是否工作正常。</p>
+<p>如果我们点击某个特殊请求，我们能够看到请求串的内容 ，比如body等等。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat4.jpg" alt="" /></p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat4.png" alt="" /></p>
 
-<p><br/></p>
+<p><br></p>
 
-<h2>用Cycript进行实时修改</h2>
+<h2>使用Burpsuite监听HTTP</h2>
 
-<p>本文，我们将使用Yahoo Weather应用来执行所有的测试。它有一个清爽和优雅的UI来提供不同地区的天气信息。</p>
+<p>再说一下，有许多方法能够查看网络的请求/相应，这其中Burpsuite是一个非常棒工具。可以从它的<a href="http://portswigger.net/burp/">官方网站</a>下载。下载它的免费版本就足够完成我们本文的任务了。
+顺便说一下，如果你从来没有用过Burpsuite，请查看我写的关于Burpsuite的<a href="http://resources.infosecinstitute.com/burp-suite-walkthrough/">另一篇文章</a>。这里最主要的任务就是把Burpsuite当作一个代理，然后路由所有经过它的网络流量。</p>
 
-<p>一旦Yahoo Weather应用被安装好，请确保它运行在前台。这是因为如果应用在后台，那它就会被暂停，你也不能对它做啥。一旦应用跑起来，你可以先找到其进程id，然后用cycript -p挂钩其进程。</p>
+<p>打开Burpsuite,到Proxy，选择Options</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat5.jpg" alt="" /></p>
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/073013_1821_IOSApplicat5.png" alt="" /></p>
 
-<p>如果挂钩成功，你可以得到一个Cycript解释器。你可以通过Objective-C的语法
-[UIApplication sharedApplication].来得到实例。</p>
+<p>点击已经设置的代理，点击编辑（edit），然后选择在Bind to Addrees这个选项的All Interfaces这个选项。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat6.jpg" alt="" /></p>
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/073013_1821_IOSApplicat6.png" alt="" /></p>
 
-<p>如下图所示，你也可以通过Cycript解释器定义变量。在这里，我定义了一个变量a来代表
-[UIApplication sharedApplication]。 请注意，命令的L.H.S(Right Hande Side)是Javascript，而R.H.S(Right Hand Side)是Objective-C语法。这就是Cycript美的地方。</p>
+<p>现在我们能够编辑代理监听的端口，甚至增加一个新的监听代理。Burp有个选项，能够把证书传递给使用SSL的网站。在安装的时候，Burp就默认的创建了一个自签名的CA证书。
+现在选中的选项（如下图），“generate CA-signed per-host certificates” 就会用安装Burp的时候创建的CA证书给我们正在连接的host生成一个证书。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat7.jpg" alt="" /></p>
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/073013_1821_IOSApplicat7.png" alt="" /></p>
 
-<p>Cycript默认就有这个变量，用它可以很容易的得到应用的实例。</p>
+<p>你会被提示一个警告。点击YES。我们选择绑定到所有接口的原因就是我们希望我们的iPhone能够用我们的电脑作为代理，因此选择绑定到本地接口是不够的。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat8.jpg" alt="" /></p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat8.png" alt="" /></p>
 
-<p>为了找到这个应用的delegate，我们可以用 [UIApplication sharedApplication].delegate.
-不过既然我们已经定义了一个a代表应用的实例，我们可以用下图的方式来得到delegate。</p>
+<p>现在，到Proxy－Intercept，然后确保Intercept设置成了off。这是因为你可能不想被每个通过这个代理的数据包打扰。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat9.jpg" alt="" /></p>
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/073013_1821_IOSApplicat9.png" alt="" /></p>
 
-<p>因此，我们现在知道这个delegate类的名称是YWAppDelegate。因此delegate文件就是YWAppDelegate.h和YWAppDelegate.m。让我们在它运行的时候试着让它调用几个方法。看这个应用给出如下的图片。</p>
+<p>现在，你可以让你的设备把所有网络流量通过你的代理。在你的iOS设备上，到设置（Settinigs）app，选择Wifi，选择你目前正在连接的网络的设置，滚动到下面，
+那里会有一个选项来设置代理。把代理地址设置成正在运行Burpsuite的电脑的IP地址，端口设置为代理运行的端口。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat10.jpg" alt="" /></p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat10.png" alt="" /></p>
 
-<p>正如你所看到的那样，这个应用的状态栏被隐藏了。我们可以调用方法让状态栏显示。同时，请确保我们在进行运行时分析这个应用的时候，这个应用运行在前台。</p>
+<p>现在代理已经建立起来了，我们已经配置好我们的设备来使用这个代理，打开任意一个不是用SSL的应用（我们将会在本文的后面一点讨论SSL），然后随便用用让应用发出些网络请求。你可以在Burpsuite看到这些请求。下面就是NASA TV app的网络流量。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat11.jpg" alt="" /></p>
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/073013_1821_IOSApplicat11.png" alt="" /></p>
 
-<p>这是这个应用现在的样子。</p>
+<p>使用Burpsuite的好处就是我们能以原生的格式（raw）和十六进制（hex）的格式查看数据包，我们也可以查看参数（Params）和头（Headers）</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat12.jpg" alt="" /></p>
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/073013_1821_IOSApplicat12.png" alt="" /></p>
 
-<p>正如你看到的，现在状态栏是可见的了。让我们看看我们能否修改这个应用的提醒数字。提醒数字是在应用程序右上角显示的数字。通常它是指一个应用收到的push通知数目。在邮件应用中，它也可以指未读邮件的数量。在Yahoo Weather这个应用中，这里没有push通知的概念，因此，这里没有在应用程序图标的右上角显示数字。这个提醒数字在本地可以很方便的设置。让我们试试给它设置提醒数字为999。</p>
+<p>而且，我们也能够看到某个特定请求的对应返回包。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat13.jpg" alt="" /></p>
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/073013_1821_IOSApplicat13.png" alt="" /></p>
 
-<p>现在我们按Home键，可以在应用的桌面图标上看到提醒数字。</p>
+<p>这给了我们详尽的细节来了解一个应用是如何与后台通信的，我们在调用谁，以及请求的格式是什么样的。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat14.jpg" alt="" /></p>
+<p><br></p>
 
-<p>完美！</p>
+<h2>使用Burpsuite监听HTTPS</h2>
 
-<p>现在我们看看还能找出些什么有趣的东西。为了找出当前的view controller，我们首先需要找出keyWindow。 keyWindow是一个用来接受用户交互（例如点击事件）的window。如果你想要找出应用所有的window，可以执行下面的命令。</p>
+<p>不过，上述的技巧对于那些使用HTTPS与后台通信的应用是不起作用的。有些应用只调用SSL连接。例如，如果你试图通过这个代理运行Snapchat就不会成功。不过，有些应用会跳出一个警告，然后让你确认或者取消这个连接。例如，如下图所示就是当通过代理运行Safari的时候的情况。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat15.jpg" alt="" /></p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat14.png" alt="" /></p>
 
-<p>为了找出在特定时刻的keyWindow。可以这么做。</p>
+<p>如果你点击继续，那么你就能够看到应用的网络流量。请注意，这个警告仅仅针对目前的host，如果你浏览到另一个使用HTTPS的网站，那另一个警告又会弹出来，
+因为Burpsuite为每个host生成一个假的SSL证书。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat16.jpg" alt="" /></p>
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/073013_1821_IOSApplicat15.png" alt="" /></p>
 
-<p>root view controller可以用如下的方法找出来。</p>
+<p>每当我们通过Burpsuite连接一个HTTPS网站的时候，Burp会为每一个host生成SSL证书，这个证书是用我们自己的CA（Certificate Authority）证书签名的。为了确保不让这些警告每次都跳出，我们要在设备上把这个Burp的CA证书设置为受信任的根证书。因此，需要采取下述步骤。首先是得到这个根证书，然后把它安装到设备上。一旦它安装到设备上，它就是一个受信任的根证书它可以签名所有的证书，并且它签名的所有证书都是合法的。请注意这个证书的私钥(private key)保存在你的电脑上，因此当网络流量通过你电脑上的代理的时候，Burp就能够用这个私钥解密这些数据。这个根证书在你把Burp安装到系统的时候就已经被创建好了。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat17.jpg" alt="" /></p>
+<p>为了把这个根证书安装到你的系统上，首先配置你的浏览器使用Burpsuite 代理。</p>
 
-<p>如你所见，rootViewController的名字是YahooSlidingController。从它的名字可以推断，它是如下图的slider所使用的类</p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat16.png" alt="" /></p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061013_1436_iOSApplicat18.jpg" alt="" /></p>
+<p>然后浏览使用SSL的网站，你会看到如下的一个警告</p>
 
-<p>因此，这个类基本上是其他所有的view controller的一个外观（facade）类。这意味着当某个菜单被选中的时候，YahooSlidingController负责调用对应的view controller来显示。</p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat17.png" alt="" /></p>
+
+<p>现在我们的任务就是导出这个用来签名所有这些证书的根证书。对于gmail.com域名，我们不可能导出这个根证书，因为我们不能对gmail的域名添加例外。每个域名都可以实施这样的措施。不过，facebook允许我们添加一个例外。用Firefox访问facebook.com。你会看到一个警告，点击“了解这个风险”（Understanding the Risks）
+然后点击添加例外（Add an Exception）</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat18.png" alt="" /></p>
+
+<p>然后，点击查看（view）</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat19.png" alt="" /></p>
+
+<p>点击Details标签，然后选择证书层次最上面的证书。这就是根证书。然后点击导出并保存后缀名为.crt的文件。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat20.png" alt="" /></p>
+
+<p>你也可以到Burp的文档找到这些步骤。下面就是[这个链接]<a href="http://portswigger.net/burp/help/proxy_options_installingCAcert.html"></a>的屏幕截图。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat21.png" alt="" /></p>
+
+<p>现在你就可以把这个文件发送到你的设备上。使用恰当的社会工程学技巧，攻击者就能够把这个证书安装到设备上，用户不会知道会有什么后果。
+下面就是你打开这个证书的时候会得到的警告。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat22.png" alt="" /></p>
+
+<p>点击安装。你可以看到更详细的警告信息 。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat23.png" alt="" /></p>
+
+<p>点击完成（done）</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat24.png" alt="" /></p>
+
+<p>现在，既然这个根证书被认为是合法的，每个被这个根证书签名的证书都会被视为合法的，应用就会允许数据被传输。现在，之前不让我们用假的SSL证书传递数据的Snapchat应用允许我们成功的把数据传输出去。这个网络流量会被Burpsuite拦截。如下图所见，在登录调用的时候，我们可以看到用户名和密码和其他一些这个应用正在调用的API请求。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/073013_1821_IOSApplicat25.png" alt="" /></p>
 
 <p><br></p>
 
 <h2>总结</h2>
 
-<p>本文我们介绍了如何在越狱设备上安装Cycript，如何挂钩运行的进程和找出应用的属性信息。我们也展示了如何在应用程序的沙盒内（由我们自己）调用我们自己的函数。在下一篇文章，我们将找出特定类的所有方法并修改其实现。我们也会看看如何去修改特定类的实例变量。</p>
-
-<h3>References:</h3>
-
-<p> Cycript</p>
-
-<p><a href="http://www.cycript.org/">http://www.cycript.org/</a></p>
-
-<p> Cycript tricks</p>
-
-<p><a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">http://iphonedevwiki.net/index.php/Cycript_Tricks</a></p>
+<p>本文我们学习了查看通过iOS设备的网络流量的不同方法。能够知道我们调用的对方是哪里，有哪些请求和响应，请求的头和参数是什么等等会帮助我们了解应用内部是如何工作的。</p>
 
 <p><br/>
-本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-4-runtime-analysis-using-cycript-yahoo-weather-app/">iOS Application Security Part 4 – Runtime Analysis Using Cycript (Yahoo Weather App)</a></p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-14T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/11/14/ios-application-security-3/" itemprop="url">iOS应用程序安全(3)-理解Objective-C Runtime</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-3-understanding-the-objective-c-runtime/">http://resources.infosecinstitute.com/ios-application-security-part-3-understanding-the-objective-c-runtime/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<h3>引言</h3>
-
-<p>基本上所有的iOS应用都是用Objective-C编写的。所有这些应用都使用Cocoa，Cocoa在Objective-C上面，提供更高层次的API，使得Mac和iOS开发变得更容易一些。Cocoa也给应用提供了一个运行时环境。本文我们将着重理解Objective-C的运行时和关于内部函数如何运行的错综复杂的细节。这会让我们能够更深入的理解应用程序。</p>
-
-<p><br/></p>
-
-<h3>Objective-C runtime</h3>
-
-<p>Objective-C是一个面向运行时的语言。所以问题就是，什么是一个运行时语言？一个运行时语言就是在应用程序运行的时候来决定函数内部实现什么以及做出其它决定的语言。Objective-C是一个运行时语言吗？不是。它是一个面向运行时的语言，这意味着只要有可能，它就把做决定的时间从编译时和链接时延迟到这段代码真正执行的时候。正如前面指出的，Cocoa提供了iOS应用程序所需要的运行时环境。下面的截图来自苹果官方的文档，说的非常清楚。你可以到<a href="https://developer.apple.com/library/ios/documentation/cocoa/conceptual/ObjCRuntimeGuide/Introduction/Introduction.html">这</a>阅读这个文档。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/060313_1218_IOSApplicat1.png" alt="" /></p>
-
-<p>我们来看看运行时库是否被工程引入了。理想情况下，它应该存在于每个iOS应用中。登录进设备，然后进入到应用程序目录。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/060313_1218_IOSApplicat2.png" alt="" /></p>
-
-<p>在命令行中输入“ls *”</p>
-
-<p> <img src="http://resources.infosecinstitute.com/wp-content/uploads/060313_1218_IOSApplicat3.png" alt="" /></p>
-
-<p>现在来看看BADLAND iOS应用程序。BADLAND是一个流行的iOS游戏。进入到BadLand的目录内，一旦进入到BADLAND.app目录内，对BadLand的二进制文件使用otool。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/060313_1218_IOSApplicat4.png" alt="" /></p>
-
-<p>可以看到引入了很多的framework以及库文件。objc-runtime也在其中，如图：</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/060313_1218_IOSApplicat5.png" alt="" /></p>
-
-<p>这个运行时库使得在Objective-C中进行运行时操作变得可能。默认所有iOS应用都包含这个库。下面是对Google Maps应用使用otool得到的结果，你可以看到，它也包含了Objective-C 运行时库。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/060313_1218_IOSApplicat6.png" alt="" /></p>
-
-<p><br/></p>
-
-<h3>使用GDB进行运行时分析</h3>
-
-<p>在本节，我们将使用GDB来观察程序的流程。第一件事情就是安装一个合适版本的gdb。从Cydia能获得的gdb版本并不能工作正常。因此，确保你从其他地方获得gdb，然后可以通过sftp安装到设备上。如图：</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/060313_1218_IOSApplicat7.png" alt="" /></p>
-
-<p>确保你有能够运行的权限。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/060313_1218_IOSApplicat8.png" alt="" /></p>
-
-<p>为了能够挂钩（hook）进一个运行的进程，第一件事就是确保这个进程正在运行。在这里，我们将在Google Maps应用上测试。首先我们启动应用，然后获得它的进程id。确保它在前台运行。如下图所示，Google Maps的进程id是661。请注意这个id在你的设备上可能不同。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/060313_1218_IOSApplicat9.png" alt="" /></p>
-
-<p>现在，我们用GDB 挂钩这个进程。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/060313_1218_IOSApplicat10.png" alt="" /></p>
-
-<p>你可以看到，我们成功挂钩进入这个进程。目前我们可以忽略其中的警告。</p>
-
-<p>Objective-C是基于消息的，一旦一个消息被发出，objc_msgSend就会被调用。为了能够分析应用的运行流程，我将给一个最基本的调用下一个断点，例如objc_msgSend, 并且打印出$r0和$r1的值。从$r0我们可以知道这个方法对应的类是什么，从$r1我们可以知道selector。请注意，即使是这样，也可能会打印出太多的细节信息，因为objc_msgSend在消息发出的每个地方都会被调用。在接下来的文章里，我们将看看如何能够更有效使用它。因此，基本上只要断点断下来，我就将打印出$r0和$r1的值然后继续运行程序。下面是如何做的。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/060313_1218_IOSApplicat12.png" alt="" /></p>
-
-<p>输入 c 继续运行程序</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/060313_1218_IOSApplicat13.png" alt="" /></p>
-
-<p>如你所看到的那样，这个在分析应用的执行流程的时候很有用。这里打印太多信息了，因此在实际分析应用的时候，不会太有用处，不过在这是为了让大家知道我们能够看到应用是如何实现的。</p>
-
-<p><br/></p>
-
-<h3>Method Swizzling</h3>
-
-<p>我们已经学到许多iOS应用都使用运行时环境、并且在运行时再做决定。正如其名，method swizzling是我们用来修改iOS程序的另一个武器，我们可以用它来调用我们自己的方法。在下一篇文章中，我们将详细介绍Method Swizzling。</p>
-
-<p><br/>
-参考:</p>
-
-<p> <a href="http://www.slideshare.net/daniel_bilar/blackhat2012-zdziarskidarkarti-osapplicationhacking/">The Dark art of IOS Application hacking</a></p>
-
-<p><a href="http://www.slideshare.net/mobiledatasolutions/objectivec-runtime">The Objective-C runtime</a></p>
-
-<p><br/>
-本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-3-understanding-the-objective-c-runtime/">IOS Application security Part 3 – Understanding the Objective-C Runtime</a></p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-14T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/11/14/ios-application-security-2/" itemprop="url">iOS应用程序安全(2)-获得iOS应用程序的类信息</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-2-getting-class-information-of-ios-apps/">http://resources.infosecinstitute.com/ios-application-security-part-2-getting-class-information-of-ios-apps/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<h3>介绍</h3>
-
-<p>你是否下载过非常cool的app（不管它是预装应用还是从App store下载的应用），然后想知道它是如何编写的，它使用了哪些第3方库呢？是否想知道这个app内部代码是如何组织的？你是否想导出它内部的图片（images）、plist文件？如果答案是想的话，那你来对地方了，本文就将解答这些信息。</p>
-
-<p>本文我们将分析应用（不管是预装应用还是从App store下载的应用）内部的类（class）是如何使用的，它的view controller使用的view的名称，它内部使用的库，甚至更复杂的，例如变量和方法的名称。我们将解密（decrypt）从App store下载的应用，导出它所有的image、plist文件。</p>
-
-<p>点击<a href="http://wufawei.com/2013/11/ios-application-security-1/">此</a>查看上一篇文章。</p>
-
-<p><br></p>
-
-<h3>导出设备上预装应用的类信息</h3>
-
-<p>现在我们能够分析应用的类信息了，先试试导出Apple的Maps应用。第一步是定位Apple Maps应用的可执行文件的位置。
-所有iOS预装的应用都位于/Applications目录下。因此，先转到那个目录。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042613_1143_IOSApplicat1.png" alt="" /></p>
-
-<p>在这你可以看到所有预装的应用。进入Maps应用的目录然后执行list命令:</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042613_1143_IOSApplicat2.png" alt="" /></p>
-
-<p>正如你所见，我们可以看到Maps应用使用的所有的image、plist文件。随后我们将讨论如何获取一个特定的应用的所有image文件或者其他文件。如下图所示，Maps.app目录里面有个文件叫做Maps。请注意可执行程序的名称和app的名称相同。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042613_1143_IOSApplicat3.png" alt="" /></p>
-
-<p>为了导出类信息，在命令行下输入 class-dump-z Maps</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042613_1143_IOSApplicat4.png" alt="" /></p>
-
-<p>你会在命令行看到太多输出，最好是输出到一个文件，这里我们把它输出到名叫class-dump-Maps的文件。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042613_1143_IOSApplicat5.png" alt="" /></p>
-
-<p>你可以使用sftp登录设备然后下载这个文件。你可以使用命令get，如下图所示。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042613_1143_IOSApplicat6.png" alt="" /></p>
-
-<p>现在文件已经下载到电脑上，可以用TextMate打开。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042613_1143_IOSApplicat7.png" alt="" /></p>
-
-<p>我们从接口文件看到代码是如何设计的。例如，在这你可以看到一个InfoCardController。或许你已经猜到，当我们点击下面图片中的位置信息的向右箭头的时候，就是这个VC用来展示这个地址的更多信息的。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042613_1143_IOSApplicat8.png" alt="" /></p>
-
-<p>我们看看应用中的这个view。这一页实际上是InfoCardViewController展示的。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042613_1143_IOSApplicat9.png" alt="" /></p>
-
-<p>如果你看到这个图以及上面导出的类信息，你可以很容易的知道当你点击上面的按钮的时候，哪些对应的方法会被调用。例如，如果你点击了“Direction to here”, 那</p>
-
-<p><code>-(void)_directionsTo:(id)to person:(void*)person property:(int)property identifier:(int)identifier;</code></p>
-
-<p>这个方法会被调用。</p>
-
-<p>类似的，如果点击了“Add to Bookmarks” , 那</p>
-
-<p><code>-(void)_addToBookmarks:(id)bookmarks person:(void*)person property:(int)property identifier:(int)identifier;</code></p>
-
-<p>这个方法会被调用。</p>
-
-<p>你也可以从这个应用里找出很多其他信息，例如有个UserLocationSearchResults继承自SearchResult。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042613_1143_IOSApplicat10.png" alt="" /></p>
-
-<p>你能获得多少信息，完全在于你的好奇心有多少！</p>
-
-<p><br></p>
-
-<h1>导出从App store下载的app的类信息</h1>
-
-<p>如果你想分析从App store下载的app，有2个重要的事情你要先知道：<br/>
-* 这些应用存放在另一个地方，/var/mobile/Applications/<br/>
-* 和预装的app不同，这些应用是加密了的，因此你首先需要解密一下。</p>
-
-<p>为了解密这些应用，我们将使用一个叫做Clutch的命令行工具。请注意提供Clutch的Hackuous已经于数月前被关闭。但是在网上能够找到Clutch的可执行文件。</p>
-
-<p>如果你已经下载到了Clutch，现在要做的事情就是把它上传到你的越狱设备上。可以使用sftp，使用的方法如图：</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042613_1143_IOSApplicat11.png" alt="" /></p>
-
-<p>现在用ssh登录设备，然后输入clutch。然后你可以得到所有可以被破解的应用列表。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042613_1143_IOSApplicat12.png" alt="" /></p>
-
-<p>为了破解某个应用，输入 “clutch 应用名称” 即可。例如，如果我们想破解Facebook这个应用，输入clutch Facebook</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042613_1143_IOSApplicat13.png" alt="" /></p>
-
-<p>一旦破解完成，clutch会告诉你它保存ipa文件的位置。现在ipa只是整个app文件的压缩版本。使用命令行unzip解压，用-d指定解压的目录，如下图所示。你也可以用sftp把ipa拷贝到你电脑上，然后解压。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042613_1143_IOSApplicat14.png" alt="" /></p>
-
-<p>现在我们已经获得了解密之后的文件，我们就可以使用class-dump-z来导出类信息，并把它保存到class-info-Facebook目录。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042613_1143_IOSApplicat15.png" alt="" /></p>
-
-<p>一旦导出完成，你可以退出ssh，然后用sftp登录并下载class-info-Facebook文件。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042613_1143_IOSApplicat16.png" alt="" /></p>
-
-<p>现在你可以用文本编辑器查看这个文件。例如，这里有个名叫FBFacebookRequestSender的协议用来发送异步请求，并且有一个方法用来验证session是否有效。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042613_1143_IOSApplicat17.png" alt="" /></p>
-
-<p><br></p>
-
-<h3>从应用获得图片和其他文件</h3>
-
-<p>正如前文讨论的，你可以使用sftp从应用中下载你需要的所有文件。不过，有更方便的方法来下载文件，例如使用<a href="http://www.macroplant.com/iexplorer/download-ie3-mac.php">iExplorer</a>。从其官方网站上下载，安装之后打开它，确保你的设备通过USB连接到系统。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042613_1143_IOSApplicat18.png" alt="" /></p>
-
-<p>要查看文件系统，点击files</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042613_1143_IOSApplicat19.png" alt="" /></p>
-
-<p>要查看某个特定的应用，点击Apps</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042613_1143_IOSApplicat20.png" alt="" /></p>
-
-<p>如你所见，浏览文件和上传、下载文件都非常容易。在这里，要下载Facebook应用中的image和其他文件。在左边栏，点击Facebook，然后在右边右键，就可以导出所有文件。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042613_1143_IOSApplicat21.png" alt="" /></p>
-
-<p><br/></p>
-
-<h3>总结</h3>
-
-<p>在本文的前两部分，我们学习了如何在越狱设备上搭建一个移动审计环境。然后我们学到了如何导出任意应用的类信息，利用类信息来学习理解代码的设计和内部是如何工作的。我们也学到了如何解密和审计从App store下载的应用。我们也学到了如何使用sftp和iExplorer来下载、上传文件。</p>
-
-<p>通过使用class-dump-z导出类信息, 能够获得所有的调用方法。有没有可能通过某种方式来进行运行时的修改呢？</p>
-
-<p>例如，如果一个方法如(BOOL)isFacebookSessionValid 在某种情况下返回false，是否有可能操作应用，使得它返回YES，因此让应用去做一些未知的事情？进一步的，是否有可能创建我们自己的方法并且在isFacebookSessionValid 执行时执行我们自己的方法呢？
-是否有可能在运行时、或者某个特定指令之后修改一个应用的实例变量呢？</p>
-
-<p><strong>这个答案是：可以（YES）</strong>。我们将在接下来的文章中学习。</p>
-
-<p><br/>
-本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-2-getting-class-information-of-ios-apps/">IOS Application security Part 2 – Getting class information of IOS apps</a></p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-14T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/11/14/ios-application-security-1/" itemprop="url">iOS应用程序安全(1)-搭建移动渗透测试平台</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-1-setting-up-a-mobile-pentesting-platform/">http://resources.infosecinstitute.com/ios-application-security-part-1-setting-up-a-mobile-pentesting-platform/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<h3>引言</h3>
-
-<p>在本系列文章中，我们将开始学习对iOS应用程序进行渗透测试和漏洞评估的一系列工具和技巧。</p>
-
-<p><br/></p>
-
-<h3>越狱你的设备</h3>
-
-<p>如果你真的对iOS安全很感兴趣，有一个越狱设备是非常有必要的。在本节，我们将介绍如何越狱iOS设备。越狱之后有很多好处，你可以安装很多工具，例如nmap, metasploit，甚至在设备上运行自己写的python代码。想像一下，你在手掌中通过手持设备就能对网站进行漏洞扫描的能力还是很酷的。为了更多的了解越狱和这样做的好处，我推荐你看看<a href="http://www.ibtimes.com/why-jailbreak-your-iphone-5-reasons-you-should-download-evasi0n-jailbreak-ios-6-1080412">这篇文章</a>。</p>
-
-<p>越狱非常简单，下载一个越狱软件，然后点击越狱就可以了。如果你的设备运行的是iOS 6.x的系统，我推荐你使用<a href="http://evasi0n.com/">evasi0n</a>，如果你的设备运行的是iOS 5.x，那推荐用<a href="http://www.redsn0w.us/">redsn0w</a>。</p>
-
-<p>本文我将对我的new iPad （3代，运行 iOS 6.0.1）越狱。一旦你下载evasi0n并运行，它就会自动检测设备并且告诉你这个设备是否可以越狱。 如图：</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat1.png" alt="" /></p>
-
-<p>你需要做的仅仅是点击jailbeak(越狱)，然后让evasi0n做剩下的事情。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat2.png" alt="" /></p>
-
-<p>你可以看到，越狱已经开始了。过一段时间之后，evasi0n将会重启设备，然后运行exploit（利用程序）。
-<img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat3.png" alt="" /></p>
-
-<p>一旦利用程序（exploit）运行完毕，它就会安装Cydia和Cydia的包列表到设备上。Cydia是一个图形界面，使得你能在越狱设备上下载和安装软件包和应用，这些应用通常你在App store是找不到的。基本上所有的越狱程序都会默认安装Cydia。你可以认为Cydia就是越狱设备上的App Store。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat4.png" alt="" /></p>
-
-<p>等待一段时间，直到你得到下面的提示。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat5.png" alt="" /></p>
-
-<p>解锁你的设备，你可以看到桌面上有个新的app图标，叫做Jailbreak。点击它以完成越狱过程。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat6.png" alt="" /></p>
-
-<p>你可以看到你的设备将会重启。请耐心等待这个过程的完成。一旦设备完成重启，你可以看到一个叫做Cydia的新app在桌面上。这个就表明你已经成功越狱。</p>
-
-<p>祝贺你，你已经在iOS hacking领域跨出了第一步。</p>
-
-<p><br/></p>
-
-<h3>建立一个移动审计平台</h3>
-
-<p>现在你已经完成了设备的越狱，那么下一步就是安装一些重要的命令行工具，例如 wget, ps, apt-get等用来审计iOS应用的工具。第一个要安装的就是OpenSSH。安装这个工具可以让你从mac登录进越狱设备。</p>
-
-<p>进入Cydia，点击底部的搜索tab，然后搜索：OpenSSH.</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat7.png" alt="" /></p>
-
-<p>点击OpenSSH，然后点击安装，</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat8.png" alt="" /></p>
-
-<p>然后OpenSSH就会安装在你的设备上。
-在我们用ssh登录进设备之前，我们 还需要安装其他一些命令行工具。几乎所有流行的黑客工具都可以在
-BigBoss Recommendation tools这个包中找到。安装BigBoss Recommendation tools，在Cydia中搜索，然后点击安装。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat9.png" alt="" /></p>
-
-<p>有些重要的命令行工具例如: APT 0.6 Transitional, Git, GNU Debugger, less, make, unzip, wget 和 SQLite 3.x会被安装好。</p>
-
-<p>还有一个工具需要被安装: MobileTerminal，它能够让你在设备上直接运行命令行，而不是需要通过ssh登录设备运行命令。</p>
-
-<p>在Cydia上搜索  MobileTerminal,然后安装。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat10.png" alt="" /></p>
-
-<p>一旦安装好MobileTerminal,你就可以在桌面上看到一个新的app图标，名字叫做Terminal.</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat11.png" alt="" /></p>
-
-<p>点击它，你可以得到一个终端，试试运行几个Unix命令。在这里，我们简单的用ps列举下正在运行的进程。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat12.png" alt="" /></p>
-
-<p>你可以看到，ps这个命令成功执行。</p>
-
-<p>让我们看看我们是否能够通过ssh登录进这个越狱设备。确保你的电脑和越狱设备连接在同一个网络，找到越狱设备的IP地址。为了找到设备的IP地址，到设置（settings）- WiFi中选择设备现在连接的网络。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat13.png" alt="" /></p>
-
-<p>可以看到，IP地址是192.168.2.3。让我们试试以root用户登录进去。在命令行中运行如下命令。root的默认密码是：alpine。推荐的做法是：一旦你安装好了OpenSSH, 马上改掉root的默认密码。这是因为有些恶意软件利用默认的用户名和密码登录进入设备[译者注1]。为了改密码，在ssh登录上之后，在命令行输入passwd这个命令，然后输入2次新密码。然后你的root秘密就已修改了。这一系列命令可以参见下图：</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat14.png" alt="" /></p>
-
-<p>备注：确保在运行时，Cydia在后台运行而不是在前台。这是因为Cydia以root运行，因此，如果Cydia在前台，而此时我们需要lock一个进程，而恰好此时该进程被Cydia lock，命令就不会运行成功。</p>
-
-<p>运行一下 apt-get update, 获得最新的包列表</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042413_1342_IOSApplicat15.png" alt="" /></p>
-
-<p>接下来安装class-dump-z, 可以用它来导出（dump）iOS应用的类信息（class infomation）。先到其<a href="https://code.google.com/p/networkpx/wiki/class_dump_z">官方地址</a>，然后复制最新版本的地址，在写本文的时候，最新版本是 0.2a</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042413_1342_IOSApplicat17.png" alt="" /></p>
-
-<p>现在，ssh进入你的设备，然后用wget下载class-dump-z.</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042413_1342_IOSApplicat18.png" alt="" /></p>
-
-<p>另一个选择就是先下载到你电脑上，然后利用stfp上传到越狱设备上。一旦下载完成，使用tar来解压。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat19.png" alt="" /></p>
-
-<p>一旦解压完成，进入目录iphone_armv6,然后复制class-dump-z的执行文件到/usr/bin目录。这样你可以在设备上的任何目录都运行class-dump-z。拷贝完成之后，输入class-dump-z。你可以得到如下的输出，这就意味着class-dump-z已经成功安装。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042413_1342_IOSApplicat20.png" alt="" /></p>
-
-<p><br/></p>
-
-<h3>总结</h3>
-
-<p>本文我们学习了如何越狱设备上搭建一个移动审计环境。在接下来的文章中我们将介绍如何使用class-dump-z来分析应用的类信息（class information）。</p>
-
-<p><br/>
-[译者注1]，在iPhone上的第一个蠕虫，ikee利用了默认的密码，具体参见对ikee的详细分析报告：<a href="http://mtc.sri.com/iPhone/">An Analysis of the iKeeB (duh) iPhone botnet (Worm)</a></p>
+本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/">IOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS</a></p>
 
 		
 		
@@ -847,6 +888,8 @@ BigBoss Recommendation tools这个包中找到。安装BigBoss Recommendation to
     
         <a href="2" class="prev">Prev</a>
     
+    
+        <a href="4" class="next">Next</a>
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
