@@ -1,16 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://baxiang.github.io/atom.xml" rel="self"/>
-  <link href="http://baxiang.github.io/"/>
-  <updated>2015-02-04T02:06:27+08:00</updated>
-  <id>http://baxiang.github.io/</id>
+  <title><![CDATA[Wright's Blog]]></title>
+  <link href="http://duoluo.github.io/atom.xml" rel="self"/>
+  <link href="http://duoluo.github.io/"/>
+  <updated>2015-02-05T00:10:04+08:00</updated>
+  <id>http://duoluo.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Wright]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[first]]></title>
+    <link href="http://duoluo.github.io/blog/2015/02/04/first/"/>
+    <updated>2015-02-04T03:58:45+08:00</updated>
+    <id>http://duoluo.github.io/blog/2015/02/04/first</id>
+    <content type="html"><![CDATA[<p>之前在<a href="http://wufawei.com/2013/11/quick-links/">Quick Links</a>中提到过，这里再简要介绍下<a href="http://revealapp.com/">Reveal</a>。</p>
+
+<blockquote><p>它能够在运行时调试和修改iOS应用程序。Reveal能连接到应用程序，并允许开发者编辑各种用户界面参数，这反过来会立即反应在程序的UI上。就像用FireBug调试HTML页面一样，在不需要重写代码、重新构建和重新部署应用程序的情况下就能够调试和修改iOS用户界面。  &ndash;<a href="http://www.infoq.com/cn/news/2013/07/debug_ios_apps_with_reveal">InfoQ</a></p></blockquote>
+
+<p>在<a href="http://revealapp.com/">Reveal</a>主页上有对其功能的介绍和演示，之前是beta版本，可以免费下载。现在正式版本可以下载试用一段时间，试用期后需要购买。有需要的话可以买一个，功能相当强大。
+<br></p>
+
+<h3>加载方法（1）</h3>
+
+<p>下载Reveal之后打开，在菜单中的Help中可以找到集成到Xcode项目的方法，这里不再赘述。
+<br></p>
+
+<h3>加载方法（2）</h3>
+
+<p>不过上述方法略显繁琐。<br/>
+<a href="http://blog.ittybittyapps.com/blog/2013/11/07/integrating-reveal-without-modifying-your-xcode-project/">Integrating Reveal without modifying your Xcode project</a> <br/>
+<a href="http://adison.logdown.com/posts/159350-reveal-check-the-ios-app-view-structure">reveal: 檢視 iOS app 的 view 結構</a>。<br/>
+给出了如何不用修改Xcode工程就可以加载使用Reveal的方法。
+<br></p>
+
+<h3>加载方法（3）</h3>
+
+<p><a href="http://c.blog.sina.com.cn/profile.php?blogid=cb8a22ea89000gtw">Reveal查看任意app的高级技巧</a>介绍了如何在越狱设备上查看任意app的技巧：</p>
+
+<p><strong>将libReveal.dylib上传到设备的/Library/MobileSubstrate/DynamicLibraries</strong>。</p>
+
+<p><strong>编辑并上传一个libReveal.plist</strong>。</p>
+
+<p>更详细的步骤，请参见原文。</p>
+
+<p>最后，可以看看关于Reveal的tips:<a href="http://blog.ittybittyapps.com/blog/2013/09/26/reveal-shortcuts-and-tips/">Reveal tips: Navigation</a>。</p>
+
+<p><br></p>
+
+<p><a href="http://evasi0n.com/">iOS 7已经可以越狱了</a>，<strong>建议最好还是不要越狱</strong>。 越狱设备上有许多安全问题，具体可以参看我之前的博客文章。</p>
+
+<p><br></p>
+
+<p>微信公众账号：<strong>iOS技术分享</strong><br/>
+<img src="http://farm3.staticflickr.com/2826/10855679484_56b7429bd6_m.jpg" alt="" /></p>
+]]></content>
+  </entry>
   
 </feed>

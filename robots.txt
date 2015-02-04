@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://baxiang.github.io/sitemap.xml 
+Sitemap: http://duoluo.github.io/sitemap.xml 
