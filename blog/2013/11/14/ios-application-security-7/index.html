@@ -26,8 +26,9 @@
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
-	<link href="/stylesheets/google-fonts.css" rel="stylesheet" type="text/css">
+    
+	<link href="/stylesheets/Google-Font/google-font.css" rel='stylesheet' type='text/css'>
+	<script src="/stylesheets/Google-Font/google-jquery-1.7.2.js"></script>
 	
   
 
@@ -38,46 +39,62 @@
 	<div class="container">
 		<div class="left-col">
 			<div class="intrude-less">
-			<header id="header" class="inner"><div class="profilepic">	
+			<header id="header" class="inner"><div class="profilepic">
+	
 	<script src="/javascripts/md5.js"></script>
 	<script type="text/javascript">
-		document.write("<img src='/images/xiaoba.png" + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
 	</script>
+	
 </div>
-<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
-<p class="subtitle">Xiaoba&#8217;s technology blog</p>
+
 <nav id="main-nav"><ul class="main">
-    <li><a href="/">主页 Blog</a></li>
-    <li><a href="http://about.me/shashankmehta">关于 About</a></li>
-    <li><a href="/blog/archives">归档 Archives</a></li>
+    <h1>lizhihui</h1>
+    <p class="subtitle">Everything that has beginning that has an end alright.</p>
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
 </ul>
+
+
 </nav>
 <nav id="sub-nav">
 	<div class="social">
-		
-		<a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo">Weibo</a>
-		
-		
-		<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo">Weibo</a>
+        
 		
 		
-		
-		<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
-		
-		
-		<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
 		
 		
 		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
 		
 		
 		
 		
-		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
 	</div>
 </nav>
-
+<p class="subtitle">Have the courage to follow your heart and intuition. They somehow already know what you truly want to become. Everything else is secondary.</p>
+<p class="subtitle" style="text-align: right;">&#8211; Steve Jobs</p>
 </header>				
 			</div>
 		</div>	
@@ -207,17 +224,19 @@ Payload.zip）然后重命名Payload.zip为SelfSigned.ipa. 从这个系列的第
 </article>
 
 	<div class="share">
-	<div class="addthis_toolbox addthis_default_style ">
-	
-	<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-	
-	
-	<a class="addthis_button_tweet"></a>
-	
-	
-	<a class="addthis_counter addthis_pill_style"></a>
-	</div>
-  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+  <div class="addthis_toolbox addthis_default_style addthis_32x32_style ">
+      <a class="addthis_button_sinaweibo"></a>
+      <a class="addthis_button_twitter"></a>
+      <a class="addthis_button_pinterest_share"></a>
+      <a class="addthis_button_compact"></a>
+      <a class="addthis_counter addthis_bubble_style"></a>
+  </div>
+  
+  <!-- Go to www.addthis.com/dashboard to customize your tools -->
+  <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=" async="async"></script>
+
+  
+  
 </div>
 
 
@@ -231,15 +250,32 @@ Payload.zip）然后重命名Payload.zip为SelfSigned.ipa. 从这个系列的第
 Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
 		</div>
 	</div>
-	<script src="/javascripts/slash.js"></script>
-<script src="/javascripts/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-(function($){
-	$('.fancybox').fancybox();
-})(jQuery);
-</script> <!-- Delete or comment this line to disable Fancybox -->
+	
 
 
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
 
 
 

@@ -9,9 +9,9 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="ios iOS应用程序安全(5)-用Cycript做运行时分析的高级技巧(Yahoo天气应用) 作者：Prateek Gianchandani
+	<meta name="description" content="Nov 14,&nbsp 2013 ios iOS应用程序安全(5)-用Cycript做运行时分析的高级技巧(Yahoo天气应用) 作者：Prateek Gianchandani
 译者：吴发伟
-原文网址：http://resources.infosecinstitute.com/ios-application-security- &hellip;">
+原文网址：http://resources.infosecinstitute.com/ios- &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -26,8 +26,9 @@
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
-	<link href="/stylesheets/google-fonts.css" rel="stylesheet" type="text/css">
+    
+	<link href="/stylesheets/Google-Font/google-font.css" rel='stylesheet' type='text/css'>
+	<script src="/stylesheets/Google-Font/google-jquery-1.7.2.js"></script>
 	
   
 
@@ -38,46 +39,62 @@
 	<div class="container">
 		<div class="left-col">
 			<div class="intrude-less">
-			<header id="header" class="inner"><div class="profilepic">	
+			<header id="header" class="inner"><div class="profilepic">
+	
 	<script src="/javascripts/md5.js"></script>
 	<script type="text/javascript">
-		document.write("<img src='/images/xiaoba.png" + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
 	</script>
+	
 </div>
-<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
-<p class="subtitle">Xiaoba&#8217;s technology blog</p>
+
 <nav id="main-nav"><ul class="main">
-    <li><a href="/">主页 Blog</a></li>
-    <li><a href="http://about.me/shashankmehta">关于 About</a></li>
-    <li><a href="/blog/archives">归档 Archives</a></li>
+    <h1>lizhihui</h1>
+    <p class="subtitle">Everything that has beginning that has an end alright.</p>
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
 </ul>
+
+
 </nav>
 <nav id="sub-nav">
 	<div class="social">
-		
-		<a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo">Weibo</a>
-		
-		
-		<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo">Weibo</a>
+        
 		
 		
-		
-		<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
-		
-		
-		<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
 		
 		
 		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
 		
 		
 		
 		
-		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
 	</div>
 </nav>
-
+<p class="subtitle">Have the courage to follow your heart and intuition. They somehow already know what you truly want to become. Everything else is secondary.</p>
+<p class="subtitle" style="text-align: right;">&#8211; Steve Jobs</p>
 </header>				
 			</div>
 		</div>	
@@ -92,7 +109,7 @@
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 	<div class="meta">
-		<div class="date">
+    	<div class="date">
 
 
 
@@ -104,7 +121,8 @@
   
 
 
-<time datetime="2013-11-14T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+
+Nov 14,&nbsp 2013  </div>
 		<div class="tags">
 
 
@@ -228,7 +246,7 @@
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 	<div class="meta">
-		<div class="date">
+    	<div class="date">
 
 
 
@@ -240,7 +258,8 @@
   
 
 
-<time datetime="2013-11-14T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+
+Nov 14,&nbsp 2013  </div>
 		<div class="tags">
 
 
@@ -394,7 +413,7 @@
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 	<div class="meta">
-		<div class="date">
+    	<div class="date">
 
 
 
@@ -406,7 +425,8 @@
   
 
 
-<time datetime="2013-11-14T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+
+Nov 14,&nbsp 2013  </div>
 		<div class="tags">
 
 
@@ -512,7 +532,7 @@
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 	<div class="meta">
-		<div class="date">
+    	<div class="date">
 
 
 
@@ -524,7 +544,8 @@
   
 
 
-<time datetime="2013-11-14T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+
+Nov 14,&nbsp 2013  </div>
 		<div class="tags">
 
 
@@ -691,7 +712,7 @@
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 	<div class="meta">
-		<div class="date">
+    	<div class="date">
 
 
 
@@ -703,7 +724,8 @@
   
 
 
-<time datetime="2013-11-14T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+
+Nov 14,&nbsp 2013  </div>
 		<div class="tags">
 
 
@@ -859,15 +881,32 @@ BigBoss Recommendation tools这个包中找到。安装BigBoss Recommendation to
 Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
 		</div>
 	</div>
-	<script src="/javascripts/slash.js"></script>
-<script src="/javascripts/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-(function($){
-	$('.fancybox').fancybox();
-})(jQuery);
-</script> <!-- Delete or comment this line to disable Fancybox -->
+	
 
 
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
 
 
 
