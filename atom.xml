@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[小8的技术博客]]></title>
+  <title><![CDATA[小巴童鞋]]></title>
   <link href="http://baxiang123.com//atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-02-05T02:47:42+08:00</updated>
+  <updated>2015-02-05T02:57:59+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
-    <name><![CDATA[Wright]]></name>
+    <name><![CDATA[小巴]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
