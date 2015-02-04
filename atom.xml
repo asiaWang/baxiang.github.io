@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[小巴的技术博客]]></title>
-  <link href="http://baxiang.github.io/atom.xml" rel="self"/>
-  <link href="http://baxiang.github.io/"/>
-  <updated>2015-02-04T04:00:00+08:00</updated>
-  <id>http://baxiang.github.io/</id>
+  <link href="http://baxiang123.com/atom.xml" rel="self"/>
+  <link href="http://baxiang123.com/"/>
+  <updated>2015-02-04T09:56:08+08:00</updated>
+  <id>http://baxiang123.com/</id>
   <author>
     <name><![CDATA[]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[first]]></title>
-    <link href="http://baxiang.github.io/blog/2015/02/04/first/"/>
+    <link href="http://baxiang123.com/blog/2015/02/04/first/"/>
     <updated>2015-02-04T03:58:45+08:00</updated>
-    <id>http://baxiang.github.io/blog/2015/02/04/first</id>
+    <id>http://baxiang123.com/blog/2015/02/04/first</id>
     <content type="html"><![CDATA[<p>之前在<a href="http://wufawei.com/2013/11/quick-links/">Quick Links</a>中提到过，这里再简要介绍下<a href="http://revealapp.com/">Reveal</a>。</p>
 
 <blockquote><p>它能够在运行时调试和修改iOS应用程序。Reveal能连接到应用程序，并允许开发者编辑各种用户界面参数，这反过来会立即反应在程序的UI上。就像用FireBug调试HTML页面一样，在不需要重写代码、重新构建和重新部署应用程序的情况下就能够调试和修改iOS用户界面。  &ndash;<a href="http://www.infoq.com/cn/news/2013/07/debug_ios_apps_with_reveal">InfoQ</a></p></blockquote>
