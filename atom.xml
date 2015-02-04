@@ -4,7 +4,7 @@
   <title><![CDATA[小巴童鞋]]></title>
   <link href="http://baxiang123.com//atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-02-05T04:55:18+08:00</updated>
+  <updated>2015-02-05T04:56:52+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -169,6 +169,50 @@ url(/stylesheets/Google-Font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.ttf) fo
 <p>附上最终创建文件的截图</p>
 
 <p><img src="http://ww3.sinaimg.cn/bmiddle/a0027cf7gw1em4sesj1b3j20re09mmz1.jpg" alt="image" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[发布你的 First Blog]]></title>
+    <link href="http://baxiang123.com//blog/2014/11/09/fa-bu-ni-de-first-blog/"/>
+    <updated>2014-11-09T05:37:27+08:00</updated>
+    <id>http://baxiang123.com//blog/2014/11/09/fa-bu-ni-de-first-blog</id>
+    <content type="html"><![CDATA[<p>接下来我们可以开始写自己的博客了，依次按照下面的步骤就可以发布自己的blog了。</p>
+
+<!-- more -->
+
+
+<p>打开Terminal切换到你的Octopress目录下依次执行一下命令。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">rake</span> <span class="n">new_post</span><span class="o">[</span><span class="s2">&quot;your blog title&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+以上命令将会生成一个在source/_posts/
+    目录下生成一个xxxx-xx-xx-your-blog-title.markdown的文件,
+    &lsquo;you blog title&#8217;将会决定最后生成的URL<br/>
+    <a href="http://site.com/blog/xxxx/xx/xx/your-blog-title/index.html%E3%80%82">http://site.com/blog/xxxx/xx/xx/your-blog-title/index.html%E3%80%82</a></p>
+
+<p>打开source/_posts/xxxx-xx-xx-your-blog-title.markdown文件你会看到如下如下内容。</p>
+
+<pre><code>---
+layout: post // layout type
+title: "your blog title" //the title 
+date: 2011-07-03 5:59 //published date
+comments: true //allowed comments
+categories:  //which tag to be beloged
+---
+</code></pre>
+
+<p>在这个下面就可以写自己的blog 当然你可以用任何你喜欢的编辑器开始写自己的blog。
+在这里我推荐你使用<a href="http://25.io/mou/">Mou</a>他是款支持markdown语法的编辑器你，可以更加方便你写自己的blog。<br/>
+<a href="http://wowubuntu.com/markdown/index.html">Markdown语法参考</a></p>
+
+<h4>Mou</h4>
+
+<p><img src="http://25.io/mou/img/1@2x.png" alt="image" /></p>
 ]]></content>
   </entry>
   
