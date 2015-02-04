@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://baxiang123.com//blog/2014/11/14/gong-zuo-jing-yan-zong-jie-and-si-kao/</loc>
-    <lastmod>2014-11-14T10:39:56+08:00</lastmod>
+    <loc>http://baxiang123.com//blog/2015/01/14/ios-application-security-1/</loc>
+    <lastmod>2015-01-14T00:00:00+08:00</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -27,25 +27,25 @@
   </url>
   <url>
     <loc>http://baxiang123.com//blog/archives/</loc>
-    <lastmod>2015-02-05T05:02:44+08:00</lastmod>
+    <lastmod>2015-02-05T05:09:04+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://baxiang123.com//</loc>
-    <lastmod>2015-02-05T05:02:44+08:00</lastmod>
+    <lastmod>2015-02-05T05:09:04+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://baxiang123.com//issue/deploy/github/issues/</loc>
-    <lastmod>2015-02-05T05:02:44+08:00</lastmod>
+    <lastmod>2015-02-05T05:09:04+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://baxiang123.com//blog/categories/</loc>
-    <lastmod>2015-02-05T05:02:44+08:00</lastmod>
+    <lastmod>2015-02-05T05:09:04+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
