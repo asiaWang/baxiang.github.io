@@ -4,7 +4,7 @@
   <title><![CDATA[小巴童鞋]]></title>
   <link href="http://baxiang123.com//atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-02-06T11:06:37+08:00</updated>
+  <updated>2015-02-07T03:05:56+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -26,8 +26,6 @@
 <h3>引言</h3>
 
 <p>在本系列文章中，我们将开始学习对iOS应用程序进行渗透测试和漏洞评估的一系列工具和技巧。</p>
-
-<p><br/></p>
 
 <h3>越狱你的设备</h3>
 
@@ -64,8 +62,6 @@
 <p>你可以看到你的设备将会重启。请耐心等待这个过程的完成。一旦设备完成重启，你可以看到一个叫做Cydia的新app在桌面上。这个就表明你已经成功越狱。</p>
 
 <p>祝贺你，你已经在iOS hacking领域跨出了第一步。</p>
-
-<p><br/></p>
 
 <h3>建立一个移动审计平台</h3>
 
@@ -133,14 +129,11 @@ BigBoss Recommendation tools这个包中找到。安装BigBoss Recommendation to
 
 <p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042413_1342_IOSApplicat20.png" alt="" /></p>
 
-<p><br/></p>
-
 <h3>总结</h3>
 
 <p>本文我们学习了如何越狱设备上搭建一个移动审计环境。在接下来的文章中我们将介绍如何使用class-dump-z来分析应用的类信息（class information）。</p>
 
-<p><br/>
-[译者注1]，在iPhone上的第一个蠕虫，ikee利用了默认的密码，具体参见对ikee的详细分析报告：<a href="http://mtc.sri.com/iPhone/">An Analysis of the iKeeB (duh) iPhone botnet (Worm)</a></p>
+<p>[译者注1]，在iPhone上的第一个蠕虫，ikee利用了默认的密码，具体参见对ikee的详细分析报告：<a href="http://mtc.sri.com/iPhone/">An Analysis of the iKeeB (duh) iPhone botnet (Worm)</a></p>
 ]]></content>
   </entry>
   
