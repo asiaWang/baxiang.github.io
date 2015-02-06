@@ -1,0 +1,267 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>iOS应用程序安全(24)-越狱检测与绕过 - 小巴童鞋</title>
+	<meta name="author" content="小巴">
+
+	
+	<meta name="description" content="iOS应用程序安全(24)-越狱检测与绕过 作者：Prateek Gianchandani
+译者：吴发伟 版权声明：自由转载-非商用-保持署名 本文我们将查看开发者在其应用中集成的、对运行其应用的设备是否越狱的检测方法。对你的应用来说，检测设备是否越狱有许多好处。我们已经知道， &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://baxiang123.com//blog/2013/11/26/ios-application-security-24/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    
+	<link href="/stylesheets/Google-Font/google-font.css" rel='stylesheet' type='text/css'>
+	<script src="/stylesheets/Google-Font/google-jquery-1.7.2.js"></script>
+	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+ 
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">BaXiang&#8217;s technology blog</p>
+<nav id="main-nav"><!--ul class="main">
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
+</ul><!-->
+<ul class="main-navigation">
+  <li><a href="/">Blog | 博客</a></li>
+  <li><a href="/blog/archives">Archives | 目录</a></li>
+  <li><a href="/blog/categories">Categories  | 分类</a></li>
+  <li><a href="/aboutme/">About Me | 关于</a></li>
+  
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<br/>
+	<div class="social">
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
+        
+		
+		
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">iOS应用程序安全(24)-越狱检测与绕过</h1>
+	<div class="entry-content" itemprop="articleBody"><p>作者：Prateek Gianchandani<br/>
+译者：吴发伟 <br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>本文我们将查看开发者在其应用中集成的、对运行其应用的设备是否越狱的检测方法。对你的应用来说，检测设备是否越狱有许多好处。我们已经知道，攻击者能够运行Cycript,GDB,Snoop-it等工具来执行运行时分析和窃取你的应用的敏感信息。 如果你确实想要为你的应用添加附加的安全层，你不应该允许你的应用在越狱设备上运行。请注意数百万的用户越狱了他们的设备，因此不让你的应用在越狱设备上运行可能会对你的用户基数造成较大的影响。你能做的另一件事就是禁用某些功能而不是整个应用。我们也将看看攻击者如何用Cycript来绕过应用内部的越狱检测。</p>
+
+<!-- more -->
+
+
+<p>设备越狱之后，有许多文件和应用被安装到设备上。检测文件系统中的这些文件可以帮助我们确定这个设备越狱与否。例如，大多数越狱设备都会在越狱之后安装Cydia。因此，简单的检查下Cydia的文件路径就能判断设备越狱与否。</p>
+
+<pre><code>NSString *filePath = @"/Applications/Cydia.app";
+if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
+{
+   //Device is jailbroken
+}
+</code></pre>
+
+<p>不过，并不是所有的越狱设备都会安装Cydia。事实上，多数攻击者能够改变Cydia应用的位置。检查更多和越狱相关的其他文件能够让越狱检测更有效。例如，可以检查Mobile Substrate是否安装，许多越狱设备上的应用依赖它。也可以检查SSH Daemon的位置，或者shell解释器。把这些检查组合到一起，我们得到如下的方法。</p>
+
+<pre><code> +(BOOL)isJailbroken{
+ if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/MobileSubstrate.dylib"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/bin/bash"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/sbin/sshd"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt"]){
+ return YES;
+ }
+ return NO;
+ }
+</code></pre>
+
+<p>从前面的系列文章中我们知道，以mobile用户运行的应用运行在沙盒环境中，位于/var/mobile/Applications目录，而以root用户运行的应用（比如苹果预加载的应用）并不属于任何沙盒环境，位于/Applications目录。运行越狱设备的用户可以把应用安装在/Applications目录，因此有root权限。因此，增加一个检测来看应用是否遵守沙盒规则能够让用户证实设备越狱与否。一个好方法就是检查看看我们是否能够修改应用bundle之外的文件。</p>
+
+<pre><code> NSError *error;
+ NSString *stringToBeWritten = @"This is a test.";
+ [stringToBeWritten writeToFile:@"/private/jailbreak.txt" atomically:YES
+ encoding:NSUTF8StringEncoding error:&amp;error];
+ if(error==nil){
+ //Device is jailbroken
+ return YES;
+ } else {
+ //Device is not jailbroken
+ [[NSFileManager defaultManager] removeItemAtPath:@"/private/jailbreak.txt" error:nil];
+ }
+</code></pre>
+
+<p>我们知道技艺熟练的攻击者能够修改应用的位置。不过，我们知道超过80%的越狱设备会安装Cydia，即使攻击者能够改变Cydia应用的位置，他很可能也不会去改变Cydia应用注册的URL scheme。如果我们从应用中调用Cydia的URL scheme(cydia://）并且返回成功，那么我们可以确定设备是越狱了的。</p>
+
+<pre><code> if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"cydia://package/com.example.package"]]){
+ //Device is jailbroken
+ }
+</code></pre>
+
+<p>让我们加一个条件使得这个检查代码只在真是设备上执行，在模拟器上不执行。在组合上述技巧之后，我们的方法看起来像下面这样。</p>
+
+<pre><code> +(BOOL)isJailbroken{
+ #if !(TARGET_IPHONE_SIMULATOR)
+ if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/MobileSubstrate.dylib"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/bin/bash"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/sbin/sshd"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt"]){
+ return YES;
+}
+ NSError *error;
+ NSString *stringToBeWritten = @"This is a test.";
+ [stringToBeWritten writeToFile:@"/private/jailbreak.txt" atomically:YES
+ encoding:NSUTF8StringEncoding error:&amp;error];
+ if(error==nil){
+ //Device is jailbroken
+ return YES;
+ } else {
+ [[NSFileManager defaultManager] removeItemAtPath:@"/private/jailbreak.txt" error:nil];
+ }
+ if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"cydia://package/com.example.package"]]){
+ //Device is jailbroken
+ return YES;
+ }
+ #endif
+ //All checks have failed. Most probably, the device is not jailbroken
+ return NO;
+}
+</code></pre>
+
+<p>老实说，没有万无一失的检测越狱设备的方法。技艺熟练的攻击者总是能够找到绕过的方法。攻击者能够从二进制文件中找到对应的指令，RNA好用No-op（译者注：汇编语言NOP，机器指令0x90）替换这些指令。攻击者也能够通过Cycript进行method swizzle来替换成他自己的实现。</p>
+
+<p>通过使用Class-dump-z，攻击者能够找到应用的类信息。攻击者能够在JailbreakDetector类中找到方法 + (BOOL)isJailbroken。请注意它是一个类方法，因为它以＋开头。很显然这个方法检测设备是否越狱，如果越狱，就返回YES。如果你不理解这里说的这些，你应该先读读<a href="http://wufawei.com/2013/11/ios-application-security-summary/">前面的文章</a>。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112513_1713_IOSApplicat1.png" alt="" /></p>
+
+<p>攻击者能够用Cycript挂钩进这个应用。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112513_1713_IOSApplicat2.png" alt="" /></p>
+
+<p>然后打印出JailbreakDetector这个类的所有方法。请注意我们使用JailbreakDetector->isa.messages，因为isJailbroken是一个类方法。要找出实例方法，使用JailbreakDetector.messages即可。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112513_1713_IOSApplicat3.png" alt="" /></p>
+
+<p>然后攻击者就能够用他自己的始终返回NO的方法来替换这个方法（isJailbroken）的实现。如果你不理解这些，我建议你读读关于<a href="http://wufawei.com/2013/11/ios-application-security-8/">Method Swizzling</a>这篇文章。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112513_1713_IOSApplicat4.png" alt="" /></p>
+
+<p>作为开发者，我们能做的就是改变这个方法的名字为一个不那么吸引攻击者注意力的名字。例如JailbreakDetector这个类名可以重命名为ColorAdditions， +(BOOL)isJailbroken 可以替换为+(BOOL)didChangeColor，而其实现不改变。这些名字不会吸引攻击者的注意。攻击者总是能够通过Snoop-it，GDB等工具来查看内部的方法调用，不过，像刚刚那样的一个小改动就能迷惑住攻击者。</p>
+</div>
+
+</article>
+
+	<div class="bdsharebuttonbox"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["qzone","bdysc","renren","douban","fx","youdao","mail","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+<!--高速版，加载速度快，使用前需测试页面的兼容性-->
+<div id="SOHUCS"></div>
+<script>
+  (function(){
+    var appid = 'cyrof0xla',
+    conf = 'prod_33cb4369c37266cd8994da8878b17b87';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+    window.SCS_NO_IFRAME = true;
+  })()
+</script>                
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+</body>
+</html>

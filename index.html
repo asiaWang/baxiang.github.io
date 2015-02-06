@@ -9,7 +9,7 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="Jan 14,&nbsp 2015 ios iOS应用程序安全(1)-搭建移动渗透测试平台 作者：Prateek Gianchandani
+	<meta name="description" content="Nov 29,&nbsp 2013 ios iOS应用程序安全(25)-iOS开发安全编程实践 作者：Prateek Gianchandani
 译者：吴发伟
 原文网址：http://resources.infosecinstitute.com/ios-application-security- &hellip;">
 	
@@ -132,7 +132,7 @@ var _hmt = _hmt || [];
 
 
 
-Jan 14,&nbsp 2015  </div>
+Nov 29,&nbsp 2013  </div>
 		<div class="tags">
 
 
@@ -142,24 +142,23 @@ Jan 14,&nbsp 2015  </div>
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2015/01/14/ios-application-security-1/" itemprop="url">iOS应用程序安全(1)-搭建移动渗透测试平台</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/29/ios-application-security-25/" itemprop="url">iOS应用程序安全(25)-iOS开发安全编程实践</a></h1>
 	<div class="entry-content" itemprop="articleBody">
 		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-1-setting-up-a-mobile-pentesting-platform/">http://resources.infosecinstitute.com/ios-application-security-part-1-setting-up-a-mobile-pentesting-platform/</a><br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-25-secure-coding-practices-ios-development/">http://resources.infosecinstitute.com/ios-application-security-part-25-secure-coding-practices-ios-development/</a>
 版权声明：自由转载-非商用-保持署名</p>
 
-<h3>引言</h3>
+<p>本文我们将探讨iOS开发者应该遵循的最佳安全实践，使得应用不那么容易被攻击者利用。
+<br></p>
 
-<p>在本系列文章中，我们将开始学习对iOS应用程序进行渗透测试和漏洞评估的一系列工具和技巧。</p>
+<h2>本地数据存储</h2>
 
-<h3>越狱你的设备</h3>
-
-<p>如果你真的对iOS安全很感兴趣，有一个越狱设备是非常有必要的。在本节，我们将介绍如何越狱iOS设备。越狱之后有很多好处，你可以安装很多工具，例如nmap, metasploit，甚至在设备上运行自己写的python代码。想像一下，你在手掌中通过手持设备就能对网站进行漏洞扫描的能力还是很酷的。为了更多的了解越狱和这样做的好处，我推荐你看看<a href="http://www.ibtimes.com/why-jailbreak-your-iphone-5-reasons-you-should-download-evasi0n-jailbreak-ios-6-1080412">这篇文章</a>。</p>
+<p>对开发者来说非常重要的一点就是要知道哪些数据需要在应用本地存储。坦率的说，存储在应用本地的数据都是不安全的。在本系列的<a href="http://wufawei.com/2013/11/ios-application-security-20/">第20篇文章</a>中，我们详细查看了本地数据存储。</p>
 
 
 		
-		<a href="/blog/2015/01/14/ios-application-security-1/" class="more-link">继续阅读 &rarr;</a>
+		<a href="/blog/2013/11/29/ios-application-security-25/" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
@@ -180,23 +179,27 @@ Jan 14,&nbsp 2015  </div>
 
 
 
-Nov  9,&nbsp 2014  </div>
+Nov 26,&nbsp 2013  </div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/octopress/'>octopress</a>
+	<a class='category' href='/blog/categories/ios/'>ios</a>
 
 
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/11/09/wei-ni-de-octopressjia-su/" itemprop="url">为你的Octopress加速</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/26/ios-application-security-24/" itemprop="url">iOS应用程序安全(24)-越狱检测与绕过</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p>当你在国内打开<a href="http://www.github.com">Github</a>的时候感觉貌似还可以，但是每次打开你的octopress blog貌似每次相当卡,接下来我就介绍下如何解决这个问题。</p>
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟 <br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>本文我们将查看开发者在其应用中集成的、对运行其应用的设备是否越狱的检测方法。对你的应用来说，检测设备是否越狱有许多好处。我们已经知道，攻击者能够运行Cycript,GDB,Snoop-it等工具来执行运行时分析和窃取你的应用的敏感信息。 如果你确实想要为你的应用添加附加的安全层，你不应该允许你的应用在越狱设备上运行。请注意数百万的用户越狱了他们的设备，因此不让你的应用在越狱设备上运行可能会对你的用户基数造成较大的影响。你能做的另一件事就是禁用某些功能而不是整个应用。我们也将看看攻击者如何用Cycript来绕过应用内部的越狱检测。</p>
 
 
 		
-		<a href="/blog/2014/11/09/wei-ni-de-octopressjia-su/" class="more-link">继续阅读 &rarr;</a>
+		<a href="/blog/2013/11/26/ios-application-security-24/" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
@@ -217,23 +220,28 @@ Nov  9,&nbsp 2014  </div>
 
 
 
-Nov  9,&nbsp 2014  </div>
+Nov 23,&nbsp 2013  </div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/octopress/'>octopress</a>
+	<a class='category' href='/blog/categories/ios/'>ios</a>
 
 
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/11/09/fa-bu-ni-de-first-blog/" itemprop="url">发布你的 First Blog</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/23/ios-application-security-23/" itemprop="url">iOS应用程序安全(23)-对抗运行时分析和操作</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p>接下来我们可以开始写自己的博客了，依次按照下面的步骤就可以发布自己的blog了。</p>
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/">http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面的文章中，我们看到了如何使用调试器和工具如Cycript对iOS应用进行运行时分析和操作。我们也看到了在运行时通过使用GDB来修改寄存器的值是如何修改方法的具体实现的，看到了怎样使用工具如Cycript来进行<a href="http://wufawei.com/2013/11/ios-application-security-8/">swizzling</a>方法实现。有Cycript和GDB这样的工具在手，加上你的应用程序可执行文件的拷贝，一切就都在攻击者的掌控之中。不过，有一些技巧能够使得攻击者更难攻击。本文我们将查看开发者能够用来对抗运行时分析和操作的防御技巧。</p>
 
 
 		
-		<a href="/blog/2014/11/09/fa-bu-ni-de-first-blog/" class="more-link">继续阅读 &rarr;</a>
+		<a href="/blog/2013/11/23/ios-application-security-23/" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
@@ -254,24 +262,28 @@ Nov  9,&nbsp 2014  </div>
 
 
 
-Nov  9,&nbsp 2014  </div>
+Nov 17,&nbsp 2013  </div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/octopress/'>octopress</a>
+	<a class='category' href='/blog/categories/ios/'>ios</a>
 
 
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/11/09/wei-ni-de-octopresstian-jia-greyshadezhu-ti/" itemprop="url">为你的Octopress添加Greyshade主题</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/17/ios-application-security-22/" itemprop="url">iOS应用程序安全(22)-使用GDB进行运行时分析和操作</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p><a href="https://github.com/shashankmehta/greyshade">Greyshade</a>是一个Octopress的主题由于其简洁的风格深受大家喜爱。<br/>
-<a href="https://github.com/shashankmehta/greyshade/wiki/Sites-using-Greyshade/">这里</a>有一些使用这款主题的blog，包括我也在使用这款主题，下面我就开始教大家如何为Octopress安装这个主题。</p>
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/">http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>本文我们将看看如何使用GDB来对iOS应用进行运行时分析。 在<a href="http://wufawei.com/">前面的文章</a>中，我们已经查看了如何使用Cycript来分析和操作iOS应用的运行时行为。我们学习了如何执行<a href="http://wufawei.com/2013/11/ios-application-security-8/">method swizzling</a>，并且调用我们自己的方法而不是原来的实现。因此，为什么我们还需要GDB呢？Cycript并不运行我们设置断点，不允许在某个特定指令后修改变量和寄存器的值。用GDB，我们可以更深入应用，观察底层的汇编指令，操作寄存器的值，因此可以完全改变程序的运行流程。</p>
 
 
 		
-		<a href="/blog/2014/11/09/wei-ni-de-octopresstian-jia-greyshadezhu-ti/" class="more-link">继续阅读 &rarr;</a>
+		<a href="/blog/2013/11/17/ios-application-security-22/" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
@@ -292,23 +304,33 @@ Nov  9,&nbsp 2014  </div>
 
 
 
-Nov  9,&nbsp 2014  </div>
+Nov 17,&nbsp 2013  </div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/octopress/'>octopress</a>
+	<a class='category' href='/blog/categories/ios/'>ios</a>
 
 
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/11/09/li-yong-github-and-octopressda-jian-zi-ji-de-ge-ren-bo-ke/" itemprop="url">利用Github&amp;Octopress搭建自己的个人博客</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/17/ios-application-security-21/" itemprop="url">iOS应用程序安全(21)-ARM和GDB基础</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p>你们看到的这个blog 就是基于Octopress和Github搭建而成，我们接下来要做的就是为你搭建一个这样的blog。</p>
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/">http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>直到现在，所有发布的iOS设备都是基于ARM架构的。我们开发iOS应用的时候编写的Objective-C代码会首先转换成ARM汇编，然后转换成机器指令（1s和0s。译者注：即0、1指令，机器指令都是由0、1组成的。）。对ARM汇编语言和使用GDB调试有很好掌握的话，攻击
+者是能够在运行时解密Objective-C代码甚至修改代码的。</p>
+
+<p>本文将使用的<a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a>例子程序可以从我的github账户上下载。请确保在你的设备上安装和运行。如果你没有一个注册的开发者账户，不能在你的设备上运行，请使用<a href="http://wufawei.com/2013/11/ios-application-security-7/">前文</a>提供的方法。</p>
+
+<p>现在让我们SSH进入设备。</p>
 
 
 		
-		<a href="/blog/2014/11/09/li-yong-github-and-octopressda-jian-zi-ji-de-ge-ren-bo-ke/" class="more-link">继续阅读 &rarr;</a>
+		<a href="/blog/2013/11/17/ios-application-security-21/" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
@@ -316,6 +338,8 @@ Nov  9,&nbsp 2014  </div>
 </div>
 <nav id="pagenavi">
     
+    
+        <a href="2" class="next">Next</a>
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>

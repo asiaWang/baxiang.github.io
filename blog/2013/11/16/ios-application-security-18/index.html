@@ -1,0 +1,239 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>iOS应用程序安全(18)-使用Introspy检测自定义签名 - 小巴童鞋</title>
+	<meta name="author" content="小巴">
+
+	
+	<meta name="description" content="iOS应用程序安全(18)-使用Introspy检测自定义签名 作者：Prateek Gianchandani
+译者：吴发伟
+原文网址：http://resources.infosecinstitute.com/ios-application-security-part-18-detecting &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://baxiang123.com//blog/2013/11/16/ios-application-security-18/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    
+	<link href="/stylesheets/Google-Font/google-font.css" rel='stylesheet' type='text/css'>
+	<script src="/stylesheets/Google-Font/google-jquery-1.7.2.js"></script>
+	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+ 
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">BaXiang&#8217;s technology blog</p>
+<nav id="main-nav"><!--ul class="main">
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
+</ul><!-->
+<ul class="main-navigation">
+  <li><a href="/">Blog | 博客</a></li>
+  <li><a href="/blog/archives">Archives | 目录</a></li>
+  <li><a href="/blog/categories">Categories  | 分类</a></li>
+  <li><a href="/aboutme/">About Me | 关于</a></li>
+  
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<br/>
+	<div class="social">
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
+        
+		
+		
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">iOS应用程序安全(18)-使用Introspy检测自定义签名</h1>
+	<div class="entry-content" itemprop="articleBody"><p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-18-detecting-custom-signatures-with-introspy/">http://resources.infosecinstitute.com/ios-application-security-part-18-detecting-custom-signatures-with-introspy/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面的文章中，我们查看了如何使用Introspy对iOS应用进行黑盒评估。本文我们将看看如何使用Introspy来建立自定义的签名，然后在追踪应用的时候检测这些自定义签名。</p>
+
+<p>如果你对某个特定应用的某个方法特别有兴趣，并且你想直到它什么时候被调用，那么，建立预定义的签名可能会非常有用。Introsp已经有一些预定义的签名用来检测漏洞和不安全的配置。不过，它也允许我们添加自己的签名。</p>
+
+<!-- more -->
+
+
+<p>你可以在分析器的文件夹里面的signatures.py找到预定义的签名。</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat1.png" alt="" /></p>
+
+<p>从这里，我们可以看到一个签名由标题，描述，严重等级，以及一个由方法调用组成的过滤器。让我们看看例子签名。</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat2.png" alt="" /></p>
+
+<p>在上面的图中，你可以看到这个签名检查应用是否使用了剪贴板（Pasteboards）。剪贴板不太安全，因为他们允许应用从其中拷贝信息。
+因此这个签名就说得通了。你可以看到这个过滤器（filter）有2个值，一个是classes_to_match，一个是methods_to_match。你也可以在
+签名中指定一个参数args_to_match。从这个例子签名中，可以看到如下面的方法实现会符合上面的签名。</p>
+
+<pre><code>* UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+
+* UIPasteboard *pasteboard = [UIPasteboard pasteboardWithName:@"XYZ" create:YES];
+
+* UIPasteboard *pasteboard = [UIPasteboard pasteboardWithUniqueName];
+</code></pre>
+
+<p>下图所示的另一个签名检查在连接远程服务器的时候绕过凭证验证。这会发生在你使用一个自签名的SSL证书，然后想信任它而不必进行
+任何验证的时候。</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat3.png" alt="" /></p>
+
+<p>如果任意的LibC签名，让我们把classed_to_match设置为&#8221;C&#8221;</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat4.png" alt="" /></p>
+
+<p>现在，我们看看有参数并把参数也被当作过滤器的签名。这个过滤器能使用3个类来定义，这3各类可以在文件Filters.py中找到。这些类是
+ ArgumentsFilter, ArgumentsNotSetFilter 和 ArgumentsWithMaskFilter。下面是从这些代码中用来表示其用途的截图。</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat5.png" alt="" /></p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat6.png" alt="" /></p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat7.png" alt="" /></p>
+
+<p>下面是Signatures.py中的一个签名，用来检测当有数据没有secure protection domain(pdmn)又被写入keychain的时候。如你所见，</p>
+
+<p>ArgumentsFilter 和 ArgumentsNotSetFilter 过滤器已经被使用来检测签名。ArgumentsFilter 用来找出pdmn不安全的情况。而ArgumentsNotSetFilter
+用来找出没有提供accessibility 选型而默认是kSecAttrAccessibleAlways的情况。</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat8.png" alt="" /></p>
+
+<p>现在，让我们往signature.py文件中添加一个自定义签名。在这里，我们将要检测任何取NSUserDefaults中字符串的场景。</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat9.png" alt="" /></p>
+
+<p>现在运行introspy.py这个python脚本，参数是保存的数据库。</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat10.png" alt="" /></p>
+
+<p>在报告的潜在发现里面（Potential Findings），你会看到这个签名在许多不同的地方都被识别出来了。</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/092413_1140_IOSApplicat11.png" alt="" /></p>
+
+<p><br></p>
+
+<h2>总结</h2>
+
+<p>本文我们查看了如何使用Introspy来建立自定义的签名，然后在追踪应用的时候检测这些
+自定义签名。在对这些应用进行静态分析的时候，如果你想追踪特定的方法实现，那么使用这些自定义签名会非常有用。</p>
+
+<p>References</p>
+
+<p> Introspy</p>
+
+<p><a href="https://github.com/iSECPartners/introspy">https://github.com/iSECPartners/introspy</a></p>
+
+<p> <br/>
+本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-18-detecting-custom-signatures-with-introspy/">IOS Application Security Part 18 – Detecting custom signatures with Introspy</a></p>
+</div>
+
+</article>
+
+	<div class="bdsharebuttonbox"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["qzone","bdysc","renren","douban","fx","youdao","mail","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+<!--高速版，加载速度快，使用前需测试页面的兼容性-->
+<div id="SOHUCS"></div>
+<script>
+  (function(){
+    var appid = 'cyrof0xla',
+    conf = 'prod_33cb4369c37266cd8994da8878b17b87';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+    window.SCS_NO_IFRAME = true;
+  })()
+</script>                
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+</body>
+</html>

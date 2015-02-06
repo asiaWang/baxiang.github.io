@@ -1,0 +1,259 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>iOS应用程序安全(5)-用Cycript做运行时分析的高级技巧(Yahoo天气应用) - 小巴童鞋</title>
+	<meta name="author" content="小巴">
+
+	
+	<meta name="description" content="iOS应用程序安全(5)-用Cycript做运行时分析的高级技巧(Yahoo天气应用) 作者：Prateek Gianchandani
+译者：吴发伟
+原文网址：http://resources.infosecinstitute.com/ios-application-security-part- &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://baxiang123.com//blog/2013/11/14/ios-application-security-5/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    
+	<link href="/stylesheets/Google-Font/google-font.css" rel='stylesheet' type='text/css'>
+	<script src="/stylesheets/Google-Font/google-jquery-1.7.2.js"></script>
+	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+ 
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">BaXiang&#8217;s technology blog</p>
+<nav id="main-nav"><!--ul class="main">
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
+</ul><!-->
+<ul class="main-navigation">
+  <li><a href="/">Blog | 博客</a></li>
+  <li><a href="/blog/archives">Archives | 目录</a></li>
+  <li><a href="/blog/categories">Categories  | 分类</a></li>
+  <li><a href="/aboutme/">About Me | 关于</a></li>
+  
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<br/>
+	<div class="social">
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
+        
+		
+		
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">iOS应用程序安全(5)-用Cycript做运行时分析的高级技巧(Yahoo天气应用)</h1>
+	<div class="entry-content" itemprop="articleBody"><p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app/">http://resources.infosecinstitute.com/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<h2>引言</h2>
+
+<p>在前一篇文章中，我们学习了如何在设备上安装使用Cycript。本文我们将使用一些运行时分析的高级技巧。我们将看看如何获得特定类（方法，实例变量）的值并且在运行时修改它们。</p>
+
+<!-- more -->
+
+
+<h2>找出特定类的方法</h2>
+
+<p>现在假定我们正在一个程序运行的时候分析它的流程，那么，知道特定类或者特定view controller正在调用哪些方法将会给我们极大的帮助。因为Cycript能够混合使用Objective-C和javascript，我们能够写一个即有Objective-C又有Javascript语法的函数。我们那个能够在解释器中定义函数，然后在任意时候使用它们以帮助我们找到有用信息。一个能够找到这些有用代码块的地方位于<a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">这</a>。本文我们将使用这里的代码块。</p>
+
+<p>首先，确保我们挂钩进了正在运行的进程。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat1.png" alt="" /></p>
+
+<p>我们先定义一个能够打印出一个指定类的方法的函数。你可以在<a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">这</a>找到这些Cycript tricks。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat2.png" alt="" /></p>
+
+<p>既然我们已经定义好了方法，那么我们可以输入任何类，然后得到对应的方法列表。从上一片文章中，我们知道Yahoo Weather的delegate是YWAppDelegate. 因此，这里试试这个类包含的所有方法。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat3.png" alt="" /></p>
+
+<p>上面打印出了YWAppDelegate定义的方法。 在@selector后面的就是方法名称。请注意，这里会给出关于私有方法的名称，也会给出定义在类中的属性的setter和getter函数。</p>
+
+<p>类似的，我们可以打印出YahooSlidingViewController的方法。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat4.png" alt="" /></p>
+
+<p>我们知道YahooSlidingViewController管理着slide菜单，并且充当着外观者（facade）的作用。为了找出真正负责显示天气的view controller，我们可以使用下面的命令。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat5.png" alt="" /></p>
+
+<p>因此，YWMainViewController就是当前负责显示天气的view controller。因此，下面的view实际上来自YWMainViewController。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat6.png" alt="" /></p>
+
+<p>让我们打印出YWMainViewController的方法。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat7.png" alt="" /></p>
+
+<p>你可以看到，这里有个方法叫做userDidrequestUpdate.</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat8.png" alt="" /></p>
+
+<p>从方法名称可以看出，一旦用户下拉刷新，这个方法就会被调用。有Cycript，我们可以随时调用这个方法。我们要先引用这个view controller，然后在其上调用这个方法。如下图所示。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat9.png" alt="" /></p>
+
+<p>可以看到，即使我们并没有下拉刷新，应用也完成了更新。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat10.png" alt="" /></p>
+
+<p>如上面所说，这些方法也包含属性的setter和getter。</p>
+
+<p>从安全的角度来说，能够在运行时操纵应用程序给了我们巨大的优势。我们能够在我们想要的时候调用任何方法。想像一下当用户第一次登陆的时候输入其用户名和密码，一旦登陆成功，一个叫做 didLogin的方法会被调用。我们可以直接调用这个方法而不用输入任何用户名/密码的组合。</p>
+
+<p>如果我们能够把特定view controller的变量都打印出来的话，那会很有用处的。因此，我们定义一个能够打印出所有实例变量的函数，你可以从<a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">这</a>找到代码块。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat11.png" alt="" /></p>
+
+<p>现在，我们打印出YWMainViewController的实例变量。</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/061713_1158_IOSApplicat12.png" alt="" /></p>
+
+<p>你可以看到，这里有一个location view controller的实例变量，你可以向左和向右swipe滑动来查看不同的地方。从名字来看，locationViewControllers
+更像是一个viewcontroller数组。使用Cycript，我们能够打印出该变量的值。</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/061713_1158_IOSApplicat13.png" alt="" /></p>
+
+<p>现在我们向右滑到New York</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/061713_1158_IOSApplicat14.png" alt="" /></p>
+
+<p>现在我们打印出这个变量</p>
+
+<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/061713_1158_IOSApplicat15.png" alt="" /></p>
+
+<p>可以看到，这个数组始终包含3个location view，其他的都是nil。它并不把所有的location view controller都包含进来，以便更好的管理内存。所以在任何时刻，我们能够拥有当前正在看的，左边和右边的view controller。当我们想要去另一个不同地方的时候，它会自动的使得当前可见的位于中间并且实例化其左边和右边的view controller，因此当我们滑动的时候，不会感觉到任何的时延。这是个编写不占用过多内存的代码的好方法。</p>
+
+<p><br></p>
+
+<h2>总结</h2>
+
+<p>在前两篇文章中，我们对Yahoo weather应用进行了运行时分析。在接下来的文章中，我们将看到更多Cycript的技术，并且我们将关注method swizzling。</p>
+
+<h3>References:</h3>
+
+<p>Cycript</p>
+
+<p><a href="http://www.cycript.org/">http://www.cycript.org/</a></p>
+
+<p>Cycript tricks</p>
+
+<p><a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">http://iphonedevwiki.net/index.php/Cycript_Tricks</a></p>
+
+<p><br/>
+本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app/">IOS Application security Part 5 – Advanced Runtime analysis and manipulation using Cycript (Yahoo Weather App)</a></p>
+</div>
+
+</article>
+
+	<div class="bdsharebuttonbox"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["qzone","bdysc","renren","douban","fx","youdao","mail","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+<!--高速版，加载速度快，使用前需测试页面的兼容性-->
+<div id="SOHUCS"></div>
+<script>
+  (function(){
+    var appid = 'cyrof0xla',
+    conf = 'prod_33cb4369c37266cd8994da8878b17b87';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+    window.SCS_NO_IFRAME = true;
+  })()
+</script>                
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+</body>
+</html>

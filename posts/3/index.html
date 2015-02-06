@@ -1,0 +1,361 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>小巴童鞋</title>
+	<meta name="author" content="小巴">
+
+	
+	<meta name="description" content="Nov 15,&nbsp 2013 ios iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析 作者：Prateek Gianchandani
+译者：吴发伟
+原文网址：http://resources.infosecinstitute.com/part-15-static- &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://baxiang123.com//posts/3/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    
+	<link href="/stylesheets/Google-Font/google-font.css" rel='stylesheet' type='text/css'>
+	<script src="/stylesheets/Google-Font/google-jquery-1.7.2.js"></script>
+	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+ 
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">BaXiang&#8217;s technology blog</p>
+<nav id="main-nav"><!--ul class="main">
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
+</ul><!-->
+<ul class="main-navigation">
+  <li><a href="/">Blog | 博客</a></li>
+  <li><a href="/blog/archives">Archives | 目录</a></li>
+  <li><a href="/blog/categories">Categories  | 分类</a></li>
+  <li><a href="/aboutme/">About Me | 关于</a></li>
+  
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<br/>
+	<div class="social">
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
+        
+		
+		
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner">
+<div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 15,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-15/" itemprop="url">iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/">http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面的文章当中，我们看到了如何使用Sogeti Data protection tools利用bottom的漏洞，使用定制的ramdisk来启动iOS设备。本文我们将学习用iNalyzer工具来对iOS
+应用进行黑盒测试。iNalyzer允许我们查看类信息，执行运行时分析和其他一些事情。基本上它把解密应用、导出类信息这些事情自动化了，并且更好的展示了出来。我们也可以像Cycript那样挂钩运行的进程。iNalyzer由<a href="https://appsec-labs.com/">AppSec Labs</a>开发和维护，它的官方地址在<a href="https://appsec-labs.com/iNalyzer">这</a>。iNalyzer同时也已经开源了，gitub地址在<a href="https://github.com/appsec-labs/iNalyzer">这</a>。</p>
+
+
+		
+		<a href="/blog/2013/11/15/ios-application-security-15/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 15,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-14/" itemprop="url">iOS应用程序安全(14)-使用Sogeti Data Protection Tools收集信息</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/">http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面一篇文章中，我们看到了如何使用Sogeti Data Protection tools用定制的ramdisk启动iOS设备。本文我们将如何用其中的一些工具来收集设备的信息，比如keychain的内容，导出整个文件系统甚至暴力破解口令。</p>
+
+<p>在上一篇文章当中，我们已经成功的用usbmux与设备建立了连接，ssh进设备，并且加载了分区。下面是分区包含的内容。</p>
+
+
+		
+		<a href="/blog/2013/11/15/ios-application-security-14/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 15,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-13/" itemprop="url">iOS应用程序安全(13)-使用Sogeti Data Protection tools启动定制的Ramdisk</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/">http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面的文章当中，我们学习了如何使用Keychain-Dumper和Snoop-it来从iOS设备上导出和分析keychain的内容。本文我们将看看如何用一个自己的ramdisk来启动一个没有越狱的设备，并且分析该设备的内容。</p>
+
+
+		
+		<a href="/blog/2013/11/15/ios-application-security-13/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 15,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-12/" itemprop="url">iOS应用程序安全(12)-导出Keychain数据</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/">http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面的文章中，我们查看了如何用不同的方法来分析应用的网络流量和API调用。本文我们将会从iOS设备中导出keychain的内容。</p>
+
+<h2>Keychain 基础</h2>
+
+<p>根据苹果的介绍，iOS设备中的Keychain是一个安全的存储容器，可以用来为不同应用保存敏感信息比如用户名，密码，网络密码，认证令牌。苹果自己用keychain来保存Wi-Fi网络密码，VPN凭证等等。它是一个sqlite数据库，位于/private/var/Keychains/keychain-2.db，其保存的所有数据都是加密过的。</p>
+
+
+		
+		<a href="/blog/2013/11/15/ios-application-security-12/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 15,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/15/ios-application-security-11/" itemprop="url">iOS应用程序安全(11)-分析使用HTTP/HTTPS的网络流量</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/">http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面的文章中，我们分析了iOS文件系统和取证。本文我们将看看如何分析iOS设备上的网络流量。分析应用的网络流量会带来几个方面的好处。它可以帮助我们推断应用是如何管理用户会话的，我们应用调用的另一方是谁，以及应用程序内部是如何工作的等等。我们也会看看如何分析使用SSL的网络流量。</p>
+
+<p>监听网络流量有主动和被动两种方式。如果你对远程分析一个网络中的特定设备的流量感兴趣，那你需要wireshark这个工具。打开Wireshark,开始嗅探网络，添加一个过滤器（fliter，例如 ip.addr == 192.168.1.2）以便它只显示你的设备发出或者接收的网络流量。如果你的无线网卡不够好，那么有些数据包可能会丢失。</p>
+
+<p>如果你想要分析使用SSL的设备的网络流量，有许多方法可以达到目的，比如使用Arpspoof(ARP嗅探) 和SSLStrip的组合。不过，因为我们只对分析某个特定应用的网络流量感兴趣，我们将使用另一个不同的方法。先申明下，本文关注的是分析网络流量而不是劫持网络流量。并且，我们既能够分析通过Wi-Fi的流量，也能分析通过蜂窝网络(cellular)的流量。因为我们只是对分析某个特定应用的网络流量感兴趣，那选择哪种媒介（medium，这里指Wifi或者 celluar)事实上并不重要。</p>
+
+
+		
+		<a href="/blog/2013/11/15/ios-application-security-11/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
+
+</div>
+<nav id="pagenavi">
+    
+        <a href="2" class="prev">Prev</a>
+    
+    
+        <a href="4" class="next">Next</a>
+    
+    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
+</nav></div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+</body>
+</html>
