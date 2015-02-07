@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios security | 小巴童鞋]]></title>
   <link href="http://baxiang123.com//blog/categories/ios-security/atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-02-08T00:06:24+08:00</updated>
+  <updated>2015-02-08T00:21:50+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -14,127 +14,631 @@
 
   
   <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(1)-搭建移动渗透测试平台]]></title>
-    <link href="http://baxiang123.com//blog/ios-application-security-1.html"/>
-    <updated>2013-11-14T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/ios-application-security-1</id>
+    <title type="html"><![CDATA[iOS应用程序安全(25)-iOS开发安全编程实践]]></title>
+    <link href="http://baxiang123.com//blog/ios-application-security-25.html"/>
+    <updated>2013-11-29T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/ios-application-security-25</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-1-setting-up-a-mobile-pentesting-platform/">http://resources.infosecinstitute.com/ios-application-security-part-1-setting-up-a-mobile-pentesting-platform/</a></p>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-25-secure-coding-practices-ios-development/">http://resources.infosecinstitute.com/ios-application-security-part-25-secure-coding-practices-ios-development/</a>
+版权声明：自由转载-非商用-保持署名</p>
 
-<h3>引言</h3>
+<p>本文我们将探讨iOS开发者应该遵循的最佳安全实践，使得应用不那么容易被攻击者利用。
+<br></p>
 
-<p>在本系列文章中，我们将开始学习对iOS应用程序进行渗透测试和漏洞评估的一系列工具和技巧。</p>
+<h2>本地数据存储</h2>
 
-<h3>越狱你的设备</h3>
-
-<p>如果你真的对iOS安全很感兴趣，有一个越狱设备是非常有必要的。在本节，我们将介绍如何越狱iOS设备。越狱之后有很多好处，你可以安装很多工具，例如nmap, metasploit，甚至在设备上运行自己写的python代码。想像一下，你在手掌中通过手持设备就能对网站进行漏洞扫描的能力还是很酷的。为了更多的了解越狱和这样做的好处，我推荐你看看<a href="http://www.ibtimes.com/why-jailbreak-your-iphone-5-reasons-you-should-download-evasi0n-jailbreak-ios-6-1080412">这篇文章</a>。</p>
-
-<p>越狱非常简单，下载一个越狱软件，然后点击越狱就可以了。如果你的设备运行的是iOS 6.x的系统，我推荐你使用<a href="http://evasi0n.com/">evasi0n</a>，如果你的设备运行的是iOS 5.x，那推荐用<a href="http://www.redsn0w.us/">redsn0w</a>。</p>
+<p>对开发者来说非常重要的一点就是要知道哪些数据需要在应用本地存储。坦率的说，存储在应用本地的数据都是不安全的。在本系列的<a href="http://wufawei.com/2013/11/ios-application-security-20/">第20篇文章</a>中，我们详细查看了本地数据存储。</p>
 
 <!-- more -->
 
 
-<p>本文我将对我的new iPad （3代，运行 iOS 6.0.1）越狱。一旦你下载evasi0n并运行，它就会自动检测设备并且告诉你这个设备是否可以越狱。 如图：</p>
+<ul>
+<li>重要数据如密码，会话ID等等绝不要存储在设备上。如果别无它法，那么应该存在keychain中。这是因为只要这个设备不越狱，攻击者不能从
+keychain中找出这些数据。因为超过70%的人都已经把他们的设备升级到iOS 7并且目前iOS 7还不能越狱，你能确定攻击者目前将不能够从keychain中获取数据。有人可能会说
+把数据保存到keychain不像把数据保存到NSUserDefaults那么简单。不过我们能够使用第3方封装的代码使得这个过程变得极其简单。例如，
+<a href="http://highaltitudehacks.com/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax/">这一篇文章</a>演示了如何使用PDKeychainBindings这个wrapper，展示了把数据保存到keychain中是多么的简单。下面就是用这个wrapper来把数据保存到keychain的代码示例。</li>
+</ul>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat1.png" alt="" /></p>
 
-<p>你需要做的仅仅是点击jailbeak(越狱)，然后让evasi0n做剩下的事情。</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>  <span class="n">PDKeychainBindings</span> <span class="o">*</span><span class="n">bindings</span> <span class="o">=</span> <span class="p">[</span><span class="n">PDKeychainBindings</span> <span class="n">sharedKeychainBindings</span><span class="p">];</span>
+</span><span class='line'> <span class="p">[[[</span><span class="n">Model</span> <span class="n">sharedModel</span><span class="p">]</span> <span class="n">currentUser</span><span class="p">]</span> <span class="nl">setAuthToken</span><span class="p">:[</span><span class="n">bindings</span> <span class="nl">objectForKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">authToken</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;]];</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat2.png" alt="" /></p>
+<p>不过，请注意在越狱设备上，keychain中的信息并不安全。一个可取的方法就是在把字符串保存到keychain之前，先用你自己的加密方法加密一下。这样就有更高的安全性，
+因为即使攻击者从keychain中拿到这个加密字符串，他也不得不解密这个加密后的字符串。</p>
 
-<p>你可以看到，越狱已经开始了。过一段时间之后，evasi0n将会重启设备，然后运行exploit（利用程序）。
-<img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat3.png" alt="" /></p>
+<ul>
+<li><p>绝对不要把机密信息如密码，认证令牌等信息保存到NSUserDefaults。这是因为所有保存到NSUserDefaults的信息都是以未经加密的格式保存在一个plist文件的，位于你的应用程序
+bundle的Library -> Preferences -> $AppBundleId.plist。任何人都能够使用工具如iExplorer来窥视你的应用程序的bundle，然后得到这个plist文件，即使你的设备未越狱。</p></li>
+<li><p>绝对不要把机密信息如密码等信息保存到Plist文件，因为即使在未越狱设备上要获取这些plist文件也非常容易。所有保存到plist文件的内容都是以未加密的格式保存的。</p></li>
+<li><p>Cora Data文件同样是以未加密的数据库文件保存在应用程序bundle的。Core Data framework内部使用Sql查询来保存数据，因此所有文件都是.db文件。非常容易就能把这些文件复制到电脑上，
+然后用工具如sqlite3就能查看这些数据库文件中的所有内容。</p></li>
+</ul>
 
-<p>一旦利用程序（exploit）运行完毕，它就会安装Cydia和Cydia的包列表到设备上。Cydia是一个图形界面，使得你能在越狱设备上下载和安装软件包和应用，这些应用通常你在App store是找不到的。基本上所有的越狱程序都会默认安装Cydia。你可以认为Cydia就是越狱设备上的App Store。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat4.png" alt="" /></p>
+<h2>传输层安全</h2>
 
-<p>等待一段时间，直到你得到下面的提示。</p>
+<ul>
+<li>发布应用的时候不要允许使用自签名证书。大多数开发者在debug模式的时候会允许自签名证书，但是发布应用的时候，这一点要避免。</li>
+<li>不要使用设备唯一的参数（MAC地址， IP，UDID）来决定会话ID，认证令牌等等。</li>
+<li>重要的决定，比如认证和授权应该放在后台。请记住攻击者能够在运行时操纵你的应用。</li>
+<li>应当在客户端和服务端都做适当的输入验证。攻击者能够使用Burpsuite更改请求。非常重要的一点就是验证发到后台的参数，避免任何形式的注入攻击。</li>
+</ul>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat5.png" alt="" /></p>
 
-<p>解锁你的设备，你可以看到桌面上有个新的app图标，叫做Jailbreak。点击它以完成越狱过程。</p>
+<p><br></p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat6.png" alt="" /></p>
+<h2>使用加密</h2>
 
-<p>你可以看到你的设备将会重启。请耐心等待这个过程的完成。一旦设备完成重启，你可以看到一个叫做Cydia的新app在桌面上。这个就表明你已经成功越狱。</p>
+<ul>
+<li>在保存重要文件之前先加密。要加密这些文件，你不必是一位密码学专家。有许多的第3方库能够为你完成这个工作。
+我曾经写过<a href="http://highaltitudehacks.com/2013/09/26/ios-dev-encrypted-images-and-saving-them-in-app-sandbox/">一篇文章</a>，介绍使用<a href="https://github.com/rnapier/RNCryptor">RNCryptor</a>（可以从github下载）来加密图片并保持到应用沙盒。</li>
+</ul>
 
-<p>祝贺你，你已经在iOS hacking领域跨出了第一步。</p>
 
-<p><br/></p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>     <span class="bp">UIImage</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">imageToEncrypt</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">SomeImage</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+</span><span class='line'>     <span class="bp">NSString</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">imagePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHomeDirectory</span><span class="p">()</span> <span class="nl">stringByAppendingPathComponent</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Documents</span><span class="o">/</span><span class="n">encryptedImage</span><span class="p">.</span><span class="n">png</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+</span><span class='line'>    <span class="bp">NSData</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">UIImagePNGRepresentation</span><span class="p">(</span><span class="n">fetchedImage</span><span class="p">);</span>
+</span><span class='line'>    <span class="bp">NSError</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">error</span><span class="p">;</span>
+</span><span class='line'>    <span class="bp">NSData</span> <span class="o">*</span><span class="n">encryptedData</span> <span class="o">=</span> <span class="p">[</span><span class="n">RNEncryptor</span> <span class="nl">encryptData</span><span class="p">:</span><span class="n">data</span> <span class="nl">withSettings</span><span class="p">:</span><span class="n">kRNCryptorAES256Settings</span> <span class="nl">password</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">ABC123</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">error</span><span class="p">];</span>     <span class="p">[</span><span class="n">encryptedData</span> <span class="nl">writeToFile</span><span class="p">:</span><span class="n">imagePath</span> <span class="nl">atomically</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<h3>建立一个移动审计平台</h3>
+<p>  要加密SQLite文件，你应当考虑<a href="http://sqlcipher.net/">SQLCipher</a></p>
 
-<p>现在你已经完成了设备的越狱，那么下一步就是安装一些重要的命令行工具，例如 wget, ps, apt-get等用来审计iOS应用的工具。第一个要安装的就是OpenSSH。安装这个工具可以让你从mac登录进越狱设备。</p>
+<p><br></p>
 
-<p>进入Cydia，点击底部的搜索tab，然后搜索：OpenSSH.</p>
+<h2>增加检查以避免运行时分析</h2>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat7.png" alt="" /></p>
+<ul>
+<li>请记住只要有你的应用的二进制文件的拷贝，那一切都在攻击者控制之中。因此要使得攻击者分析的过程变得尽可能的难。其中一个方法就是阻止调试器附加到应用上。
+正如我们在本系列文章的<a href="http://wufawei.com/2013/11/ios-application-security-23/">第23篇</a>中介绍的那样。你的main.m文件看起来应该像这样&hellip;</li>
+</ul>
 
-<p>点击OpenSSH，然后点击安装，</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat8.png" alt="" /></p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112713_0635_IOSApplicat1.png" alt="" /></p>
 
-<p>然后OpenSSH就会安装在你的设备上。
-在我们用ssh登录进设备之前，我们 还需要安装其他一些命令行工具。几乎所有流行的黑客工具都可以在
-BigBoss Recommendation tools这个包中找到。安装BigBoss Recommendation tools，在Cydia中搜索，然后点击安装。</p>
+<p>这将会阻止攻击者附加到你的应用上。我们已经学过如何使用<a href="https://superevr.com/blog/2011/xss-in-skype-for-ios/">Snoop-it</a>来追踪方法调用。下面是从同一篇文章的截图。</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat9.png" alt="" /></p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112713_0635_IOSApplicat2.png" alt="" /></p>
 
-<p>有些重要的命令行工具例如: APT 0.6 Transitional, Git, GNU Debugger, less, make, unzip, wget 和 SQLite 3.x会被安装好。</p>
+<p>使用了上述添加到main.m文件的那些代码，现在我们就不能这么做了。这是因为Snoop-it是在应用启动的时候，把调试器附加到应用上来追踪方法调用的，现在有了上述检查，它就不能再这么
+做了并且应用会crash。请注意这不会阻止工具如Cycript因为它并不追踪应用的方法调用。</p>
 
-<p>还有一个工具需要被安装: MobileTerminal，它能够让你在设备上直接运行命令行，而不是需要通过ssh登录设备运行命令。</p>
+<p><br></p>
 
-<p>在Cydia上搜索  MobileTerminal,然后安装。</p>
+<h2>其他一些事情</h2>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat10.png" alt="" /></p>
+<ul>
+<li>用来输入密码的TextFields应用使用Secure选项。这是因为如果不使用Secure标签的话，iOS通常会缓存你输入到textfields的东西。请同时也禁用这些TextFields的AutoCorrection。如下图
+所示，你可以看到textfield的AutoCorrection被设置为NO，并且启用了Secure标签。</li>
+</ul>
 
-<p>一旦安装好MobileTerminal,你就可以在桌面上看到一个新的app图标，名字叫做Terminal.</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat11.png" alt="" /></p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112713_0635_IOSApplicat3.png" alt="" /></p>
 
-<p>点击它，你可以得到一个终端，试试运行几个Unix命令。在这里，我们简单的用ps列举下正在运行的进程。</p>
+<ul>
+<li>应用进入后台的时候应该清除剪贴板。你可以在AppDelegate的- (void)applicationDidEnterBackground:(UIApplication *)application 添加下面的代码。如果你使用自定义的剪贴板，
+用自定义的剪贴板替换[UIPasteboard generalPasteboard] 。</li>
+</ul>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat12.png" alt="" /></p>
 
-<p>你可以看到，ps这个命令成功执行。</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>    <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">applicationDidEnterBackground</span><span class="p">:(</span><span class="bp">UIApplication</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">application</span>
+</span><span class='line'>     <span class="p">{</span>
+</span><span class='line'>     <span class="c1">// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.</span>
+</span><span class='line'>     <span class="c1">// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.</span>
+</span><span class='line'>     <span class="p">[</span><span class="bp">UIPasteboard</span> <span class="n">generalPasteboard</span><span class="p">].</span><span class="n">items</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>     <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+* 使用URL schemes做些重要事情的时候要增加提示或者验证。我们知道任意应用都能注册一个URL Scheme。例如Skype应用能够注册URL Scheme skype://并且任意应用都能用参数调用这个url。
+这就使得应用之间能够通信。在之前，Skype有一个漏洞，使得任意用户都能使用如下的url， skype://123123123?call，呼叫任何人。因为Skype呼叫之前并没有提示用户，这些就被直接发送出去了。
+在真正发出呼叫之前，提示一下用户会更好一些。URL shceme的输入也同样需要被验证。你可以把验证放在AppDelegate的- (BOOL)application:(UIApplication </em>)application handleOpenURL:(NSURL *)url 中。</p>
 
-<p>让我们看看我们是否能够通过ssh登录进这个越狱设备。确保你的电脑和越狱设备连接在同一个网络，找到越狱设备的IP地址。为了找到设备的IP地址，到设置（settings）- WiFi中选择设备现在连接的网络。</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>     <span class="err">–</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nl">application</span><span class="p">:(</span><span class="bp">UIApplication</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">application</span> <span class="nl">handleOpenURL</span><span class="p">:(</span><span class="bp">NSURL</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">url</span> <span class="p">{</span>
+</span><span class='line'>     <span class="c1">//Validate input from the url</span>
+</span><span class='line'>     <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'>     <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+* 有些应用使用UIWebView来展示来自URL的内容。在一些流行应用中已经发现了UIWebViews的<a href="https://superevr.com/blog/2011/xss-in-skype-for-ios/">漏洞</a>。UIWebViews也支持javascript，而且目前没有公开的API来禁用UIWebView中的javascript。因此，如果用户控制的任何输入被用作UIWebView的内容，它就可能被操纵在运行时在UIWebView中执行javascript代码。即使这个输入不受用户控制，攻击者也能够在运行时操纵添加到UIWebView的内容，因此执行他想执行的任意javascript代码。因为苹果所加的限制，开发者对此能做的也不多，开发者应该要通过如下方法来确保加载进UIWebView的内容不是恶意的，a）通过HTTPs加载数据。b)确保UIWebView的内容不依赖于用户的输入。c）通过NSData类提供的dataWithContentsOfURL函数来验证URL的内容。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS应用程序安全(24)-越狱检测与绕过]]></title>
+    <link href="http://baxiang123.com//blog/ios-application-security-24.html"/>
+    <updated>2013-11-26T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/ios-application-security-24</id>
+    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟 <br/>
+版权声明：自由转载-非商用-保持署名</p>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat13.png" alt="" /></p>
+<p>本文我们将查看开发者在其应用中集成的、对运行其应用的设备是否越狱的检测方法。对你的应用来说，检测设备是否越狱有许多好处。我们已经知道，攻击者能够运行Cycript,GDB,Snoop-it等工具来执行运行时分析和窃取你的应用的敏感信息。 如果你确实想要为你的应用添加附加的安全层，你不应该允许你的应用在越狱设备上运行。请注意数百万的用户越狱了他们的设备，因此不让你的应用在越狱设备上运行可能会对你的用户基数造成较大的影响。你能做的另一件事就是禁用某些功能而不是整个应用。我们也将看看攻击者如何用Cycript来绕过应用内部的越狱检测。</p>
 
-<p>可以看到，IP地址是192.168.2.3。让我们试试以root用户登录进去。在命令行中运行如下命令。root的默认密码是：alpine。推荐的做法是：一旦你安装好了OpenSSH, 马上改掉root的默认密码。这是因为有些恶意软件利用默认的用户名和密码登录进入设备[译者注1]。为了改密码，在ssh登录上之后，在命令行输入passwd这个命令，然后输入2次新密码。然后你的root秘密就已修改了。这一系列命令可以参见下图：</p>
+<!-- more -->
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat14.png" alt="" /></p>
 
-<p>备注：确保在运行时，Cydia在后台运行而不是在前台。这是因为Cydia以root运行，因此，如果Cydia在前台，而此时我们需要lock一个进程，而恰好此时该进程被Cydia lock，命令就不会运行成功。</p>
+<p>设备越狱之后，有许多文件和应用被安装到设备上。检测文件系统中的这些文件可以帮助我们确定这个设备越狱与否。例如，大多数越狱设备都会在越狱之后安装Cydia。因此，简单的检查下Cydia的文件路径就能判断设备越狱与否。</p>
 
-<p>运行一下 apt-get update, 获得最新的包列表</p>
+<pre><code>NSString *filePath = @"/Applications/Cydia.app";
+if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
+{
+   //Device is jailbroken
+}
+</code></pre>
 
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042413_1342_IOSApplicat15.png" alt="" /></p>
+<p>不过，并不是所有的越狱设备都会安装Cydia。事实上，多数攻击者能够改变Cydia应用的位置。检查更多和越狱相关的其他文件能够让越狱检测更有效。例如，可以检查Mobile Substrate是否安装，许多越狱设备上的应用依赖它。也可以检查SSH Daemon的位置，或者shell解释器。把这些检查组合到一起，我们得到如下的方法。</p>
 
-<p>接下来安装class-dump-z, 可以用它来导出（dump）iOS应用的类信息（class infomation）。先到其<a href="https://code.google.com/p/networkpx/wiki/class_dump_z">官方地址</a>，然后复制最新版本的地址，在写本文的时候，最新版本是 0.2a</p>
+<pre><code> +(BOOL)isJailbroken{
+ if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/MobileSubstrate.dylib"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/bin/bash"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/sbin/sshd"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt"]){
+ return YES;
+ }
+ return NO;
+ }
+</code></pre>
 
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042413_1342_IOSApplicat17.png" alt="" /></p>
+<p>从前面的系列文章中我们知道，以mobile用户运行的应用运行在沙盒环境中，位于/var/mobile/Applications目录，而以root用户运行的应用（比如苹果预加载的应用）并不属于任何沙盒环境，位于/Applications目录。运行越狱设备的用户可以把应用安装在/Applications目录，因此有root权限。因此，增加一个检测来看应用是否遵守沙盒规则能够让用户证实设备越狱与否。一个好方法就是检查看看我们是否能够修改应用bundle之外的文件。</p>
 
-<p>现在，ssh进入你的设备，然后用wget下载class-dump-z.</p>
+<pre><code> NSError *error;
+ NSString *stringToBeWritten = @"This is a test.";
+ [stringToBeWritten writeToFile:@"/private/jailbreak.txt" atomically:YES
+ encoding:NSUTF8StringEncoding error:&amp;error];
+ if(error==nil){
+ //Device is jailbroken
+ return YES;
+ } else {
+ //Device is not jailbroken
+ [[NSFileManager defaultManager] removeItemAtPath:@"/private/jailbreak.txt" error:nil];
+ }
+</code></pre>
 
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042413_1342_IOSApplicat18.png" alt="" /></p>
+<p>我们知道技艺熟练的攻击者能够修改应用的位置。不过，我们知道超过80%的越狱设备会安装Cydia，即使攻击者能够改变Cydia应用的位置，他很可能也不会去改变Cydia应用注册的URL scheme。如果我们从应用中调用Cydia的URL scheme(cydia://）并且返回成功，那么我们可以确定设备是越狱了的。</p>
 
-<p>另一个选择就是先下载到你电脑上，然后利用stfp上传到越狱设备上。一旦下载完成，使用tar来解压。</p>
+<pre><code> if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"cydia://package/com.example.package"]]){
+ //Device is jailbroken
+ }
+</code></pre>
 
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/042413_1342_IOSApplicat19.png" alt="" /></p>
+<p>让我们加一个条件使得这个检查代码只在真是设备上执行，在模拟器上不执行。在组合上述技巧之后，我们的方法看起来像下面这样。</p>
 
-<p>一旦解压完成，进入目录iphone_armv6,然后复制class-dump-z的执行文件到/usr/bin目录。这样你可以在设备上的任何目录都运行class-dump-z。拷贝完成之后，输入class-dump-z。你可以得到如下的输出，这就意味着class-dump-z已经成功安装。</p>
+<pre><code> +(BOOL)isJailbroken{
+ #if !(TARGET_IPHONE_SIMULATOR)
+ if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/MobileSubstrate.dylib"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/bin/bash"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/sbin/sshd"]){
+ return YES;
+ }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt"]){
+ return YES;
+}
+ NSError *error;
+ NSString *stringToBeWritten = @"This is a test.";
+ [stringToBeWritten writeToFile:@"/private/jailbreak.txt" atomically:YES
+ encoding:NSUTF8StringEncoding error:&amp;error];
+ if(error==nil){
+ //Device is jailbroken
+ return YES;
+ } else {
+ [[NSFileManager defaultManager] removeItemAtPath:@"/private/jailbreak.txt" error:nil];
+ }
+ if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"cydia://package/com.example.package"]]){
+ //Device is jailbroken
+ return YES;
+ }
+ #endif
+ //All checks have failed. Most probably, the device is not jailbroken
+ return NO;
+}
+</code></pre>
 
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/042413_1342_IOSApplicat20.png" alt="" /></p>
+<p>老实说，没有万无一失的检测越狱设备的方法。技艺熟练的攻击者总是能够找到绕过的方法。攻击者能够从二进制文件中找到对应的指令，RNA好用No-op（译者注：汇编语言NOP，机器指令0x90）替换这些指令。攻击者也能够通过Cycript进行method swizzle来替换成他自己的实现。</p>
 
-<h3>总结</h3>
+<p>通过使用Class-dump-z，攻击者能够找到应用的类信息。攻击者能够在JailbreakDetector类中找到方法 + (BOOL)isJailbroken。请注意它是一个类方法，因为它以＋开头。很显然这个方法检测设备是否越狱，如果越狱，就返回YES。如果你不理解这里说的这些，你应该先读读<a href="http://wufawei.com/2013/11/ios-application-security-summary/">前面的文章</a>。</p>
 
-<p>本文我们学习了如何越狱设备上搭建一个移动审计环境。在接下来的文章中我们将介绍如何使用class-dump-z来分析应用的类信息（class information）。</p>
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112513_1713_IOSApplicat1.png" alt="" /></p>
 
-<p>[译者注1]，在iPhone上的第一个蠕虫，ikee利用了默认的密码，具体参见对ikee的详细分析报告：<a href="http://mtc.sri.com/iPhone/">An Analysis of the iKeeB (duh) iPhone botnet (Worm)</a></p>
+<p>攻击者能够用Cycript挂钩进这个应用。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112513_1713_IOSApplicat2.png" alt="" /></p>
+
+<p>然后打印出JailbreakDetector这个类的所有方法。请注意我们使用JailbreakDetector->isa.messages，因为isJailbroken是一个类方法。要找出实例方法，使用JailbreakDetector.messages即可。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112513_1713_IOSApplicat3.png" alt="" /></p>
+
+<p>然后攻击者就能够用他自己的始终返回NO的方法来替换这个方法（isJailbroken）的实现。如果你不理解这些，我建议你读读关于<a href="http://wufawei.com/2013/11/ios-application-security-8/">Method Swizzling</a>这篇文章。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/112513_1713_IOSApplicat4.png" alt="" /></p>
+
+<p>作为开发者，我们能做的就是改变这个方法的名字为一个不那么吸引攻击者注意力的名字。例如JailbreakDetector这个类名可以重命名为ColorAdditions， +(BOOL)isJailbroken 可以替换为+(BOOL)didChangeColor，而其实现不改变。这些名字不会吸引攻击者的注意。攻击者总是能够通过Snoop-it，GDB等工具来查看内部的方法调用，不过，像刚刚那样的一个小改动就能迷惑住攻击者。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS应用程序安全(23)-对抗运行时分析和操作]]></title>
+    <link href="http://baxiang123.com//blog/ios-application-security-23.html"/>
+    <updated>2013-11-23T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/ios-application-security-23</id>
+    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/">http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面的文章中，我们看到了如何使用调试器和工具如Cycript对iOS应用进行运行时分析和操作。我们也看到了在运行时通过使用GDB来修改寄存器的值是如何修改方法的具体实现的，看到了怎样使用工具如Cycript来进行<a href="http://wufawei.com/2013/11/ios-application-security-8/">swizzling</a>方法实现。有Cycript和GDB这样的工具在手，加上你的应用程序可执行文件的拷贝，一切就都在攻击者的掌控之中。不过，有一些技巧能够使得攻击者更难攻击。本文我们将查看开发者能够用来对抗运行时分析和操作的防御技巧。</p>
+
+<!-- more -->
+
+
+<p>在Xcode中，开发者（译者注：原文写的是攻击者，按上下文理解应该是开发者）能够使用一些检测方法来查看一个应用是否正被调试。在Xcode中，你可以用下面的代码来检查调试器是否存在。</p>
+
+<pre><code>#ifndef DEBUG
+SEC_IS_BEING_DEBUGGED_RETURN_NIL();
+#endif
+</code></pre>
+
+<p>正如名字指出的，如果应用正被调试，那么这个宏会返回nil。你可以把这个检查放到一些重要的地方，比如访问或者返回重要数据的地方。如果在那时（访问或者返回重要数据的时候）应用正被调试，这个宏就会返回nil。因此你的应用就不会工作正常，因此攻击者就会遇到问题。或者你可以在一个Timer中调用，一旦你发现应用正被调试，你可以删除存储在应用中的所有重要信息、重要文件等等。但是，请注意攻击者使用Cycript能够劫持你的方法实现，因此比较明智的是只使用一个宏而不是在一个方法内使用这个宏。请注意这个宏只在release下能工作正常。要在你的设备上测试，你需要在build中选择release。选择scheme，然后点击Edit Scheme。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111313_1602_IOSApplicat1.png" alt="" /></p>
+
+<p>在Info下面，把Build Configuration设置为Release。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111313_1602_IOSApplicat2.png" alt="" /></p>
+
+<p>现在你可以使用Xcode在你的设备上运行这个应用，你会看到成功检测到调试器。这是因为Xcode会给正在运行的应用附加一个调试器。</p>
+
+<p>再次说一下，这个方法并不能保证应用不会被调试。一个技艺熟练的攻击者能够对应用程序的二进制文件对这个宏相关的汇编指令打补丁。作为开发者，你应该在多个地方检查，使得攻击者更难调试。</p>
+
+<p>另一个阻止调试器附加到应用程序的方法是使用ptrace函数。使用这个函数，传递一个特定的参数，能够阻止其它任何调试器附加到应用程序上。像GDB和LLDB在附加到进程的时候就会使用ptrace函数。使用ptrace，加上参数<code>PT_DENY_ATTACH</code>就会告诉这个函数，应用不允许追踪。下面是<a href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man2/ptrace.2.html">苹果官方文档</a>关于
+<code>PT_DENY_ATTACH</code> 的截图。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111313_1602_IOSApplicat3.png" alt="" /></p>
+
+<p>让我们试试。在Xcode中创建一个新工程。点击File->New->Project->Single View Application。然后在模拟器中运行。你会得到如下的视图。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111313_1602_IOSApplicat4.png" alt="" /></p>
+
+<p>现在，使用如下的代码来修改main.m文件。导入ptrace.文件，然后在main函数中增加如下代码。</p>
+
+<pre><code>#ifndef DEBUG
+ptrace(PT_DENY_ATTACH, 0, 0, 0);
+#endif
+</code></pre>
+
+<p>你的main.m看起来应该像这样。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111313_1602_IOSApplicat5.png" alt="" /></p>
+
+<p>现在运行程序，你会发现应用加载不起来。这是因为当Xcode加载应用的时候，它会把一个调试器(LLDB或者GDB)附加到应用上。因为我们在main.m中加了反调试代码，因此Xcode不能附加调试器，因此它就退出应用。</p>
+
+<p>双击模拟器上的home按钮，然后kill这个测试应用。再次运行，这次能够启动起来。这是因为我们没有通过Xcode加载，因此没有调试器附加到上面。</p>
+
+<p>当然，这个方法也不能保证你的应用就绝对安全。技术熟练的攻击者能够在解密应用之后对这个防检测代码打补丁。作为开发者，你应该在多个地方使用这个方法，使得攻击者的工作变得更难。</p>
+
+<p>需要注意的事，上述两种方法都将试图阻止调试器加载到应用上，但是它对Cycript没有用，因为Cycrit并不追踪应用。作为开发者，你能够做下面的一些检查使得攻击者的工作变得尽可能的难。例如，你可以在应用中增加一些假的方法，攻击者可能会对这些假方法感兴趣。例如，用<code>userDidLogin:(BOOL)didLogin;</code>作为名字，肯定会吸引攻击者的注意。当然，攻击者会试图用Cycript执行。在这个方法实现中，你可以清除应用中的所有数据，甚至报告服务器，这个应用已经被侵入。对于特别需要安全的银行应用，你也可以检查设备是否已经越狱。如果是，可以拒绝所有访问服务器并且删除所有存在应用本地的重要信息。在下一篇文章中，我们将查看如何检查设备是否越狱。另一件需要做的事情就是检查应用是否被破解，然后执行必要的步骤来防止攻击者获取信息。在<a href="http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/">github</a>上有一个很简单的类可以帮你完成这个工作。当然，攻击者总是能够劫持方法实现的，因此，把它改一个不那么起疑的名字。</p>
+
+<p>对于那些检查应用是否安全的方法，你也可以给它们改个名字以便它们看起来不那么重要。例如，一个检查应用是否正被调试的方法不应该被命名为<code>-(BOOL)isAppBeingDebugged</code>。这肯定将会引起攻击者的注意并替换方法实现。相反，命名为<code>-(BOOL)didChangeColor</code> 或者 <code>-(BOOL)didSetFont</code>。就不错。这个情况下，这个函数在攻击者看来就不那么重要了。</p>
+
+<p>如果你已经检测到可疑行为，并且认为最好退出应用，你可以使用下面的命令。</p>
+
+<pre><code>exit(-1);
+</code></pre>
+
+<p>这将退出应用。</p>
+
+<p>最好，一个需要注意的非常重要的一点就是，没有任何应用在一个技艺熟练的攻击者面前是安全的。有你的应用的二进制文件的拷贝，加上Cycript、GDB等工具在手，一切就都在攻击者的掌控之中。我们能做的就是使用尽可能多的检查，使得攻击者的任务变得困难以至于他放弃我们的应用去找那些更容易攻击的应用。</p>
+
+<p>译者注1：第一种方法，我在Xcode5上没有试成功，如果有人知道原因，麻烦说一下。 <br/>
+译者注2；SEC_IS_BEING_DEBUGGED_RETURN_NIL是一个自定义的宏，请参见<a href="http://www.raywenderlich.com/46223/ios-app-security-analysis-part-2">iOS App Security and Analysis: Part 2/2</a> 和 <a href="https://github.com/x128/MemeCollector/blob/master/Meme%20Collector/NSObject%2BdebugCheck.h">这</a> （感谢小伙伴 方彬@支付宝 给我提示）</p>
+
+<p>   <br/>
+本文原文 <a href="http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/">IOS Application Security Part 23 – Defending against runtime analysis and manipulation</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS应用程序安全(22)-使用GDB进行运行时分析和操作]]></title>
+    <link href="http://baxiang123.com//blog/ios-application-security-22.html"/>
+    <updated>2013-11-17T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/ios-application-security-22</id>
+    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/">http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>本文我们将看看如何使用GDB来对iOS应用进行运行时分析。 在<a href="http://wufawei.com/">前面的文章</a>中，我们已经查看了如何使用Cycript来分析和操作iOS应用的运行时行为。我们学习了如何执行<a href="http://wufawei.com/2013/11/ios-application-security-8/">method swizzling</a>，并且调用我们自己的方法而不是原来的实现。因此，为什么我们还需要GDB呢？Cycript并不运行我们设置断点，不允许在某个特定指令后修改变量和寄存器的值。用GDB，我们可以更深入应用，观察底层的汇编指令，操作寄存器的值，因此可以完全改变程序的运行流程。</p>
+
+<!-- more -->
+
+
+<p>你可以从我的github账号中下载<a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a>。然后确保安装和运行它到你的设备上。为了把这个设备运行到你的设备上，你不必成为一个注册的开发者，
+你可以依照<a href="http://wufawei.com/2013/11/ios-application-security-7/">这里</a>提到的步骤。在继续本文之前，我推荐你看看本系列关于GDB的上一篇<a href="http://wufawei.com/2013/11/ios-application-security-21/">文章</a>。这个例子应用是一个简单的单视图应用，要求你输入用户名和
+密码的组合来登入。然后它在本地验证你输入的凭证，如果用户名/密码输入正确，它会让你登录进去。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat2.png" alt="" /></p>
+
+<p>一旦应用安装到了设备上，ssh进入设备。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat2.png" alt="" />
+然后在你的设备上开启GDB-Demo这个应用。在GDB中，使用命令 attach GDB-Demo.PiD 附加到这个运行进程，这里的PID是GDB-Demo应用的进程ID。你那里的PID可能不一样。输入attach GDB-Demo然后点击TAB。就会给出你要追加的正确的进程ID。一旦你按了enter，GDB会挂钩进这个运行的进程。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat3.png" alt="" /></p>
+
+<p>从上一篇文章我们已经知道这个应用的类信息。我们知道它有一个方法叫做loginButtonTapped:。因此我们给它设置一个断点，然后输入命令c来继续运行这个应用。
+<img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat4.png" alt="" /></p>
+
+<p>现在输入任意的用户名和密码组合，然后点击登录。断点就会被触发。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat5.png" alt="" /></p>
+
+<p>使用disas来打印出这个函数的汇编信息。现在我们知道验证就会发生在这个函数内部，因为我们从这个应用的类信息里找不到其他感兴趣的其他相关信息。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat6.png" alt="" /></p>
+
+<p>从上一篇文章中，我们学习到每当一个外部方法或者属性被访问的时候，objc_msgSend就会被调用。不过，在任何程序中msgSend都会被调用成千上万次。
+我们只关心和这个函数（loginButtonTapped:）相关的objc_msgSend调用。因此，我们可以找出所有调用objc_msgSend的指令的地址，然后给它设置断点。
+一个非常简单的方法就是寻找blx指令，注意它(blx)的地址，然后为它设置一个断点。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat7.png" alt="" /></p>
+
+<p>现在我已经为这个函数调用objc_msgSend的入口设置了断点。现在我们一个一个的来看objc_msgSend指令，打印出寄存器的值，看看是否有感兴趣的。
+我们将要打印出每个objc_msgSend调用的r1的值。如果没有什么感兴趣的，输入命令c继续直到下一个断点触发。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat8.png" alt="" /></p>
+
+<p>这里有些有意思的东西。如果我们看看上图的底部，我们会看到方法isEqualToString:被调用了。因此这是一个和特定字符串的比较。利用从上一篇文章获得的知识
+我们可以知道寄存器r2会包含传递给这个函数的参数。并且，如果你有编写Objective-C代码的经验，你会知道每个Objective-C的对象都是一个指针。isEqualToString:这个函数也同样接收一个字符串指针作为参数，保存在r2寄存器中。要找出这个对象的值，GDB有一个特定的命令po，能够打印出这个寄存器中的指针的值。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat9.png" alt="" /></p>
+
+<p>因此，这个正被比较的字符串是“Admin”。这看起来像是用户名。看起来工作已经完成了一半。你也可以用如下图的方式打印出r2的值。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat10.png" alt="" /></p>
+
+<p>现在更明智的做法就是重新在应用中把用户名输入为Admin。这是因为执行流程可能还走不到检查密码的地方（因为用户名不对）。因此，让我们输入Admin作为
+用户名，输入任意的东西作为密码。让我们再次设置断点，然后看看我们是否能够找出密码。在经过一段做同样事情的时间之后，断点将会在isEqualToString:被调用的时候被触发。打印出r2的值，可以看到，密码是HELLOIOSAPPLICATIONEXPERTS。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat11.png" alt="" /></p>
+
+<p>现在我们输入找到的用户名和密码的组合，我们将看到。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat12.png" alt="" /></p>
+
+<p>另一个做到同样事情的方法就是操作寄存器的值。在汇编代码中，我们可以看到有2个调用cmp指令的地方。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat13.png" alt="" /></p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat14.png" alt="" /></p>
+
+<p>在这两个地方，r0寄存器的值都与0做比较，然后根据比较结果做决定。让我们为这两个地方都设置一个断点然后继续运行应用。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat15.png" alt="" /></p>
+
+<p>一旦断点触发，设置r0寄存器的值为1.你可以通过命令 set $r0 =1做到。在另一个地方做同样的事情然后继续运行应用。
+你会看到你成功登陆，即使你没有输入任何用户名/密码组合。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat16.png" alt="" /></p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat17.png" alt="" /></p>
+
+<p>顺便说一下，下面是我们破解的loginButtonTapped:的代码。</p>
+
+<pre><code>1. - (IBAction)loginButtonTapped:(id)sender {
+2. if([_usernameTextField.text isEqualToString:@"Admin"] &amp;&amp; [_passwordTextField.text isEqualToString:@"HELLOIOSAPPLICATIONEXPERTS"]){
+3. [self performSegueWithIdentifier:@"adminPage" sender:self];
+4. }else{
+5. [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Incorrect Username or password" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+6. }
+7. }
+</code></pre>
+
+<p><br>
+本文我们查看了如何通过GDB在运行时操作应用的执行流程。在整个逻辑都在一个函数内部的情况下，关于GDB的知识特别有用，因为我们不能够使用Cycript的method swizzling技术。掌握好GDB和ARM汇编的知识，修改和操作应用的执行流程的能力只受你的想象力限制。</p>
+
+<p> <br/>
+本文原文 <a href="http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/">IOS Application Security Part 22 – Runtime Analysis and Manipulation using GDB</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS应用程序安全(21)-ARM和GDB基础]]></title>
+    <link href="http://baxiang123.com//blog/ios-application-security-21.html"/>
+    <updated>2013-11-17T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/ios-application-security-21</id>
+    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/">http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>直到现在，所有发布的iOS设备都是基于ARM架构的。我们开发iOS应用的时候编写的Objective-C代码会首先转换成ARM汇编，然后转换成机器指令（1s和0s。译者注：即0、1指令，机器指令都是由0、1组成的。）。对ARM汇编语言和使用GDB调试有很好掌握的话，攻击
+者是能够在运行时解密Objective-C代码甚至修改代码的。</p>
+
+<p>本文将使用的<a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a>例子程序可以从我的github账户上下载。请确保在你的设备上安装和运行。如果你没有一个注册的开发者账户，不能在你的设备上运行，请使用<a href="http://wufawei.com/2013/11/ios-application-security-7/">前文</a>提供的方法。</p>
+
+<p>现在让我们SSH进入设备。</p>
+
+<!-- more -->
+
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat1.png" alt="" /></p>
+
+<p>现在我们开启GDB，然后让GDB在应用开启之后就挂钩这个应用。可以通过命令 attach -waitfor Appname来完成。你也可以
+在设备上运行这个应用，然后用attach命令挂钩这个运行的进程，如下图所示。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat2.png" alt="" /></p>
+
+<p>一旦GDB挂钩进了这个应用，你会注意到这个应用目前是在暂停状态。你可以用 c 命令让这个应用继续执行。不过在继续执行之前，
+让我们先做些调查。和任何其它架构一样，ARM中的内存也被分为寄存器（register）。所有的寄存器都是32位的（iOS 7中是64位的），并且它们的目的
+就是保存和相互之间移动数据。你可以使用 info registers命令来查看关于这些寄存器的信息。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat3.png" alt="" /></p>
+
+<p>请注意这个命令并没有把ARM中的所有寄存器都打印出来。要打印所有的寄存器，使用 info all-registers命令。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat4.png" alt="" /></p>
+
+<p>要导出汇编信息，使用disassemble 或者 disas 命令。这会给出后续几条指令的一些汇编信息。我们通过在
+disas命令后面提供函数名称来导出某个特定函数的汇编。例如要导出main函数的汇编，使用命令 disas main。如下图。</p>
+
+<p><img src="httpources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat5.png" alt="" /></p>
+
+<p>我们看看刚刚在设备上安装的应用，可以看到只是一个要求（输入）用户名和密码的简单应用。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat6.png" alt="" /></p>
+
+<p>我们也可以从用class-dump-z对这个应用导出的信息中找到有个类叫ViewController和一个方法叫做-(void)loginButtonTapped:(id)tapped;</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat7.png" alt="" /></p>
+
+<p>使用GDB，我们可以在应用中设置断点。只需要输入要断下来的方法名称。使用命令 b functionName。你也可以提供不带类信息的方法签名，
+如果你不确定的话，GDB会咨询你想要在那个类上设置断点。</p>
+
+<p><img src="httpources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat8.png" alt="" /></p>
+
+<p>请注意，实例方法前缀都带有一个&#8221;-&ldquo;，而类方法前缀带有&rdquo;+&ldquo;，如下图所示。例如，sharedInstance是一个类方法，方法一个单例类的共享实例。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat9.png" alt="" /></p>
+
+<p>可以通过命令info breakpoints看到所有的断点。</p>
+
+<p><img src="htt://repources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat10.png" alt="" /></p>
+
+<p>通过命令 delete 和 断点的ID就可以删除任何断点。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat11.png" alt="" /></p>
+
+<p>不管怎样，先给方法loginButtonTapped: 设置一个断点。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat12.png" alt="" /></p>
+
+<p>现在我们可以用命令continue或者c让应用重新run起来。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat13.png" alt="" /></p>
+
+<p>现在点击应用的登录按钮。这样就会触发我们的断点。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat14.png" alt="" /></p>
+
+<p>我们可以用disassemble命令查看随后的一些汇编信息。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat15.png" alt="" /></p>
+
+<p>要在任意的指令前面下断点，请在那个指令的地址前面加上&#8221;*&#8221;</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat16.png" alt="" /></p>
+
+<p>在本系列文章的<a href="http://wufawei.com/2013/11/ios-application-security-3/">第3篇</a>文章中，我们学习到了objc_msgSend函数。Objective-C是基于消息的，任何时候一有消息被发送，objc_msgSend
+就会被调用。</p>
+
+<p>在我们打印出的loginButtonTapped: 的汇编代码当中，这里有许多的objc_msgSend调用。要找出这个调用的一个好方法就是查找blx指令。
+在你看到blx指令的地方，你可以确认有一个objc_msgSend正在被调用。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat17.png" alt="" /></p>
+
+<p>当有新方法被调用，或者有属性（property）被访问的时候，objc_msgSend就会被调用。所以，如果我们在objc_msgSend下一个断点，我们可以
+打印出正被调用的方法和调用这个方法的对象，这将帮助我们理解app的整个流程。我们已经在本系列的<a href="http://wufawei.com/2013/11/ios-application-security-9/">第9篇</a>文章中学习过Snoop-it能够找到所有被追踪的调用。
+ 要找出正在被调用的方法，我们首先需要查看ARM的调用约定（call convention）。下面是从<a href="http://en.wikipedia.org/wiki/Calling_convention">Wikipedia</a>截取的关于ARM调用约定的图。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat18.png" alt="" /></p>
+
+<p>其中有一行很重要。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat19.png" alt="" /></p>
+
+<p>因此，我们可以给每一个objc_msgSend设置断点，然后使用r0-r3寄存器的值找到传递给这个函数的参数。
+我们先看看objc_msgSend的签名。下面是Apple <a href="https://developer.apple.com/library/mac/documentation/cocoa/reference/objcruntimeref/Reference/reference.html">官方文档</a>的截图。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat20.png" alt="" /></p>
+
+<p>因此这个函数的前2个参数是self 和 op，self是一个用来接收这个消息的某个类的实例，op是要处理这个消息的方法的选择器(selector)。
+选择器（selector）是关于这个消息的签名。例如，如果一个方法的原型为 -(void)addOjectsToArray:(NSArray *)array，那么它的签名就是
+addOjectsToArray:。我们也知道r0-r3用来保存传递给子程序的参数值，因此我们可以推断r0会包含self，而r1会包含op。</p>
+
+<p>我们通过例子来理解。先给objc_msgSend下一个断点，然后继续执行知道断点被触发。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat21.png" alt="" /></p>
+
+<p>我们已经知道，r0会包含一个用来接收这个消息的某个类的实例，r1会包内选择器，从r2开始会是传递给方法的参数。不过，我们要先
+学下命令 x。x代表检查（examine），会以多种格式帮助我们查看内存。我们能够制定我们想要查看的内存的格式。要找出这个命令的所有
+选项，使用命令 help x。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat22.png" alt="" /></p>
+
+<p>我们先检查r0。我们知道r0会包含一个用来接收这个消息的某个类的实例，因此我们要使用的格式是x/a。我们在r0签名使用了$，因为我们想要查看内存，因此
+使用$。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat23.png" alt="" /></p>
+
+<p>我们可以看到接收者是UIRoundedRectButton类的一个实例。现在我们再检查下r1寄存器的值。我们知道它包含一个选择器，例如，方法的签名。
+这是一个字符串，因此我们使用 x/s。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat24.png" alt="" /></p>
+
+<p>现在，我们需要找出传递给这个方法的参数。这个可能会有些棘手，因为我们并不知道r2的格式。但是注意到选择器是respondsToSelector:
+用常识我们可以推断参数可能是一个选择器，因此我们再次使用x/s来检查内存。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat25.png" alt="" /></p>
+
+<p>所有参数就是debugDescription。从方法的选择器我们可以看到，这个函数只有一个参数，因此我们不必进一步检查其他寄存器。所以，
+现在我们可以说正在被调用的方式像下面这样。</p>
+
+<p>-[UIRoundedRectButton respondsToSelector:@selector(debugDescription)];</p>
+
+<p>这里会有太多的objc_msgSend会被调用，一个一个简单会非常痛苦。因此，让我们把这个过程自动化。在本系列的<a href="http://wufawei.com/2013/11/ios-application-security-3/">第3篇</a>文章中，我们学到了如何
+用gdb在断点触发的时候打印信息。我们这样也用用。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat26.png" alt="" /></p>
+
+<p>现在输入命令c继续，你可以看到所有被调用的方法。这可以告诉我们很多这个应用的内部信息。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat27.png" alt="" /></p>
+
+<p>让我们试试以Objective-C类似的语法打印出这些东西。我们将要使用苹果<a href="https://developer.apple.com/library/mac/documentation/cocoa/reference/objcruntimeref/Reference/reference.html">文档</a>中的class_getName。如你所见，它需要提供类对象作为参数，
+因此我们传递r0给它。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat28.png" alt="" /></p>
+
+<p>现在像下面这样重写调用命令。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat29.png" alt="" /></p>
+
+<p>输入命令c继续，现在你可以看到，信息是更可读的方式了。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/110613_1702_IOSApplicat30.png" alt="" /></p>
+
+<p>这会告诉我们很多关于应用内部发生什么的信息。在接下来的文章中，我们将使用本文学到的东西来学习如何使用GDB执行运行时操作。</p>
+
+<p> <br/>
+本文原文 <a href="http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/">IOS Application Security Part 21 – ARM and GDB Basics</a></p>
 ]]></content>
   </entry>
   
