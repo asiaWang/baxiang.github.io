@@ -4,7 +4,7 @@
   <title><![CDATA[小巴童鞋]]></title>
   <link href="http://baxiang123.com//atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-02-07T22:13:36+08:00</updated>
+  <updated>2015-02-07T22:17:55+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -14,10 +14,380 @@
 
   
   <entry>
+    <title type="html"><![CDATA[为你的Octopress加速]]></title>
+    <link href="http://baxiang123.com//blog/wei-ni-de-octopressjia-su.html"/>
+    <updated>2014-11-09T15:04:25+08:00</updated>
+    <id>http://baxiang123.com//blog/wei-ni-de-octopressjia-su</id>
+    <content type="html"><![CDATA[<p>当你在国内打开<a href="http://www.github.com">Github</a>的时候感觉貌似还可以，但是每次打开你的octopress blog貌似每次相当卡,接下来我就介绍下如何解决这个问题。</p>
+
+<!-- more -->
+
+
+<p>
+用chrome浏览器打开的时候发现左下角每次卡在请求google的字体那一步。<br/>
+因此我就打开Finder搜索这个地址，发现在source/_include/head.html 28行中存在如下链接的引用。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="nx">link</span> <span class="nx">href</span><span class="o">=</span><span class="s1">&#39;http://fonts.googleapis.com/css?family=Nunito:400,300,700&#39;</span> <span class="nx">rel</span><span class="o">=</span><span class="s1">&#39;stylesheet&#39;</span> <span class="nx">type</span><span class="o">=</span><span class="s1">&#39;text/css&#39;</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+从这里看出你的问题就我们访问慢的情况就出在对google css 和 js 的引用，（哎，毕竟国内Google被和谐的现在没有VPN根本打不开）。<br/>
+因此我们的想法就是吧这两个文件下载到本地直接进行引用，事实证明访问速度得到明显提升。<br/>
+OK下面我就开始介绍怎么做。<br/>
+1. 新建这个文件夹source/stylesheets/Google-Font/<br/>
+2. 浏览器打开<a href="http://fonts.googleapis.com/css?family=Nunito:400,300,700">http://fonts.googleapis.com/css?family=Nunito:400,300,700</a> ，你会看到如下css</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'>
+</span><span class='line'><span class="c">/* latin */</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="s1">&#39;Nunito&#39;</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">normal</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">300</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;Nunito-Light&#39;</span><span class="o">),</span> <span class="nt">url</span><span class="o">(</span><span class="nt">http</span><span class="o">://</span><span class="nt">fonts</span><span class="nc">.gstatic.com</span><span class="o">/</span><span class="nt">s</span><span class="o">/</span><span class="nt">nunito</span><span class="o">/</span><span class="nt">v7</span><span class="o">/</span><span class="nt">1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8</span><span class="nc">.woff2</span><span class="o">)</span> <span class="nt">format</span><span class="o">(</span><span class="s1">&#39;woff2&#39;</span><span class="o">);</span>
+</span><span class='line'>  <span class="nt">unicode-range</span><span class="o">:</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0000-00FF</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0131</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0152-0153</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02C6</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02DA</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02DC</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2000-206F</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2074</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">20AC</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2212</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2215</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">E0FF</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">EFFD</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">F000</span><span class="o">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c">/* latin */</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="s1">&#39;Nunito&#39;</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">normal</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">400</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;Nunito-Regular&#39;</span><span class="o">),</span> <span class="nt">url</span><span class="o">(</span><span class="nt">http</span><span class="o">://</span><span class="nt">fonts</span><span class="nc">.gstatic.com</span><span class="o">/</span><span class="nt">s</span><span class="o">/</span><span class="nt">nunito</span><span class="o">/</span><span class="nt">v7</span><span class="o">/</span><span class="nt">6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y</span><span class="nc">.woff2</span><span class="o">)</span> <span class="nt">format</span><span class="o">(</span><span class="s1">&#39;woff2&#39;</span><span class="o">);</span>
+</span><span class='line'>  <span class="nt">unicode-range</span><span class="o">:</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0000-00FF</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0131</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0152-0153</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02C6</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02DA</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02DC</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2000-206F</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2074</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">20AC</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2212</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2215</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">E0FF</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">EFFD</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">F000</span><span class="o">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c">/* latin */</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="s1">&#39;Nunito&#39;</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">normal</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">700</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;Nunito-Bold&#39;</span><span class="o">),</span> <span class="nt">url</span><span class="o">(</span><span class="nt">http</span><span class="o">://</span><span class="nt">fonts</span><span class="nc">.gstatic.com</span><span class="o">/</span><span class="nt">s</span><span class="o">/</span><span class="nt">nunito</span><span class="o">/</span><span class="nt">v7</span><span class="o">/</span><span class="nt">TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8</span><span class="nc">.woff2</span><span class="o">)</span> <span class="nt">format</span><span class="o">(</span><span class="s1">&#39;woff2&#39;</span><span class="o">);</span>
+</span><span class='line'>  <span class="nt">unicode-range</span><span class="o">:</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0000-00FF</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0131</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0152-0153</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02C6</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02DA</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02DC</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2000-206F</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2074</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">20AC</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2212</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2215</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">E0FF</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">EFFD</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">F000</span><span class="o">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>3.在Google-Font目录下新建一个css文件命名为google-font.css</p>
+
+<pre><code>source/stylesheets/Google-Font/google-font.css
+</code></pre>
+
+<p>4.打开将浏览器打开的内容粘贴到google-font.css中。</p>
+
+<p>5.打开Termnail，切换到一个source/stylesheets/Google-Font/目录下执行一下命令。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -o 1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.ttf <span class="s1">&#39;http://fonts.gstatic.com/s/nunito/v7/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2&#39;</span>
+</span><span class='line'>curl -o 6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.ttf <span class="s1">&#39;http://fonts.gstatic.com/s/nunito/v7/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2&#39;</span>
+</span><span class='line'>curl -o TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.ttf <span class="s1">&#39;http://fonts.gstatic.com/s/nunito/v7/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+以上命令将会在你的source/stylesheets/Google-Font/目录下下载3个google的字体文件。<br/>
+6.将google-font.css 中的</p>
+
+<pre><code>url(http://fonts.gstatic.com/s/nunito/v7/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');  
+url(http://fonts.gstatic.com/s/nunito/v7/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+url(http://fonts.gstatic.com/s/nunito/v7/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+</code></pre>
+
+<p>分别修改为</p>
+
+<pre><code>url(/stylesheets/Google-Font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.ttf) format('truetype')  
+url(/stylesheets/Google-Font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.ttf) format('truetype')  
+url(/stylesheets/Google-Font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.ttf) format('truetype')
+</code></pre>
+
+<p>7.用浏览器打开<a href="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js</a><br/>
+8.新建source/stylesheets/Google-Font/google-jquery-1.7.2.js文件。<br/>
+9.将内容拷贝进google-jquery-1.7.2.js文件将中。<br/>
+10.打开source/_includes/head.html找到</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="nx">link</span> <span class="nx">href</span><span class="o">=</span><span class="s1">&#39;http://fonts.googleapis.com/css?family=Nunito:400,300,700&#39;</span> <span class="nx">rel</span><span class="o">=</span><span class="s1">&#39;stylesheet&#39;</span> <span class="nx">type</span><span class="o">=</span><span class="s1">&#39;text/css&#39;</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p> 大概在28行左右
+将其替换为</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="nx">link</span> <span class="nx">href</span><span class="o">=</span><span class="s2">&quot;/stylesheets/Google-Font/google-font.css&quot;</span> <span class="nx">rel</span><span class="o">=</span><span class="s1">&#39;stylesheet&#39;</span> <span class="nx">type</span><span class="o">=</span><span class="s1">&#39;text/css&#39;</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;/stylesheets/Google-Font/google-jquery-1.7.2.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+11.打开中断运行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake generate
+</span><span class='line'>rake deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>至此所有的工作都做完了，赶快去打开你的blog 看看是否是飞一般的速度。</p>
+
+<h4>ps:</h4>
+
+<p>附上最终创建文件的截图</p>
+
+<p><img src="http://ww3.sinaimg.cn/bmiddle/a0027cf7gw1em4sesj1b3j20re09mmz1.jpg" alt="image" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[发布你的 First Blog]]></title>
+    <link href="http://baxiang123.com//blog/fa-bu-ni-de-first-blog.html"/>
+    <updated>2014-11-09T05:37:27+08:00</updated>
+    <id>http://baxiang123.com//blog/fa-bu-ni-de-first-blog</id>
+    <content type="html"><![CDATA[<p>接下来我们可以开始写自己的博客了，依次按照下面的步骤就可以发布自己的blog了。</p>
+
+<!-- more -->
+
+
+<p>打开Terminal切换到你的Octopress目录下依次执行一下命令。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">rake</span> <span class="n">new_post</span><span class="o">[</span><span class="s2">&quot;your blog title&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+以上命令将会生成一个在source/_posts/
+    目录下生成一个xxxx-xx-xx-your-blog-title.markdown的文件,
+    &lsquo;you blog title&#8217;将会决定最后生成的URL<br/>
+    <a href="http://site.com/blog/xxxx/xx/xx/your-blog-title/index.html%E3%80%82">http://site.com/blog/xxxx/xx/xx/your-blog-title/index.html%E3%80%82</a></p>
+
+<p>打开source/_posts/xxxx-xx-xx-your-blog-title.markdown文件你会看到如下如下内容。</p>
+
+<pre><code>---
+layout: post // layout type
+title: "your blog title" //the title 
+date: 2011-07-03 5:59 //published date
+comments: true //allowed comments
+categories:  //which tag to be beloged
+---
+</code></pre>
+
+<p>在这个下面就可以写自己的blog 当然你可以用任何你喜欢的编辑器开始写自己的blog。
+在这里我推荐你使用<a href="http://25.io/mou/">Mou</a>他是款支持markdown语法的编辑器你，可以更加方便你写自己的blog。<br/>
+<a href="http://wowubuntu.com/markdown/index.html">Markdown语法参考</a></p>
+
+<h4>Mou</h4>
+
+<p><img src="http://25.io/mou/img/1@2x.png" alt="image" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[为你的Octopress添加Greyshade主题]]></title>
+    <link href="http://baxiang123.com//blog/wei-ni-de-octopresstian-jia-greyshadezhu-ti.html"/>
+    <updated>2014-11-09T05:33:26+08:00</updated>
+    <id>http://baxiang123.com//blog/wei-ni-de-octopresstian-jia-greyshadezhu-ti</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/shashankmehta/greyshade">Greyshade</a>是一个Octopress的主题由于其简洁的风格深受大家喜爱。<br/>
+<a href="https://github.com/shashankmehta/greyshade/wiki/Sites-using-Greyshade/">这里</a>有一些使用这款主题的blog，包括我也在使用这款主题，下面我就开始教大家如何为Octopress安装这个主题。</p>
+
+<!-- more -->
+
+
+<h4>为你的blog添加Greyshade主题</h4>
+
+<p>打开Termnial切换到你的octopress目录，依次执行一下命令</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone git@github.com:shashankmehta/greyshade.git .themes/greyshade //将greyshade checkout 到你的octopress的 .themes目录中
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;\$greyshade: color;&quot;</span> //替换<span class="s1">&#39;color&#39;</span>为你喜欢的颜色（注意颜色格式是12进制的web颜色例如#2893e3<span class="o">)</span>
+</span><span class='line'>rake <span class="s2">&quot;install[greyshade]&quot;</span> //安装 greyshade主题
+</span><span class='line'>rake generate
+</span><span class='line'>rake preview
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>至此主题安装成功打开浏览器输入localhost:4000就能看到新的主题了 如果想修改Greyshade的一些式样的话可以打开sass目录修改相应的_greyshade.scss文件。</p>
+
+<h4>ps:</h4>
+
+<p>1.记得发布到Github哦。<br/>
+2.Octopress的式样都放在sass目录下哦。<br/>
+3.布局放在source/_layouts下。<br/>
+4.由于Octopress是用<a href="http://jekyllrb.com/">jekyllrb</a>构建的，如果你需要更加详细的定制情参考<a href="https://github.com/Shopify/liquid/wiki/Liquid-for-Designers">这里</a>。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[利用Github&amp;Octopress搭建自己的个人博客]]></title>
+    <link href="http://baxiang123.com//blog/li-yong-github-and-octopressda-jian-zi-ji-de-ge-ren-bo-ke.html"/>
+    <updated>2014-11-09T05:19:05+08:00</updated>
+    <id>http://baxiang123.com//blog/li-yong-github-and-octopressda-jian-zi-ji-de-ge-ren-bo-ke</id>
+    <content type="html"><![CDATA[<p>你们看到的这个blog 就是基于Octopress和Github搭建而成，我们接下来要做的就是为你搭建一个这样的blog。</p>
+
+<!-- more -->
+
+
+<h4>note:</h4>
+
+<ol>
+<li>搭建过程都是基于Mac。</li>
+<li>系统版本为OX X Yosemite Version 10.10.1(14B17 )</li>
+<li>基于<a href="http://octopress.org/">Octopress</a>和<a href="https://github.com/">Github</a></li>
+</ol>
+
+
+<h4>用到工具</h4>
+
+<ol>
+<li>Terminal 2.5(343)</li>
+<li>Ruby 2.0.0p481</li>
+<li>Git 1.9.3(Apple Git-50)</li>
+</ol>
+
+
+<h4>开始搭建</h4>
+
+<ol>
+<li><a href="http://git-scm.com/">安装Git</a></li>
+<li><a href="https://www.ruby-lang.org/en/installation/">安装Ruby</a></li>
+<li>配置 Octopress</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone git://github.com/imathis/octopress.git octopres
+</span><span class='line'><span class="nb">cd </span>octopress
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h4>依赖库</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">gem</span> <span class="n">install</span> <span class="n">bundler</span>
+</span><span class='line'><span class="n">rbenv</span> <span class="n">rehash</span>
+</span><span class='line'><span class="n">bundle</span> <span class="n">install</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h4>安装默认主题</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">rake</span> <span class="n">install</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h4>本地预览你的博客</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">rake</span> <span class="n">generate</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">preview</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>在浏览器输入localhost:4000就能看到你的博客了。</p>
+
+<h4>配置Github</h4>
+
+<p>如果你没有Github账号的话请<a href="https://github.com/join">注册</a><br/>
+<a href="https://github.com/new">创建</a>一个 Github Repository Name 为username.github.io 选项全部为默认</p>
+
+<h4>创建Github pages</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">rake</span> <span class="n">setup_github_pages</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>下面将会提示你输入远程连接的Repository 地址</p>
+
+<pre><code>git@github.com:yourusername/yourusername.github.io.git
+</code></pre>
+
+<h4>将Octopress部署到Github上</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="n">rake</span> <span class="n">generate</span>
+</span><span class='line'><span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="err">‘</span><span class="n">your</span> <span class="n">message</span><span class="err">’</span>
+</span><span class='line'><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">source</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>至此所有的配置已经完成，在浏览器输入username.github.com 就可以看到你的博客了。</p>
+
+<h4>ps:</h4>
+
+<p>1.由于没有安装主题所以你看到的是Octopress的一个默认主题<br/>
+2.<a href="http://baxiang123.com//issue/deploy/github/issues/index.html">这里</a>列出了一些常见的问题。</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[iOS应用程序安全(25)-iOS开发安全编程实践]]></title>
-    <link href="http://baxiang123.com//ios-application-security-25.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-25.html"/>
     <updated>2013-11-29T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-25</id>
+    <id>http://baxiang123.com//blog/ios-application-security-25</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-25-secure-coding-practices-ios-development/">http://resources.infosecinstitute.com/ios-application-security-part-25-secure-coding-practices-ios-development/</a>
@@ -154,9 +524,9 @@ return YES;
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(24)-越狱检测与绕过]]></title>
-    <link href="http://baxiang123.com//ios-application-security-24.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-24.html"/>
     <updated>2013-11-26T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-24</id>
+    <id>http://baxiang123.com//blog/ios-application-security-24</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟 <br/>
 版权声明：自由转载-非商用-保持署名</p>
@@ -274,9 +644,9 @@ if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(23)-对抗运行时分析和操作]]></title>
-    <link href="http://baxiang123.com//ios-application-security-23.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-23.html"/>
     <updated>2013-11-23T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-23</id>
+    <id>http://baxiang123.com//blog/ios-application-security-23</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/">http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/</a><br/>
@@ -355,9 +725,9 @@ ptrace(PT_DENY_ATTACH, 0, 0, 0);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(22)-使用GDB进行运行时分析和操作]]></title>
-    <link href="http://baxiang123.com//ios-application-security-22.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-22.html"/>
     <updated>2013-11-17T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-22</id>
+    <id>http://baxiang123.com//blog/ios-application-security-22</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/">http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/</a><br/>
@@ -459,9 +829,9 @@ ptrace(PT_DENY_ATTACH, 0, 0, 0);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(21)-ARM和GDB基础]]></title>
-    <link href="http://baxiang123.com//ios-application-security-21.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-21.html"/>
     <updated>2013-11-17T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-21</id>
+    <id>http://baxiang123.com//blog/ios-application-security-21</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/">http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/</a><br/>
@@ -632,9 +1002,9 @@ addOjectsToArray:。我们也知道r0-r3用来保存传递给子程序的参数�
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(20)-本地数据存储及其安全性（NSUserDefaults, CoreData, Sqlite, Plist 文件）]]></title>
-    <link href="http://baxiang123.com//ios-application-security-20.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-20.html"/>
     <updated>2013-11-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-20</id>
+    <id>http://baxiang123.com//blog/ios-application-security-20</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-20-local-data-storage-nsuserdefaults-coredata-sqlite-plist-files/">http://resources.infosecinstitute.com/ios-application-security-part-20-local-data-storage-nsuserdefaults-coredata-sqlite-plist-files/</a><br/>
@@ -769,9 +1139,9 @@ NSLog(@"Auth token is %@",[bindings objectForKey:@"authToken"]]);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(19)-在程序中使用Introspy]]></title>
-    <link href="http://baxiang123.com//ios-application-security-19.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-19.html"/>
     <updated>2013-11-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-19</id>
+    <id>http://baxiang123.com//blog/ios-application-security-19</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-19-programmatical-usage-of-introspy/">http://resources.infosecinstitute.com/ios-application-security-part-19-programmatical-usage-of-introspy/</a><br/>
@@ -860,9 +1230,9 @@ NSLog(@"Auth token is %@",[bindings objectForKey:@"authToken"]]);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(18)-使用Introspy检测自定义签名]]></title>
-    <link href="http://baxiang123.com//ios-application-security-18.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-18.html"/>
     <updated>2013-11-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-18</id>
+    <id>http://baxiang123.com//blog/ios-application-security-18</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-18-detecting-custom-signatures-with-introspy/">http://resources.infosecinstitute.com/ios-application-security-part-18-detecting-custom-signatures-with-introspy/</a><br/>
@@ -951,9 +1321,9 @@ NSLog(@"Auth token is %@",[bindings objectForKey:@"authToken"]]);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(17)-使用Introspy对iOS应用进行黑盒测试]]></title>
-    <link href="http://baxiang123.com//ios-application-security-17.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-17.html"/>
     <updated>2013-11-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-17</id>
+    <id>http://baxiang123.com//blog/ios-application-security-17</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-app-security-part-17-black-box-assess-ios-apps-using-introspy/">http://resources.infosecinstitute.com/ios-app-security-part-17-black-box-assess-ios-apps-using-introspy/</a><br/>
@@ -1067,9 +1437,9 @@ NSLog(@"Auth token is %@",[bindings objectForKey:@"authToken"]]);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(16)-使用iNalyzer对iOS应用进行动态分析]]></title>
-    <link href="http://baxiang123.com//ios-application-security-16.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-16.html"/>
     <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-16</id>
+    <id>http://baxiang123.com//blog/ios-application-security-16</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-app-security-part-16-runtime-analysis-of-ios-apps-using-inalyzer/">http://resources.infosecinstitute.com/ios-app-security-part-16-runtime-analysis-of-ios-apps-using-inalyzer/</a><br/>
@@ -1159,9 +1529,9 @@ NSLog(@"Auth token is %@",[bindings objectForKey:@"authToken"]]);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析]]></title>
-    <link href="http://baxiang123.com//ios-application-security-15.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-15.html"/>
     <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-15</id>
+    <id>http://baxiang123.com//blog/ios-application-security-15</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/">http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/</a><br/>
@@ -1289,9 +1659,9 @@ SQL和URL字符串。</p>
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(14)-使用Sogeti Data Protection tools收集信息]]></title>
-    <link href="http://baxiang123.com//ios-application-security-14.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-14.html"/>
     <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-14</id>
+    <id>http://baxiang123.com//blog/ios-application-security-14</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/">http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/</a><br/>
@@ -1401,9 +1771,9 @@ python脚本。</p>
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(13)-使用Sogeti Data Protection tools启动定制的Ramdisk]]></title>
-    <link href="http://baxiang123.com//ios-application-security-13.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-13.html"/>
     <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-13</id>
+    <id>http://baxiang123.com//blog/ios-application-security-13</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/">http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/</a><br/>
@@ -1537,9 +1907,9 @@ Sogeti data protection tools，最主要的原因就是它提供了许多我们�
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(12)-导出Keychain数据]]></title>
-    <link href="http://baxiang123.com//ios-application-security-12.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-12.html"/>
     <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-12</id>
+    <id>http://baxiang123.com//blog/ios-application-security-12</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/">http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/</a><br/>
@@ -1672,9 +2042,9 @@ iOS默认允许4位数字口令（从0-9999），因此很容易被人在几分�
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(11)-分析使用HTTP/HTTPS的网络流量]]></title>
-    <link href="http://baxiang123.com//ios-application-security-11.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-11.html"/>
     <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-11</id>
+    <id>http://baxiang123.com//blog/ios-application-security-11</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/">http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/</a><br/>
@@ -1834,9 +2204,9 @@ iOS默认允许4位数字口令（从0-9999），因此很容易被人在几分�
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(10)-iOS文件系统和取证]]></title>
-    <link href="http://baxiang123.com//ios-application-security-10.html"/>
+    <link href="http://baxiang123.com//blog/ios-application-security-10.html"/>
     <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-10</id>
+    <id>http://baxiang123.com//blog/ios-application-security-10</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-10-ios-filesystem-and-forensics/">http://resources.infosecinstitute.com/ios-application-security-part-10-ios-filesystem-and-forensics/</a><br/>
@@ -1987,526 +2357,6 @@ Linkedin iOS应用被发现的一个漏洞就是它把用户的认证信息存�
 
 <p><br/>
 本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-10-ios-filesystem-and-forensics/">IOS Application Security Part 10 – IOS Filesystem and Forensics</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(9)-用Snoop-it分析iOS应用的安全]]></title>
-    <link href="http://baxiang123.com//ios-application-security-9.html"/>
-    <updated>2013-11-14T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-9</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it/">http://resources.infosecinstitute.com/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<h2>引言</h2>
-
-<p>在前面的文章中我们介绍了如何用class-dump-z来导出iOS应用的类信息，如何利用Cycript挂钩进程、执行运行时操纵和method swizzling，用gdb分析app的流程。
-然而，可能有更好的方式能够做这些事。如果能够有一个工具能够做所有这些事情并且能够更好的展示这些信息就太好了。</p>
-
-<p>Snoop-it就是这样一个tool。它允许我们进行运行时分析和对iOS应用进行黑盒安全评估。它提供一个非常简洁的web界面。在写本文的时候，Snoop-it还没正式发布，我给作者写了邮件，
-他们非常友好的提供给我一个beta版本做测试。你可以到它的<a href="https://code.google.com/p/snoop-it/">官网</a>查看或者你可以在<a href="http://twitter.com/aykay/">Twitter</a>上关注作者。</p>
-
-<p>Snoop-it提供的功能可以从对其<a href="https://code.google.com/p/snoop-it/">官方地址</a>的截图看到。</p>
-
-<!-- more -->
-
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat1.png" alt="" /></p>
-
-<p><br></p>
-
-<h2>安装</h2>
-
-<p>（备注：目前已经可以通过在Cydia上添加源、然后直接下载安装了。）
-要安装Snoop-it到你的设备上。你不得不下载deb包，然后用sftp上传到你的设备上。在命令行下用命令dpkg -i [packageName]来安装Snoop-it到你的设备上。
-一旦安装完成，重启你的设备。</p>
-
-<p><img src="http://2we26u4fam7n16rz3a44uhbe1bq2.wpengine.netdna-cdn.com/wp-content/uploads/071813_1302_IOSApplicat2.png" alt="" /></p>
-
-<p>一旦安装完成，你会看到Snoop-it的图标，点击它，你可以看到如下的界面。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat3.png" alt="" /></p>
-
-<p>到设置中按你所需配置。在这里，我们选择端口为12345，并且关闭验证。如果你所在的网络有许多其他用户，或者比较调皮的用户，建议你还是开启验证。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat4.png" alt="" /></p>
-
-<p>现在，用Snoop-it提供的地址打开Snoop-it的Web界面。在我这，地址是：<a href="http://10.0.1.79:12345">http://10.0.1.79:12345</a></p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat5.png" alt="" /></p>
-
-<p>你将看到这个Web界面。如果你读一下，会发现它让你在Snoop-it中选择你要分析的应用，在应用中打开要分析的应用，然后刷新这个Web界面。现在回到
-Snoop-it，选择我们要分析的应用，在我这，我将要选择MethodSwizzlingDemo应用，和上一篇文章用的应用一样。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat6.png" alt="" /></p>
-
-<p>请确保要分析的应用已经打开并保持在前台，现在刷新Snoop-it的Web界面。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat7.png" alt="" /></p>
-
-<p>正如你看到的，现在你有一个很漂亮的界面，现在你可以对这个应用进行详尽的安全评估了。</p>
-
-<p><br></p>
-
-<h2>分析</h2>
-
-<p>在左边，在Analysis下面，点击Objective-C Classes。在右边你就看到所有的类信息，比如属性和方法名称。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat8.png" alt="" /></p>
-
-<p>橘子色的代表有实例的类。例如，当你把鼠标从ViewController的类上面移动的时候，你会看到一个类实例的信息。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat9.png" alt="" /></p>
-
-<p>类似的，那可以看到AppDelegate的方法和属性。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat10.png" alt="" /></p>
-
-<p>回到View Controller上面来，我们可以通过Snoop-it调用方法。点击右上角的 Setup and Invoke。正如我们在上一篇文章中提到的那样，使用这个方法，我们能够绕过这个应用
-的验证。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat11.png" alt="" /></p>
-
-<p>选择对应的实例（这里只有1个实例，但是如果view controller被复用，那么就可能会有多个实例），点击Invoke Method.</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat12.png" alt="" /></p>
-
-<p>这样我们就调用了对应的方法，并且绕过了程序的验证。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat13.png" alt="" /></p>
-
-<p>Snoop-it的另一个牛逼功能是我们可以切换到任意的view controller。例如，在左边的Analysis下面，选择View Controller，选择右边的view controller，然后点击Display Controller.
-你就能够切换到那个view controller。你也可以根据这个View Controller是否在另一个View controller上面来决定点击Close/Hide View Controller。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat14.png" alt="" /></p>
-
-<p>你能够通过点击 Reset display返回。这个功能能够让我们把view controller与对应的view关联起来。我太喜欢Snoop-it的这个功能了。</p>
-
-<p><br></p>
-
-<h2>运行时修改</h2>
-
-<p>Snoop-it支持多种运行时修改，包括修改你的硬件标识符比如Mac地址，UDID，设备模型号等等。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat15.png" alt="" /></p>
-
-<p>你还可以弄个假地址。这个对于那些利用GeoEncrytion来保护它们数据的应用来说 非常有用。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat16.png" alt="" /></p>
-
-<p>而且，你还可以跟踪方法和系统调用的流程。请注意，你需要每隔几秒在方法调用后点击最上面的Refresh刷新一下。请注意，因为我们在beta版本上测试，可能作者会改变这个行为使得我们不必每隔几秒就点击刷新按钮。对有些用户来说，这些信息可能太多，但是对于像我一样已经开发过多年iOS程序的人来说这些信息是相当简单直接的。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat17.png" alt="" /></p>
-
-<p><br></p>
-
-<h2>监控</h2>
-
-<p>Snoop-it允许你查看哪些文件和目录目前正被应用访问。为了达到这个目的，请点击Monitoring下面的 Filesystem.这个功能特别有用，尤其是当应用正在往db写数据的时候，这个功能能够让你找出db文件的名字。你也可以双击它们，然后下载到你的机器上再分析。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat18.png" alt="" /></p>
-
-<p>你也可以看到应用调用的敏感API。比如在地址簿查找信息，访问camera，或者访问设备的UDID。下面是预装的App Store应用访问的敏感API</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/071813_1302_IOSApplicat19.png" alt="" /></p>
-
-<p>我们也可以看到这个应用存在keychain的所有信息。它也会列出所有通过NSURLConnection访问的HTTP请求。这两个功能都可以在monitoring下面看到。我把这些功能留给读者你去尝试。
-我们将在另一篇文章中介绍如何从keychain中dump出数据。</p>
-
-<p>你会很高兴的知道Snoop-it有公共的API，所以我们能够利用它来编写自动化测试或者编写我们自己的用户界面。关于XML-RPC web service API的文档可以在<a href="http://code.google.com/p/snoop-it/wiki/">官网</a>找到。</p>
-
-<p><br></p>
-
-<h2>总结</h2>
-
-<p>本文我们学习了如何使用Snoop-it来进行运行时分析和对iOS apps进行黑盒安全评估。 Snoop-it离发布还有几个星期的时间，尽管你可以像我一样向作者发邮件索要beta版本。
-有一个我特别想要Snoop-it添加的功能就是执行Method Swizzling。我确信Snoop-it对于任何对iOS应用的安全分析感兴趣的人都是一个好工具，并且它会变得越来越好。</p>
-
-<p>（注：翻译的时候已经发布了，可以在Cydia上下载，需要先添加源，具体参见其官方网站）</p>
-
-<p><br/>
-本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it/">IOS Application Security Part 9 – Analyzing Security of IOS Applications using Snoop-it</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(8)-用Cycript进行Method Swizzling]]></title>
-    <link href="http://baxiang123.com//ios-application-security-8.html"/>
-    <updated>2013-11-14T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-8</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-8-method-swizzling-using-cycript/">http://resources.infosecinstitute.com/ios-application-security-part-8-method-swizzling-using-cycript/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<h2>引言</h2>
-
-<p>在前面的文章当中，我们学习了如何在没有开发者证书的情况下安装自己的应用。本文我们将在一个例子程序上看如何用Cycript做method Swizzling。</p>
-
-<p>第一件事情就是下载Xcode例子工程。你可以从<a href="https://dl.dropboxusercontent.com/u/34557464/MethodSwizzlingDemo.zip">这</a>下载。或者你也可以从<a href="https://dl.dropboxusercontent.com/u/34557464/MethodSwizzlingDemo.ipa">这</a>下载二进制文件。如果你已经安装了Xcode，你可以用自签名证书来构建这个工程。上一篇文章详细介绍了如何做。如果你下载了ipa文件，你可以直接把它安装到你的越狱设备上。
-推荐你下载Xcode例子工程，看看源代码。</p>
-
-<!-- more -->
-
-
-<p>请确保使用你自己的证书来签名。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat1.png" alt="" /></p>
-
-<p>一旦你让这个app在设备上运行起来，ssh进设备，然后用Cycript挂钩这个进程。
-你可以通过命令cycript -p [app_id] 来挂钩进入任意进程。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat2.png" alt="" /></p>
-
-<p>如你所见，这个app有一个登录框。请注意在本文中，我们只会在点击 Login Method 1这个按钮的时候绕过登录。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat3.png" alt="" /></p>
-
-<p>用户名和密码是 admin:password。登录后可以进入管理页面。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat4.png" alt="" /></p>
-
-<p>如果输入的用户名和密码有误，那会得到一个错误提示。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat5.png" alt="" /></p>
-
-<p>我们的目标就是绕过这个登录view。</p>
-
-<p>首先，我们先找到这个应用对用的root view controller.在cycript中用下面的命令
-UIApp.keyWindow.rootViewController</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat6.png" alt="" /></p>
-
-<p>既然我们在应用中看到的第一个视图就是这个登录页面，我们可以确定负责显示这个视图的view controller是我们用前一个命令找到的navigation controller的一部分。我们可以用navigation controller的visibleViewController属性来找到当前的视图。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat7.png" alt="" /></p>
-
-<p>完美。现在让我们写个函数打印出该view controller的所有方法吧。这个方法是从Cycript技巧页面拿过来用的。我建议你仔细看看这个页面，能发现很多不错的代码。</p>
-
-<p>下面就是我用的代码。</p>
-
-<pre><code>1. function printMethods(className) {
-2. var count = new new Type("I");
-3. var methods = class_copyMethodList(objc_getClass(className), count);
-4. var methodsArray = [];
-5. for(var i = 0; i &lt; *count; i++) {
-6. var method = methods[i];
-7. methodsArray.push({selector:method_getName(method), implementation:method_getImplementation(method)});
-8. }
-9. free(methods);
-10. free(count);
-11. return methodsArray;
-12. }
-</code></pre>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat8.png" alt="" /></p>
-
-<p>现在让我们打印出当前view controller的所有方法。请注意这个函数取的是类名，在这里是ViewController</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat9.png" alt="" /></p>
-
-<p>获取方法名称的另一个方法就是使用isa.messages属性。根据苹果的<a href="http://developer.apple.com/library/ios/">官方文档</a>，isa是一个指向类结构的指针。</p>
-
-<p>下面是从同一页摘取的文字。</p>
-
-<blockquote><p>“当一个新对象创建的时候，其内存会被分配，实例变量会被初始化。在对象的变量里面第一个就是一个指向它的类对象的指针。这个指针，叫做isa, 使得
-这个对象能够访问它的类，通过这个类，能够找到所以它继承自的类。”</p></blockquote>
-
-<p>下面这个来自<a href="http://developer.apple.com/library/ios/">苹果文档</a>的图解释得很清晰。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat10.png" alt="" /></p>
-
-<p>所以，什么是messages属性呢？首先我们必须要知道什么是分发表（dispatch table）。分发表包含了很多条目，这些条目关联方法的selector和方法在类的地址。
-让我们看一下从苹果官方的截图。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat11.png" alt="" /></p>
-
-<blockquote><p>“给一个对象发送消息的时候，消息函数会根据对象的isa指针到类结构中的分发表查找对方的方法选择器（method selector）。如果没有找到，那objc_msgSend用这个指针找到其superclass，然后查找superclass
-的分发表。连续的查找失败会让objc_msgSend一直依次查找类层次直到NSObject。一旦它定位到选择器（selector），objc_msgSend就调用表中的这个方法并且把它接收的对象数据结构传递给它。
-这就是在运行时选择方法实现的方法。或者用面向对象编程的术语，这些方法和消息是动态绑定的。”</p>
-
-<p>现在，很容易就能猜到messages属性是能发给类实例或者类本身的方法的消息列表。这将是一个非常大的列表，因为isa指针会选择从它父类一直到NSObject的消息。上面有一行值得特别注意。
-“这就是在运行时选择方法实现的方法。或者用面向对象编程的术语，这些方法和消息是动态绑定的。”</p></blockquote>
-
-<p>因为方法和消息是在运行时绑定的，所以我们能够更改某个特定消息的方法实现。</p>
-
-<p>在这里，让我们打印出App Delegate类的所有消息。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat12.png" alt="" /></p>
-
-<p>直接使用messages属性也一样可以。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat13.png" alt="" /></p>
-
-<p>在这里，我们关心的时候用来显示登录页的view controller，我们之前就发现它的名称为ViewController.所以打印出这个VC的所有消息。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat14.png" alt="" /></p>
-
-<p>在输出的顶部，你可以看到这个VC的一些方法。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat15.png" alt="" /></p>
-
-<p>方法validateLogin看起来很有趣。让我们看看class-dump-z输出的关于这个方法的信息。如果你对class-dump-z不熟悉，请参看本系列的<a href="http://wufawei.com/2013/11/ios-application-security-2/">第2篇文章</a>。</p>
-
-<p>下面就是我们从class-dump-z的输出中找到的关于ViewController的相关信息。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat16.png" alt="" /></p>
-
-<p>正如我们看到的，方法validateLogin返回一个BOOL类型值。从这我们可以推断这个方法验证用户的用户名和密码是否正确，正确返回YES，否则返回NO。
-有Cycript在手，我们可以改变某个特定消息的实现。让我们来实现一个方法让它总是返回TRUE。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat17.png" alt="" /></p>
-
-<p>因此，R.H.S （Right Hand Side）是一个javascript函数，总是返回true。让我们现在点击应用的登录页面的Login Method 1。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat18.png" alt="" /></p>
-
-<p>可以看到，认证成功，应用让我们进入管理页面了。我们使用Cycript执行了method swizzling，绕过了登录框。</p>
-
-<p><br></p>
-
-<h2>一些其他有趣的事情。</h2>
-
-<p>现在我们看到method swizzling是如何工作的，去了解下绕过这个验证的其他方法也会非常有趣。从class-dump-z的输出结果，我们可以看到一旦validateLogin返回TRUE。方法pushLoginPage就会被调用。其他一些页面可能叫做pushUserPage, 或者pushLoginSuccessfulPage等等。我们不必需要验证一定要是TRUE。我们可以自己调用这个方法。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1533_IOSApplicat19.png" alt="" /></p>
-
-<p>因为这是个实例方法，我们通过UIApp.keyWindow.rootViewController.visibleViewController 得到实例。请注意这样做可能导致crash，因为后续被push进的view controller
-可能对输入的用户名和密码有依赖。如果你想挑战一下，不妨试试绕过Login Method 2。我们会在随后的文章讨论如何绕过它。</p>
-
-<p><br></p>
-
-<h2>总结</h2>
-
-<p>本文我们学习了如何利用Cycript来进行method swizzling。随后我们将讨论更多自动化的技巧和更好的工具。我们将看看如何在运行时使用gdb和otool来获得其他信息。</p>
-
-<p><br/>
-本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-8-method-swizzling-using-cycript/">IOS Application Security Part 8 – Method Swizzling using Cycript</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(7)-不用证书安装应用到设备的方法]]></title>
-    <link href="http://baxiang123.com//ios-application-security-7.html"/>
-    <updated>2013-11-14T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-7</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account/">http://resources.infosecinstitute.com/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<h2>引言</h2>
-
-<p>通常情况下，如果你要在设备上测试应用，你需要每年花99美元注册成为开发者。对于想要学习iOS应用安全的人来说，能够在设备上运行并测试应用非常重要。对于不想在app store发布任何程序的人来说，每年99美元并不值得。本文我们将看看在没有注册成为开发者账号的情况下，如何在越狱设备上构建和安装应用。在接下来的文章中，我们将看看如何在设备上运行我们自己的应用，使用Cycript来做method swizzling和其它一些技巧。</p>
-
-<p>本文将使用Xcode 4.5.2，设备是iOS5.1的系统。同样的技巧可能在其他版本的的iOS或者Xcode有效，但是也不一定。如果你在运行应用的时候遇到同样的问题，请留言，我会尽快回复。</p>
-
-<!-- more -->
-
-
-<p>第一步是创建一个自签名的证书。我们将使用这个证书来签名我们的应用。</p>
-
-<p>打开Keychain Access应用。点击keychain Access -> Certificate Assistant -> 创建一个证书</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat1.png" alt="" /></p>
-
-<p>命名这个证书，在这里我们命名为 Prateekg, 选择证书类型为 Code Signing, 不要选中 Let me override defaults。
-点击创建和继续按钮。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat2.png" alt="" /></p>
-
-<p>如你所见，我们证书已经创建好了。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat3.png" alt="" /></p>
-
-<p>现在把文件从/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Info.plist的Info.plist文件复制到桌面。这么做的原因是我们要编辑这个文件，但是在原位置是不能这么做的。因此，我们需要先复制到桌面，编辑后，再拷贝回原来位置。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat4.png" alt="" /></p>
-
-<p>打开桌面上的文件</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat5.png" alt="" /></p>
-
-<p>在这个文件中，把所有的XCiPhoneOSCodeSignContext 替换为 XCCodeSignContext，保存。现在你可以看到文件内容如下：</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat6.png" alt="" /></p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat7.png" alt="" /></p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat8.png" alt="" /></p>
-
-<p>现在把这个文件放回原来的位置。你可能需要相应的权限才能这么做。我用的命令是
-sudo cp /Users/prateekgianchandani/Desktop/Info.plist /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Info.plist</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat9.png" alt="" /></p>
-
-<p>现在是时候创建一个例子工程了。打开Xcode, 点击创建一个新的Xcode项目，选择单视图应用。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat10.png" alt="" /></p>
-
-<p>你可以随意命名，这里我们命名为SelfSignedApp,点击下一个，然后点击继续。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat11.png" alt="" /></p>
-
-<p>因为我们将要在运行iOS 5.1的设备上运行，我们需要确保部署目标是对的。在左上的项目导航区选择工程名字，然后在Info里面，
-设置部署目标为5.1，如下图所示。你可以根据你的设备运行的操作系统版本来选择部署目标。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat12.png" alt="" /></p>
-
-<p>因为我们在iOS 5.1上运行，并且我们用了Storyboard，但是iOS5.1并不支持Autolayout，请确保Use Autolayout选项没有被选中。
-否则程序可能会因此crash。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat13.png" alt="" /></p>
-
-<p>现在开始拖放label到storyboard，在上面写些文字。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat14.png" alt="" /></p>
-
-<p>现在我们要让Xcode用我们自己生成的证书去签名。在左上的项目导航区选择工程名字，然后在Build Settings中选择我们生成的证书。如果因为某些原因，在下拉框中并没有显示我们的证书，请重启Xcode。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat15.png" alt="" /></p>
-
-<p>现在选择我们的应用要运行的设备。如果设备并没有在列表中显示，请到Organizer－> Devices -> 你的设备，选择  Use for development.</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat16.png" alt="" /></p>
-
-<p>选择设备之后，点击运行，你会得到如下图的一个警告。点击总是允许。你可能会被提示设备或者Xcode错误，那请断开设备连接，重新打开Xcode，再次运行，这样应用就能部署到设备上。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat17.png" alt="" /></p>
-
-<p>也有其他方法让应用能够在设备上运行。构建应用，然后Xcode会在一个特定的目录创建一个.app文件。
-默认地址是：/Users/$[YOUR_USER_NAME]/Library/Developer/Xcode/DerivedData/$[YOUR_APP_NAME_APP_ID]/Build/Products/Debug-iphoneos/. 在我的系统上，地址是：/Users/prateekgianchandani/Library/Developer/Xcode/DerivedData/SelfSignedApp-bfzixtyoynrxxlgigskifizrfqqw/Build/Products/Debug-iphoneos/</p>
-
-<p>用下面的命令复制这个.app文件到桌面上
-mv /Users/$[YOUR_USER_NAME]/Library/Developer/Xcode/DerivedData/$[YOUR_APP_NAME_APP_ID]/Build/Products/Debug-iphoneos/SelfSignedApp.app /Users/$[YOUR_USER_NAME]/Desktop/</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat18.png" alt="" /></p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat19.png" alt="" /></p>
-
-<p>现在创建一个目录叫做Payload,然后把SelfSigned.app放到里面。然后压缩Payload目录（压缩文件会被命名为
-Payload.zip）然后重命名Payload.zip为SelfSigned.ipa. 从这个系列的第2篇文章可以看到，这就是iOS应用保存的包。</p>
-
-<p>一旦我们有这个ipa文件，我们有2种方法来安装它。第一种就是直接把这个ipa拖到iTunes的apps部分，然后用iTunes把应用安装到设备上。</p>
-
-<p>另一个方法就是用sftp把ipa上传到设备上，然后用一个叫做installipa的工具来安装它。可以通过Cydia来下载installipa.</p>
-
-<p>用sftp上传ipa文件到设备</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat20.png" alt="" /></p>
-
-<p>然后用ssh登录，在命令行用installipa安装</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070813_1648_IOSApplicat21.png" alt="" /></p>
-
-<p>这样就可以把应用安装到你的设备上了。你可能需要重启设备来让应用正常工作。</p>
-
-<h2>总结</h2>
-
-<p>本文我们介绍了如何在没有开发者证书的情况下把应用安装到越狱设备上。接下来，我们将用这些技巧来把我们的应用安装到设备上，然后在设备上做各种测试。</p>
-
-<p><br/>
-本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account/">IOS Application Security Part 7 – Installing and Running Custom Applications on Device without a registered developer account</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(6)-iOS 7的新安全功能]]></title>
-    <link href="http://baxiang123.com//ios-application-security-6.html"/>
-    <updated>2013-11-14T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//ios-application-security-6</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-6-new-security-features-in-ios-7/">http://resources.infosecinstitute.com/ios-application-security-part-6-new-security-features-in-ios-7/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<h2>引言</h2>
-
-<p>我们都知道，苹果在WWDC 2013介绍了新的iOS系统,有着完全重新设计的用户界面。如果你还没看过，请看看WWDC 2013的视频。</p>
-
-<p>与本系列的其他文章相比，我们在本文将稍微偏离下主题。在本文中，我们将介绍在iOS7中引入的新安全功能。</p>
-
-<!-- more -->
-
-
-<h2>获得 iOS7</h2>
-
-<p>为了获得iOS 7 beta，你需要是一名注册的苹果开发者。到<a href="http://developer.apple.com%EF%BC%8C%E7%94%A8%E4%BD%A0%E6%B3%A8%E5%86%8C%E7%9A%84%E8%8B%B9%E6%9E%9Cid%E7%99%BB%E9%99%86%EF%BC%8C%E7%84%B6%E5%90%8E%E8%B7%B3%E8%BD%AC%E5%88%B0">http://developer.apple.com%EF%BC%8C%E7%94%A8%E4%BD%A0%E6%B3%A8%E5%86%8C%E7%9A%84%E8%8B%B9%E6%9E%9Cid%E7%99%BB%E9%99%86%EF%BC%8C%E7%84%B6%E5%90%8E%E8%B7%B3%E8%BD%AC%E5%88%B0</a><a href="https://developer.apple.com/devcenter/ios/index.action">这个地址</a>。然后点击并下载iOS 7 SDK。这样你就可以下载最新的iOS 7 beta版本了。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070113_1824_IOSApplicat1.png" alt="" /></p>
-
-<p>下面是一些随着iOS 7一起介绍的安全功能</p>
-
-<p><br></p>
-
-<h2>激活锁</h2>
-
-<p>在以前，如果用户丢失了他们的iPhone，他们可用“查找我的iPhone”，用GPS来跟踪他们的手机。不过这个流程有个非常大的问题。即使是一个不那么警觉的小偷，也会对设备执行恢复出厂设置，这样所有的内容和设置都会被擦除。然后，有了新的激活锁这个功能，要执行恢复出厂设置，就需要知道用户的苹果id对应的密码。</p>
-
-<p>要验证这个功能，请到设置，然后是通用，滚动到底部，你可以看到一个重置按钮。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070113_1824_IOSApplicat2.png" alt="" /></p>
-
-<p>如果你点击这个按钮，然后点击擦除所有内容和设置，你会看到一个弹出框，要求你输入苹果id对应的密码。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070113_1824_IOSApplicat3.png" alt="" /></p>
-
-<p>这是一个非常方便灵活的功能，可以防止小偷重置你的iPhone的内容和设置。不过我们确定当这个公布以后，迟早会有人找到绕过这个功能的方法。你如果想去iCloud的设置关闭查找我的iPhone，也会得到同样的弹出框。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070113_1824_IOSApplicat4.png" alt="" /></p>
-
-<p>正如我们看到的，要求我们输入苹果id对应的密码。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070113_1824_IOSApplicat5.png" alt="" /></p>
-
-<p><br></p>
-
-<h2>Airdrop传输的数据加密</h2>
-
-<p>Airdrop使得你能够简单点击几下就能与周围人分享文件。Airdrop是iOS 7中引入的。好消息是，这些传输的文件都是加密过的。默认这项功能只对你的联系人可见。不过你也可以更改这个设置。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070113_1824_IOSApplicat6.png" alt="" /></p>
-
-<p><br></p>
-
-<h2>第三方应用数据保护</h2>
-
-<p>数据保护依赖于支持硬件加密的设备，支持的设备从iPhone 3Gs开始。根据苹果的<a href="http://support.apple.com/kb/ht4175">官方文档</a>，数据保护通过用你的密码来保护硬件加密秘钥，增强了内建的硬件保护。对邮件地址和附件来说，提供了另一层的保护。从iOS 4开始，第3方应用就可以使用数据保护APIs来保护应用的数据。</p>
-
-<p>在iOS 6，你可以到设置-通用-密码来选择一个密码，你可以看到底部有个文本，说数据保护已经启用。这意味着苹果在iOS6中默认对它自己的应用开启了数据保护这个功能。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/070113_1824_IOSApplicat7.png" alt="" /></p>
-
-<p>在以前，开发者不得不使用数据保护API来保护应用数据。现在，在iOS7中，所有的第3方应用都自动开启了数据保护，这意味着用户解锁设备之前，所有应用内部的数据都是安全的。 我们知道，默认的，苹果允许4位数字密码，这个很容易被暴力破解。因此，为了安全，推荐使用更安全的密码。</p>
-
-<p><br></p>
-
-<h2>游戏中心的安全改进</h2>
-
-<p>如果你经常在iOS上玩游戏，并且经常用游戏中心来与朋友竞争或者查看分数，你可能会看到某些特定游戏的不同寻常的高分数。通常情况下，这些都不是合法的分数，这些是黑客利用API的漏洞或者在运行时修改应用的变量才有高分数。在iOS 7中，苹果现在允许开发者确保这种破坏数据的情况不再发生。现在，开发者可以为每个游戏设置一个最高分数。这样，有着不寻常高分数的人，其数据会被上传保存到服务器，却不会显示在排行榜上。开发者随后可以决定是否让这些不同寻常的高分显示。苹果同时也为开发者增加了工具，使得开发者能够检查用户的可疑行为，在这种情况下，可以封锁这个用户。苹果也集成了签名过的游戏中心提交，这意味着苹果能够拒绝这些分数，如果苹果确信这些分数被别人修改过。不确定苹果是怎么做到这点的。</p>
-
-<p><br></p>
-
-<h2>iCloud Keychain</h2>
-
-<p>大部人可能都使用过safari的自动填写功能。在iOS7上，Safari现在可以记住更多信息，例如用户名，密码，信用卡号等等，并且把这些信息保存在keychain中。然后它就会在用户访问网页的时候自动填写。所有这些信息都是用256位的AES加密算法加密了的。这个keychain也会通过iCloud同步。为每一个你登录的站点都创建一个新密码会有点烦人，并且难以记忆。Safari内建了一个密码生成器，为你登录的每个不同站点创建不同的密码，你自己都不需要去记它。</p>
-
-<p><br></p>
-
-<h2>Per App VPN</h2>
-
-<p>有时候，用户需要通过一个安全通道取访问机密信息，因此他们使用VPN。在iOS 7中，苹果允许为不同应用使用不同的VPN。这非常有用，比如你想用公司的app通过公司提供的VPN来访问公司数据，而其他应用，你可能想要用其他VPN。这个功能对政府雇员也很有用，这样他们就可以通过手机应用来访问机密数据。</p>
-
-<p>如果你是一个iOS 开发者并且想要学习iOS引入的新功能，你可以在<a href="https://developer.apple.com/wwdc/videos/">这</a>观看WWDC 2013的视频。</p>
-
-<p><br/>
-References:
-<a href="http://www.idownloadblog.com/2013/06/15/ios7-game-center-dev-tools/">Apple sticks it to cheaters with Game Center on iOS 7</a></p>
-
-<p><br/>
-本文原文是 <a href="http://resources.infosecinstitute.com/ios-application-security-part-6-new-security-features-in-ios-7/">IOS Application Security Part 6 – New Security Features in IOS 7</a></p>
 ]]></content>
   </entry>
   

@@ -1,0 +1,314 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>为你的Octopress加速 - 小巴童鞋</title>
+	<meta name="author" content="小巴">
+
+	
+	<meta name="description" content="为你的Octopress加速">
+	<meta name="keywords" content="octopress,加速,速度,访问慢">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://baxiang123.com//blog/wei-ni-de-octopressjia-su.html">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href="/stylesheets/Google-Font/google-font.css" rel='stylesheet' type='text/css'>
+	<script async src="/stylesheets/Google-Font/google-jquery-1.7.2.js"></script>
+	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<meta name="baidu-site-verification" content="tXGpoDjJRv" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script type="text/javascript">
+ function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+ $(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+ });
+ </script>
+ 
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script async src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">BaXiang&#8217;s technology blog</p>
+<nav id="main-nav"><!--ul class="main">
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
+</ul><!-->
+<ul class="main-navigation">
+  <li><a href="/">Blog | 博客</a></li>
+  <li><a href="/blog/archives">Archives | 目录</a></li>
+  <li><a href="/blog/categories">Categories  | 分类</a></li>
+  <li><a href="/aboutme/">About Me | 关于</a></li>
+  
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<br/>
+	<div class="social">
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
+        
+		
+		
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">为你的Octopress加速</h1>
+	<div class="entry-content" itemprop="articleBody"><p>当你在国内打开<a href="http://www.github.com">Github</a>的时候感觉貌似还可以，但是每次打开你的octopress blog貌似每次相当卡,接下来我就介绍下如何解决这个问题。</p>
+
+<!-- more -->
+
+
+<p>
+用chrome浏览器打开的时候发现左下角每次卡在请求google的字体那一步。<br/>
+因此我就打开Finder搜索这个地址，发现在source/_include/head.html 28行中存在如下链接的引用。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="nx">link</span> <span class="nx">href</span><span class="o">=</span><span class="s1">&#39;http://fonts.googleapis.com/css?family=Nunito:400,300,700&#39;</span> <span class="nx">rel</span><span class="o">=</span><span class="s1">&#39;stylesheet&#39;</span> <span class="nx">type</span><span class="o">=</span><span class="s1">&#39;text/css&#39;</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+从这里看出你的问题就我们访问慢的情况就出在对google css 和 js 的引用，（哎，毕竟国内Google被和谐的现在没有VPN根本打不开）。<br/>
+因此我们的想法就是吧这两个文件下载到本地直接进行引用，事实证明访问速度得到明显提升。<br/>
+OK下面我就开始介绍怎么做。<br/>
+1. 新建这个文件夹source/stylesheets/Google-Font/<br/>
+2. 浏览器打开<a href="http://fonts.googleapis.com/css?family=Nunito:400,300,700">http://fonts.googleapis.com/css?family=Nunito:400,300,700</a> ，你会看到如下css</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'>
+</span><span class='line'><span class="c">/* latin */</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="s1">&#39;Nunito&#39;</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">normal</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">300</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;Nunito-Light&#39;</span><span class="o">),</span> <span class="nt">url</span><span class="o">(</span><span class="nt">http</span><span class="o">://</span><span class="nt">fonts</span><span class="nc">.gstatic.com</span><span class="o">/</span><span class="nt">s</span><span class="o">/</span><span class="nt">nunito</span><span class="o">/</span><span class="nt">v7</span><span class="o">/</span><span class="nt">1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8</span><span class="nc">.woff2</span><span class="o">)</span> <span class="nt">format</span><span class="o">(</span><span class="s1">&#39;woff2&#39;</span><span class="o">);</span>
+</span><span class='line'>  <span class="nt">unicode-range</span><span class="o">:</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0000-00FF</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0131</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0152-0153</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02C6</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02DA</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02DC</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2000-206F</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2074</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">20AC</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2212</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2215</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">E0FF</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">EFFD</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">F000</span><span class="o">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c">/* latin */</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="s1">&#39;Nunito&#39;</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">normal</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">400</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;Nunito-Regular&#39;</span><span class="o">),</span> <span class="nt">url</span><span class="o">(</span><span class="nt">http</span><span class="o">://</span><span class="nt">fonts</span><span class="nc">.gstatic.com</span><span class="o">/</span><span class="nt">s</span><span class="o">/</span><span class="nt">nunito</span><span class="o">/</span><span class="nt">v7</span><span class="o">/</span><span class="nt">6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y</span><span class="nc">.woff2</span><span class="o">)</span> <span class="nt">format</span><span class="o">(</span><span class="s1">&#39;woff2&#39;</span><span class="o">);</span>
+</span><span class='line'>  <span class="nt">unicode-range</span><span class="o">:</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0000-00FF</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0131</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0152-0153</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02C6</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02DA</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02DC</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2000-206F</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2074</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">20AC</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2212</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2215</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">E0FF</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">EFFD</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">F000</span><span class="o">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c">/* latin */</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="s1">&#39;Nunito&#39;</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">normal</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">700</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;Nunito-Bold&#39;</span><span class="o">),</span> <span class="nt">url</span><span class="o">(</span><span class="nt">http</span><span class="o">://</span><span class="nt">fonts</span><span class="nc">.gstatic.com</span><span class="o">/</span><span class="nt">s</span><span class="o">/</span><span class="nt">nunito</span><span class="o">/</span><span class="nt">v7</span><span class="o">/</span><span class="nt">TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8</span><span class="nc">.woff2</span><span class="o">)</span> <span class="nt">format</span><span class="o">(</span><span class="s1">&#39;woff2&#39;</span><span class="o">);</span>
+</span><span class='line'>  <span class="nt">unicode-range</span><span class="o">:</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0000-00FF</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0131</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">0152-0153</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02C6</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02DA</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">02DC</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2000-206F</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2074</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">20AC</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2212</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">2215</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">E0FF</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">EFFD</span><span class="o">,</span> <span class="nt">U</span><span class="o">+</span><span class="nt">F000</span><span class="o">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>3.在Google-Font目录下新建一个css文件命名为google-font.css</p>
+
+<pre><code>source/stylesheets/Google-Font/google-font.css
+</code></pre>
+
+<p>4.打开将浏览器打开的内容粘贴到google-font.css中。</p>
+
+<p>5.打开Termnail，切换到一个source/stylesheets/Google-Font/目录下执行一下命令。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -o 1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.ttf <span class="s1">&#39;http://fonts.gstatic.com/s/nunito/v7/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2&#39;</span>
+</span><span class='line'>curl -o 6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.ttf <span class="s1">&#39;http://fonts.gstatic.com/s/nunito/v7/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2&#39;</span>
+</span><span class='line'>curl -o TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.ttf <span class="s1">&#39;http://fonts.gstatic.com/s/nunito/v7/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+以上命令将会在你的source/stylesheets/Google-Font/目录下下载3个google的字体文件。<br/>
+6.将google-font.css 中的</p>
+
+<pre><code>url(http://fonts.gstatic.com/s/nunito/v7/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');  
+url(http://fonts.gstatic.com/s/nunito/v7/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+url(http://fonts.gstatic.com/s/nunito/v7/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+</code></pre>
+
+<p>分别修改为</p>
+
+<pre><code>url(/stylesheets/Google-Font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.ttf) format('truetype')  
+url(/stylesheets/Google-Font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.ttf) format('truetype')  
+url(/stylesheets/Google-Font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.ttf) format('truetype')
+</code></pre>
+
+<p>7.用浏览器打开<a href="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js</a><br/>
+8.新建source/stylesheets/Google-Font/google-jquery-1.7.2.js文件。<br/>
+9.将内容拷贝进google-jquery-1.7.2.js文件将中。<br/>
+10.打开source/_includes/head.html找到</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="nx">link</span> <span class="nx">href</span><span class="o">=</span><span class="s1">&#39;http://fonts.googleapis.com/css?family=Nunito:400,300,700&#39;</span> <span class="nx">rel</span><span class="o">=</span><span class="s1">&#39;stylesheet&#39;</span> <span class="nx">type</span><span class="o">=</span><span class="s1">&#39;text/css&#39;</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p> 大概在28行左右
+将其替换为</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="nx">link</span> <span class="nx">href</span><span class="o">=</span><span class="s2">&quot;/stylesheets/Google-Font/google-font.css&quot;</span> <span class="nx">rel</span><span class="o">=</span><span class="s1">&#39;stylesheet&#39;</span> <span class="nx">type</span><span class="o">=</span><span class="s1">&#39;text/css&#39;</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;/stylesheets/Google-Font/google-jquery-1.7.2.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+11.打开中断运行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake generate
+</span><span class='line'>rake deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>至此所有的工作都做完了，赶快去打开你的blog 看看是否是飞一般的速度。</p>
+
+<h4>ps:</h4>
+
+<p>附上最终创建文件的截图</p>
+
+<p><img src="http://ww3.sinaimg.cn/bmiddle/a0027cf7gw1em4sesj1b3j20re09mmz1.jpg" alt="image" /></p>
+</div>
+
+</article>
+
+	<div class="bdsharebuttonbox"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["qzone","bdysc","renren","douban","fx","youdao","mail","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+<!-- 多说评论框 start -->
+    <!--div class="ds-thread" data-thread-key="请将此处替换成文章在你的站点中的ID" data-title="请替换成文章的标题" data-url="请替换成文章的网址"></div><!-->
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"baxiang"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+<!-- 多说公共JS代码 end -->
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+</body>
+</html>

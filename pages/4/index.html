@@ -9,9 +9,9 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="Nov 15,&nbsp 2013 ios iOS应用程序安全(10)-iOS文件系统和取证 作者：Prateek Gianchandani
+	<meta name="description" content="Nov 15,&nbsp 2013 ios iOS应用程序安全(14)-使用Sogeti Data Protection Tools收集信息 作者：Prateek Gianchandani
 译者：吴发伟
-原文网址：http://resources.infosecinstitute.com/ios-application-security- &hellip;">
+原文网址：http://resources.infosecinstitute.com/ios &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -152,7 +152,185 @@ Nov 15,&nbsp 2013  </div>
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/ios-application-security-10.html" itemprop="url">iOS应用程序安全(10)-iOS文件系统和取证</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-14.html" itemprop="url">iOS应用程序安全(14)-使用Sogeti Data Protection Tools收集信息</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/">http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面一篇文章中，我们看到了如何使用Sogeti Data Protection tools用定制的ramdisk启动iOS设备。本文我们将如何用其中的一些工具来收集设备的信息，比如keychain的内容，导出整个文件系统甚至暴力破解口令。</p>
+
+<p>在上一篇文章当中，我们已经成功的用usbmux与设备建立了连接，ssh进设备，并且加载了分区。下面是分区包含的内容。</p>
+
+
+		
+		<a href="/blog/ios-application-security-14.html" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 15,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-13.html" itemprop="url">iOS应用程序安全(13)-使用Sogeti Data Protection tools启动定制的Ramdisk</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/">http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面的文章当中，我们学习了如何使用Keychain-Dumper和Snoop-it来从iOS设备上导出和分析keychain的内容。本文我们将看看如何用一个自己的ramdisk来启动一个没有越狱的设备，并且分析该设备的内容。</p>
+
+
+		
+		<a href="/blog/ios-application-security-13.html" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 15,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-12.html" itemprop="url">iOS应用程序安全(12)-导出Keychain数据</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/">http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面的文章中，我们查看了如何用不同的方法来分析应用的网络流量和API调用。本文我们将会从iOS设备中导出keychain的内容。</p>
+
+<h2>Keychain 基础</h2>
+
+<p>根据苹果的介绍，iOS设备中的Keychain是一个安全的存储容器，可以用来为不同应用保存敏感信息比如用户名，密码，网络密码，认证令牌。苹果自己用keychain来保存Wi-Fi网络密码，VPN凭证等等。它是一个sqlite数据库，位于/private/var/Keychains/keychain-2.db，其保存的所有数据都是加密过的。</p>
+
+
+		
+		<a href="/blog/ios-application-security-12.html" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 15,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-11.html" itemprop="url">iOS应用程序安全(11)-分析使用HTTP/HTTPS的网络流量</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/">http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面的文章中，我们分析了iOS文件系统和取证。本文我们将看看如何分析iOS设备上的网络流量。分析应用的网络流量会带来几个方面的好处。它可以帮助我们推断应用是如何管理用户会话的，我们应用调用的另一方是谁，以及应用程序内部是如何工作的等等。我们也会看看如何分析使用SSL的网络流量。</p>
+
+<p>监听网络流量有主动和被动两种方式。如果你对远程分析一个网络中的特定设备的流量感兴趣，那你需要wireshark这个工具。打开Wireshark,开始嗅探网络，添加一个过滤器（fliter，例如 ip.addr == 192.168.1.2）以便它只显示你的设备发出或者接收的网络流量。如果你的无线网卡不够好，那么有些数据包可能会丢失。</p>
+
+<p>如果你想要分析使用SSL的设备的网络流量，有许多方法可以达到目的，比如使用Arpspoof(ARP嗅探) 和SSLStrip的组合。不过，因为我们只对分析某个特定应用的网络流量感兴趣，我们将使用另一个不同的方法。先申明下，本文关注的是分析网络流量而不是劫持网络流量。并且，我们既能够分析通过Wi-Fi的流量，也能分析通过蜂窝网络(cellular)的流量。因为我们只是对分析某个特定应用的网络流量感兴趣，那选择哪种媒介（medium，这里指Wifi或者 celluar)事实上并不重要。</p>
+
+
+		
+		<a href="/blog/ios-application-security-11.html" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 15,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-10.html" itemprop="url">iOS应用程序安全(10)-iOS文件系统和取证</a></h1>
 	<div class="entry-content" itemprop="articleBody">
 		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
@@ -169,196 +347,7 @@ Nov 15,&nbsp 2013  </div>
 
 
 		
-		<a href="/ios-application-security-10.html" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-Nov 14,&nbsp 2013  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/ios-application-security-9.html" itemprop="url">iOS应用程序安全(9)-用Snoop-it分析iOS应用的安全</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it/">http://resources.infosecinstitute.com/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<h2>引言</h2>
-
-<p>在前面的文章中我们介绍了如何用class-dump-z来导出iOS应用的类信息，如何利用Cycript挂钩进程、执行运行时操纵和method swizzling，用gdb分析app的流程。
-然而，可能有更好的方式能够做这些事。如果能够有一个工具能够做所有这些事情并且能够更好的展示这些信息就太好了。</p>
-
-<p>Snoop-it就是这样一个tool。它允许我们进行运行时分析和对iOS应用进行黑盒安全评估。它提供一个非常简洁的web界面。在写本文的时候，Snoop-it还没正式发布，我给作者写了邮件，
-他们非常友好的提供给我一个beta版本做测试。你可以到它的<a href="https://code.google.com/p/snoop-it/">官网</a>查看或者你可以在<a href="http://twitter.com/aykay/">Twitter</a>上关注作者。</p>
-
-<p>Snoop-it提供的功能可以从对其<a href="https://code.google.com/p/snoop-it/">官方地址</a>的截图看到。</p>
-
-
-		
-		<a href="/ios-application-security-9.html" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-Nov 14,&nbsp 2013  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/ios-application-security-8.html" itemprop="url">iOS应用程序安全(8)-用Cycript进行Method Swizzling</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-8-method-swizzling-using-cycript/">http://resources.infosecinstitute.com/ios-application-security-part-8-method-swizzling-using-cycript/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<h2>引言</h2>
-
-<p>在前面的文章当中，我们学习了如何在没有开发者证书的情况下安装自己的应用。本文我们将在一个例子程序上看如何用Cycript做method Swizzling。</p>
-
-<p>第一件事情就是下载Xcode例子工程。你可以从<a href="https://dl.dropboxusercontent.com/u/34557464/MethodSwizzlingDemo.zip">这</a>下载。或者你也可以从<a href="https://dl.dropboxusercontent.com/u/34557464/MethodSwizzlingDemo.ipa">这</a>下载二进制文件。如果你已经安装了Xcode，你可以用自签名证书来构建这个工程。上一篇文章详细介绍了如何做。如果你下载了ipa文件，你可以直接把它安装到你的越狱设备上。
-推荐你下载Xcode例子工程，看看源代码。</p>
-
-
-		
-		<a href="/ios-application-security-8.html" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-Nov 14,&nbsp 2013  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/ios-application-security-7.html" itemprop="url">iOS应用程序安全(7)-不用证书安装应用到设备的方法</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account/">http://resources.infosecinstitute.com/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<h2>引言</h2>
-
-<p>通常情况下，如果你要在设备上测试应用，你需要每年花99美元注册成为开发者。对于想要学习iOS应用安全的人来说，能够在设备上运行并测试应用非常重要。对于不想在app store发布任何程序的人来说，每年99美元并不值得。本文我们将看看在没有注册成为开发者账号的情况下，如何在越狱设备上构建和安装应用。在接下来的文章中，我们将看看如何在设备上运行我们自己的应用，使用Cycript来做method swizzling和其它一些技巧。</p>
-
-<p>本文将使用Xcode 4.5.2，设备是iOS5.1的系统。同样的技巧可能在其他版本的的iOS或者Xcode有效，但是也不一定。如果你在运行应用的时候遇到同样的问题，请留言，我会尽快回复。</p>
-
-
-		
-		<a href="/ios-application-security-7.html" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-Nov 14,&nbsp 2013  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/ios-application-security-6.html" itemprop="url">iOS应用程序安全(6)-iOS 7的新安全功能</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-6-new-security-features-in-ios-7/">http://resources.infosecinstitute.com/ios-application-security-part-6-new-security-features-in-ios-7/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<h2>引言</h2>
-
-<p>我们都知道，苹果在WWDC 2013介绍了新的iOS系统,有着完全重新设计的用户界面。如果你还没看过，请看看WWDC 2013的视频。</p>
-
-<p>与本系列的其他文章相比，我们在本文将稍微偏离下主题。在本文中，我们将介绍在iOS7中引入的新安全功能。</p>
-
-
-		
-		<a href="/ios-application-security-6.html" class="more-link">继续阅读 &rarr;</a>
+		<a href="/blog/ios-application-security-10.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
