@@ -9,9 +9,9 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="Nov 15,&nbsp 2013 ios Comments iOS应用程序安全(10)-iOS文件系统和取证 作者：Prateek Gianchandani
+	<meta name="description" content="Nov 15,&nbsp 2013 ios Comments iOS应用程序安全(11)-分析使用HTTP/HTTPS的网络流量 作者：Prateek Gianchandani
 译者：吴发伟
-原文网址：http://resources.infosecinstitute.com/ios-application- &hellip;">
+原文网址：http://resources.infosecinstitute.com/ios- &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -125,6 +125,54 @@ var _hmt = _hmt || [];
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 15,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/ios-application-security-11.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-11.html" itemprop="url">iOS应用程序安全(11)-分析使用HTTP/HTTPS的网络流量</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/">http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面的文章中，我们分析了iOS文件系统和取证。本文我们将看看如何分析iOS设备上的网络流量。分析应用的网络流量会带来几个方面的好处。它可以帮助我们推断应用是如何管理用户会话的，我们应用调用的另一方是谁，以及应用程序内部是如何工作的等等。我们也会看看如何分析使用SSL的网络流量。</p>
+
+<p>监听网络流量有主动和被动两种方式。如果你对远程分析一个网络中的特定设备的流量感兴趣，那你需要wireshark这个工具。打开Wireshark,开始嗅探网络，添加一个过滤器（fliter，例如 ip.addr == 192.168.1.2）以便它只显示你的设备发出或者接收的网络流量。如果你的无线网卡不够好，那么有些数据包可能会丢失。</p>
+
+<p>如果你想要分析使用SSL的设备的网络流量，有许多方法可以达到目的，比如使用Arpspoof(ARP嗅探) 和SSLStrip的组合。不过，因为我们只对分析某个特定应用的网络流量感兴趣，我们将使用另一个不同的方法。先申明下，本文关注的是分析网络流量而不是劫持网络流量。并且，我们既能够分析通过Wi-Fi的流量，也能分析通过蜂窝网络(cellular)的流量。因为我们只是对分析某个特定应用的网络流量感兴趣，那选择哪种媒介（medium，这里指Wifi或者 celluar)事实上并不重要。</p>
+
+
+		
+		<a href="/blog/ios-application-security-11.html" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -321,54 +369,6 @@ Nov 14,&nbsp 2013  </div>
 
 		
 		<a href="/blog/ios-application-security-7.html" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-Nov 14,&nbsp 2013  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/ios-application-security-6.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-6.html" itemprop="url">iOS应用程序安全(6)-iOS 7的新安全功能</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-6-new-security-features-in-ios-7/">http://resources.infosecinstitute.com/ios-application-security-part-6-new-security-features-in-ios-7/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<h2>引言</h2>
-
-<p>我们都知道，苹果在WWDC 2013介绍了新的iOS系统,有着完全重新设计的用户界面。如果你还没看过，请看看WWDC 2013的视频。</p>
-
-<p>与本系列的其他文章相比，我们在本文将稍微偏离下主题。在本文中，我们将介绍在iOS7中引入的新安全功能。</p>
-
-
-		
-		<a href="/blog/ios-application-security-6.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>

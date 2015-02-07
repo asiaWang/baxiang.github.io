@@ -9,9 +9,9 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="Nov 16,&nbsp 2013 ios Comments iOS应用程序安全(20)-本地数据存储及其安全性（NSUserDefaults, CoreData, Sqlite, Plist 文件） 作者：Prateek Gianchandani
+	<meta name="description" content="Nov 17,&nbsp 2013 ios Comments iOS应用程序安全(21)-ARM和GDB基础 作者：Prateek Gianchandani
 译者：吴发伟
-原文网址：http:// &hellip;">
+原文网址：http://resources.infosecinstitute.com/ios-application- &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -125,6 +125,55 @@ var _hmt = _hmt || [];
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 17,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/ios-application-security-21.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-21.html" itemprop="url">iOS应用程序安全(21)-ARM和GDB基础</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/">http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>直到现在，所有发布的iOS设备都是基于ARM架构的。我们开发iOS应用的时候编写的Objective-C代码会首先转换成ARM汇编，然后转换成机器指令（1s和0s。译者注：即0、1指令，机器指令都是由0、1组成的。）。对ARM汇编语言和使用GDB调试有很好掌握的话，攻击
+者是能够在运行时解密Objective-C代码甚至修改代码的。</p>
+
+<p>本文将使用的<a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a>例子程序可以从我的github账户上下载。请确保在你的设备上安装和运行。如果你没有一个注册的开发者账户，不能在你的设备上运行，请使用<a href="http://wufawei.com/2013/11/ios-application-security-7/">前文</a>提供的方法。</p>
+
+<p>现在让我们SSH进入设备。</p>
+
+
+		
+		<a href="/blog/ios-application-security-21.html" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -308,52 +357,6 @@ Nov 16,&nbsp 2013  </div>
 
 		
 		<a href="/blog/ios-application-security-17.html" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-Nov 15,&nbsp 2013  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/ios-application-security-16.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-16.html" itemprop="url">iOS应用程序安全(16)-使用iNalyzer对iOS应用进行动态分析</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-app-security-part-16-runtime-analysis-of-ios-apps-using-inalyzer/">http://resources.infosecinstitute.com/ios-app-security-part-16-runtime-analysis-of-ios-apps-using-inalyzer/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<p>上一篇文章我们看到了如何使用iNalyzer对iOS应用进行静态分析。本文我们将看看如何用iNalyer对iOS应用进行运行时分析。我们能够在运行时调用方法，能够在应用的某个特殊时间找出特定实例变量的值，基本上能做我们用Cycript做的所有事情。</p>
-
-<p>在上一篇文章当中，我们成功的用Doxygen生成了html文件，并且打开它看到了关于这个应用的类信息和其他信息。我们将使用Firefox浏览器进行运行时分析。这个工具的开发者推荐我再进行运行时分析的时候使用Firefox浏览器，因为其它浏览器用起来可能会有问题。 不过，对我来说，在chrome上好像也工作正常。</p>
-
-
-		
-		<a href="/blog/ios-application-security-16.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>

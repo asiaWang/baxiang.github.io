@@ -9,9 +9,9 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="Nov 15,&nbsp 2013 ios Comments iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析 作者：Prateek Gianchandani
+	<meta name="description" content="Nov 15,&nbsp 2013 ios Comments iOS应用程序安全(16)-使用iNalyzer对iOS应用进行动态分析 作者：Prateek Gianchandani
 译者：吴发伟
-原文网址：http://resources.infosecinstitute.com/part- &hellip;">
+原文网址：http://resources.infosecinstitute.com/ios- &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -125,6 +125,52 @@ var _hmt = _hmt || [];
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 15,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/ios-application-security-16.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-16.html" itemprop="url">iOS应用程序安全(16)-使用iNalyzer对iOS应用进行动态分析</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-app-security-part-16-runtime-analysis-of-ios-apps-using-inalyzer/">http://resources.infosecinstitute.com/ios-app-security-part-16-runtime-analysis-of-ios-apps-using-inalyzer/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>上一篇文章我们看到了如何使用iNalyzer对iOS应用进行静态分析。本文我们将看看如何用iNalyer对iOS应用进行运行时分析。我们能够在运行时调用方法，能够在应用的某个特殊时间找出特定实例变量的值，基本上能做我们用Cycript做的所有事情。</p>
+
+<p>在上一篇文章当中，我们成功的用Doxygen生成了html文件，并且打开它看到了关于这个应用的类信息和其他信息。我们将使用Firefox浏览器进行运行时分析。这个工具的开发者推荐我再进行运行时分析的时候使用Firefox浏览器，因为其它浏览器用起来可能会有问题。 不过，对我来说，在chrome上好像也工作正常。</p>
+
+
+		
+		<a href="/blog/ios-application-security-16.html" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -305,54 +351,6 @@ Nov 15,&nbsp 2013  </div>
 
 		
 		<a href="/blog/ios-application-security-12.html" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-Nov 15,&nbsp 2013  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/ios-application-security-11.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-11.html" itemprop="url">iOS应用程序安全(11)-分析使用HTTP/HTTPS的网络流量</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/">http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<p>在前面的文章中，我们分析了iOS文件系统和取证。本文我们将看看如何分析iOS设备上的网络流量。分析应用的网络流量会带来几个方面的好处。它可以帮助我们推断应用是如何管理用户会话的，我们应用调用的另一方是谁，以及应用程序内部是如何工作的等等。我们也会看看如何分析使用SSL的网络流量。</p>
-
-<p>监听网络流量有主动和被动两种方式。如果你对远程分析一个网络中的特定设备的流量感兴趣，那你需要wireshark这个工具。打开Wireshark,开始嗅探网络，添加一个过滤器（fliter，例如 ip.addr == 192.168.1.2）以便它只显示你的设备发出或者接收的网络流量。如果你的无线网卡不够好，那么有些数据包可能会丢失。</p>
-
-<p>如果你想要分析使用SSL的设备的网络流量，有许多方法可以达到目的，比如使用Arpspoof(ARP嗅探) 和SSLStrip的组合。不过，因为我们只对分析某个特定应用的网络流量感兴趣，我们将使用另一个不同的方法。先申明下，本文关注的是分析网络流量而不是劫持网络流量。并且，我们既能够分析通过Wi-Fi的流量，也能分析通过蜂窝网络(cellular)的流量。因为我们只是对分析某个特定应用的网络流量感兴趣，那选择哪种媒介（medium，这里指Wifi或者 celluar)事实上并不重要。</p>
-
-
-		
-		<a href="/blog/ios-application-security-11.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
