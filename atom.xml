@@ -4,7 +4,7 @@
   <title><![CDATA[小巴童鞋]]></title>
   <link href="http://baxiang123.com//atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-02-07T22:27:23+08:00</updated>
+  <updated>2015-02-07T22:33:27+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -43,12 +43,8 @@ keychain中找出这些数据。因为超过70%的人都已经把他们的设备
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>
-</span><span class='line'>
-</span><span class='line'>         PDKeychainBindings *bindings <span class="o">=</span> <span class="o">[</span>PDKeychainBindings sharedKeychainBindings<span class="o">]</span><span class="p">;</span>
-</span><span class='line'>         <span class="o">[[[</span>Model sharedModel<span class="o">]</span> currentUser<span class="o">]</span> setAuthToken:<span class="o">[</span>bindings objectForKey:@<span class="s2">&quot;authToken&quot;</span><span class="o">]]</span><span class="p">;</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>  <span class="n">PDKeychainBindings</span> <span class="o">*</span><span class="n">bindings</span> <span class="o">=</span> <span class="p">[</span><span class="n">PDKeychainBindings</span> <span class="n">sharedKeychainBindings</span><span class="p">];</span>
+</span><span class='line'> <span class="p">[[[</span><span class="n">Model</span> <span class="n">sharedModel</span><span class="p">]</span> <span class="n">currentUser</span><span class="p">]</span> <span class="nl">setAuthToken</span><span class="p">:[</span><span class="n">bindings</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="s">@&quot;authToken&quot;</span><span class="p">]];</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -90,14 +86,12 @@ bundle的Library -> Preferences -> $AppBundleId.plist。任何人都能够使用
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>
-</span><span class='line'>&gt;     UIImage *imageToEncrypt <span class="o">=</span> <span class="o">[</span>UIImage imageNamed:@<span class="s2">&quot;SomeImage&quot;</span><span class="o">]</span><span class="p">;</span>
-</span><span class='line'>&gt;     NSString *imagePath <span class="o">=</span> <span class="o">[</span>NSHomeDirectory<span class="o">()</span> stringByAppendingPathComponent:@<span class="s2">&quot;Documents/encryptedImage.png&quot;</span><span class="o">]</span><span class="p">;</span>
-</span><span class='line'>&gt;     NSData *data <span class="o">=</span> UIImagePNGRepresentation<span class="o">(</span>fetchedImage<span class="o">)</span><span class="p">;</span>
-</span><span class='line'>&gt;     NSError *error<span class="p">;</span>
-</span><span class='line'>&gt;     NSData *encryptedData <span class="o">=</span> <span class="o">[</span>RNEncryptor encryptData:data withSettings:kRNCryptorAES256Settings password:@<span class="s2">&quot;ABC123&quot;</span> error:<span class="p">&amp;</span>error<span class="o">]</span><span class="p">;</span>
-</span><span class='line'>&gt;     <span class="o">[</span>encryptedData writeToFile:imagePath atomically:YES<span class="o">]</span><span class="p">;</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>
+</span><span class='line'>     <span class="bp">UIImage</span> <span class="o">*</span><span class="n">imageToEncrypt</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;SomeImage&quot;</span><span class="p">];</span>
+</span><span class='line'>     <span class="bp">NSString</span> <span class="o">*</span><span class="n">imagePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHomeDirectory</span><span class="p">()</span> <span class="nl">stringByAppendingPathComponent</span><span class="p">:</span><span class="s">@&quot;Documents/encryptedImage.png&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="bp">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">UIImagePNGRepresentation</span><span class="p">(</span><span class="n">fetchedImage</span><span class="p">);</span>
+</span><span class='line'>    <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
+</span><span class='line'>    <span class="bp">NSData</span> <span class="o">*</span><span class="n">encryptedData</span> <span class="o">=</span> <span class="p">[</span><span class="n">RNEncryptor</span> <span class="nl">encryptData</span><span class="p">:</span><span class="n">data</span> <span class="nl">withSettings</span><span class="p">:</span><span class="n">kRNCryptorAES256Settings</span> <span class="nl">password</span><span class="p">:</span><span class="s">@&quot;ABC123&quot;</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>     <span class="p">[</span><span class="n">encryptedData</span> <span class="nl">writeToFile</span><span class="p">:</span><span class="n">imagePath</span> <span class="nl">atomically</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -146,12 +140,12 @@ bundle的Library -> Preferences -> $AppBundleId.plist。任何人都能够使用
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>&gt;     - <span class="o">(</span>void<span class="o">)</span>applicationDidEnterBackground:<span class="o">(</span>UIApplication *<span class="o">)</span>application
-</span><span class='line'>&gt;     <span class="o">{</span>
-</span><span class='line'>&gt;     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in <span class="k">case</span> it is terminated later.
-</span><span class='line'>&gt;     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-</span><span class='line'>&gt;     <span class="o">[</span>UIPasteboard generalPasteboard<span class="o">]</span>.items <span class="o">=</span> nil<span class="p">;</span>
-</span><span class='line'>&gt;     <span class="o">}</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>    <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">applicationDidEnterBackground</span><span class="p">:(</span><span class="bp">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="n">application</span>
+</span><span class='line'>     <span class="p">{</span>
+</span><span class='line'>     <span class="c1">// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.</span>
+</span><span class='line'>     <span class="c1">// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.</span>
+</span><span class='line'>     <span class="p">[</span><span class="bp">UIPasteboard</span> <span class="n">generalPasteboard</span><span class="p">].</span><span class="n">items</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>     <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -166,10 +160,10 @@ bundle的Library -> Preferences -> $AppBundleId.plist。任何人都能够使用
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>&gt;     – <span class="o">(</span>BOOL<span class="o">)</span>application:<span class="o">(</span>UIApplication *<span class="o">)</span>application handleOpenURL:<span class="o">(</span>NSURL *<span class="o">)</span>url <span class="o">{</span>
-</span><span class='line'>&gt;     //Validate input from the url
-</span><span class='line'>&gt;     <span class="k">return</span> YES<span class="p">;</span>
-</span><span class='line'>&gt;     <span class="o">}</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>     <span class="err">–</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nl">application</span><span class="p">:(</span><span class="bp">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="n">application</span> <span class="nl">handleOpenURL</span><span class="p">:(</span><span class="bp">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="n">url</span> <span class="p">{</span>
+</span><span class='line'>     <span class="c1">//Validate input from the url</span>
+</span><span class='line'>     <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'>     <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
