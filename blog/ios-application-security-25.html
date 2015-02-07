@@ -141,15 +141,22 @@ var _hmt = _hmt || [];
 
 
 <ul>
-<li><p>重要数据如密码，会话ID等等绝不要存储在设备上。如果别无它法，那么应该存在keychain中。这是因为只要这个设备不越狱，攻击者不能从
+<li>重要数据如密码，会话ID等等绝不要存储在设备上。如果别无它法，那么应该存在keychain中。这是因为只要这个设备不越狱，攻击者不能从
 keychain中找出这些数据。因为超过70%的人都已经把他们的设备升级到iOS 7并且目前iOS 7还不能越狱，你能确定攻击者目前将不能够从keychain中获取数据。有人可能会说
 把数据保存到keychain不像把数据保存到NSUserDefaults那么简单。不过我们能够使用第3方封装的代码使得这个过程变得极其简单。例如，
-<a href="http://highaltitudehacks.com/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax/">这一篇文章</a>演示了如何使用PDKeychainBindings这个wrapper，展示了把数据保存到keychain中是多么的简单。下面就是用这个wrapper来把数据保存到keychain的代码示例。</p>
-
-<pre><code>   PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
-   [[[Model sharedModel] currentUser] setAuthToken:[bindings objectForKey:@"authToken"]];
-</code></pre></li>
+<a href="http://highaltitudehacks.com/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax/">这一篇文章</a>演示了如何使用PDKeychainBindings这个wrapper，展示了把数据保存到keychain中是多么的简单。下面就是用这个wrapper来把数据保存到keychain的代码示例。</li>
 </ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>
+</span><span class='line'>
+</span><span class='line'>         PDKeychainBindings *bindings <span class="o">=</span> <span class="o">[</span>PDKeychainBindings sharedKeychainBindings<span class="o">]</span><span class="p">;</span>
+</span><span class='line'>         <span class="o">[[[</span>Model sharedModel<span class="o">]</span> currentUser<span class="o">]</span> setAuthToken:<span class="o">[</span>bindings objectForKey:@<span class="s2">&quot;authToken&quot;</span><span class="o">]]</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>不过，请注意在越狱设备上，keychain中的信息并不安全。一个可取的方法就是在把字符串保存到keychain之前，先用你自己的加密方法加密一下。这样就有更高的安全性，
@@ -184,13 +191,22 @@ bundle的Library -> Preferences -> $AppBundleId.plist。任何人都能够使用
 </ul>
 
 
-<blockquote><pre><code>UIImage *imageToEncrypt = [UIImage imageNamed:@"SomeImage"];
-NSString *imagePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/encryptedImage.png"];
-NSData *data = UIImagePNGRepresentation(fetchedImage);
-NSError *error;
-NSData *encryptedData = [RNEncryptor encryptData:data withSettings:kRNCryptorAES256Settings password:@"ABC123" error:&amp;error];
-[encryptedData writeToFile:imagePath atomically:YES];
-</code></pre></blockquote>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>
+</span><span class='line'>&gt;     UIImage *imageToEncrypt <span class="o">=</span> <span class="o">[</span>UIImage imageNamed:@<span class="s2">&quot;SomeImage&quot;</span><span class="o">]</span><span class="p">;</span>
+</span><span class='line'>&gt;     NSString *imagePath <span class="o">=</span> <span class="o">[</span>NSHomeDirectory<span class="o">()</span> stringByAppendingPathComponent:@<span class="s2">&quot;Documents/encryptedImage.png&quot;</span><span class="o">]</span><span class="p">;</span>
+</span><span class='line'>&gt;     NSData *data <span class="o">=</span> UIImagePNGRepresentation<span class="o">(</span>fetchedImage<span class="o">)</span><span class="p">;</span>
+</span><span class='line'>&gt;     NSError *error<span class="p">;</span>
+</span><span class='line'>&gt;     NSData *encryptedData <span class="o">=</span> <span class="o">[</span>RNEncryptor encryptData:data withSettings:kRNCryptorAES256Settings password:@<span class="s2">&quot;ABC123&quot;</span> error:<span class="p">&amp;</span>error<span class="o">]</span><span class="p">;</span>
+</span><span class='line'>&gt;     <span class="o">[</span>encryptedData writeToFile:imagePath atomically:YES<span class="o">]</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>  要加密SQLite文件，你应当考虑<a href="http://sqlcipher.net/">SQLCipher</a></p>
 
@@ -231,13 +247,20 @@ NSData *encryptedData = [RNEncryptor encryptData:data withSettings:kRNCryptorAES
 </ul>
 
 
-<blockquote><pre><code>- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-[UIPasteboard generalPasteboard].items = nil;
-}
-</code></pre></blockquote>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&gt;     - <span class="o">(</span>void<span class="o">)</span>applicationDidEnterBackground:<span class="o">(</span>UIApplication *<span class="o">)</span>application
+</span><span class='line'>&gt;     <span class="o">{</span>
+</span><span class='line'>&gt;     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in <span class="k">case</span> it is terminated later.
+</span><span class='line'>&gt;     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+</span><span class='line'>&gt;     <span class="o">[</span>UIPasteboard generalPasteboard<span class="o">]</span>.items <span class="o">=</span> nil<span class="p">;</span>
+</span><span class='line'>&gt;     <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <ul>
 <li>使用URL schemes做些重要事情的时候要增加提示或者验证。我们知道任意应用都能注册一个URL Scheme。例如Skype应用能够注册URL Scheme skype://并且任意应用都能用参数调用这个url。
@@ -246,11 +269,16 @@ NSData *encryptedData = [RNEncryptor encryptData:data withSettings:kRNCryptorAES
 </ul>
 
 
-<blockquote><pre><code>– (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-//Validate input from the url
-return YES;
-}
-</code></pre></blockquote>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&gt;     – <span class="o">(</span>BOOL<span class="o">)</span>application:<span class="o">(</span>UIApplication *<span class="o">)</span>application handleOpenURL:<span class="o">(</span>NSURL *<span class="o">)</span>url <span class="o">{</span>
+</span><span class='line'>&gt;     //Validate input from the url
+</span><span class='line'>&gt;     <span class="k">return</span> YES<span class="p">;</span>
+</span><span class='line'>&gt;     <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <ul>
 <li>有些应用使用UIWebView来展示来自URL的内容。在一些流行应用中已经发现了UIWebViews的<a href="https://superevr.com/blog/2011/xss-in-skype-for-ios/">漏洞</a>。UIWebViews也支持javascript，而且目前没有公开的API来禁用UIWebView中的javascript。因此，如果用户控制的任何输入被用作UIWebView的内容，它就可能被操纵在运行时在UIWebView中执行javascript代码。即使这个输入不受用户控制，攻击者也能够在运行时操纵添加到UIWebView的内容，因此执行他想执行的任意javascript代码。因为苹果所加的限制，开发者对此能做的也不多，开发者应该要通过如下方法来确保加载进UIWebView的内容不是恶意的，a）通过HTTPs加载数据。b)确保UIWebView的内容不依赖于用户的输入。c）通过NSData类提供的dataWithContentsOfURL函数来验证URL的内容。</li>
