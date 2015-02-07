@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | 小巴童鞋]]></title>
   <link href="http://baxiang123.com//blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-02-07T23:49:29+08:00</updated>
+  <updated>2015-02-07T23:56:16+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -193,8 +193,9 @@ kPOPViewAlpha
 </span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">testView</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">center</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
 </span><span class='line'><span class="err">​</span>
 </span></code></pre></td></tr></table></div></figure>
-<img src="http://ww1.sinaimg.cn/mw1024/65cc0af7gw1egqpgva69rg208u0fpjtx.gif" alt="" />
-这个例子的动画和上面的基本动画很相似，都是一个view的移动，但是这里有弹簧效果。POPSpringAnimation主要就是需要注意下几个参数的含义：</p>
+<img src="http://ww1.sinaimg.cn/mw1024/65cc0af7gw1egqpgva69rg208u0fpjtx.gif" alt="" /></p>
+
+<p>这个例子的动画和上面的基本动画很相似，都是一个view的移动，但是这里有弹簧效果。POPSpringAnimation主要就是需要注意下几个参数的含义：</p>
 
 <p>springBounciness 弹簧弹力 取值范围为[0, 20]，默认值为4
 springSpeed 弹簧速度，速度越快，动画时间越短 [0, 20]，默认为12，和springBounciness一起决定着弹簧动画的效果
@@ -220,8 +221,9 @@ dynamicsMass 质量 。张力，摩擦，质量这三者可以从更细的粒度
 <p>Pop Animation应用于CALayer时，在动画运行的任何时刻，layer和其presentationLayer的相关属性值始终保持一致，而Core Animation做不到。
 Pop Animation可以应用任何NSObject的对象，而Core Aniamtion必须是CALayer。
 <br/>
-原文作者：卢克
-原文地址：<a href="http://geeklu.com/2014/05/facebook-pop-usage/">http://geeklu.com/2014/05/facebook-pop-usage/</a></p>
+原文作者：卢克</p>
+
+<p>原文地址：<a href="http://geeklu.com/2014/05/facebook-pop-usage">http://geeklu.com/2014/05/facebook-pop-usage</a></p>
 ]]></content>
   </entry>
   
