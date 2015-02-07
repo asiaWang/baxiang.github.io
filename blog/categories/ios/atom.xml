@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | 小巴童鞋]]></title>
   <link href="http://baxiang123.com//blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-02-07T23:56:16+08:00</updated>
+  <updated>2015-02-08T00:01:40+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -56,22 +56,29 @@
 </span></code></pre></td></tr></table></div></figure>
 此对象只有一个CGFloat类型的属性，非常简单，这里在AnimatableModel对象上运行几种Pop Animation进行测试，以便统计animatableValue的变化曲线。</p>
 
-<p>由于此对象的属性不在Pop Property的标准属性中，所以需要创建一个POPAnimatableProperty，</p>
-
-<p>  POPAnimatableProperty <em>animatableProperty = [POPAnimatableProperty propertyWithName:@&ldquo;com.geeklu.animatableValue&rdquo; initializer:^(POPMutableAnimatableProperty </em>prop) {
-    prop.writeBlock = ^(id obj, const CGFloat values[]) {
-        [obj setAnimatableValue:values[0]];
-    };
-    prop.readBlock = ^(id obj, CGFloat values[]) {
-        values[0] = [obj animatableValue];
-    };
-}];
+<p>由于此对象的属性不在Pop Property的标准属性中，所以需要创建一个POPAnimatableProperty，
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>  <span class="n">POPAnimatableProperty</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">animatableProperty</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPAnimatableProperty</span> <span class="nl">propertyWithName</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">com</span><span class="p">.</span><span class="n">geeklu</span><span class="p">.</span><span class="n">animatableValue</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="nl">initializer</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">POPMutableAnimatableProperty</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">prop</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">prop</span><span class="p">.</span><span class="n">writeBlock</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="k">const</span> <span class="n">CGFloat</span> <span class="n">values</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">obj</span> <span class="nl">setAnimatableValue</span><span class="p">:</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]];</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="n">prop</span><span class="p">.</span><span class="n">readBlock</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="n">CGFloat</span> <span class="n">values</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span> <span class="n">animatableValue</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
 统计的数据来自上面属性变化时的Log数据，制图的时候将时间中除了秒之外的时间部分删除了，所有数据都来自真实测试的数据，并使用Number进行了曲线的绘制。图中的每个点代表一个离散的节点，为了方便观看，使用直线将这些离散的点连接起来了。</p>
 
 <p>​<img src="http://ww4.sinaimg.cn/mw1024/65cc0af7gw1ego7boez1uj20oc0icju4.jpg" alt="" /></p>
 
-<p>PopBasicAniamtion With EaseOut TimingFunction
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -80,21 +87,21 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">POPBasicAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPBasicAnimation</span> <span class="n">animation</span><span class="p">];</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">PopBasicAniamtion</span> <span class="n">With</span> <span class="n">EaseOut</span> <span class="n">TimingFunction</span>
+</span><span class='line'><span class="n">POPBasicAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPBasicAnimation</span> <span class="n">animation</span><span class="p">];</span>
 </span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">property</span> <span class="o">=</span> <span class="n">animatableProperty</span><span class="p">;</span>
 </span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSNumber</span> <span class="nl">numberWithFloat</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
 </span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSNumber</span> <span class="nl">numberWithFloat</span><span class="p">:</span><span class="mi">100</span><span class="p">];</span>
 </span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAMediaTimingFunction</span> <span class="nl">functionWithName</span><span class="p">:</span><span class="n">kCAMediaTimingFunctionEaseOut</span><span class="p">];</span>
-</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">animatableModel</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AnimatableModel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">animatableModel</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AnimatableModel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
 </span><span class='line'><span class="p">[</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">animatableModel</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nl">forKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">easeOut</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
 </span></code></pre></td></tr></table></div></figure></p>
 
-<p><img src="http://ww1.sinaimg.cn/mw1024/65cc0af7gw1egnh3razkxj20sy0kadh2.jpg" alt="" />
-从上图可以看到，动画开始的时候变化速率较快，到结束的时候就很慢了，这就是所谓的Ease Out效果。</p>
+<p><img src="http://ww1.sinaimg.cn/mw1024/65cc0af7gw1egnh3razkxj20sy0kadh2.jpg" alt="" /></p>
 
-<p>PopSpringAniamtion
+<p>从上图可以看到，动画开始的时候变化速率较快，到结束的时候就很慢了，这就是所谓的Ease Out效果。
+PopSpringAniamtion
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -103,21 +110,19 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">POPSpringAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPSpringAnimation</span> <span class="n">animation</span><span class="p">];</span>
 </span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">property</span> <span class="o">=</span> <span class="n">animatableProperty</span><span class="p">;</span>
 </span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSNumber</span> <span class="nl">numberWithFloat</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
 </span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSNumber</span> <span class="nl">numberWithFloat</span><span class="p">:</span><span class="mi">100</span><span class="p">];</span>
-</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">dynamicsMass</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">animatableModel</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AnimatableModel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">dynamicsMass</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">animatableModel</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AnimatableModel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
 </span><span class='line'><span class="p">[</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">animatableModel</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nl">forKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">spring</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
 </span><span class='line'><span class="err">​</span>
 </span></code></pre></td></tr></table></div></figure>
-​<img src="http://ww1.sinaimg.cn/mw1024/65cc0af7gw1egnh3razkxj20sy0kadh2.jpg" alt="" />
-一开始快速向终点方向靠近，然后会在终点附近来回摆动，摆动幅度逐渐变弱，最后在终点停止。</p>
+​<img src="http://ww1.sinaimg.cn/mw1024/65cc0af7gw1egnh3razkxj20sy0kadh2.jpg" alt="" /></p>
 
-<p>通过上面的两个属性值变化的曲线你可以很好的理解动画的类型和属性的变化曲线之前的关联了。</p>
+<p>一开始快速向终点方向靠近，然后会在终点附近来回摆动，摆动幅度逐渐变弱，最后在终点停止。
+通过上面的两个属性值变化的曲线你可以很好的理解动画的类型和属性的变化曲线之前的关联了。</p>
 
 <p>二.Pop Animation的使用</p>
 
@@ -145,22 +150,20 @@ kPOPViewAlpha
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSInteger</span> <span class="n">height</span> <span class="o">=</span> <span class="n">CGRectGetHeight</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">);</span>
-</span><span class='line'><span class="bp">NSInteger</span> <span class="n">width</span> <span class="o">=</span> <span class="n">CGRectGetWidth</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">CGFloat</span> <span class="n">centerX</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">width</span><span class="p">;</span>
-</span><span class='line'><span class="n">CGFloat</span> <span class="n">centerY</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">height</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">POPBasicAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPBasicAnimation</span> <span class="nl">animationWithPropertyNamed</span><span class="p">:</span><span class="n">kPOPViewCenter</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSInteger</span> <span class="n">width</span> <span class="o">=</span> <span class="n">CGRectGetWidth</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">centerX</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">width</span><span class="p">;</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">centerY</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">height</span><span class="p">;</span>
+</span><span class='line'><span class="n">POPBasicAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPBasicAnimation</span> <span class="nl">animationWithPropertyNamed</span><span class="p">:</span><span class="n">kPOPViewCenter</span><span class="p">];</span>
 </span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="n">centerX</span><span class="p">,</span> <span class="n">centerY</span><span class="p">)];</span>
 </span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAMediaTimingFunction</span> <span class="nl">functionWithName</span><span class="p">:</span><span class="n">kCAMediaTimingFunctionEaseInEaseOut</span><span class="p">];</span>
 </span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">;</span>
 </span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">testView</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">centerAnimation</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
-</span></code></pre></td></tr></table></div></figure>
-<img src="http://ww2.sinaimg.cn/mw1024/65cc0af7gw1egpvtrn8qmj209307qdhf.jpg" alt="" />
-这里self.view上放了一个用于动画的testView，然后取一个随机坐标，进行动画。</p>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw1024/65cc0af7gw1egpvtrn8qmj209307qdhf.jpg" alt="" /></p>
+
+<p>这里self.view上放了一个用于动画的testView，然后取一个随机坐标，进行动画。</p>
 
 <p>2.PopSpringAnimation</p>
 
@@ -176,24 +179,19 @@ kPOPViewAlpha
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">POPSpringAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPSpringAnimation</span> <span class="nl">animationWithPropertyNamed</span><span class="p">:</span><span class="n">kPOPViewCenter</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="bp">NSInteger</span> <span class="n">height</span> <span class="o">=</span> <span class="n">CGRectGetHeight</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">);</span>
-</span><span class='line'><span class="bp">NSInteger</span> <span class="n">width</span> <span class="o">=</span> <span class="n">CGRectGetWidth</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">CGFloat</span> <span class="n">centerX</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">width</span><span class="p">;</span>
-</span><span class='line'><span class="n">CGFloat</span> <span class="n">centerY</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">height</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">anim</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="n">centerX</span><span class="p">,</span> <span class="n">centerY</span><span class="p">)];</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">POPSpringAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPSpringAnimation</span> <span class="nl">animationWithPropertyNamed</span><span class="p">:</span><span class="n">kPOPViewCenter</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSInteger</span> <span class="n">height</span> <span class="o">=</span> <span class="n">CGRectGetHeight</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">);</span>
+</span><span class='line'><span class="bp">NSInteger</span> <span class="n">width</span> <span class="o">=</span> <span class="n">CGRectGetWidth</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">centerX</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">width</span><span class="p">;</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">centerY</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">height</span><span class="p">;</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="n">centerX</span><span class="p">,</span> <span class="n">centerY</span><span class="p">)];</span>
 </span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">springBounciness</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>
 </span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">springSpeed</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
 </span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">testView</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">center</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
 </span><span class='line'><span class="err">​</span>
-</span></code></pre></td></tr></table></div></figure>
-<img src="http://ww1.sinaimg.cn/mw1024/65cc0af7gw1egqpgva69rg208u0fpjtx.gif" alt="" /></p>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw1024/65cc0af7gw1egqpgva69rg208u0fpjtx.gif" alt="" /></p>
 
 <p>这个例子的动画和上面的基本动画很相似，都是一个view的移动，但是这里有弹簧效果。POPSpringAnimation主要就是需要注意下几个参数的含义：</p>
 
@@ -204,11 +202,11 @@ dynamicsFriction 弹簧摩擦
 dynamicsMass 质量 。张力，摩擦，质量这三者可以从更细的粒度上替代springBounciness和springSpeed控制弹簧动画的效果
 3.PopDecayAnimation</p>
 
-<p>基于Bezier曲线的timingFuntion同样无法表述Decay Aniamtion，所以Pop就单独实现了一个 PopDecayAnimation，用于衰减动画。衰减动画一个很常见的地方就是 UIScrollView 滑动松开后的减速，这里就基于UIView实现一个自己的ScrollView，然后使用PopDecayAnimation实现 此代码可以详细参见 KKScrollView 的实现，当滑动手势结束时，根据结束的加速度，给衰减动画一个初始的velocity，用来决定衰减的时长。
-<img src="http://ww3.sinaimg.cn/mw1024/65cc0af7gw1egmzoapnqwg206i0bm7nn.gif" alt="" />
-​</p>
+<p>基于Bezier曲线的timingFuntion同样无法表述Decay Aniamtion，所以Pop就单独实现了一个 PopDecayAnimation，用于衰减动画。衰减动画一个很常见的地方就是 UIScrollView 滑动松开后的减速，这里就基于UIView实现一个自己的ScrollView，然后使用PopDecayAnimation实现 此代码可以详细参见 KKScrollView 的实现，当滑动手势结束时，根据结束的加速度，给衰减动画一个初始的velocity，用来决定衰减的时长。</p>
 
-<p>4.POPCustomAnimation</p>
+<p><img src="http://ww3.sinaimg.cn/mw1024/65cc0af7gw1egmzoapnqwg206i0bm7nn.gif" alt="" />
+​
+4.POPCustomAnimation</p>
 
 <p>POPCustomAnimation 并不是基于POPPropertyAnimation的，它直接继承自PopAnimation用于创建自定义动画用的，通过POPCustomAnimationBlock类型的block进行初始化，
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -221,9 +219,8 @@ dynamicsMass 质量 。张力，摩擦，质量这三者可以从更细的粒度
 <p>Pop Animation应用于CALayer时，在动画运行的任何时刻，layer和其presentationLayer的相关属性值始终保持一致，而Core Animation做不到。
 Pop Animation可以应用任何NSObject的对象，而Core Aniamtion必须是CALayer。
 <br/>
-原文作者：卢克</p>
-
-<p>原文地址：<a href="http://geeklu.com/2014/05/facebook-pop-usage">http://geeklu.com/2014/05/facebook-pop-usage</a></p>
+原文作者：卢克<br/>
+原文地址：<a href="http://geeklu.com/2014/05/facebook-pop-usage">http://geeklu.com/2014/05/facebook-pop-usage</a></p>
 ]]></content>
   </entry>
   
