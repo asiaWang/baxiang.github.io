@@ -1,0 +1,289 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析 - 小巴童鞋</title>
+	<meta name="author" content="小巴">
+
+	
+	<meta name="description" content="iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析 作者：Prateek Gianchandani
+译者：吴发伟
+原文网址：http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps- &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://baxiang123.com//ios-application-security-15.html">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+	<link href="/stylesheets/google-fonts.css" rel="stylesheet" type="text/css">
+	
+	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<meta name="baidu-site-verification" content="tXGpoDjJRv" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script type="text/javascript">
+ function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+ $(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+ });
+ </script>
+ 
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">BaXiang&#8217;s technology blog</p>
+<nav id="main-nav"><!--ul class="main">
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
+</ul><!-->
+<ul class="main-navigation">
+  <li><a href="/">Blog | 博客</a></li>
+  <li><a href="/blog/archives">Archives | 目录</a></li>
+  <li><a href="/blog/categories">Categories  | 分类</a></li>
+  <li><a href="/aboutme/">About Me | 关于</a></li>
+  
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<br/>
+	<div class="social">
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
+        
+		
+		
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析</h1>
+	<div class="entry-content" itemprop="articleBody"><p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/">http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面的文章当中，我们看到了如何使用Sogeti Data protection tools利用bottom的漏洞，使用定制的ramdisk来启动iOS设备。本文我们将学习用iNalyzer工具来对iOS
+应用进行黑盒测试。iNalyzer允许我们查看类信息，执行运行时分析和其他一些事情。基本上它把解密应用、导出类信息这些事情自动化了，并且更好的展示了出来。我们也可以像Cycript那样挂钩运行的进程。iNalyzer由<a href="https://appsec-labs.com/">AppSec Labs</a>开发和维护，它的官方地址在<a href="https://appsec-labs.com/iNalyzer">这</a>。iNalyzer同时也已经开源了，gitub地址在<a href="https://github.com/appsec-labs/iNalyzer">这</a>。</p>
+
+<!-- more -->
+
+
+<p>在用iNalyzer之前，有些依赖的软件需要先安装。请确保<a href="http://www.graphviz.org/download..php">Graphviz</a> 和<a href="http://www.stack.nl/~dimitri/doxygen/download.html">Doxygen</a>已经安装了，因为没有这2个工具，iNalyzer不会正常工作。并且，请注意，
+我在Mac OS X Mountain Lion 10.8.4上做的测试，但是我们用最新版本的Graphviz的时候它经常会挂起（hang）。因此，我下载了Graphviz的一个较老的版本（v 2.30.1）
+，并且这个老版本工作正常。你可以在<a href="http://www.graphviz.org/pub/graphviz/stable/macos/">这</a>找到Graphviz for Mac的老版本。</p>
+
+<p>第一步就是在你的iOS 设备上安装iNalyzer。先到Cydia->管理, 确保源<a href="http://appsec-labs.com/cydia/%E8%A2%AB%E6%88%90%E5%8A%9F%E6%B7%BB%E5%8A%A0%EF%BC%8C%E5%A6%82%E4%B8%8B%E5%9B%BE%E3%80%82">http://appsec-labs.com/cydia/%E8%A2%AB%E6%88%90%E5%8A%9F%E6%B7%BB%E5%8A%A0%EF%BC%8C%E5%A6%82%E4%B8%8B%E5%9B%BE%E3%80%82</a></p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat1.png" alt="" /></p>
+
+<p>然后到Cydia的搜索，搜索 iNalyzer。根据你现在设备上正在运行的iOS版本，选择对应版本的iNalyzer。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat2.png" alt="" /></p>
+
+<p>如你所见，我已经把iNalyzer安装好了。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat3.png" alt="" /></p>
+
+<p>现在ssh进入设备，，然后转到iNalyzer应用所在的目录。iNalyzer安装在/Applications目录，因为它需要以root用户权限运行。如果你不了解这个概念，请确保你读过本系列
+前面的文章。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat4.png" alt="" /></p>
+
+<p>输入./iNalyzer启动iNalyzer。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat5.png" alt="" /></p>
+
+<p>现在如果你到主屏幕，然后看看iNalyzer应用图标，你会看到有个提醒数字。这表明这个应用 可以通过web接口访问，然后这个提醒数字就代表的是端口号。
+如果你再次运行 ./iNalyzer，那么iNalyzer就会停止。因此，请确保记得./iNalyer是开启还是关闭这个应用。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat6.png" alt="" /></p>
+
+<p>现在你可以找到你的设备的IP地址，然后用ip:port的方式在浏览器上打开。这里端口是5544,IP地址是10.0.1.23.因此url地址是<a href="http://10.0.1.23:5544/%E3%80%82%E4%B8%80%E6%97%A6%E4%BD%A0%E6%89%93%E5%BC%80%E8%BF%99%E4%B8%AA%E9%A1%B5%E9%9D%A2%EF%BC%8C">http://10.0.1.23:5544/%E3%80%82%E4%B8%80%E6%97%A6%E4%BD%A0%E6%89%93%E5%BC%80%E8%BF%99%E4%B8%AA%E9%A1%B5%E9%9D%A2%EF%BC%8C</a>
+你会看到如下图的界面。你可以选择一个应用，然后iNalyzer就会准备一个zip文件，然后下载到你的系统上以便分析。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat7.png" alt="" /></p>
+
+<p>不过，我在这行这一步的时候却遇到一些问题。因此，我们将使用一个替代方法来完成这一步。首先确保iNalyer正在运行。然后转到iNalyer的目录下，然后不带任何参数的运行
+iNalyer5。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat8.png" alt="" /></p>
+
+<p>现在你可以看到一系列可以用来分析的应用。这里我们选择Defcon应用来分析。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat9.png" alt="" /></p>
+
+<p>你可以看到iNalyer已经开始工作。它首先解密应用，找出对应的类信息和其它一些信息。如下图所示，一旦iNalyzer完成它的工作，它就会创建一个ipa文件，然后把它
+保存到下图高亮的地址。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat10.png" alt="" /></p>
+
+<p>现在我们需要得到这个ipa文件，然后把它下载到我们的系统上（电脑上）。我们可以用sftp。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat11.png" alt="" /></p>
+
+<p>一旦我们得到ipa文件，把它后缀名改为zip，然后解压这个文件。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat12.png" alt="" /></p>
+
+<p>在终端（Terminal, 命令行）下，转到其内部的Payload－> Doxygen目录下。如下图。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat13.png" alt="" /></p>
+
+<p>你会看到有一个叫做doxMe.sh的shell脚本。如果你看看它的内容，你会看到它把运行Doxygen的工作自动化了。
+Doxygen也会运行Graphviz来产生图表，结果会保存在内部一个叫做html的文件夹下。基本上，iNalyzer已经把所有的类信息替我们保存在
+内部一个叫做Reversing Files的目录下了，而且它用Doxygen和Graphviz来把信息更友好的展示出来了。这个脚本同时也会把新创建的html文件夹内部的
+index.html文件打开。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat14.png" alt="" /></p>
+
+<p>现在，我们来运行这个脚本，让iNalyzer为我们做所有的事情。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat15.png" alt="" /></p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat16.png" alt="" /></p>
+
+<p>一旦这个命令完成，iNalyer会把新创建的html文件夹内部的index.html文件打开。 下面就是打开的样子。在这里，我用的是chrome。不过，这个工具的开发者
+推荐我再进行运行时分析的时候使用firefox浏览器，因为其它浏览器用起来可能会有问题。如下图所示，第一页给出了对整个应用的字符串分析。它把字符串分成了
+SQL和URL字符串。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat17.png" alt="" /></p>
+
+<p>你也可以看看应用中使用的所有的view controller。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat18.png" alt="" /></p>
+
+<p>点击任意的View controller，你可以看到它的方法和属性。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat19.png" alt="" /></p>
+
+<p>你也可以看看Info.plist文件的内容。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat20.png" alt="" /></p>
+
+<p>如果你选择Classes这个Tab，在Class Index下面你回看到所有应用中使用的类的列表。有些是苹果自己的类，有些是这个应用的开发者创建的。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat21.png" alt="" /></p>
+
+<p>如果你到Class Hierarchy Tab（类层次标签）下，你可以看到以图像方式展示的类信息和它们之间的关系。这会给你大量关于应用如何工作的知识。
+这些图使用Graphviz这个工具产生的。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/090313_1547_IOSApplicat22.png" alt="" /></p>
+
+<p>如果你选择文件标签（files tab), 你可以看到iNalyer生成的所有接口文件。</p>
+
+<p> <br/></p>
+
+<h2>总结</h2>
+
+<p> 本文我们学习了如何使用iNalyer对iOS应用程序进行静态分析，可以看到它使我们的工作变得非常容易。在接下来的文章中，我们将看看如何用iNalyer对iOS应用进行运行时分析。</p>
+
+<p> <br/>
+本文原文是 <a href="http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/">IOS Application Security Part 15 – Static Analysis of IOS Applications using iNalyzer</a></p>
+</div>
+
+</article>
+
+	<div class="bdsharebuttonbox"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["qzone","bdysc","renren","douban","fx","youdao","mail","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+<!--高速版，加载速度快，使用前需测试页面的兼容性-->
+<div id="SOHUCS"></div>
+<script>
+  (function(){
+    var appid = 'cyrof0xla',
+    conf = 'prod_33cb4369c37266cd8994da8878b17b87';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+    window.SCS_NO_IFRAME = true;
+  })()
+</script>                
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+</body>
+</html>

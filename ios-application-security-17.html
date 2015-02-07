@@ -1,0 +1,275 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>iOS应用程序安全(17)-使用Introspy对iOS应用进行黑盒测试 - 小巴童鞋</title>
+	<meta name="author" content="小巴">
+
+	
+	<meta name="description" content="iOS应用程序安全(17)-使用Introspy对iOS应用进行黑盒测试 作者：Prateek Gianchandani
+译者：吴发伟
+原文网址：http://resources.infosecinstitute.com/ios-app-security-part-17-black-box- &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://baxiang123.com//ios-application-security-17.html">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+	<link href="/stylesheets/google-fonts.css" rel="stylesheet" type="text/css">
+	
+	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<meta name="baidu-site-verification" content="tXGpoDjJRv" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script type="text/javascript">
+ function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+ $(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+ });
+ </script>
+ 
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">BaXiang&#8217;s technology blog</p>
+<nav id="main-nav"><!--ul class="main">
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
+</ul><!-->
+<ul class="main-navigation">
+  <li><a href="/">Blog | 博客</a></li>
+  <li><a href="/blog/archives">Archives | 目录</a></li>
+  <li><a href="/blog/categories">Categories  | 分类</a></li>
+  <li><a href="/aboutme/">About Me | 关于</a></li>
+  
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<br/>
+	<div class="social">
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
+        
+		
+		
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">iOS应用程序安全(17)-使用Introspy对iOS应用进行黑盒测试</h1>
+	<div class="entry-content" itemprop="articleBody"><p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-app-security-part-17-black-box-assess-ios-apps-using-introspy/">http://resources.infosecinstitute.com/ios-app-security-part-17-black-box-assess-ios-apps-using-introspy/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>本文我们将看看如何使用Introspy对iOS应用进行黑盒测试。Introspy由<a href="https://www.isecpartners.com/">ISEC partners</a>开发，其github地址在<a href="https://github.com/iSECPartners/introspy">这</a>。Introspy由两个单独的模块组成，一个追踪器，一个分析器。它是分析iOS应用程序安全毫无疑问的最强大工具之一。</p>
+
+<p>第一步就是在你的设备上安装Introspy追踪器。你可以在<a href="https://www.dropbox.com/s/z5cwqk5wti3zsvd/com.isecpartners.introspy-v0.3-iOS_6.1.deb?dl=1">这</a>下载到其deb包。下载成功之后，上传并安装到你的设备上。下图展示了上面提到的步骤需要执行的操作。</p>
+
+<!-- more -->
+
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat1.png" alt="" /></p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat2.png" alt="" /></p>
+
+<p>一旦追踪器安装好了，重启你的设备。到设置应用，你会看到一个关于Introspy的不同区块。
+现在
+<img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat3.png" alt="" /></p>
+
+<p>Introspy App区块允许你选择想要分析的应用。因此，点击它，然后选择你想要分析的应用。我这里选择了Path应用来做分析。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat4.png" alt="" /></p>
+
+<p>现在到Introspy的Settings，确保每个选项都已选中，特别是选项Log to The Console（把日志输出到控制台）。如果我们选中
+这个选项，Introspy分析器将会把它找到的关于这个应用（app）所有信息都输出到控制台，这样我们就能在运行时看到这些信息。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat5.png" alt="" /></p>
+
+<p>一旦选中了Path应用，请确保它没有在运行。如果它正在运行，请退出并重启Path。另外，请确保你的设备和你的电脑连接好了，因为我们想要看Introspy
+分析器记录的日志。同时，请大家你机器上的Xcode（如果你在Mac上），到Window-> Organizer->Devices。在左边的菜单选择你的设备，然后选择控制台。
+现在你就可以看到你的设备的日志。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat6.png" alt="" /></p>
+
+<p>现在开启Path应用，然后尽可能多的使用这个应用。同时，Introspy分将会在后台运行，并且会尽可能多的收集关于这个应用的信息。你也可以看到设备的日志。
+这里，我们可以看到有一个向server发起的请求，我们可以看到这个请求的所有内容，包括路径和请求参数。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat7.png" alt="" /></p>
+
+<p>并且现在，你可以看到这个应用正在使用NSUserDefaults来验证userId这个键。这个信息其实应该保存在keychain的。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat8.png" alt="" /></p>
+
+<p>但是最有趣的的信息可以从下面的图中看到。正如你所见，这个应用使用NSUserDefaults来验证HangTracerEnabled这个布尔值。这个可能是
+用来看这个应用是否在运行时被分析，如果是的话，就退出。不过，这技巧看起来失败了，因为它没有能够检测到Introspy分析器。
+不过当我用Snoop-it分析Path应用的时候，它crash了。所以，这个布尔值确定无疑的是用来看应用是否正追踪（被分析）。我们将会在随后的
+文章中介绍这些概念。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat9.png" alt="" /></p>
+
+<p>除了在控制台展示这个应用的运行时信息，Introspy也能够把它保存到你设备上的一个sqlite数据库中。从你的电脑上，你可以获取这个数据库文件
+并且Introspy会把它转换成可展示的格式。要从你的iOS 设备上获取这个数据库，首先你需要github页面下载<a href="https://github.com/iSECPartners/introspy/archive/master.zip">Introspy</a>。到这个分析器的目录，
+然后使用如下图的命令。你需要指定在你本地机器上要把报告保存的位置，同时也要指定你的iOS设备的IP地址。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat9.png" alt="" /></p>
+
+<p>如你所见，Introspy会要求你选择一个数据库文件。这些数据库文件是为每个我们在Settings中选择的应用创建的。在这里，我们选择为Path应用创建的
+数据库。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat10.png" alt="" /></p>
+
+<p>你可以看到，这个数据库被保存在当前目录下面，同时，当前目录下有一个叫做Path-Report的文件夹被创建。如果我们进入那个文件夹，并且
+打开report.html，下图就是我们将会看到的内容。如你所见，Introspy已经用一个很不错的方法把全部信息都展示出来了。我们可以看到被追踪的调用
+和其参数。。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat12.png" alt="" /></p>
+
+<p>我们也可以看到其中有一列叫做&#8221;Potential Findings&#8221;。这些都是Introspy认为存在漏洞的地方。在这里，我们将看看存储数据不安全的问题。
+这可能不算是一个漏洞，因为保存的信息不一定非常重要。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat13.png" alt="" /></p>
+
+<p>你也可以像下图那样，选择某些选项来定制你看到的信息。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat14.png" alt="" /></p>
+
+<p>例如，我已经把它配置成只显示关于UserPreferences的方法。这个信息可能会非常有用，因为它可以帮我们找出那些可能被写入NSUserDefaults的一些重要信息。
+即使没有在下图中显示，我也能够容易的知道Path把我的用户id（userId）保存到NSUserDefaults，并且在很多地方都会用到（这个用户id）。这个信息理应保存在
+更安全的地方，比如，keychain。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat15.png" alt="" /></p>
+
+<p>我们也可以直接从命令行对保存的数据库文件进行分析。下面是使用信息。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat16.png" alt="" /></p>
+
+<p>让我们给这个命令传递参数http&#8217;。如你所见，它导出了一列通信方的列表。</p>
+
+<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/091713_1309_IOSApplicat17.png" alt="" /></p>
+
+<p>Introspy也可以被其他Python脚本导入。我们也可以增加签名来标志漏洞或者不安全的配置。我们将在随后的文章中作介绍。</p>
+
+<p><br></p>
+
+<h2>总结</h2>
+
+<p>本文我们查看了如何使用Introspy对iOS应用进行黑盒测试。Introspy由两个模块组成，
+一个追踪器，一个分析器。我们可以用追踪器来对应用执行运行时分析。追踪器会把信息保存到sqlite文件中以便后续用分析器分析，追踪器也可以把所有信息都输出到设备的控制台上。分析器可以用这个数据库文件生成一个详尽的HTML报告。</p>
+
+<p>References</p>
+
+<p>Introspy</p>
+
+<p><a href="https://github.com/iSECPartners/introspy">https://github.com/iSECPartners/introspy</a></p>
+
+<p> <br/>
+本文原文是 <a href="http://resources.infosecinstitute.com/ios-app-security-part-17-black-box-assess-ios-apps-using-introspy/">IOS Application Security Part 17 – Black-box assessment of IOS Applications using Introspy</a></p>
+</div>
+
+</article>
+
+	<div class="bdsharebuttonbox"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["qzone","bdysc","renren","douban","fx","youdao","mail","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+<!--高速版，加载速度快，使用前需测试页面的兼容性-->
+<div id="SOHUCS"></div>
+<script>
+  (function(){
+    var appid = 'cyrof0xla',
+    conf = 'prod_33cb4369c37266cd8994da8878b17b87';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+    window.SCS_NO_IFRAME = true;
+  })()
+</script>                
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+</body>
+</html>

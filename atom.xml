@@ -4,7 +4,7 @@
   <title><![CDATA[小巴童鞋]]></title>
   <link href="http://baxiang123.com//atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-02-07T19:43:52+08:00</updated>
+  <updated>2015-02-07T20:38:38+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(25)-iOS开发安全编程实践]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/29/ios-application-security-25/"/>
+    <link href="http://baxiang123.com//ios-application-security-25.html"/>
     <updated>2013-11-29T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/29/ios-application-security-25</id>
+    <id>http://baxiang123.com//ios-application-security-25</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-25-secure-coding-practices-ios-development/">http://resources.infosecinstitute.com/ios-application-security-part-25-secure-coding-practices-ios-development/</a>
@@ -154,9 +154,9 @@ return YES;
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(24)-越狱检测与绕过]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/26/ios-application-security-24/"/>
+    <link href="http://baxiang123.com//ios-application-security-24.html"/>
     <updated>2013-11-26T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/26/ios-application-security-24</id>
+    <id>http://baxiang123.com//ios-application-security-24</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟 <br/>
 版权声明：自由转载-非商用-保持署名</p>
@@ -274,9 +274,9 @@ if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(23)-对抗运行时分析和操作]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/23/ios-application-security-23/"/>
+    <link href="http://baxiang123.com//ios-application-security-23.html"/>
     <updated>2013-11-23T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/23/ios-application-security-23</id>
+    <id>http://baxiang123.com//ios-application-security-23</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/">http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/</a><br/>
@@ -355,9 +355,9 @@ ptrace(PT_DENY_ATTACH, 0, 0, 0);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(22)-使用GDB进行运行时分析和操作]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/17/ios-application-security-22/"/>
+    <link href="http://baxiang123.com//ios-application-security-22.html"/>
     <updated>2013-11-17T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/17/ios-application-security-22</id>
+    <id>http://baxiang123.com//ios-application-security-22</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/">http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/</a><br/>
@@ -459,9 +459,9 @@ ptrace(PT_DENY_ATTACH, 0, 0, 0);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(21)-ARM和GDB基础]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/17/ios-application-security-21/"/>
+    <link href="http://baxiang123.com//ios-application-security-21.html"/>
     <updated>2013-11-17T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/17/ios-application-security-21</id>
+    <id>http://baxiang123.com//ios-application-security-21</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/">http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/</a><br/>
@@ -632,9 +632,9 @@ addOjectsToArray:。我们也知道r0-r3用来保存传递给子程序的参数�
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(20)-本地数据存储及其安全性（NSUserDefaults, CoreData, Sqlite, Plist 文件）]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/16/ios-application-security-20/"/>
+    <link href="http://baxiang123.com//ios-application-security-20.html"/>
     <updated>2013-11-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/16/ios-application-security-20</id>
+    <id>http://baxiang123.com//ios-application-security-20</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-20-local-data-storage-nsuserdefaults-coredata-sqlite-plist-files/">http://resources.infosecinstitute.com/ios-application-security-part-20-local-data-storage-nsuserdefaults-coredata-sqlite-plist-files/</a><br/>
@@ -769,9 +769,9 @@ NSLog(@"Auth token is %@",[bindings objectForKey:@"authToken"]]);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(19)-在程序中使用Introspy]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/16/ios-application-security-19/"/>
+    <link href="http://baxiang123.com//ios-application-security-19.html"/>
     <updated>2013-11-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/16/ios-application-security-19</id>
+    <id>http://baxiang123.com//ios-application-security-19</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-19-programmatical-usage-of-introspy/">http://resources.infosecinstitute.com/ios-application-security-part-19-programmatical-usage-of-introspy/</a><br/>
@@ -860,9 +860,9 @@ NSLog(@"Auth token is %@",[bindings objectForKey:@"authToken"]]);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(18)-使用Introspy检测自定义签名]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/16/ios-application-security-18/"/>
+    <link href="http://baxiang123.com//ios-application-security-18.html"/>
     <updated>2013-11-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/16/ios-application-security-18</id>
+    <id>http://baxiang123.com//ios-application-security-18</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-18-detecting-custom-signatures-with-introspy/">http://resources.infosecinstitute.com/ios-application-security-part-18-detecting-custom-signatures-with-introspy/</a><br/>
@@ -951,9 +951,9 @@ NSLog(@"Auth token is %@",[bindings objectForKey:@"authToken"]]);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(17)-使用Introspy对iOS应用进行黑盒测试]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/16/ios-application-security-17/"/>
+    <link href="http://baxiang123.com//ios-application-security-17.html"/>
     <updated>2013-11-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/16/ios-application-security-17</id>
+    <id>http://baxiang123.com//ios-application-security-17</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-app-security-part-17-black-box-assess-ios-apps-using-introspy/">http://resources.infosecinstitute.com/ios-app-security-part-17-black-box-assess-ios-apps-using-introspy/</a><br/>
@@ -1067,9 +1067,9 @@ NSLog(@"Auth token is %@",[bindings objectForKey:@"authToken"]]);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(16)-使用iNalyzer对iOS应用进行动态分析]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/15/ios-application-security-16/"/>
+    <link href="http://baxiang123.com//ios-application-security-16.html"/>
     <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/15/ios-application-security-16</id>
+    <id>http://baxiang123.com//ios-application-security-16</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-app-security-part-16-runtime-analysis-of-ios-apps-using-inalyzer/">http://resources.infosecinstitute.com/ios-app-security-part-16-runtime-analysis-of-ios-apps-using-inalyzer/</a><br/>
@@ -1159,9 +1159,9 @@ NSLog(@"Auth token is %@",[bindings objectForKey:@"authToken"]]);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/15/ios-application-security-15/"/>
+    <link href="http://baxiang123.com//ios-application-security-15.html"/>
     <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/15/ios-application-security-15</id>
+    <id>http://baxiang123.com//ios-application-security-15</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/">http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/</a><br/>
@@ -1289,9 +1289,9 @@ SQL和URL字符串。</p>
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(14)-使用Sogeti Data Protection tools收集信息]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/15/ios-application-security-14/"/>
+    <link href="http://baxiang123.com//ios-application-security-14.html"/>
     <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/15/ios-application-security-14</id>
+    <id>http://baxiang123.com//ios-application-security-14</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/">http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/</a><br/>
@@ -1401,9 +1401,9 @@ python脚本。</p>
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(13)-使用Sogeti Data Protection tools启动定制的Ramdisk]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/15/ios-application-security-13/"/>
+    <link href="http://baxiang123.com//ios-application-security-13.html"/>
     <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/15/ios-application-security-13</id>
+    <id>http://baxiang123.com//ios-application-security-13</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/">http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/</a><br/>
@@ -1537,9 +1537,9 @@ Sogeti data protection tools，最主要的原因就是它提供了许多我们�
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(12)-导出Keychain数据]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/15/ios-application-security-12/"/>
+    <link href="http://baxiang123.com//ios-application-security-12.html"/>
     <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/15/ios-application-security-12</id>
+    <id>http://baxiang123.com//ios-application-security-12</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/">http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/</a><br/>
@@ -1672,9 +1672,9 @@ iOS默认允许4位数字口令（从0-9999），因此很容易被人在几分�
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(11)-分析使用HTTP/HTTPS的网络流量]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/15/ios-application-security-11/"/>
+    <link href="http://baxiang123.com//ios-application-security-11.html"/>
     <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/15/ios-application-security-11</id>
+    <id>http://baxiang123.com//ios-application-security-11</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/">http://resources.infosecinstitute.com/ios-application-security-part-11-analyzing-network-traffic-over-httphttps/</a><br/>
@@ -1834,9 +1834,9 @@ iOS默认允许4位数字口令（从0-9999），因此很容易被人在几分�
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(10)-iOS文件系统和取证]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/15/ios-application-security-10/"/>
+    <link href="http://baxiang123.com//ios-application-security-10.html"/>
     <updated>2013-11-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/15/ios-application-security-10</id>
+    <id>http://baxiang123.com//ios-application-security-10</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-10-ios-filesystem-and-forensics/">http://resources.infosecinstitute.com/ios-application-security-part-10-ios-filesystem-and-forensics/</a><br/>
@@ -1992,9 +1992,9 @@ Linkedin iOS应用被发现的一个漏洞就是它把用户的认证信息存�
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(9)-用Snoop-it分析iOS应用的安全]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/14/ios-application-security-9/"/>
+    <link href="http://baxiang123.com//ios-application-security-9.html"/>
     <updated>2013-11-14T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/14/ios-application-security-9</id>
+    <id>http://baxiang123.com//ios-application-security-9</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it/">http://resources.infosecinstitute.com/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it/</a><br/>
@@ -2133,9 +2133,9 @@ Snoop-it，选择我们要分析的应用，在我这，我将要选择MethodSwi
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(8)-用Cycript进行Method Swizzling]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/14/ios-application-security-8/"/>
+    <link href="http://baxiang123.com//ios-application-security-8.html"/>
     <updated>2013-11-14T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/14/ios-application-security-8</id>
+    <id>http://baxiang123.com//ios-application-security-8</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-8-method-swizzling-using-cycript/">http://resources.infosecinstitute.com/ios-application-security-part-8-method-swizzling-using-cycript/</a><br/>
@@ -2289,9 +2289,9 @@ UIApp.keyWindow.rootViewController</p>
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(7)-不用证书安装应用到设备的方法]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/14/ios-application-security-7/"/>
+    <link href="http://baxiang123.com//ios-application-security-7.html"/>
     <updated>2013-11-14T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/14/ios-application-security-7</id>
+    <id>http://baxiang123.com//ios-application-security-7</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account/">http://resources.infosecinstitute.com/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account/</a><br/>
@@ -2414,9 +2414,9 @@ Payload.zip）然后重命名Payload.zip为SelfSigned.ipa. 从这个系列的第
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(6)-iOS 7的新安全功能]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/14/ios-application-security-6/"/>
+    <link href="http://baxiang123.com//ios-application-security-6.html"/>
     <updated>2013-11-14T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/14/ios-application-security-6</id>
+    <id>http://baxiang123.com//ios-application-security-6</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-6-new-security-features-in-ios-7/">http://resources.infosecinstitute.com/ios-application-security-part-6-new-security-features-in-ios-7/</a><br/>

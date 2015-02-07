@@ -29,6 +29,7 @@
 	<link href="/stylesheets/google-fonts.css" rel="stylesheet" type="text/css">
 	
 	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<meta name="baidu-site-verification" content="tXGpoDjJRv" />
 <script>
 var _hmt = _hmt || [];
 (function() {
@@ -39,6 +40,16 @@ var _hmt = _hmt || [];
 })();
 </script>
 
+<script type="text/javascript">
+ function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+ $(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+ });
+ </script>
  
 </head>
 

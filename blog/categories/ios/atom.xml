@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | 小巴童鞋]]></title>
   <link href="http://baxiang123.com//blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-02-07T19:43:52+08:00</updated>
+  <updated>2015-02-07T20:38:38+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(25)-iOS开发安全编程实践]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/29/ios-application-security-25/"/>
+    <link href="http://baxiang123.com//ios-application-security-25.html"/>
     <updated>2013-11-29T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/29/ios-application-security-25</id>
+    <id>http://baxiang123.com//ios-application-security-25</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-25-secure-coding-practices-ios-development/">http://resources.infosecinstitute.com/ios-application-security-part-25-secure-coding-practices-ios-development/</a>
@@ -154,9 +154,9 @@ return YES;
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(24)-越狱检测与绕过]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/26/ios-application-security-24/"/>
+    <link href="http://baxiang123.com//ios-application-security-24.html"/>
     <updated>2013-11-26T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/26/ios-application-security-24</id>
+    <id>http://baxiang123.com//ios-application-security-24</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟 <br/>
 版权声明：自由转载-非商用-保持署名</p>
@@ -274,9 +274,9 @@ if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(23)-对抗运行时分析和操作]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/23/ios-application-security-23/"/>
+    <link href="http://baxiang123.com//ios-application-security-23.html"/>
     <updated>2013-11-23T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/23/ios-application-security-23</id>
+    <id>http://baxiang123.com//ios-application-security-23</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/">http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/</a><br/>
@@ -355,9 +355,9 @@ ptrace(PT_DENY_ATTACH, 0, 0, 0);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(22)-使用GDB进行运行时分析和操作]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/17/ios-application-security-22/"/>
+    <link href="http://baxiang123.com//ios-application-security-22.html"/>
     <updated>2013-11-17T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/17/ios-application-security-22</id>
+    <id>http://baxiang123.com//ios-application-security-22</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/">http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/</a><br/>
@@ -459,9 +459,9 @@ ptrace(PT_DENY_ATTACH, 0, 0, 0);
   
   <entry>
     <title type="html"><![CDATA[iOS应用程序安全(21)-ARM和GDB基础]]></title>
-    <link href="http://baxiang123.com//blog/2013/11/17/ios-application-security-21/"/>
+    <link href="http://baxiang123.com//ios-application-security-21.html"/>
     <updated>2013-11-17T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2013/11/17/ios-application-security-21</id>
+    <id>http://baxiang123.com//ios-application-security-21</id>
     <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
 原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/">http://resources.infosecinstitute.com/ios-application-security-part-21-arm-gdb-basics/</a><br/>
