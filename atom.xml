@@ -4,7 +4,7 @@
   <title><![CDATA[小巴童鞋]]></title>
   <link href="http://baxiang123.com//atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-02-08T00:01:40+08:00</updated>
+  <updated>2015-02-08T00:06:24+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -23,7 +23,7 @@
 <!-- more -->
 
 
-<p>一.基本概念</p>
+<h2>一.基本概念</h2>
 
 <p>在计算机的世界里面，其实并不存在绝对连续的动画，你所看到的屏幕上的动画本质上都是离散的，只是在一秒的时间里面离散的帧多到一定的数量人眼就觉得是连续的了，在iOS中，最大的帧率是60帧每秒。 iOS提供了Core Animation框架，只需要开发者提供关键帧信息，比如提供某个animatable属性终点的关键帧信息，然后中间的值则通过一定的算法进行插值计算，从而实现补间动画。 Core Aniamtion中进行插值计算所依赖的时间曲线由CAMediaTimingFunction提供。 Pop Animation在使用上和Core Animation很相似，都涉及Animation对象以及Animation的载体的概念，不同的是Core Animation的载体只能是CALayer，而Pop Animation可以是任意基于NSObject的对象。当然大多数情况Animation都是界面上显示的可视的效果，所以动画执行的载体一般都直接或者间接是UIView或者CALayer。但是如果你只是想研究Pop Animation的变化曲线，你也完全可以将其应用于一个普通的数据对象，比如下面这个对象:</p>
 
@@ -129,7 +129,7 @@ PopSpringAniamtion</p>
 <p>一开始快速向终点方向靠近，然后会在终点附近来回摆动，摆动幅度逐渐变弱，最后在终点停止。
 通过上面的两个属性值变化的曲线你可以很好的理解动画的类型和属性的变化曲线之前的关联了。</p>
 
-<p>二.Pop Animation的使用</p>
+<h2>二.Pop Animation的使用</h2>
 
 <p>这里就讲讲Pop Aniamtion自带的几种动画的使用。 Pop Animation自带的动画都是基于POPPropertyAnimation的，POPPropertyAnimation有个很重要的部分就是 POPAnimatableProperty，用来描述animatable的属性。上一节中就看到了如何来创建一个POPAnimatableProperty对象，在初始化的时候，需要在初始化的block中设置writeBlock和readBlock</p>
 
@@ -143,7 +143,7 @@ kPOPViewAlpha
 &hellip;
 这样预定义的POPAnimatableProperty已经帮你设置好writeBlock和readBlock。 下面的一些基于POPPropertyAnimation的动画都提供了快捷的方法，直接传入propertyWithName便创建好了特定property的动画了。 下面列举的各个实例都可以在这里找到：<a href="https://github.com/kejinlu/facebook-pop-sample%E3%80%82">https://github.com/kejinlu/facebook-pop-sample%E3%80%82</a></p>
 
-<p>1.POPBasicAnimation</p>
+<h3>1.POPBasicAnimation</h3>
 
 <p>基本动画，接口方面和CABasicAniamtion很相似，使用可以提供初始值fromValue，这个 终点值toValue，动画时长duration以及决定动画节奏的timingFunction。timingFunction直接使用的CAMediaTimingFunction,是使用一个横向纵向都为一个单位的拥有两个控制点的贝赛尔曲线来描述的，横坐标为时间，纵坐标为动画进度。 ​ 这里举一个View移动的例子：</p>
 
@@ -172,7 +172,7 @@ kPOPViewAlpha
 
 <p>这里self.view上放了一个用于动画的testView，然后取一个随机坐标，进行动画。</p>
 
-<p>2.PopSpringAnimation</p>
+<h3>2.PopSpringAnimation</h3>
 
 <p>弹簧动画是Bezier曲线无法表述的，所以无法使用PopBasicAniamtion来实现。PopSpringAnimation便是专门用来实现弹簧动画的。</p>
 
@@ -207,14 +207,16 @@ kPOPViewAlpha
 springSpeed 弹簧速度，速度越快，动画时间越短 [0, 20]，默认为12，和springBounciness一起决定着弹簧动画的效果
 dynamicsTension 弹簧的张力
 dynamicsFriction 弹簧摩擦
-dynamicsMass 质量 。张力，摩擦，质量这三者可以从更细的粒度上替代springBounciness和springSpeed控制弹簧动画的效果
-3.PopDecayAnimation</p>
+dynamicsMass 质量 。张力，摩擦，质量这三者可以从更细的粒度上替代springBounciness和springSpeed控制弹簧动画的效果</p>
+
+<h3>3.PopDecayAnimation</h3>
 
 <p>基于Bezier曲线的timingFuntion同样无法表述Decay Aniamtion，所以Pop就单独实现了一个 PopDecayAnimation，用于衰减动画。衰减动画一个很常见的地方就是 UIScrollView 滑动松开后的减速，这里就基于UIView实现一个自己的ScrollView，然后使用PopDecayAnimation实现 此代码可以详细参见 KKScrollView 的实现，当滑动手势结束时，根据结束的加速度，给衰减动画一个初始的velocity，用来决定衰减的时长。</p>
 
 <p><img src="http://ww3.sinaimg.cn/mw1024/65cc0af7gw1egmzoapnqwg206i0bm7nn.gif" alt="" />
-​
-4.POPCustomAnimation</p>
+​</p>
+
+<h3>4.POPCustomAnimation</h3>
 
 <p>POPCustomAnimation 并不是基于POPPropertyAnimation的，它直接继承自PopAnimation用于创建自定义动画用的，通过POPCustomAnimationBlock类型的block进行初始化，</p>
 
@@ -225,12 +227,12 @@ dynamicsMass 质量 。张力，摩擦，质量这三者可以从更细的粒度
 
 <p>此block会在界面的每一帧更新的时候被调用，创建者需要在block中根据当前currentTime和elapsedTime来决定如何更新target的相关属性，以实现特定的动画。当你需要结束动画的时候就在block中返回NO，否则返回YES。</p>
 
-<p>四.Pop Animation相比于Core Animation的优点</p>
+<h2>三.Pop Animation相比于Core Animation的优点</h2>
 
 <p>Pop Animation应用于CALayer时，在动画运行的任何时刻，layer和其presentationLayer的相关属性值始终保持一致，而Core Animation做不到。
-Pop Animation可以应用任何NSObject的对象，而Core Aniamtion必须是CALayer。
-<br/>
-原文作者：卢克<br/>
+Pop Animation可以应用任何NSObject的对象，而Core Aniamtion必须是CALayer</p>
+
+<p>原文作者：卢克<br/>
 原文地址：<a href="http://geeklu.com/2014/05/facebook-pop-usage">http://geeklu.com/2014/05/facebook-pop-usage</a></p>
 ]]></content>
   </entry>
