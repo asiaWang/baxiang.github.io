@@ -1,0 +1,158 @@
+<hr />
+
+<p>layout: post<br/>
+title: 采用Cocoa设计模式</p>
+
+<h2>categories: [swift]</h2>
+
+<p>使用 Cocoa 现有的一些设计模式，是帮助开发者开发一款拥有合理设计思路、稳定的性能、良好的可扩展性应用的有效方法之一。这些模式都依赖于在 Objective-C 中定义的类。因为 Swift 与 Objective-C 的互用性，所以你依然可以在 Swift 代码中使用这些设计模式。在一些情况下，你甚至可以使用 Swift 语言的特性扩展或简化这些 Cocoa 设计模式，使这些设计模式更强大、更易于使用。<!--more-->
+<a name="Delegation"></a></p>
+
+<h3>委托（Delegation</h3>
+
+<p>在 Swift 和 Objective-C 中，委托通常由一个定义交互方法和遵循规范的委托属性的协议表示。与 Objective-C 相比，当你在 Swift 中继承一个委托时，虽然继承模式不变，但是内部的实现已经改变了。就像在 Objective-C 中，在你向委托发送消息之前，不管它是不是 <code>nil</code> 你都会去查看，如果定义的方法是非必须实现的方法，不管委托有没有实现这个方法，你也都会去查看。而在 Swift 中，通过保持类型安全的特性，可以有效的消除这些繁琐、不必要的行为问题。<br />
+下面列出的代码可以说明这个过程：<br />
+1. 检查 <code>myDelegate</code> 不为 <code>nil</code>。<br />
+2. 检查 <code>myDelegate</code> 是否实现了继承的 <code>window:willUseFullScreenContentSize:</code> 方法。<br />
+3. 如果<code>myDelegate</code> 不为 <code>nil</code> 并且实现了 <code>window:willUseFullScreenContentSize:</code> 方法，那么调用该方法，将该方法的返回值分配给名为 <code>fullScreenSize</code> 的属性。<br />
+4. 将该方法的返回值输出在控制台。<br /></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">// @inteface MyObject : NSObject</span>
+</span><span class='line'><span class="c1">// @property (nonatomic, weak) id&lt;NSWindowDelegate&gt; delegate;</span>
+</span><span class='line'><span class="c1">// @end</span>
+</span><span class='line'><span class="k">if</span> <span class="k">let</span> <span class="n">fullScreenSize</span> <span class="o">=</span> <span class="n">myDelegate</span><span class="o">?</span><span class="p">.</span><span class="n">window</span><span class="o">?</span><span class="p">(</span><span class="n">myWindow</span><span class="p">,</span> <span class="nl">willUseFullScreenContentSize</span><span class="p">:</span> <span class="n">mySize</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="n">NSStringFromSize</span><span class="p">(</span><span class="n">fullScreenSize</span><span class="p">))</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>注意：
+在一个完全使用 Swift 编写的 app 中，在定义 <code>delegate</code> 属性时，它作为一个不定值的 <code>NSWindowDelegate</code> 对象，并将初始值设为 <code>nil</code>。</p></blockquote>
+
+<p><a name="Lazy_Initialization"></a></p>
+
+<h3>延迟初始化（Lazy Initialization</h3>
+
+<p>你可以在 <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Properties.html#//apple_ref/doc/uid/TP40014097-CH14">Lazy Stored Properties</a> 中了解到更多关于延迟初始化的信息。</p>
+
+<p><a name="Error_Reporting"></a></p>
+
+<h3>错误报告（Error Reporting</h3>
+
+<p>Swift 中的错误报告模式沿用了 Objective-C 的模式，但 Swift 中不定值返回值的新特性给我们带来了额外的好处。举个很简单的例子，你用 <code>Bool</code> 值作为一个函数的返回值，用于标识该函数是否执行成功，当你需要输出错误信息时，你可以在函数中添加一个 <code>NSErrorPointer</code> 类型的输出参数 <code>NSError</code>。这个类型类似 Objective-C 中的 <code>NSError **</code>，并增加了内存安全性和非强制性的传参。你可以使用 <code>&amp;</code> 运算符作为前缀引用一个不定值 <code>NSError</code> 类型作为 <code>NSErrorPointer</code> 对象传递错误信息。如下面的代码所示：<br /></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">var</span> <span class="nl">writeError</span> <span class="p">:</span> <span class="bp">NSError</span><span class="o">?</span>
+</span><span class='line'><span class="k">let</span> <span class="n">written</span> <span class="o">=</span> <span class="n">myString</span><span class="p">.</span><span class="n">writeToFile</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nl">atomically</span><span class="p">:</span> <span class="nb">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nl">encoding</span><span class="p">:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">,</span>
+</span><span class='line'>    <span class="nl">error</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">writeError</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="o">!</span><span class="n">written</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">error</span> <span class="o">=</span> <span class="n">writeError</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="s">&quot;write failure: \(error.localizedDescription)&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当你实现自己的方法时，你需要配置一个 <code>NSErrorPointer</code> 对象，并将 <code>NSErrorPointer</code> 对象的 <code>memory</code> 属性设为你创建的 <code>NSError</code> 对象。首先检查调用者传递的参数，确保它是一个非 <code>nil</code> 的 <code>NSError</code> 对象。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">contentsForType</span><span class="p">(</span><span class="nl">typeName</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span> <span class="nl">error</span><span class="p">:</span> <span class="n">NSErrorPointer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnyObject</span><span class="o">!</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">cannotProduceContentsForType</span><span class="p">(</span><span class="n">typeName</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">error</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">error</span><span class="p">.</span><span class="n">memory</span> <span class="o">=</span> <span class="bp">NSError</span><span class="p">(</span><span class="nl">domain</span><span class="p">:</span> <span class="n">domain</span><span class="p">,</span> <span class="nl">code</span><span class="p">:</span> <span class="n">code</span><span class="p">,</span> <span class="nl">userInfo</span><span class="p">:</span> <span class="p">[</span><span class="o">:</span><span class="p">])</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">nil</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a name="Key-Value_Observing"></a></p>
+
+<h3>键值观察（Key-Value Observin</h3>
+
+<p>尽请期待。</p>
+
+<p><a name="Target_Action"></a></p>
+
+<h3>Target-Action模式（Target-Action)</h3>
+
+<p>当有特定事件发生，需要一个对象向另一个对象发送消息时，我们通常采用 Cocoa 的 Target-Action 设计模式。Swift 和 Objective-C 中的 Target-Action 模型基本类似。在 Swift 中，你可以使用 <code>Selector</code> 类型达到 Objective-C 中 selectors 的效果。请在 <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html#//apple_ref/doc/uid/TP40014216-CH4-XID_37">Objective-C Selectors</a> 中查看在 Swift 中使用 Target-Action 设计模式的示例。</p>
+
+<p><a name="Introspection"></a></p>
+
+<h3>类型匹配与统一规范（Introspectio</h3>
+
+<p>在 Objective-C 中，你可以使用 <code>isKindOfClass:</code> 方法检查某个对象是否是指定类型，可以使用 <code>conformsToProtocol:</code> 方法检查某个对象是否遵循特定协议的规范。在 Swift 中，你可以使用 <code>is</code> 运算符完成上述的功能，或者也可以使用 <code>as?</code> 向下匹配指定类型。<br />
+你可以使用 <code>is</code> 运算符检查一个实例是否是指定的子类。如果该实例是指定的子类，那么 <code>is</code> 运算结果为 <code>true</code>，反之为 <code>false</code>。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">if</span> <span class="n">object</span> <span class="kt">is</span> <span class="bp">UIButton</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// object is of type UIButton</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// object is not of type UIButton</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你也可以使用 <code>as?</code> 运算符尝试向下匹配子类型，<code>as?</code> 运算符返回不定值，结合 <code>if-let</code> 语句使用。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">if</span> <span class="k">let</span> <span class="n">button</span> <span class="o">=</span> <span class="n">object</span> <span class="kt">as</span><span class="o">?</span> <span class="bp">UIButton</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// object is successfully cast to type UIButton and bound to button</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// object could not be cast to type UIButton</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>请在 <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TypeCasting.html#//apple_ref/doc/uid/TP40014097-CH22">Type Casting</a> 中查看更多信息。<br />
+检查匹配协议的语法与检查匹配类的语法是一样的，下面是使用 <code>as?</code> 检查匹配协议的示例：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">if</span> <span class="k">let</span> <span class="n">dataSource</span> <span class="o">=</span> <span class="n">object</span> <span class="kt">as</span><span class="o">?</span> <span class="bp">UITableViewDataSource</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// object conforms to UITableViewDataSource and is bound to dataSource</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// object not conform to UITableViewDataSource</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意，当做完匹配之后，<code>dataSource</code> 会转换为  <code>UITableViewDataSource</code> 类型，所以你只能访问和调用<code>UITableViewDataSource</code> 协议定义的属性和方法。当你想进行其他操作时，必须将其转换为其他的类型。<br />
+可以在 <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Protocols.html#//apple_ref/doc/uid/TP40014097-CH25">Protocols</a> 查看更多相关信息。</p>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | 小巴童鞋]]></title>
   <link href="http://baxiang123.com//blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-03-15T04:49:58+08:00</updated>
+  <updated>2015-03-15T05:16:02+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -12,6 +12,302 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用Objective-C特性编写Swift类]]></title>
+    <link href="http://baxiang123.com//blog/Writing%20Swift%20Classes%20with%20Objective-C%20Behavior.html"/>
+    <updated>2015-03-16T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/Writing Swift Classes with Objective-C Behavior</id>
+    <content type="html"><![CDATA[<p>互用性（互操作性）使开发者可以定义融合了 Objective-C 语言特性的Swift类。编写 Swift 类时，不仅可以继承 Objective-C 语言编写的父类，采用 Objective-C 的协议，还可以利用 Objective-C 的一些其它功能。这意味着，开发者可以基于 Objective-C 中已有的熟悉、可靠的类、方法和框架来创建 Swift 类，并结合 Swift 提供的现代化和更有效的语言特点对其进行优化。</p>
+
+<!--more-->
+
+
+<p><a name="inheriting_from_objective-c_classes"></a></p>
+
+<h3>继承Objective-C的类</h3>
+
+<p>在 Swift 中，开发者可以定义一个子类，该子类继承自使用 Objective-C 编写的类。创建该子类的方法是，在 Swift 的类名后面加上一个冒号（:），冒号后面跟上 Objective-C 的类名。</p>
+
+<pre><code class="swift">import UIKit
+
+class MySwiftViewController: UIViewController {
+    // 定义类
+}
+</code></pre>
+
+<p>开发者能够从 Objective-C 的父类中继承所有的功能。如果开发者要覆盖父类中的方法，不要忘记使用<code>override</code>关键字。</p>
+
+<p><a name="adopting_protocols"></a></p>
+
+<h3>采用协议</h3>
+
+<p>在 Swift 中，开发者可以采用 Objective-C 中定义好的协议。和 Swift 协议一样，所有 Objective-C 协议都写在一个用逗号隔开的列表中，跟在所在类的父类名后面（如果它有父类的话）。</p>
+
+<pre><code class="swift">class MySwiftViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    // 定义类
+}
+</code></pre>
+
+<p>Objective-C 协议与 Swift 协议使用上是一致的。如果开发者想在 Swift 代码中引用 <code>UITableViewDelegate</code>协议，可以直接使用<code>UITableViewDelegate</code>（跟在 Objective-C 中引用<code>id&lt;UITableViewDelegate&gt;</code>是等价的）。</p>
+
+<p><a name="writing_initializers_and_deinitializers"></a></p>
+
+<h3>编写构造器和析构器</h3>
+
+<p>Swift 的编译器确保在初始化时，构造器不允许类里有任何未初始化的属性，这样做能够增加代码的安全性和可预测性。另外，与 Objective-C 语言不同，Swift 不提供单独的内存分配方法供开发者调用。当你使用原生的 Swift 初始化方法时（即使是和 Objective-C 类协作），Swift 会将 Objective-C 的初始化方法转换为 Swift 的初始化方法。关于如何实现开发者自定义构造器的更多信息，请查看<a href="https://github.com/CocoaChina-editors/Welcome-to-Swift/blob/master/The%20Swift%20Programming%20Language/02Language%20Guide/14Initialization.md">构造器</a>。</p>
+
+<p>当开发者希望在类被释放前，执行额外的清理工作时，需要执行一个析构过程来代替<code>dealloc</code>方法。在实例被释放前，Swift 会自动调用析构器来执行析构过程。Swift 调用完子类的析构器后，会自动调用父类的析构器。当开发者使用 Objective-C 类或者是继承自 Objective-C 类的 Swift 类时，Swift 也会自动为开发者调用这个类的父类里的<code>dealloc</code>方法。关于如何实现开发者自定义析构器的更多信息，请查看<a href="https://github.com/CocoaChina-editors/Welcome-to-Swift/blob/master/The%20Swift%20Programming%20Language/02Language%20Guide/15Deinitialization.md">析构器</a>。</p>
+
+<p><a name="integrating_with_interface_builder"></a></p>
+
+<h3>集成Interface Builder</h3>
+
+<p>Swift 编译器包含一些属性，使得开发者的 Swift 类集成了 Interface Builder 里的一些特色功能。和 Objective-C 里一样，你能在 Swift 里面使用 outlets，actions 和实时渲染（live rendering）。</p>
+
+<h3>使用Outlets和Action</h3>
+
+<p>使用 Outlets 和 Action 可以连接源代码和 Interface Builder 的 UI 对象。在Swift里面使用 Outlets 和 Action，需要在属性和方法声明前插入<code>@IBOutlet</code>或者<code>@IBAction</code>关键字。声明一个 Outlet 集合同样是用<code>@IBOutlet</code>属性，即为类型指定一个数组。</p>
+
+<p>当开发者在 Swift 里面声明了一个 Outlet 时，Swift 编译器会自动将该类型转换为弱（weak）、隐式（implicitly）、未包装（unwrapped）的 optional（Objective-C 里面对应指针类型）数据类型，并为它分配一个初始化的空值<code>nil</code>。实际上，编译器使用<code>@IBOutlet weak var name: Type! = nil</code>来代替 <code>@IBOutlet var name: Type</code>。编译器将该类型转换成了弱（weak）、隐式（implicitly）、未包装（unwrapped）的 optional 类型，因此开发者就不需要在构造器中为该类型分配一个初始值了。当开发者从故事板（storyboard）或者<code>xib</code>文件里面初始化对象 class 后，定义好的 Outlet 和这些对象连接在一起了，所以，这些 Outlet 是隐式的，未包装的。由于创建的 outlets 一般都是弱关系，因此默认 outlets 是弱类型。</p>
+
+<p>例如，下面的 Swift 代码声明了一个拥有 Outlet、Outlet 集合和 Action 的类：</p>
+
+<pre><code class="swift">
+class MyViewController: UIViewController {
+
+    @IBOutlet var button: UIButton
+
+    @IBOutlet var textFields: UITextField[]
+
+    @IBAction func buttonTapped(AnyObject) {
+        println("button tapped!")
+    }
+}
+</code></pre>
+
+<p>在<code>buttonTapped</code>方法中，消息发送者的信息没有被使用，因此可以省略该方法的参数名。</p>
+
+<h4>实时渲染（live rendering）</h4>
+
+<p>开发者可以在 Interface Builder 中用<code>@IBDesignable</code>和<code>@IBInspectable</code>来创建生动、可交互的自定义视图（view）。开发者继承<code>UIView</code>或者<code>NSView</code>来自定义一个视图（view）时，可以在类声明前添加<code>@IBDesignable</code>属性。当你在 Interface Builder 里添加了自定义的视图后（在监视器面板的自定义视图类中进行设置），Interface Builder 将在画布上渲染你自定义的视图。</p>
+
+<blockquote><p>注意：只能针对框架里对象进行实时渲染</p></blockquote>
+
+<p>你也可以将<code>@IBInspectable</code>属性添加到和用户定义的运行时属性兼容的类型属性里。这样，当开发者将自定义的视图添加到 Interface Builder 里后，就可以在监视器面板中编辑这些属性。</p>
+
+<pre><code class="swift">@IBDesignable
+
+class MyCustomView: UIView {
+    @IBInspectable var textColor: UIColor
+    @IBInspectable var iconHeight: CGFloat
+    /* ... */
+}
+</code></pre>
+
+<p><a name="specifying_property_attributes"></a></p>
+
+<h3>指明属性特性</h3>
+
+<p>在 Objective-C 中，属性通常都有一组特性（Attributes）说明来指明该属性的一些附加信息。在 Swift 中，开发者可以通过不同的方法来指明属性的这些特性。</p>
+
+<h4>强类型和弱类型</h4>
+
+<p>Swift 里属性默认都是强类型的。使用<code>weak</code>关键字修饰一个属性，能指明其对象存储时是一个弱引用。该关键字仅能修饰 optional 对象类型。更多的信息，请查阅<a href="https://github.com/CocoaChina-editors/Welcome-to-Swift/blob/master/The%20Swift%20Programming%20Language/02Language%20Guide/09Classes%20and%20Structures.md">特性</a>。</p>
+
+<h4>读／写和只读</h4>
+
+<p>在 Swift 中，没有<code>readwrite</code>和<code>readonly</code>特性。当声明一个存储型属性时，使用<code>let</code>修饰其为只读；使用<code>var</code>修饰其为可读／写。当声明一个计算型属性时，为其提供一个 getter 方法，使其成为只读的；提供 getter 方法和 setter 方法，使其成为可读／写的。更多信息，请查阅<a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/ClassesAndStructures.html#//apple_ref/doc/uid/TP40014097-CH13">属性</a>。</p>
+
+<h4>拷贝</h4>
+
+<p>在 Swift 中，Objective-C 的<code>copy</code>特性被转换为<code>@NSCopying</code>属性。这一类的属性必须遵守 <code>NSCopying</code>协议。更多信息，请查阅<a href="https://github.com/CocoaChina-editors/Welcome-to-Swift/blob/master/The%20Swift%20Programming%20Language/02Language%20Guide/09Classes%20and%20Structures.md">特性</a>。</p>
+
+<p><a name="implementing_core_data_managed_object_subclasses"></a></p>
+
+<h3>实现Core Data Managed Object子类</h3>
+
+<p>Core Data 提供了基本存储和实现<code>NSManagedObject</code>子类的一组属性。在与Core Data 模型中管理对象子类相关的特性或者关系的每个属性定义之前，将<code>@NSmanaged</code>特性加入。与 Objective-C 里面的 <code>@dynamic</code>特性类似，<code>@NSManaged</code>特性告知 Swift 编译器，这个属性的存储和实现将在运行时完成。但是，与<code>@dynamic</code>不同的是，<code>@NSManaged</code>特性仅在 Core Data 支持中可用。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[与 Cocoa 数据类型共舞]]></title>
+    <link href="http://baxiang123.com//blog/Working%20with%20Cocoa%20Data%20Types.html"/>
+    <updated>2015-03-16T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/Working with Cocoa Data Types</id>
+    <content type="html"><![CDATA[<p>作为对 Objective-C 互用性（互操作性）的一部分，Swift提供快捷高效的方式来处理 Cocoa 数据类型。</p>
+
+<p>Swift 会自动将一些 Objective-C 类型转换为 Swift 类型，以及将 Swift 类型转换为 Objective-C 类型。在 Objective-C 和 Swift 中也有一些具有互用性的数据类型。那些可转换的数据类型或者具有互用性的数据类型被称为<em>bridged</em>数据类型。举个例子，在 Swift 中，您可以将一个<code>Array</code>值传递给一个要求为<code>NSArray</code>对象的方法。你也可以转换一个 bridged 类型和它的副本。当你使用<code>as</code>转换 bridged 类型或者那些由常量和变量所提供的类型时，Swift 会桥接它们的数据类型。</p>
+
+<p>Swift 也提供一种简单便捷的覆盖方法来连接 Foundation 的数据类型，在后面的 Swift 语言中，你能在它的句法中感受到自然和统一。</p>
+
+<!--more-->
+
+
+<p><a name = "strings"></a></p>
+
+<h3>字符串</h3>
+
+<p>Swift会在<code>String</code>类型和<code>NSString</code>类型中自动转换。这意味着在可以使用<code>NSString</code>对象的地方，您可以使用一个属于 Swift 的<code>String</code>类型代替它，这样做会同时拥有它们数据类型的特点，<code>String</code>类型的插值，基于Swift设计的APIs以及<code>NSString</code>类更广的适用范围。因此，您几乎不必再在你的代码中使用<code>NSString</code>类。事实上，当 Swift 接入 Objective-C APIs 时，它将把所有<code>NSString</code>类型替换为<code>String</code>类型。当您在您的Objective-C代码中使用 Swift 类时，接入的API会将所有<code>String</code>类型替换成<code>NSString</code>类型。</p>
+
+<p>为了允许字符串转换，只需接入 Foundation。举个例子，您在 Swift 的一个字符串中调用了<code>capitalizedString</code>&ndash;一个<code>NSString</code>类的方法，此后 Swift 会自动将<code>String</code>转换为一个<code>NSString</code>对象并调用方法。这个方法甚至会返回一个 Swift 的<code>String</code>类型，因为它在接入的时候被替换了。</p>
+
+<pre><code class="swift">import Foundation
+let greeting = "hello, world!"
+let capitalizedGreeting = greeting.capitalizedString
+// capitalizedGreeting: String = Hello, World!
+</code></pre>
+
+<p>如果您确实需要用到一个<code>NSString</code>对象，您可以用一个 Swift 的<code>String</code>值并转换它。<code>String</code>类型总是可以从一个<code>NSString</code>对象转换为一个Swift的<code>String</code>的值，因此，再没有必要去使用一个可选的类型转换器<code>()as?)</code>。您也可以在一个字符串中通过定义常量和变量来创建一个<code>NSString</code>对象。</p>
+
+<pre><code class="swift">import Foundation
+let myString: NSString = "123"
+if let integerValue = (myString as String).toInt()){
+    println("\(myString) is the integer \(integerValue)") 
+}
+</code></pre>
+
+<h4>本地化</h4>
+
+<p>在Objective-C中，常用<code>NSLocalizedString</code>类的宏来定位一个字符串。这集合的宏包括<code>NSLocalizedStringFromTableInBundle</code>和<code>NSLocalizedStringWithDefaultValue</code>。而在Swift中，只用一个函数就可以实现跟整个<code>NSLocalizedString</code>集一样的功能，即<code>NSLocalizedString(key:tableName:bundle:value:comment:)</code>。这个<code>NSLocalizedString</code>函数分别为<code>tableName</code>，<code>bundle</code>和<code>value</code>参数提供了一个默认值。你可以用它来替换宏。</p>
+
+<p><a name = "numbers"></a></p>
+
+<h3>数字</h3>
+
+<p>Swift会自动将已确定的数字类型<code>Int</code>和<code>Float</code>转换为<code>NSNumber</code>。这样的转换允许你基于其中一种类型创建一个<code>NSNumber</code>：</p>
+
+<pre><code>let n = 42
+let m: NSNumber = n
+</code></pre>
+
+<p>你也能传递一个<code>Int</code>类型的值，比如传递给一个要求为<code>NSNumber</code>类型的参数。同时需要注意的是，<code>NSNumber</code>可以包含多种不同的类型，因此您不能把它传递给单一的一个<code>Int</code>值。</p>
+
+<p>下面所列出的类型都会自动转换为<code>NSNumber</code>：</p>
+
+<ul>
+<li><code>Int</code></li>
+<li><code>UInt</code></li>
+<li><code>Float</code></li>
+<li><code>Double</code></li>
+<li><code>Bool</code></li>
+</ul>
+
+
+<p><a name = "collection_classes"></a></p>
+
+<h3>类集合</h3>
+
+<p>Swift 会自动将<code>NSArray</code>和<code>NSDictionary</code>类转换为Swift里等价的类。这意味着你将受益于Swift强大的算法和得天独厚的语法来处理集合&ndash;可互相转换的 Foundation 和 Swift 集合类型。</p>
+
+<h4>数组</h4>
+
+<p>Swift 会在<code>Array</code>类型和<code>NSArray</code>类型中自动转换。当你从一个 Swift 数组转换到一个<code>NSArray</code>对象，转换后的数组是一个<code>AnyObject[]</code>类型的数组。如果某个对象是 Objective-C 或者 Swift 类的实例，或者这个对象可以转换成另一种类型，那么这个对象则属于<code>AnyObject</code>类型的对象。你可以将任一<code>NSArray</code>对象转换成一个 Swift 数组，因为所有 Objective-C 的对象都是<code>AnyObject</code>类型的。正因如此，Swift 的编译器会在接入 Objective-C APIs 的时候将<code>NSArray</code>类替换成<code>AnyObject[]</code>。</p>
+
+<p>当你将一个<code>NSArray</code>对象转换成一个 Swift 数组后，你也可以将数组强制类型转换成一个特定的类型。与从<code>NSArray</code>类转换到<code>AnyObject[]</code>不同的是，从<code>AnyObject</code>类型的对象转换成明确的类型并不会保证成功。由于直到运行时编译器才知道<code>AnyObject</code>的对象能否被强制转换为特定的类型，因此，从<code>AnyObject[]</code>转换为<code>SomeType[]</code>会返回一个 optional 的值。举个例子，如果你知道一个Swift数组只包含<code>UIView</code>类的实例(或者一个<code>UIView</code>类的子类)，你可以将<code>AnyObject</code>类型的数组元素强制转换为<code>UIView</code>对象。如果Swift数组中的元素在运行时不是<code>UIView</code>类型的对象，那么转换则会返回<code>nil</code>。</p>
+
+<pre><code class="swift">let swiftyArray = foundationArray as AnyObject[]
+if let downcastedSwiftArray = swiftArray as? UIView[] {
+    // downcastedSwiftArray contains only UIView objects
+}
+</code></pre>
+
+<p>你也可以在for循环中将NSArray对象定向地强制转换为特定类型的Swift数组:</p>
+
+<pre><code class="swift">for aView: UIView! in foundationArray {
+     // aView is of type UIView
+}
+</code></pre>
+
+<blockquote><p>注意：这种转换是强制转换，如果转换不成功则会在运行时产生错误信息。</p></blockquote>
+
+<p>当你从 Swift 数组转换为<code>NSArray</code>对象时，Swift 数组里的元素必须是属于<code>AnyObject</code>的。例如，一个<code>Int[]</code>类型的 Swift 数组包含<code>Int</code>结构的元素。<code>Int</code>类型并不是一个类的实例，但由于<code>Int</code>类型转换成了<code>NSNumber</code>类，<code>Int</code>类型属于<code>AnyObject</code>类型的。因此，你可以将一个<code>Int[]</code>类型的Swift数组转换为<code>NSArray</code>对象。如果 Swift 数组里的一个元素不属于<code>AnyObject</code>类型，那么在运行时就会产生错误。</p>
+
+<p>你也可以从 Swift 数组中创建一个<code>NSArray</code>对象。当你将一个常量或变量定义为一个<code>NSArray</code>对象并分配一个数组给它作为实例变量时，Swift 将会创建 <code>NSArray</code>对象，而不是 Swift 数组。</p>
+
+<pre><code class="swift">let schoolSupplies: NSArray = ["Pencil", "Eraser", "Notebkko"]
+// schoolSupplies is an NSArray object containing NSString objects
+</code></pre>
+
+<p>上面的例子中，Swift 数组包含包含三个<code>String</code>字符串。由于从<code>String</code>类型转换为<code>NSString</code>类，数组字面量被转换成一个<code>NSArray</code>对象，并成功分配给<code>schoolSupplies</code>变量。</p>
+
+<p>当您在 Objective-C 代码中使用 Swift 类或者协议时，接入的API会将全部所有类型的Swift数组代替为<code>NSArray</code>。若您将一个<code>NSArray</code>对象传递给Swift的API并要求数组元素为一个新的类型，运行时就会产生错误。如果 Swift API 返回一个不能被转换为<code>NSArray</code>类型的 Swift 数组，错误也会随之产生。</p>
+
+<h4>字典</h4>
+
+<p>敬请期待</p>
+
+<p><a name = "foundation_data_types"></a></p>
+
+<h3>Foundation数据类型</h3>
+
+<p>Swift 也提供一种简单便捷的覆盖方法来连接定义在 Foundation 框架中的数据类型。在<code>NSSize</code>和<code>NSPoint</code>中使用覆盖方法，在剩下的 Swift 语言中，你能在它的句法中感受到自然和统一。比如，你可以使用如下语法创建一个<code>NSSize</code>类型的结构:</p>
+
+<pre><code class="swift">let size = NSSize(width: 20, height: 40)
+</code></pre>
+
+<p>覆盖方法也允许你以一种自然的方式调用 Foundation 的结构函数。</p>
+
+<pre><code class="swift">let rect = NSRect(x: 50, y: 50, width: 100, height: 100)
+let width = rect.width    // equivalent of NSWidth(rect)
+let maxX = rect.maxY      // equivalent of NSMaxY(rect)
+</code></pre>
+
+<p>Swift可以将<code>NSUInteger</code>和<code>NSInteger</code>转换为<code>Int</code>类型。这些类型都会在 Foundation APIs 中变为<code>Int</code>类型。在 Swift 中<code>Int</code>常被尽可能地用以连贯性，同时当你要求一个无符号整数类型时，<code>UInt</code>类型总是可使用的。</p>
+
+<p><a name = "foundation_functions"></a></p>
+
+<h3>Foundation函数</h3>
+
+<p>在 Swift 中，<code>NSLog</code>可在系统控制台输出信息。您可以像在 Objective-C 中使用过的语法格式那样使用此函数。</p>
+
+<pre><code class="swift">NSLog("%.7f", pi)         // Logs "3.1415927" to the console
+</code></pre>
+
+<p>同时，Swift 也提供像<code>print</code>和<code>println</code>那样的输出函数。多归于 Swift 的字符插值机制才让这些函数简单，粗暴，多效。这些函数不会在系统控制台输出信息，但在需要调用的时候却是可用的。</p>
+
+<p>Swift 中不再存在<code>NSAssert</code>函数，取而代之的是<code>assert</code>函数。</p>
+
+<p><a name = "core_foundation"></a></p>
+
+<h3>Core Foundation</h3>
+
+<p>Swift中的 Core Foundation 类型是一个成熟的类。当出现内存管理注释时，Swift 会自动地管理 Core Foundation 对象的内存，这其中包括你实例化了的 Core Foundation 对象。在 Swift 中，你可以自由变换 Fundation 和 Core Foundation 类型。如果你想先转换为桥接 Foundation 类型时，你也可以桥接一些 toll-free bridged Core Foundation 类型到 Swift 标准库类型。</p>
+
+<h4>重定义类型</h4>
+
+<p>当 Swift 导入 Core Foundation 类型时，编译器会重映射导入的类型名字。编译器会从每个类型名字的末端移除 <em>Ref</em>，这是因为所有的 Swift 类都属于引用类型，因此后缀是多余的。</p>
+
+<p>Core Foundation 中的<code>CFTypeRef</code>类型会对<code>Anyobject</code>类型重映射。所以你以前使用的<code>CFTypeRef</code>，现在该换成<code>AnyObject</code>了。</p>
+
+<h4>内存管理对象</h4>
+
+<p>在 Swift 中，从 annotated APIs 返回的 Core Foundation 对象能够自动进行内存管理&ndash;你不再需要调用自身的<code>CFRetain</code>，<code>CFRelease</code>，或者<code>CFAutorelease</code>函数。如果你从自身的C函数和 Objective-C 方法中返回一个 Core Foundation 对象，你需要用<code>CF_RETURNS_RETAINED</code>或者<code>CF_RETURNS_NOT_RETAINED</code>注释这个对象。当 Swift 代码中包含这些 APIs 时，编译器会在编译时自动调用内存管理。如果你只调用那些不会间接返回 Core Foundation 对象的 annotated APIs，那么现在你可以跳过本节的剩余部分了。否则，下面我们继续学习非托管的 Core Foundation 对象。</p>
+
+<h4>非托管对象</h4>
+
+<p>当 Swift 导入 unannotated 的APIs时，编译器将不会自动地对返回的 Core Foundation 对象进行内存管理托管。Swift 将这些返回的 Core Foundation 对象封闭在一个<code>Unmanaged&lt;T&gt;</code>结构中。那些间接返回 Core Foundation 的对象也是非托管的。举个例子，这里有一个 unannotated 的 C 函数:</p>
+
+<pre><code class="swift">CFStringRef StringByAddingTwoStrings(CFStringRef string1, CFStringRef string2)
+</code></pre>
+
+<p>这里说明了Swift是怎么导入的:</p>
+
+<pre><code class="swift">func StringByAddingTwoStrings(CFString!, CFString!) -&gt; Unmanaged&lt;CFString&gt;!
+</code></pre>
+
+<p>假设您从 unannotated APIs 接收了非托管的对象，在使用它之前，你必须将它转换为能够内存管理的对象。在这方面，Swift 可以帮你进行内存管理而不用自己动手。同时，<code>Unmanaged&lt;T&gt;</code>结构也提供了两个方法来把一个非托管对象转换为一个可内存管理的对象&ndash;<code>takeUnretainedValue()</code>方法和<code>takeRetainedValue()</code>方法。这两个方法会返回原始的，非封闭的对象类型。您可以根据您实际调用的APIs返回的unretained或retained的对象，来选择哪一方法更合适。</p>
+
+<p>比如，假设这里有一个 C 函数，这个函数在返回值前不会释放<code>CFString</code>对象。在使用这个对象前，您使用<code>takeUnretainedValue()</code>函数，以将它转换为一个能够内存管理托管的对象。</p>
+
+<pre><code class="swift">let memoryManagedResult = StringByAddingTwoStrings(str1, str2).takeUnretainedValue()
+// memoryManagedResult is a memory managed CFString
+</code></pre>
+
+<p>您也可以在一个非托管的对象中使用<code>retain()</code>，<code>release()</code>和<code>autorelease()</code>方法，但是这种做法并不值得推荐。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在同个工程中使用 Swift 和 Objective-C]]></title>
@@ -293,6 +589,423 @@ MySwiftClass *swiftObject = [[MySwiftClass alloc] init];
 <li>如果你在 Swift 代码中使用你自己的 Objective-C 类型，确保先将对应的 Objective-C 头文件导入到你的 Swift 代码中，然后才将 Swift 自动生成的头文件 import 到 Objective-C .m 源文件中来访问 Swift 代码。</li>
 </ul>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[与 C 语言交互编程]]></title>
+    <link href="http://baxiang123.com//blog/Interacting%20with%20C%20APIs.html"/>
+    <updated>2015-03-16T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/Interacting with C APIs</id>
+    <content type="html"><![CDATA[<p>作为一种可与 Objective-C 相互调用的语言，Swift 也具有一些与 C 语言的类型和特性，如果你的代码有需要，Swift 也提供了和常见的 C 代码结构混合编程的编程方式。<!--more--></p>
+
+<h3>基本数据类型</h3>
+
+<p>Swift 提供了一些和 C 语言的基本类型如<code>char</code>，<code>int</code>，<code>float</code>，<code>double</code>等价的 Swift 基本数据类型。然而，这些 Swift 的核心基本类型之间并不能隐式的相互转换，如 Int。因此，只有你的代码明确要求它们时再使用这些类型，而 Int 可以在任何你想使用它的时候使用。</p>
+
+<table>
+<thead>
+<tr>
+<th> C 类型 </th>
+<th> Swift 类型 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> bool </td>
+<td> CBool </td>
+</tr>
+<tr>
+<td> char, signed char </td>
+<td> CChar </td>
+</tr>
+<tr>
+<td> unsigned char </td>
+<td> CUnsignedChar </td>
+</tr>
+<tr>
+<td> short </td>
+<td> CShort </td>
+</tr>
+<tr>
+<td> unsigned short </td>
+<td> CUnsignedShort </td>
+</tr>
+<tr>
+<td> int </td>
+<td> CInt </td>
+</tr>
+<tr>
+<td> unsigned int </td>
+<td> CUnsignedInt </td>
+</tr>
+<tr>
+<td> long </td>
+<td> CLong </td>
+</tr>
+<tr>
+<td> unsigned long </td>
+<td> CUnsignedLong </td>
+</tr>
+<tr>
+<td> long long </td>
+<td> CLongLong </td>
+</tr>
+<tr>
+<td> unsigned long long </td>
+<td> CUnsignedLongLong </td>
+</tr>
+<tr>
+<td> wchar_t </td>
+<td> CWideChar </td>
+</tr>
+<tr>
+<td> char16_t </td>
+<td> CChar16 </td>
+</tr>
+<tr>
+<td> char32_t </td>
+<td> CChar32 </td>
+</tr>
+<tr>
+<td> float </td>
+<td> CFloat </td>
+</tr>
+<tr>
+<td> double </td>
+<td> CDouble </td>
+</tr>
+</tbody>
+</table>
+
+
+<p><a name="enumerations"></a></p>
+
+<h3>枚举</h3>
+
+<p>Swift 引进了用宏<code>NS_ENUM</code>来标记的任何 C 风格的枚举类型。这意味着无论枚举值是在系统框架还是在自定义的代码中定义的，当他们导入到 Swift 时，他们的前缀名称将被截断。例如，看这个 Objective-C 枚举：</p>
+
+<pre><code class="objective-c">//Objective-C
+typedef NS_ENUM(NSInteger, UITableViewCellStyle) {
+    UITableViewCellStyleDefault,
+    UITableViewCellStyleValue1,
+    UITableViewCellStyleValue2,
+    UITableViewCellStyleSubtitle
+};
+</code></pre>
+
+<p>在 Swift 中这样来实现：</p>
+
+<pre><code class="swift">//Swift
+enum UITableViewCellStyle: Int {
+    case Default
+    case Value1
+    case Value2
+    case Subtitle
+    }
+</code></pre>
+
+<p>当您需要指向一个枚举值时，使用以点（.）开头的枚举名称：</p>
+
+<pre><code class="swift">//Swift
+let cellStyle: UITableViewCellStyle = .Default
+</code></pre>
+
+<p>Swift 也引进了标有<code>NS_OPTIONS</code>宏选项。而选项的行为类似于引进的枚举，选项还可以支持一些位操作，如 ＆，| 和 〜。在 Objective-C 中，你用一个空的选项设置标示恒为零（0）。在 Swift 中，使用 <code>nil</code>代表没有任何选项。</p>
+
+<p><a name="pointer"></a></p>
+
+<h3>指针</h3>
+
+<p>Swift 尽可能避免让您直接访问指针。然而，当您需要直接操作内存的时候，Swift 也为您提供了多种指针类型。下面的表使用 Type 作为占位符类型名称来表示语法的映射。</p>
+
+<p>对于参数，使用以下映射：</p>
+
+<table>
+<thead>
+<tr>
+<th> C 句法 </th>
+<th> Swift 句法 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> const void * </td>
+<td> CConstVoidPointer </td>
+</tr>
+<tr>
+<td> void * </td>
+<td> CMutableVoidPointer </td>
+</tr>
+<tr>
+<td> const Type * </td>
+<td> CConstPointer\&lt;Type> </td>
+</tr>
+<tr>
+<td> Type * </td>
+<td> CMutablePointer\&lt;Type> </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>对于返回类型，变量和参数类型的多层次指针，使用以下映射：</p>
+
+<table>
+<thead>
+<tr>
+<th> C 句法 </th>
+<th> Swift 句法 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> void * </td>
+<td> COpaquePointer </td>
+</tr>
+<tr>
+<td> Type * </td>
+<td> UnsafePointer\&lt;Type> </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>对于类（class）类型，使用以下映射：</p>
+
+<table>
+<thead>
+<tr>
+<th> C 句法 </th>
+<th> Swift 句法 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Type * const * </td>
+<td> CConstPointer\&lt;Type> </td>
+</tr>
+<tr>
+<td> Type * __strong * </td>
+<td> CMutablePointer\&lt;Type> </td>
+</tr>
+<tr>
+<td> Type ** </td>
+<td> AutoreleasingUnsafePointer\&lt;Type> </td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>C 可变指针</h4>
+
+<p>当一个函数被声明为接受<code>CMutablePointer&lt;Type&gt;</code>参数时，这个函数可以接受下列任何一个类型作为参数：</p>
+
+<ul>
+<li><code>nil</code>，作为空指针传入</li>
+<li>一个<code>CMutablePointer&lt;Type&gt;</code>类型的值</li>
+<li>一个操作数是 <code>Type</code> 类型的左值的输入输出表达式，作为这个左值的内存地址传入</li>
+<li>一个输入输出 <code>Type[]</code> 值，作为一个数组的起始指针传入，并且它的生命周期将在这个调用期间被延长</li>
+</ul>
+
+
+<p>如果您像这样声明了一个函数：</p>
+
+<pre><code class="swift">//Swift
+func takesAMutablePointer(x: CMutablePointer&lt;Float&gt;) { /*...*/ }
+</code></pre>
+
+<p>那么您可以使用以下任何一种方式来调用这个函数：</p>
+
+<pre><code class="swift">//Swift
+var x: Float = 0.0
+var p: CMutablePointer&lt;Float&gt; = nil
+var a: Float[] = [1.0, 2.0, 3.0]
+
+takesAMutablePointer(nil)
+takesAMutablePointer(p)
+takesAMutablePointer(&amp;x)
+takesAMutablePointer(&amp;a)
+</code></pre>
+
+<p>当函数被声明使用一个<code>CMutableVoidPointer</code>参数，那么这个函数接受任何和<code>CMutablePointer&lt;Type&gt;</code>相似类型的<code>Type</code>操作数。</p>
+
+<p>如果您这样定义了一个函数：</p>
+
+<pre><code class="swift">//Swift
+func takesAMutableVoidPointer(x: CMutableVoidPointer) { /* ... */ }
+</code></pre>
+
+<p>那么您可以使用以下任何一种方式来调用这个函数：</p>
+
+<pre><code class="swift">//Swift
+var x: Float = 0.0, y: Int = 0
+var p: CMutablePointer&lt;Float&gt; = nil, q: CMutablePointer&lt;Int&gt; = nil
+var a: Float[] = [1.0, 2.0, 3.0], b: Int[] = [1, 2, 3]
+
+takesAMutableVoidPointer(nil)
+takesAMutableVoidPointer(p)
+takesAMutableVoidPointer(q)
+takesAMutableVoidPointer(&amp;x)
+takesAMutableVoidPointer(&amp;y)
+takesAMutableVoidPointer(&amp;a)
+takesAMutableVoidPointer(&amp;b)
+</code></pre>
+
+<h4>C 常指针</h4>
+
+<p>当一个函数被声明为接受<code>CConstPointer&lt;Type&gt;</code>参数时，这个函数可以接受下列任何一个类型作为参数：</p>
+
+<ul>
+<li><code>nil</code>，作为空指针传入</li>
+<li>一个<code>CMutablePointer&lt;Type&gt;</code>, <code>CMutableVoidPointer</code>, <code>CConstPointer&lt;Type&gt;</code>, <code>CConstVoidPointer</code>,  或者在必要情况下转换成<code>CConstPointer&lt;Type&gt;</code>的<code>AutoreleasingUnsafePointer&lt;Type&gt;</code>值</li>
+<li>一个操作数是 <code>Type</code> 类型的左值的输入输出表达式，作为这个左值的内存地址传入</li>
+<li>一个<code>Type[]</code>数组值，作为一个数组的起始指针传入，并且它的生命周期将在这个调用期间被延长</li>
+</ul>
+
+
+<p>如果您这样定义了一个函数：</p>
+
+<pre><code class="swift">//Swift
+func takesAConstPointer(x: CConstPointer&lt;Float&gt;) { /*...*/ }
+</code></pre>
+
+<p>那么您可以使用以下任何一种方式来调用这个函数：</p>
+
+<pre><code class="swift">//Swift
+var x: Float = 0.0
+var p: CConstPointer&lt;Float&gt; = nil
+
+takesAConstPointer(nil)
+takesAConstPointer(p)
+takesAConstPointer(&amp;x)
+takesAConstPointer([1.0, 2.0, 3.0])
+</code></pre>
+
+<p>当函数被声明使用一个<code>CConstVoidPointer</code>参数，那么这个函数接受任何和<code>CConstPointer&lt;Type&gt;</code> 相似类型的<code>Type</code>操作数。
+￼
+如果您这样定义了一个函数：</p>
+
+<pre><code class="swift">//Swift
+￼￼￼￼func takesAConstVoidPointer(x: CConstVoidPointer) { /* ... */ }
+</code></pre>
+
+<p>那么您可以使用以下任何一种方式来调用这个函数：</p>
+
+<pre><code class="swift">//Swift
+var x: Float = 0.0, y: Int = 0
+var p: CConstPointer&lt;Float&gt; = nil, q: CConstPointer&lt;Int&gt; = nil 
+
+takesAConstVoidPointer(nil)
+takesAConstVoidPointer(p)
+takesAConstVoidPointer(q)
+takesAConstVoidPointer(&amp;x)
+takesAConstVoidPointer(&amp;y)
+takesAConstVoidPointer([1.0, 2.0, 3.0]) 
+takesAConstVoidPointer([1, 2, 3])
+</code></pre>
+
+<h4>自动释放不安全指针</h4>
+
+<p>当一个函数被声明为接受<code>AutoreleasingUnsafePointer&lt;Type&gt;</code>参数时，这个函数可以接受下列任何一个类型作为参数：</p>
+
+<ul>
+<li><code>nil</code>，作为空指针传入</li>
+<li>一个<code>AutoreleasingUnsafePointer&lt;Type&gt;</code>值</li>
+<li>其操作数是原始的，复制到一个临时的没有所有者的缓冲区的一个输入输出表达式，该缓冲区的地址传递给调用，并返回时，缓冲区中的值加载，保存，并重新分配到操作数。</li>
+</ul>
+
+
+<p><strong>注意：这个列表没有包含数组。</strong></p>
+
+<p>如果您这样定义了一个函数：</p>
+
+<pre><code class="swift">//Swift
+func takesAnAutoreleasingPointer(x: AutoreleasingUnsafePointer&lt;NSDate?&gt;) { /* ... */ }
+</code></pre>
+
+<p>那么您可以使用以下任何一种方式来调用这个函数：</p>
+
+<pre><code class="swift">//Swift
+var x: NSDate? = nil
+var p: AutoreleasingUnsafePointer&lt;NSDate?&gt; = nil
+￼￼￼￼￼
+takesAnAutoreleasingPointer(nil)
+takesAnAutoreleasingPointer(p)
+takesAnAutoreleasingPointer(&amp;x)
+</code></pre>
+
+<p><strong>注意：C 语言函数指针没有被 Swift 引进。</strong></p>
+
+<p><a name="global_constants"></a></p>
+
+<h3>全局常量</h3>
+
+<p>在 C 和 Objective-C 语言源文件中定义的全局常量会自动地被 Swift 编译引进并做为 Swift 的全局常量。</p>
+
+<p><a name="preprocessor_directives"></a></p>
+
+<h3>预处理指令</h3>
+
+<p>Swift 编译器不包含预处理器。取而代之的是，它充分利用了编译时属性，生成配置，和语言特性来完成相同的功能。因此，Swift 没有引进预处理指令。</p>
+
+<h4>简单宏</h4>
+
+<p>在 C 和 Objective-C，您通常使用的#define指令定义的一个宏常数，在 Swift，您可以使用全局常量来代替。例如：一个全局定义<code>#define FADE_ANIMATION_DURATION 0.35</code>，在 Swift 可以使用<code>let FADE_ANIMATION_DURATION = 0.35</code>来更好的表述。由于简单的用于定义常量的宏会被直接被映射成 Swift 全局量，Swift 编译器会自动引进在 C 或 Objective-C 源文件中定义的简单宏。</p>
+
+<h4>复杂宏</h4>
+
+<p>在 C 和 Objective-C 中使用的复杂宏在 Swift 中并没有与之对应的定义。复杂宏是那些不用来定义常量的宏，而是用来定义包含小括号（），函数的宏。您在 C 和 Objective-C 使用复杂的宏是用来避免类型检查的限制和相同代码的重复劳动。然而，宏也会产生Bug和重构的困难。在 Swift 中你可以直接使用函数和泛型来达到同样的效果。因此，在 C 和 Objective-C 源文件中定义的复杂宏在 Swift 是不能使用的。</p>
+
+<h4>编译配置</h4>
+
+<p>Swift 代码和 Objective-C 代码以不同的方式进行条件编译。Swift 代码可以根据生成配置的评价配进行有条件的编译。生成配置包括 <code>true</code> 和 <code>false</code> 字面值，命令行标志，和下表中的平台测试函数。您可以使用-D \&lt;＃Flag＃>指定命令行标志。</p>
+
+<table>
+<thead>
+<tr>
+<th> 函数 </th>
+<th> 有效参数 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> os() </td>
+<td> OSX, iOS </td>
+</tr>
+<tr>
+<td> arch() </td>
+<td> x86_64, arm, arm64, i386 </td>
+</tr>
+</tbody>
+</table>
+
+
+<blockquote><p>注意</p>
+
+<p>arch(arm) 的生成配置不会为64位 ARM 设备返回<code>true</code>，当代码运行在为32位的 iOS 模拟器器时，arch(i386) 的生成配置返回<code>true</code>。</p></blockquote>
+
+<p>一个简单的条件编译需要以下代码格式：</p>
+
+<pre><code class="swift">#if build configuration
+    statements
+#else
+    statements
+#endif
+</code></pre>
+
+<p>一个由零个或多个有效的 Swift 语句声明的<code>statements</code>，可以包括表达式，语句和控制流语句。您可以添加额外的构建配置要求，条件编译说明用 &amp;&amp; 和 | | 操作符以及 ！ 操作符，添加条件控制块用 ＃elseif：</p>
+
+<pre><code class="swift">#if build configuration &amp;&amp; !build configuration
+    statements
+#elseif build configuration
+    statements
+#else
+    statements
+#endif 
+</code></pre>
+
+<p>与 C 语言编译器的条件编译相反，Swift 条件编译语句必须完全是自包含和语法有效的代码块。这是因为 Swift 代码即使没有被编译，也要全部进行语法检查。</p>
 ]]></content>
   </entry>
   
@@ -915,1247 +1628,6 @@ if allItemsMatch(stackOfStrings, arrayOfStrings) {
 
 
 <p> 上面的例子创建一个<code>Stack</code>单例来存储<code>String</code>，然后压了三个字符串进栈。这个例子也创建了一个<code>Array</code>单例，并初始化包含三个同栈里一样的原始字符串。即便栈和数组否是不同的类型，但他们都遵循<code>Container</code>协议，而且他们都包含同样的类型值。你因此可以调用<code>allItemsMatch</code>函数，用这两个容器作为它的参数。在上面的例子中，<code>allItemsMatch</code>函数正确的显示了所有的这两个容器的<code>items</code>匹配。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[swift集合类型]]></title>
-    <link href="http://baxiang123.com//blog/Swift%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B.html"/>
-    <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swift集合类型</id>
-    <content type="html"><![CDATA[<p>Swift 语言提供经典的数组和字典两种集合类型来存储集合数据。数组用来按顺序存储相同类型的数据。字典虽然无序存储相同类型数据值但是需要由独有的标识符引用和寻址（就是键值对）。</p>
-
-
-<p>Swift 语言里的数组和字典中存储的数据值类型必须明确。 这意味着我们不能把不正确的数据类型插入其中。 同时这也说明我们完全可以对获取出的值类型非常自信。 Swift 对显式类型集合的使用确保了我们的代码对工作所需要的类型非常清楚，也让我们在开发中可以早早地找到任何的类型不匹配错误。</p>
-
-
-<!-- more -->
-
-
-<blockquote>
-<p>注意：</p>
-<p>Swift 的数组结构在被声明成常量和变量或者被传入函数与方法中时会相对于其他类型展现出不同的特性。 获取更多信息请参见<a href="#mutability_of_collections">集合的可变性</a>与<a href="09_Classes_and_Structures.html#assignment_and_copy_behavior_for_collection_types">集合在赋值和复制中的行为</a>章节。</p>
-</blockquote>
-
-
-<p><a name="arrays"></a></p>
-
-
-<h2 id="-">数组</h2>
-
-
-<p>数组使用有序列表存储相同类型的多重数据。相同的值可以多次出现在一个数组的不同位置中。</p>
-
-
-<p>Swift 数组对存储数据有具体要求。 不同于 Objective-C 的<code>NSArray</code>和<code>NSMutableArray</code>类，他们可以存储任何类型的实例而且不提供他们返回对象的任何本质信息。 在 Swift 中，数据值在被存储进入某个数组之前类型必须明确，方法是通过显式的类型标注或类型推断，而且不是必须是<code>class</code>类型。例如： 如果我们创建了一个<code>Int</code>值类型的数组，我们不能往其中插入任何不是<code>Int</code>类型的数据。 Swift 中的数组是类型安全的，并且它们中包含的类型必须明确。</p>
-
-
-<p><a name="array_type_shorthand_syntax"></a></p>
-
-
-<h3 id="-">数组的简单语法</h3>
-
-
-<p>写 Swift 数组应该遵循像<code>Array&lt;SomeType&gt;</code>这样的形式，其中<code>SomeType</code>是这个数组中唯一允许存在的数据类型。 我们也可以使用像<code>SomeType[]</code>这样的简单语法。 尽管两种形式在功能上是一样的，但是推荐较短的那种，而且在本文中都会使用这种形式来使用数组。</p>
-
-
-<p><a name="array_literals"></a></p>
-
-
-<h3 id="-">数组构造语句</h3>
-
-
-<p>我们可以使用字面语句来进行数组构造，这是一种用一个或者多个数值构造数组的简单方法。字面语句是一系列由逗号分割并由方括号包含的数值。
-<code>[value 1, value 2, value 3]</code>。</p>
-
-
-<p>下面这个例子创建了一个叫做<code>shoppingList</code>并且存储字符串的数组：</p>
-
-
-<pre><code>var shoppingList: String[] = ["Eggs", "Milk"]
-// shoppingList 已经被构造并且拥有两个初始项。
-</code></pre>
-
-
-<p><code>shoppingList</code>变量被声明为“字符串值类型的数组“，记作<code>String[]</code>。 因为这个数组被规定只有<code>String</code>一种数据结构，所以只有<code>String</code>类型可以在其中被存取。 在这里，<code>shoppinglist</code>数组由两个<code>String</code>值（<code>"Eggs"</code> 和<code>"Milk"</code>）构造，并且由字面语句定义。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p><code>Shoppinglist</code>数组被声明为变量（<code>var</code>关键字创建）而不是常量（<code>let</code>创建）是因为以后可能会有更多的数据项被插入其中。</p>
-</blockquote>
-
-
-<p>在这个例子中，字面语句仅仅包含两个<code>String</code>值。匹配了该数组的变量声明（只能包含<code>String</code>的数组），所以这个字面语句的分配过程就是允许用两个初始项来构造<code>shoppinglist</code>。</p>
-
-
-<p>由于 Swift 的类型推断机制，当我们用字面语句构造只拥有相同类型值数组的时候，我们不必把数组的类型定义清楚。 <code>shoppinglist</code>的构造也可以这样写：</p>
-
-
-<pre><code>var shoppingList = ["Eggs", "Milk"]
-</code></pre>
-
-
-<p>因为所有字面语句中的值都是相同的类型，Swift 可以推断出<code>String[]</code>是<code>shoppinglist</code>中变量的正确类型。</p>
-
-
-<p><a name="accessing_and_modifying_an_array"></a></p>
-
-
-<h3 id="-">访问和修改数组</h3>
-
-
-<p>我们可以通过数组的方法和属性来访问和修改数组，或者下标语法。
-还可以使用数组的只读属性<code>count</code>来获取数组中的数据项数量。</p>
-
-
-<pre><code>println("The shopping list contains \(shoppingList.count) items.")
-// 输出"The shopping list contains 2 items."（这个数组有2个项）
-</code></pre>
-
-
-<p>使用布尔项<code>isEmpty</code>来作为检查<code>count</code>属性的值是否为 0 的捷径。</p>
-
-
-<pre><code>if shoppingList.isEmpty {
-    println("The shopping list is empty.")
-} else {
-    println("The shopping list is not empty.")
-}
-// 打印 "The shopping list is not empty."（shoppinglist不是空的）
-</code></pre>
-
-
-<p>也可以使用<code>append</code>方法在数组后面添加新的数据项：</p>
-
-
-<pre><code>shoppingList.append("Flour")
-// shoppingList 现在有3个数据项，有人在摊煎饼
-</code></pre>
-
-
-<p>除此之外，使用加法赋值运算符（<code>+=</code>）也可以直接在数组后面添加数据项：</p>
-
-
-<pre><code>shoppingList += "Baking Powder"
-// shoppingList 现在有四项了
-</code></pre>
-
-
-<p>我们也可以使用加法赋值运算符（<code>+=</code>）直接添加拥有相同类型数据的数组。</p>
-
-
-<pre><code>shoppingList += ["Chocolate Spread", "Cheese", "Butter"]
-// shoppingList 现在有7项了
-</code></pre>
-
-
-<p>可以直接使用下标语法来获取数组中的数据项，把我们需要的数据项的索引值放在直接放在数组名称的方括号中：</p>
-
-
-<pre><code>var firstItem = shoppingList[0]
-// 第一项是 "Eggs"
-</code></pre>
-
-
-<p>注意第一项在数组中的索引值是<code>0</code>而不是<code>1</code>。 Swift 中的数组索引总是从零开始。</p>
-
-
-<p>我们也可以用下标来改变某个已有索引值对应的数据值：</p>
-
-
-<pre><code>shoppingList[0] = "Six eggs"
-// 其中的第一项现在是 "Six eggs" 而不是 "Eggs"
-</code></pre>
-
-
-<p>还可以利用下标来一次改变一系列数据值，即使新数据和原有数据的数量是不一样的。下面的例子把<code>"Chocolate Spread"</code>，<code>"Cheese"</code>，和<code>"Butter"</code>替换为<code>"Bananas"</code>和 <code>"Apples"</code>：</p>
-
-
-<pre><code>shoppingList[4...6] = ["Bananas", "Apples"]
-// shoppingList 现在有六项
-</code></pre>
-
-
-<blockquote>
-<p>注意：</p>
-<p>我们不能使用下标语法在数组尾部添加新项。如果我们试着用这种方法对索引越界的数据进行检索或者设置新值的操作，我们会引发一个运行期错误。我们可以使用索引值和数组的<code>count</code>属性进行比较来在使用某个索引之前先检验是否有效。除了当<code>count</code>等于 0 时（说明这是个空数组），最大索引值一直是<code>count - 1</code>，因为数组都是零起索引。</p>
-</blockquote>
-
-
-<p>调用数组的<code>insert(atIndex:)</code>方法来在某个具体索引值之前添加数据项：</p>
-
-
-<pre><code>shoppingList.insert("Maple Syrup", atIndex: 0)
-// shoppingList 现在有7项
-// "Maple Syrup" 现在是这个列表中的第一项
-</code></pre>
-
-
-<p>这次<code>insert</code>函数调用把值为<code>"Maple Syrup"</code>的新数据项插入列表的最开始位置，并且使用<code>0</code>作为索引值。</p>
-
-
-<p>类似的我们可以使用<code>removeAtIndex</code>方法来移除数组中的某一项。这个方法把数组在特定索引值中存储的数据项移除并且返回这个被移除的数据项（我们不需要的时候就可以无视它）:</p>
-
-
-<pre><code>let mapleSyrup = shoppingList.removeAtIndex(0)
-//索引值为0的数据项被移除
-// shoppingList 现在只有6项，而且不包括Maple Syrup
-// mapleSyrup常量的值等于被移除数据项的值 "Maple Syrup"
-</code></pre>
-
-
-<p>数据项被移除后数组中的空出项会被自动填补，所以现在索引值为<code>0</code>的数据项的值再次等于<code>"Six eggs"</code>:</p>
-
-
-<pre><code>firstItem = shoppingList[0]
-// firstItem 现在等于 "Six eggs"
-</code></pre>
-
-
-<p>如果我们只想把数组中的最后一项移除，可以使用<code>removeLast</code>方法而不是<code>removeAtIndex</code>方法来避免我们需要获取数组的<code>count</code>属性。就像后者一样，前者也会返回被移除的数据项：</p>
-
-
-<pre><code>let apples = shoppingList.removeLast()
-// 数组的最后一项被移除了
-// shoppingList现在只有5项，不包括cheese
-//  apples 常量的值现在等于"Apples" 字符串
-</code></pre>
-
-
-<p><a name="iterating_over_an_array"></a></p>
-
-
-<h3 id="-">数组的遍历</h3>
-
-
-<p>我们可以使用<code>for-in</code>循环来遍历所有数组中的数据项：</p>
-
-
-<pre><code>for item in shoppingList {
-    println(item)
-}
-// Six eggs
-// Milk
-// Flour
-// Baking Powder
-// Bananas
-</code></pre>
-
-
-<p>如果我们同时需要每个数据项的值和索引值，可以使用全局<code>enumerate</code>函数来进行数组遍历。<code>enumerate</code>返回一个由每一个数据项索引值和数据值组成的键值对组。我们可以把这个键值对组分解成临时常量或者变量来进行遍历：</p>
-
-
-<pre><code>for (index, value) in enumerate(shoppingList) {
-    println("Item \(index + 1): \(value)")
-}
-// Item 1: Six eggs
-// Item 2: Milk
-// Item 3: Flour
-// Item 4: Baking Powder
-// Item 5: Bananas
-</code></pre>
-
-
-<p>更多关于<code>for-in</code>循环的介绍请参见<a href="05_Control_Flow.html#for_loops">for 循环</a>。</p>
-
-
-<p><a name="creating_and_initializing_an_array"></a></p>
-
-
-<h3 id="-">创建并且构造一个数组</h3>
-
-
-<p>我们可以使用构造语法来创建一个由特定数据类型构成的空数组：</p>
-
-
-<pre><code>var someInts = Int[]()
-println("someInts is of type Int[] with \(someInts。count) items。")
-// 打印 "someInts is of type Int[] with 0 items。"（someInts是0数据项的Int[]数组）
-</code></pre>
-
-
-<p>注意<code>someInts</code>被设置为一个<code>Int[]</code>构造函数的输出所以它的变量类型被定义为<code>Int[]</code>。</p>
-
-
-<p>除此之外，如果代码上下文中提供了类型信息， 例如一个函数参数或者一个已经定义好类型的常量或者变量，我们可以使用空数组语句创建一个空数组，它的写法很简单：<code>[]</code>（一对空方括号）：</p>
-
-
-<pre><code>someInts.append(3)
-// someInts 现在包含一个INT值
-someInts = []
-// someInts 现在是空数组，但是仍然是Int[]类型的。
-</code></pre>
-
-
-<p>Swift 中的<code>Array</code>类型还提供一个可以创建特定大小并且所有数据都被默认的构造方法。我们可以把准备加入新数组的数据项数量（<code>count</code>）和适当类型的初始值（<code>repeatedValue</code>）传入数组构造函数：</p>
-
-
-<pre><code>var threeDoubles = Double[](count: 3, repeatedValue:0.0)
-// threeDoubles 是一种 Double[]数组, 等于 [0.0, 0.0, 0.0]
-</code></pre>
-
-
-<p>因为类型推断的存在，我们使用这种构造方法的时候不需要特别指定数组中存储的数据类型，因为类型可以从默认值推断出来：</p>
-
-
-<pre><code>var anotherThreeDoubles = Array(count: 3, repeatedValue: 2.5)
-// anotherThreeDoubles is inferred as Double[], and equals [2.5, 2.5, 2.5]
-</code></pre>
-
-
-<p>最后，我们可以使用加法操作符（<code>+</code>）来组合两种已存在的相同类型数组。新数组的数据类型会被从两个数组的数据类型中推断出来：</p>
-
-
-<pre><code>var sixDoubles = threeDoubles + anotherThreeDoubles
-// sixDoubles 被推断为 Double[], 等于 [0.0, 0.0, 0.0, 2.5, 2.5, 2.5]
-</code></pre>
-
-
-<p><a name="dictionaries"></a></p>
-
-
-<h2 id="-">字典</h2>
-
-
-<p>字典是一种存储相同类型多重数据的存储器。每个值（value）都关联独特的键（key），键作为字典中的这个值数据的标识符。和数组中的数据项不同，字典中的数据项并没有具体顺序。我们在需要通过标识符（键）访问数据的时候使用字典，这种方法很大程度上和我们在现实世界中使用字典查字义的方法一样。</p>
-
-
-<p>Swift 的字典使用时需要具体规定可以存储键和值类型。不同于 Objective-C 的<code>NSDictionary</code>和<code>NSMutableDictionary</code> 类可以使用任何类型的对象来作键和值并且不提供任何关于这些对象的本质信息。在 Swift 中，在某个特定字典中可以存储的键和值必须提前定义清楚，方法是通过显性类型标注或者类型推断。</p>
-
-
-<p>Swift 的字典使用<code>Dictionary&lt;KeyType, ValueType&gt;</code>定义,其中<code>KeyType</code>是字典中键的数据类型，<code>ValueType</code>是字典中对应于这些键所存储值的数据类型。</p>
-
-
-<p><code>KeyType</code>的唯一限制就是可哈希的，这样可以保证它是独一无二的，所有的 Swift 基本类型（例如<code>String</code>，<code>Int</code>， <code>Double</code>和<code>Bool</code>）都是默认可哈希的，并且所有这些类型都可以在字典中当做键使用。未关联值的枚举成员（参见<a href="08_Enumerations.html">枚举</a>）也是默认可哈希的。</p>
-
-
-<p><a name="dictionary_literals"></a></p>
-
-
-<h2 id="-">字典字面语句</h2>
-
-
-<p>我们可以使用字典字面语句来构造字典，他们和我们刚才介绍过的数组字面语句拥有相似语法。一个字典字面语句是一个定义拥有一个或者多个键值对的字典集合的简单语句。</p>
-
-
-<p>一个键值对是一个<code>key</code>和一个<code>value</code>的结合体。在字典字面语句中，每一个键值对的键和值都由冒号分割。这些键值对构成一个列表，其中这些键值对由方括号包含并且由逗号分割：</p>
-
-
-<pre><code>[key 1: value 1, key 2: value 2, key 3: value 3]
-</code></pre>
-
-
-<p>下面的例子创建了一个存储国际机场名称的字典。在这个字典中键是三个字母的国际航空运输相关代码，值是机场名称：</p>
-
-
-<pre><code>var airports: Dictionary&lt;String, String&gt; = ["TYO": "Tokyo", "DUB": "Dublin"]
-</code></pre>
-
-
-<p><code>airports</code>字典被定义为一种<code>Dictionary&lt;String, String&gt;</code>,它意味着这个字典的键和值都是<code>String</code>类型。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p><code>airports</code>字典被声明为变量（用<code>var</code>关键字）而不是常量（<code>let</code>关键字）因为后来更多的机场信息会被添加到这个示例字典中。</p>
-</blockquote>
-
-
-<p><code>airports</code>字典使用字典字面语句初始化，包含两个键值对。第一对的键是<code>TYO</code>，值是<code>Tokyo</code>。第二对的键是<code>DUB</code>，值是<code>Dublin</code>。</p>
-
-
-<p>这个字典语句包含了两个<code>String: String</code>类型的键值对。他们对应<code>airports</code>变量声明的类型（一个只有<code>String</code>键和<code>String</code>值的字典）所以这个字典字面语句是构造两个初始数据项的<code>airport</code>字典。</p>
-
-
-<p>和数组一样，如果我们使用字面语句构造字典就不用把类型定义清楚。<code>airports</code>的也可以用这种方法简短定义：</p>
-
-
-<pre><code>var airports = ["TYO": "Tokyo", "DUB": "Dublin"]
-</code></pre>
-
-
-<p>因为这个语句中所有的键和值都分别是相同的数据类型，Swift 可以推断出<code>Dictionary&lt;String, String&gt;</code>是<code>airports</code>字典的正确类型。</p>
-
-
-<p><a name="accessing_and_modifying_a_dictionary"></a></p>
-
-
-<h3 id="-">读取和修改字典</h3>
-
-
-<p>我们可以通过字典的方法和属性来读取和修改字典，或者使用下标语法。和数组一样，我们可以通过字典的只读属性<code>count</code>来获取某个字典的数据项数量：</p>
-
-
-<pre><code>println("The dictionary of airports contains \(airports.count) items.")
-// 打印 "The dictionary of airports contains 2 items."（这个字典有两个数据项）
-</code></pre>
-
-
-<p>我们也可以在字典中使用下标语法来添加新的数据项。可以使用一个合适类型的 key 作为下标索引，并且分配新的合适类型的值：</p>
-
-
-<pre><code>airports["LHR"] = "London"
-// airports 字典现在有三个数据项
-</code></pre>
-
-
-<p>我们也可以使用下标语法来改变特定键对应的值：</p>
-
-
-<pre><code>airports["LHR"] = "London Heathrow"
-// "LHR"对应的值 被改为 "London Heathrow
-</code></pre>
-
-
-<p>作为另一种下标方法，字典的<code>updateValue(forKey:)</code>方法可以设置或者更新特定键对应的值。就像上面所示的示例，<code>updateValue(forKey:)</code>方法在这个键不存在对应值的时候设置值或者在存在时更新已存在的值。和上面的下标方法不一样，这个方法返回更新值之前的原值。这样方便我们检查更新是否成功。</p>
-
-
-<p><code>updateValue(forKey:)</code>函数会返回包含一个字典值类型的可选值。举例来说：对于存储<code>String</code>值的字典，这个函数会返回一个<code>String?</code>或者“可选 <code>String</code>”类型的值。如果值存在，则这个可选值值等于被替换的值，否则将会是<code>nil</code>。</p>
-
-
-<pre><code>if let oldValue = airports.updateValue("Dublin Internation", forKey: "DUB") {
-    println("The old value for DUB was \(oldValue).")
-}
-// 输出 "The old value for DUB was Dublin."（dub原值是dublin）
-</code></pre>
-
-
-<p>我们也可以使用下标语法来在字典中检索特定键对应的值。由于使用一个没有值的键这种情况是有可能发生的，可选类型返回这个键存在的相关值，否则就返回<code>nil</code>：</p>
-
-
-<pre><code>if let airportName = airports["DUB"] {
-    println("The name of the airport is \(airportName).")
-} else {
-    println("That airport is not in the airports dictionary.")
-}
-// 打印 "The name of the airport is Dublin INTernation."（机场的名字是都柏林国际）
-</code></pre>
-
-
-<p>我们还可以使用下标语法来通过给某个键的对应值赋值为<code>nil</code>来从字典里移除一个键值对：</p>
-
-
-<pre><code>airports["APL"] = "Apple Internation"
-// "Apple Internation"不是真的 APL机场, 删除它
-airports["APL"] = nil
-// APL现在被移除了
-</code></pre>
-
-
-<p>另外，<code>removeValueForKey</code>方法也可以用来在字典中移除键值对。这个方法在键值对存在的情况下会移除该键值对并且返回被移除的value或者在没有值的情况下返回<code>nil</code>：</p>
-
-
-<pre><code>if let removedValue = airports.removeValueForKey("DUB") {
-    println("The removed airport's name is \(removedValue).")
-} else {
-    println("The airports dictionary does not contain a value for DUB.")
-}
-// prints "The removed airport's name is Dublin International."
-</code></pre>
-
-
-<p><a name="iterating_over_a_dictionary"></a></p>
-
-
-<h3 id="-">字典遍历</h3>
-
-
-<p>我们可以使用<code>for-in</code>循环来遍历某个字典中的键值对。每一个字典中的数据项都由<code>(key, value)</code>元组形式返回，并且我们可以使用暂时性常量或者变量来分解这些元组：</p>
-
-
-<pre><code>for (airportCode, airportName) in airports {
-    prINTln("\(airportCode): \(airportName)")
-}
-// TYO: Tokyo
-// LHR: London Heathrow
-</code></pre>
-
-
-<p><code>for-in</code>循环请参见<a href="05_Control_Flow.html#for_loops">For 循环</a>。</p>
-
-
-<p>我们也可以通过访问他的<code>keys</code>或者<code>values</code>属性（都是可遍历集合）检索一个字典的键或者值：</p>
-
-
-<pre><code>for airportCode in airports.keys {
-    prINTln("Airport code: \(airportCode)")
-}
-// Airport code: TYO
-// Airport code: LHR
-
-for airportName in airports.values {
-    prINTln("Airport name: \(airportName)")
-}
-// Airport name: Tokyo
-// Airport name: London Heathrow
-</code></pre>
-
-
-<p>如果我们只是需要使用某个字典的键集合或者值集合来作为某个接受<code>Array</code>实例 API 的参数，可以直接使用<code>keys</code>或者<code>values</code>属性直接构造一个新数组：</p>
-
-
-<pre><code>let airportCodes = Array(airports.keys)
-// airportCodes is ["TYO", "LHR"]
-
-let airportNames = Array(airports.values)
-// airportNames is ["Tokyo", "London Heathrow"]
-</code></pre>
-
-
-<blockquote>
-<p>注意：</p>
-<p>Swift 的字典类型是无序集合类型。其中字典键，值，键值对在遍历的时候会重新排列，而且其中顺序是不固定的。</p>
-</blockquote>
-
-
-<p><a name="creating_an_empty_dictionary"></a></p>
-
-
-<h3 id="-">创建一个空字典</h3>
-
-
-<p>我们可以像数组一样使用构造语法创建一个空字典：</p>
-
-
-<pre><code>var namesOfIntegers = Dictionary&lt;Int, String&gt;()
-// namesOfIntegers 是一个空的 Dictionary&lt;Int, String&gt;
-</code></pre>
-
-
-<p>这个例子创建了一个<code>Int, String</code>类型的空字典来储存英语对整数的命名。他的键是<code>Int</code>型，值是<code>String</code>型。</p>
-
-
-<p>如果上下文已经提供了信息类型，我们可以使用空字典字面语句来创建一个空字典，记作<code>[:]</code>（中括号中放一个冒号）：</p>
-
-
-<pre><code>namesOfIntegers[16] = "sixteen"
-// namesOfIntegers 现在包含一个键值对
-namesOfIntegers = [:]
-// namesOfIntegers 又成为了一个 Int, String类型的空字典
-</code></pre>
-
-
-<blockquote>
-<p>注意：</p>
-<p>在后台，Swift 的数组和字典都是由泛型集合来实现的，想了解更多泛型和集合信息请参见<a href="22_Generics.html">泛型</a>。</p>
-</blockquote>
-
-
-<p><a name="mutability_of_collections"></a></p>
-
-
-<h2 id="-">集合的可变性</h2>
-
-
-<p>数组和字典都是在单个集合中存储可变值。如果我们创建一个数组或者字典并且把它分配成一个变量，这个集合将会是可变的。这意味着我们可以在创建之后添加更多或移除已存在的数据项来改变这个集合的大小。与此相反，如果我们把数组或字典分配成常量，那么他就是不可变的，它的大小不能被改变。</p>
-
-
-<p>对字典来说，不可变性也意味着我们不能替换其中任何现有键所对应的值。不可变字典的内容在被首次设定之后不能更改。
-不可变行对数组来说有一点不同，当然我们不能试着改变任何不可变数组的大小，但是我们·可以重新设定相对现存索引所对应的值。这使得 Swift 数组在大小被固定的时候依然可以做的很棒。</p>
-
-
-<p>Swift 数组的可变性行为同时影响了数组实例如何被分配和修改，想获取更多信息，请参见<a href="09_Classes_and_Structures.html#assignment_and_copy_behavior_for_collection_types">集合在赋值和复制中的行为</a>。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>在我们不需要改变数组大小的时候创建不可变数组是很好的习惯。如此 Swift 编译器可以优化我们创建的集合。</p>
-</blockquote>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[swift附属脚本]]></title>
-    <link href="http://baxiang123.com//blog/Swift%E9%99%84%E5%B1%9E%E8%84%9A%E6%9C%AC.html"/>
-    <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swift附属脚本</id>
-    <content type="html"><![CDATA[<p><em>附属脚本</em> 可以定义在类（Class）、结构体（structure）和枚举（enumeration）这些目标中，可以认为是访问对象、集合或序列的快捷方式，不需要再调用实例的特定的赋值和访问方法。举例来说，用附属脚本访问一个数组(Array)实例中的元素可以这样写 <code>someArray[index]</code> ，访问字典(Dictionary)实例中的元素可以这样写 <code>someDictionary[key]</code>。</p>
-
-
-<p>对于同一个目标可以定义多个附属脚本，通过索引值类型的不同来进行重载，而且索引值的个数可以是多个。</p>
-
-
-<!-- more -->
-
-
-<blockquote>
-<p>译者：这里附属脚本重载在本小节中原文并没有任何演示</p>
-</blockquote>
-
-
-<p><a name="subscript_syntax"></a></p>
-
-
-<h2 id="-">附属脚本语法</h2>
-
-
-<p>附属脚本允许你通过在实例后面的方括号中传入一个或者多个的索引值来对实例进行访问和赋值。语法类似于实例方法和计算型属性的混合。与定义实例方法类似，定义附属脚本使用<code>subscript</code>关键字，显式声明入参（一个或多个）和返回类型。与实例方法不同的是附属脚本可以设定为读写或只读。这种方式又有点像计算型属性的getter和setter：</p>
-
-
-<pre><code>subscript(index: Int) -&gt; Int {
-    get {
-        // 返回与入参匹配的Int类型的值
-    }
-
-    set(newValue) {
-        // 执行赋值操作
-    }
-}
-</code></pre>
-
-
-<p><code>newValue</code>的类型必须和附属脚本定义的返回类型相同。与计算型属性相同的是set的入参声明<code>newValue</code>就算不写，在set代码块中依然可以使用默认的<code>newValue</code>这个变量来访问新赋的值。</p>
-
-
-<p>与只读计算型属性一样，可以直接将原本应该写在<code>get</code>代码块中的代码写在<code>subscript</code>中：</p>
-
-
-<pre><code>subscript(index: Int) -&gt; Int {
-    // 返回与入参匹配的Int类型的值
-}
-</code></pre>
-
-
-<p>下面代码演示了一个在<code>TimesTable</code>结构体中使用只读附属脚本的用法，该结构体用来展示传入整数的<em>n</em>倍。</p>
-
-
-<pre><code>struct TimesTable {
-    let multiplier: Int
-    subscript(index: Int) -&gt; Int {
-        return multiplier * index
-    }
-}
-let threeTimesTable = TimesTable(multiplier: 3)
-println("3的6倍是\(threeTimesTable[6])")
-// 输出 "3的6倍是18"
-</code></pre>
-
-
-<p>在上例中，通过<code>TimesTable</code>结构体创建了一个用来表示索引值三倍的实例。数值<code>3</code>作为结构体<code>构造函数</code>入参初始化实例成员<code>multiplier</code>。</p>
-
-
-<p>你可以通过附属脚本来来得到结果，比如<code>threeTimesTable[6]</code>。这句话访问了<code>threeTimesTable</code>的第六个元素，返回<code>18</code>或者<code>6</code>的<code>3</code>倍。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p><code>TimesTable</code>例子是基于一个固定的数学公式。它并不适合开放写权限来对<code>threeTimesTable[someIndex]</code>进行赋值操作，这也是为什么附属脚本只定义为只读的原因。</p>
-</blockquote>
-
-
-<p><a name="subscript_usage"></a></p>
-
-
-<h2 id="-">附属脚本用法</h2>
-
-
-<p>根据使用场景不同附属脚本也具有不同的含义。通常附属脚本是用来访问集合（collection），列表（list）或序列（sequence）中元素的快捷方式。你可以在你自己特定的类或结构体中自由的实现附属脚本来提供合适的功能。</p>
-
-
-<p>例如，Swift 的字典（Dictionary）实现了通过附属脚本来对其实例中存放的值进行存取操作。在附属脚本中使用和字典索引相同类型的值，并且把一个字典值类型的值赋值给这个附属脚本来为字典设值：</p>
-
-
-<pre><code>var numberOfLegs = ["spider": 8, "ant": 6, "cat": 4]
-numberOfLegs["bird"] = 2
-</code></pre>
-
-
-<p>上例定义一个名为<code>numberOfLegs</code>的变量并用一个字典字面量初始化出了包含三对键值的字典实例。<code>numberOfLegs</code>的字典存放值类型推断为<code>Dictionary&lt;String, Int&gt;</code>。字典实例创建完成之后通过附属脚本的方式将整型值<code>2</code>赋值到字典实例的索引为<code>bird</code>的位置中。</p>
-
-
-<p>更多关于字典（Dictionary）附属脚本的信息请参考<a href="../chapter2/04_Collection_Types.html">读取和修改字典</a></p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>Swift 中字典的附属脚本实现中，在<code>get</code>部分返回值是<code>Int?</code>，上例中的<code>numberOfLegs</code>字典通过下边返回的是一个<code>Int?</code>或者说“可选的int”，不是每个字典的索引都能得到一个整型值，对于没有设过值的索引的访问返回的结果就是<code>nil</code>；同样想要从字典实例中删除某个索引下的值也只需要给这个索引赋值为<code>nil</code>即可。</p>
-</blockquote>
-
-
-<p><a name="subscript_options"></a></p>
-
-
-<h2 id="-">附属脚本选项</h2>
-
-
-<p>附属脚本允许任意数量的入参索引，并且每个入参类型也没有限制。附属脚本的返回值也可以是任何类型。附属脚本可以使用变量参数和可变参数，但使用写入读出（in-out）参数或给参数设置默认值都是不允许的。</p>
-
-
-<p>一个类或结构体可以根据自身需要提供多个附属脚本实现，在定义附属脚本时通过入参个类型进行区分，使用附属脚本时会自动匹配合适的附属脚本实现运行，这就是<em>附属脚本的重载</em>。</p>
-
-
-<p>一个附属脚本入参是最常见的情况，但只要有合适的场景也可以定义多个附属脚本入参。如下例定义了一个<code>Matrix</code>结构体，将呈现一个<code>Double</code>类型的二维矩阵。<code>Matrix</code>结构体的附属脚本需要两个整型参数：</p>
-
-
-<pre><code>struct Matrix {
-    let rows: Int, columns: Int
-    var grid: Double[]
-    init(rows: Int, columns: Int) {
-        self.rows = rows
-        self.columns = columns
-        grid = Array(count: rows * columns, repeatedValue: 0.0)
-    }
-    func indexIsValidForRow(row: Int, column: Int) -&gt; Bool {
-        return row &gt;= 0 &amp;&amp; row &lt; rows &amp;&amp; column &gt;= 0 &amp;&amp; column &lt; columns
-    }
-    subscript(row: Int, column: Int) -&gt; Double {
-        get {
-            assert(indexIsValidForRow(row, column: column), "Index out of range")
-            return grid[(row * columns) + column]
-        }
-        set {
-            assert(indexIsValidForRow(row, column: column), "Index out of range")
-            grid[(row * columns) + columns] = newValue
-        }
-    }
-}
-</code></pre>
-
-
-<p><code>Matrix</code>提供了一个两个入参的构造方法，入参分别是<code>rows</code>和<code>columns</code>，创建了一个足够容纳<code>rows * columns</code>个数的<code>Double</code>类型数组。为了存储，将数组的大小和数组每个元素初始值0.0，都传入数组的构造方法中来创建一个正确大小的新数组。关于数组的构造方法和析构方法请参考<a href="../chapter2/04_Collection_Types.html">创建并且构造一个数组</a>。</p>
-
-
-<p>你可以通过传入合适的<code>row</code>和<code>column</code>的数量来构造一个新的<code>Matrix</code>实例：</p>
-
-
-<pre><code>var matrix = Matrix(rows: 2, columns: 2)
-</code></pre>
-
-
-<p>上例中创建了一个新的两行两列的<code>Matrix</code>实例。在阅读顺序从左上到右下的<code>Matrix</code>实例中的数组实例<code>grid</code>是矩阵二维数组的扁平化存储：</p>
-
-
-<pre><code>// 示意图
-grid = [0.0, 0.0, 0.0, 0.0]
-
-        col0     col1
-row0   [0.0,     0.0,
-row1    0.0,     0.0]
-</code></pre>
-
-
-<p>将值赋给带有<code>row</code>和<code>column</code>附属脚本的<code>matrix</code>实例表达式可以完成赋值操作，附属脚本入参使用逗号分割</p>
-
-
-<pre><code>matrix[0, 1] = 1.5
-matrix[1, 0] = 3.2
-</code></pre>
-
-
-<p>上面两条语句分别<code>让matrix</code>的右上值为 1.5，坐下值为 3.2：</p>
-
-
-<pre><code>[0.0, 1.5,
- 3.2, 0.0]
-</code></pre>
-
-
-<p><code>Matrix</code>附属脚本的<code>getter</code>和<code>setter</code>中同时调用了附属脚本入参的<code>row</code>和<code>column</code>是否有效的判断。为了方便进行断言，<code>Matrix</code>包含了一个名为<code>indexIsValid</code>的成员方法，用来确认入参的<code>row</code>或<code>column</code>值是否会造成数组越界：</p>
-
-
-<pre><code>func indexIsValidForRow(row: Int, column: Int) -&gt; Bool {
-    return row &gt;= 0 &amp;&amp; row &lt; rows &amp;&amp; column &gt;= 0 &amp;&amp; column &lt; columns
-}
-</code></pre>
-
-
-<p>断言在附属脚本越界时触发：</p>
-
-
-<pre><code>let someValue = matrix[2, 2]
-// 断言将会触发，因为 [2, 2] 已经超过了matrix的最大长度
-</code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[swift闭包]]></title>
-    <link href="http://baxiang123.com//blog/Swift%E9%97%AD%E5%8C%85.html"/>
-    <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swift闭包</id>
-    <content type="html"><![CDATA[<p>闭包是自包含的函数代码块，可以在代码中被传递和使用。
-Swift 中的闭包与 C 和 Objective-C 中的代码块（blocks）以及其他一些编程语言中的 lambdas 函数比较相似。</p>
-
-
-<p>闭包可以捕获和存储其所在上下文中任意常量和变量的引用。
-这就是所谓的闭合并包裹着这些常量和变量，俗称闭包。Swift 会为您管理在捕获过程中涉及到的所有内存操作。</p>
-
-
-<!-- more -->
-
-
-<blockquote>
-<p>注意：</p>
-<p>如果您不熟悉捕获（capturing）这个概念也不用担心，您可以在 <a href="#capturing_values">值捕获</a> 章节对其进行详细了解。</p>
-</blockquote>
-
-
-<p>在<a href="../chapter2/06_Function.html">函数</a> 章节中介绍的全局和嵌套函数实际上也是特殊的闭包，闭包采取如下三种形式之一：</p>
-
-
-<ul>
-<li>全局函数是一个有名字但不会捕获任何值的闭包</li>
-<li>嵌套函数是一个有名字并可以捕获其封闭函数域内值的闭包</li>
-<li>闭包表达式是一个利用轻量级语法所写的可以捕获其上下文中变量或常量值的匿名闭包</li>
-</ul>
-
-
-<p>Swift 的闭包表达式拥有简洁的风格，并鼓励在常见场景中进行语法优化，主要优化如下：</p>
-
-
-<ul>
-<li>利用上下文推断参数和返回值类型</li>
-<li>隐式返回单表达式闭包，即单表达式闭包可以省略<code>return</code>关键字</li>
-<li>参数名称缩写</li>
-<li>尾随（Trailing）闭包语法</li>
-</ul>
-
-
-<p><a name="closure_expressions"></a></p>
-
-
-<h2 id="-closure-expressions-">闭包表达式（Closure Expressions）</h2>
-
-
-<p><a href="../chapter2/06_Function.html#nested_function">嵌套函数</a> 是一个在较复杂函数中方便进行命名和定义自包含代码模块的方式。
-当然，有时候撰写小巧的没有完整定义和命名的类函数结构也是很有用处的，尤其是在您处理一些函数并需要将另外一些函数作为该函数的参数时。</p>
-
-
-<p>闭包表达式是一种利用简洁语法构建内联闭包的方式。
-闭包表达式提供了一些语法优化，使得撰写闭包变得简单明了。
-下面闭包表达式的例子通过使用几次迭代展示了<code>sort</code>函数定义和语法优化的方式。
-每一次迭代都用更简洁的方式描述了相同的功能。</p>
-
-
-<p><a name="the_sort_function"></a></p>
-
-
-<h3 id="sort-the-sort-function-">sort 函数（The Sort Function）</h3>
-
-
-<p>Swift 标准库提供了<code>sort</code>函数，会根据您提供的基于输出类型排序的闭包函数将已知类型数组中的值进行排序。
-一旦排序完成，函数会返回一个与原数组大小相同的新数组，该数组中包含已经正确排序的同类型元素。</p>
-
-
-<p>下面的闭包表达式示例使用<code>sort</code>函数对一个<code>String</code>类型的数组进行字母逆序排序，以下是初始数组值：</p>
-
-
-<pre><code>let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
-</code></pre>
-
-
-<p><code>sort</code>函数需要传入两个参数：</p>
-
-
-<ul>
-<li>已知类型的数组</li>
-<li>闭包函数，该闭包函数需要传入与数组类型相同的两个值，并返回一个布尔类型值来告诉<code>sort</code>函数当排序结束后传入的第一个参数排在第二个参数前面还是后面。如果第一个参数值出现在第二个参数值前面，排序闭包函数需要返回<code>true</code>，反之返回<code>false</code>。</li>
-</ul>
-
-
-<p>该例子对一个<code>String</code>类型的数组进行排序，因此排序闭包函数类型需为<code>(String, String) -&gt; Bool</code>。</p>
-
-
-<p>提供排序闭包函数的一种方式是撰写一个符合其类型要求的普通函数，并将其作为<code>sort</code>函数的第二个参数传入：</p>
-
-
-<pre><code>func backwards(s1: String, s2: String) -&gt; Bool {
-    return s1 &gt; s2
-}
-var reversed = sort(names, backwards)
-// reversed 为 ["Ewa", "Daniella", "Chris", "Barry", "Alex"]
-</code></pre>
-
-
-<p>如果第一个字符串 (<code>s1</code>) 大于第二个字符串 (<code>s2</code>)，<code>backwards</code>函数返回<code>true</code>，表示在新的数组中<code>s1</code>应该出现在<code>s2</code>前。
-对于字符串中的字符来说，“大于” 表示 “按照字母顺序较晚出现”。
-这意味着字母<code>"B"</code>大于字母<code>"A"</code>，字符串<code>"Tom"</code>大于字符串<code>"Tim"</code>。
-其将进行字母逆序排序，<code>"Barry"</code>将会排在<code>"Alex"</code>之后。</p>
-
-
-<p>然而，这是一个相当冗长的方式，本质上只是写了一个单表达式函数 (a &gt; b)。
-在下面的例子中，利用闭合表达式语法可以更好的构造一个内联排序闭包。</p>
-
-
-<p><a name="closure_expression_syntax"></a></p>
-
-
-<h3 id="-closure-expression-syntax-">闭包表达式语法（Closure Expression Syntax）</h3>
-
-
-<p>闭包表达式语法有如下一般形式：</p>
-
-
-<pre><code>{ (parameters) -&gt; returnType in
-    statements
-}
-</code></pre>
-
-
-<p>闭包表达式语法可以使用常量、变量和<code>inout</code>类型作为参数，不提供默认值。
-也可以在参数列表的最后使用可变参数。
-元组也可以作为参数和返回值。</p>
-
-
-<p>下面的例子展示了之前<code>backwards</code>函数对应的闭包表达式版本的代码：</p>
-
-
-<pre><code>reversed = sort(names, { (s1: String, s2: String) -&gt; Bool in
-    return s1 &gt; s2
-    })
-</code></pre>
-
-
-<p>需要注意的是内联闭包参数和返回值类型声明与<code>backwards</code>函数类型声明相同。
-在这两种方式中，都写成了<code>(s1: String, s2: String) -&gt; Bool</code>。
-然而在内联闭包表达式中，函数和返回值类型都写在大括号内，而不是大括号外。</p>
-
-
-<p>闭包的函数体部分由关键字<code>in</code>引入。
-该关键字表示闭包的参数和返回值类型定义已经完成，闭包函数体即将开始。</p>
-
-
-<p>因为这个闭包的函数体部分如此短以至于可以将其改写成一行代码：</p>
-
-
-<pre><code>reversed = sort(names, { (s1: String, s2: String) -&gt; Bool in return s1 &gt; s2 } )
-</code></pre>
-
-
-<p>这说明<code>sort</code>函数的整体调用保持不变，一对圆括号仍然包裹住了函数中整个参数集合。而其中一个参数现在变成了内联闭包（相比于<code>backwards</code>版本的代码）。</p>
-
-
-<p><a name="inferring_type_from_context"></a></p>
-
-
-<h3 id="-inferring-type-from-context-">根据上下文推断类型（Inferring Type From Context）</h3>
-
-
-<p>因为排序闭包函数是作为<code>sort</code>函数的参数进行传入的，Swift可以推断其参数和返回值的类型。
-<code>sort</code>期望第二个参数是类型为<code>(String, String) -&gt; Bool</code>的函数，因此实际上<code>String</code>,<code>String</code>和<code>Bool</code>类型并不需要作为闭包表达式定义中的一部分。
-因为所有的类型都可以被正确推断，返回箭头 (<code>-&gt;</code>) 和围绕在参数周围的括号也可以被省略：</p>
-
-
-<pre><code>reversed = sort(names, { s1, s2 in return s1 &gt; s2 } )
-</code></pre>
-
-
-<p>实际上任何情况下，通过内联闭包表达式构造的闭包作为参数传递给函数时，都可以推断出闭包的参数和返回值类型，这意味着您几乎不需要利用完整格式构造任何内联闭包。</p>
-
-
-<p><a name="implicit_returns_from_single_expression_closures"></a></p>
-
-
-<h3 id="-implicit-return-from-single-expression-clossures-">单表达式闭包隐式返回（Implicit Return From Single-Expression Clossures）</h3>
-
-
-<p>单行表达式闭包可以通过隐藏<code>return</code>关键字来隐式返回单行表达式的结果，如上版本的例子可以改写为：</p>
-
-
-<pre><code>reversed = sort(names, { s1, s2 in s1 &gt; s2 } )
-</code></pre>
-
-
-<p>在这个例子中，<code>sort</code>函数的第二个参数函数类型明确了闭包必须返回一个<code>Bool</code>类型值。
-因为闭包函数体只包含了一个单一表达式 (<code>s1 &gt; s2</code>)，该表达式返回<code>Bool</code>类型值，因此这里没有歧义，<code>return</code>关键字可以省略。</p>
-
-
-<p><a name="shorthand_argument_names"></a></p>
-
-
-<h3 id="-shorthand-argument-names-">参数名称缩写（Shorthand Argument Names）</h3>
-
-
-<p>Swift 自动为内联函数提供了参数名称缩写功能，您可以直接通过<code>$0</code>,<code>$1</code>,<code>$2</code>来顺序调用闭包的参数。</p>
-
-
-<p>如果您在闭包表达式中使用参数名称缩写，您可以在闭包参数列表中省略对其的定义，并且对应参数名称缩写的类型会通过函数类型进行推断。
-<code>in</code>关键字也同样可以被省略，因为此时闭包表达式完全由闭包函数体构成：</p>
-
-
-<pre><code>reversed = sort(names, { $0 &gt; $1 } )
-</code></pre>
-
-
-<p>在这个例子中，<code>$0</code>和<code>$1</code>表示闭包中第一个和第二个<code>String</code>类型的参数。</p>
-
-
-<p><a name="operator_functions"></a></p>
-
-
-<h3 id="-operator-functions-">运算符函数（Operator Functions）</h3>
-
-
-<p>实际上还有一种更简短的方式来撰写上面例子中的闭包表达式。
-Swift 的<code>String</code>类型定义了关于大于号 (<code>&gt;</code>) 的字符串实现，其作为一个函数接受两个<code>String</code>类型的参数并返回<code>Bool</code>类型的值。
-而这正好与<code>sort</code>函数的第二个参数需要的函数类型相符合。
-因此，您可以简单地传递一个大于号，Swift可以自动推断出您想使用大于号的字符串函数实现：</p>
-
-
-<pre><code>reversed = sort(names, &gt;)
-</code></pre>
-
-
-<p>更多关于运算符表达式的内容请查看 <a href="../chapter2/23_Advanced_Operators.html#operator_functions">运算符函数</a>。</p>
-
-
-<p><a name="trailing_closures"></a></p>
-
-
-<h2 id="-trailing-closures-">尾随闭包（Trailing Closures）</h2>
-
-
-<p>如果您需要将一个很长的闭包表达式作为最后一个参数传递给函数，可以使用尾随闭包来增强函数的可读性。
-尾随闭包是一个书写在函数括号之后的闭包表达式，函数支持将其作为最后一个参数调用。</p>
-
-
-<pre><code>func someFunctionThatTakesAClosure(closure: () -&gt; ()) {
-    // 函数体部分
-}
-
-// 以下是不使用尾随闭包进行函数调用
-
-someFunctionThatTakesAClosure({
-    // 闭包主体部分
-    })
-
-// 以下是使用尾随闭包进行函数调用
-
-someFunctionThatTakesAClosure() {
-    // 闭包主体部分
-}
-</code></pre>
-
-
-<blockquote>
-<p>注意：</p>
-<p>如果函数只需要闭包表达式一个参数，当您使用尾随闭包时，您甚至可以把<code>()</code>省略掉。</p>
-</blockquote>
-
-
-<p>在上例中作为<code>sort</code>函数参数的字符串排序闭包可以改写为：</p>
-
-
-<pre><code>reversed = sort(names) { $0 &gt; $1 }
-</code></pre>
-
-
-<p>当闭包非常长以至于不能在一行中进行书写时，尾随闭包变得非常有用。
-举例来说，Swift 的<code>Array</code>类型有一个<code>map</code>方法，其获取一个闭包表达式作为其唯一参数。
-数组中的每一个元素调用一次该闭包函数，并返回该元素所映射的值(也可以是不同类型的值)。
-具体的映射方式和返回值类型由闭包来指定。</p>
-
-
-<p>当提供给数组闭包函数后，<code>map</code>方法将返回一个新的数组，数组中包含了与原数组一一对应的映射后的值。</p>
-
-
-<p>下例介绍了如何在<code>map</code>方法中使用尾随闭包将<code>Int</code>类型数组<code>[16,58,510]</code>转换为包含对应<code>String</code>类型的数组<code>["OneSix", "FiveEight", "FiveOneZero"]</code>:</p>
-
-
-<pre><code>let digitNames = [
-    0: "Zero", 1: "One", 2: "Two",   3: "Three", 4: "Four",
-    5: "Five", 6: "Six", 7: "Seven", 8: "Eight", 9: "Nine"
-]
-let numbers = [16, 58, 510]
-</code></pre>
-
-
-<p>如上代码创建了一个数字位和他们名字映射的英文版本字典。
-同时定义了一个准备转换为字符串的整型数组。</p>
-
-
-<p>您现在可以通过传递一个尾随闭包给<code>numbers</code>的<code>map</code>方法来创建对应的字符串版本数组。
-需要注意的时调用<code>numbers.map</code>不需要在<code>map</code>后面包含任何括号，因为其只需要传递闭包表达式这一个参数，并且该闭包表达式参数通过尾随方式进行撰写：</p>
-
-
-<pre><code>let strings = numbers.map {
-    (var number) -&gt; String in
-    var output = ""
-    while number &gt; 0 {
-        output = digitNames[number % 10]! + output
-        number /= 10
-    }
-    return output
-}
-// strings 常量被推断为字符串类型数组，即 String[]
-// 其值为 ["OneSix", "FiveEight", "FiveOneZero"]
-</code></pre>
-
-
-<p><code>map</code>在数组中为每一个元素调用了闭包表达式。
-您不需要指定闭包的输入参数<code>number</code>的类型，因为可以通过要映射的数组类型进行推断。</p>
-
-
-<p>闭包<code>number</code>参数被声明为一个变量参数（变量的具体描述请参看<a href="../chapter2/06_Functions.html#closure_expression_syntax">常量参数和变量参数</a>），因此可以在闭包函数体内对其进行修改。
-闭包表达式制定了返回类型为<code>String</code>，以表明存储映射值的新数组类型为<code>String</code>。</p>
-
-
-<p>闭包表达式在每次被调用的时候创建了一个字符串并返回。
-其使用求余运算符 (number % 10) 计算最后一位数字并利用<code>digitNames</code>字典获取所映射的字符串。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>字典<code>digitNames</code>下标后跟着一个叹号 (!)，因为字典下标返回一个可选值 (optional value)，表明即使该 key 不存在也不会查找失败。
-在上例中，它保证了<code>number % 10</code>可以总是作为一个<code>digitNames</code>字典的有效下标 key。
-因此叹号可以用于强制解析 (force-unwrap) 存储在可选下标项中的<code>String</code>类型值。</p>
-</blockquote>
-
-
-<p>从<code>digitNames</code>字典中获取的字符串被添加到输出的前部，逆序建立了一个字符串版本的数字。
-（在表达式<code>number % 10</code>中，如果number为16，则返回6，58返回8，510返回0）。</p>
-
-
-<p><code>number</code>变量之后除以10。
-因为其是整数，在计算过程中未除尽部分被忽略。
-因此 16变成了1，58变成了5，510变成了51。</p>
-
-
-<p>整个过程重复进行，直到<code>number /= 10</code>为0，这时闭包会将字符串输出，而<code>map</code>函数则会将字符串添加到所映射的数组中。</p>
-
-
-<p>上例中尾随闭包语法在函数后整洁封装了具体的闭包功能，而不再需要将整个闭包包裹在<code>map</code>函数的括号内。</p>
-
-
-<p><a name="capturing_values"></a></p>
-
-
-<h2 id="-capturing-values-">捕获值（Capturing Values）</h2>
-
-
-<p>闭包可以在其定义的上下文中捕获常量或变量。
-即使定义这些常量和变量的原域已经不存在，闭包仍然可以在闭包函数体内引用和修改这些值。</p>
-
-
-<p>Swift最简单的闭包形式是嵌套函数，也就是定义在其他函数的函数体内的函数。
-嵌套函数可以捕获其外部函数所有的参数以及定义的常量和变量。</p>
-
-
-<p>下例为一个叫做<code>makeIncrementor</code>的函数，其包含了一个叫做<code>incrementor</code>嵌套函数。
-嵌套函数<code>incrementor</code>从上下文中捕获了两个值，<code>runningTotal</code>和<code>amount</code>。
-之后<code>makeIncrementor</code>将<code>incrementor</code>作为闭包返回。
-每次调用<code>incrementor</code>时，其会以<code>amount</code>作为增量增加<code>runningTotal</code>的值。</p>
-
-
-<pre><code>func makeIncrementor(forIncrement amount: Int) -&gt; () -&gt; Int {
-    var runningTotal = 0
-    func incrementor() -&gt; Int {
-        runningTotal += amount
-        return runningTotal
-    }
-    return incrementor
-}
-</code></pre>
-
-
-<p><code>makeIncrementor</code>返回类型为<code>() -&gt; Int</code>。
-这意味着其返回的是一个函数，而不是一个简单类型值。
-该函数在每次调用时不接受参数只返回一个<code>Int</code>类型的值。
-关于函数返回其他函数的内容，请查看<a href="../chapter2/06_Functions.html#function_types_as_return_types">函数类型作为返回类型</a>。</p>
-
-
-<p><code>makeIncrementor</code>函数定义了一个整型变量<code>runningTotal</code>(初始为0) 用来存储当前跑步总数。
-该值通过<code>incrementor</code>返回。</p>
-
-
-<p><code>makeIncrementor</code>有一个<code>Int</code>类型的参数，其外部命名为<code>forIncrement</code>， 内部命名为<code>amount</code>，表示每次<code>incrementor</code>被调用时<code>runningTotal</code>将要增加的量。</p>
-
-
-<p><code>incrementor</code>函数用来执行实际的增加操作。
-该函数简单地使<code>runningTotal</code>增加<code>amount</code>，并将其返回。</p>
-
-
-<p>如果我们单独看这个函数，会发现看上去不同寻常：</p>
-
-
-<pre><code>func incrementor() -&gt; Int {
-    runningTotal += amount
-    return runningTotal
-}
-</code></pre>
-
-
-<p><code>incrementor</code>函数并没有获取任何参数，但是在函数体内访问了<code>runningTotal</code>和<code>amount</code>变量。这是因为其通过捕获在包含它的函数体内已经存在的<code>runningTotal</code>和<code>amount</code>变量而实现。</p>
-
-
-<p>由于没有修改<code>amount</code>变量，<code>incrementor</code>实际上捕获并存储了该变量的一个副本，而该副本随着<code>incrementor</code>一同被存储。</p>
-
-
-<p>然而，因为每次调用该函数的时候都会修改<code>runningTotal</code>的值，<code>incrementor</code>捕获了当前<code>runningTotal</code>变量的引用，而不是仅仅复制该变量的初始值。捕获一个引用保证了当<code>makeIncrementor</code>结束时候并不会消失，也保证了当下一次执行<code>incrementor</code>函数时，<code>runningTotal</code>可以继续增加。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>Swift 会决定捕获引用还是拷贝值。
-您不需要标注<code>amount</code>或者<code>runningTotal</code>来声明在嵌入的<code>incrementor</code>函数中的使用方式。
-Swift 同时也处理<code>runingTotal</code>变量的内存管理操作，如果不再被<code>incrementor</code>函数使用，则会被清除。</p>
-</blockquote>
-
-
-<p>下面代码为一个使用<code>makeIncrementor</code>的例子：</p>
-
-
-<pre><code>let incrementByTen = makeIncrementor(forIncrement: 10)
-</code></pre>
-
-
-<p>该例子定义了一个叫做<code>incrementByTen</code>的常量，该常量指向一个每次调用会加10的<code>incrementor</code>函数。
-调用这个函数多次可以得到以下结果：</p>
-
-
-<pre><code>incrementByTen()
-// 返回的值为10
-incrementByTen()
-// 返回的值为20
-incrementByTen()
-// 返回的值为30
-</code></pre>
-
-
-<p>如果您创建了另一个<code>incrementor</code>，其会有一个属于自己的独立的<code>runningTotal</code>变量的引用。
-下面的例子中，<code>incrementBySevne</code>捕获了一个新的<code>runningTotal</code>变量，该变量和<code>incrementByTen</code>中捕获的变量没有任何联系：</p>
-
-
-<pre><code>let incrementBySeven = makeIncrementor(forIncrement: 7)
-incrementBySeven()
-// 返回的值为7
-incrementByTen()
-// 返回的值为40
-</code></pre>
-
-
-<blockquote>
-<p>注意：</p>
-<p>如果您闭包分配给一个类实例的属性，并且该闭包通过指向该实例或其成员来捕获了该实例，您将创建一个在闭包和实例间的强引用环。
-Swift 使用捕获列表来打破这种强引用环。更多信息，请参考 <a href="../chapter2/16_Automatic_Reference_Counting.html#strong_reference_cycles_for_closures">闭包引起的循环强引用</a>。</p>
-</blockquote>
-
-
-<p><a name="closures_are_reference_types"></a></p>
-
-
-<h2 id="-closures-are-reference-types-">闭包是引用类型（Closures Are Reference Types）</h2>
-
-
-<p>上面的例子中，<code>incrementBySeven</code>和<code>incrementByTen</code>是常量，但是这些常量指向的闭包仍然可以增加其捕获的变量值。
-这是因为函数和闭包都是引用类型。</p>
-
-
-<p>无论您将函数/闭包赋值给一个常量还是变量，您实际上都是将常量/变量的值设置为对应函数/闭包的引用。
-上面的例子中，<code>incrementByTen</code>指向闭包的引用是一个常量，而并非闭包内容本身。</p>
-
-
-<p>这也意味着如果您将闭包赋值给了两个不同的常量/变量，两个值都会指向同一个闭包：</p>
-
-
-<pre><code>let alsoIncrementByTen = incrementByTen
-alsoIncrementByTen()
-// 返回的值为50
-</code></pre>
 
 ]]></content>
   </entry>

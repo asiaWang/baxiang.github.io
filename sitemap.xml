@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://baxiang123.com//blog/Writing%20Swift%20Classes%20with%20Objective-C%20Behavior.html</loc>
+    <lastmod>2015-03-16T00:00:00+08:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://baxiang123.com//blog/Working%20with%20Cocoa%20Data%20Types.html</loc>
+    <lastmod>2015-03-16T00:00:00+08:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>http://baxiang123.com//blog/SwiftAndObjectc.html</loc>
+    <lastmod>2015-03-16T00:00:00+08:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://baxiang123.com//blog/Interacting%20with%20Objective-C%20APIs.html</loc>
+    <lastmod>2015-03-16T00:00:00+08:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://baxiang123.com//blog/Interacting%20with%20C%20APIs.html</loc>
+    <lastmod>2015-03-16T00:00:00+08:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://baxiang123.com//blog/Adopting%20Cocoa%20Design%20Patterns.html</loc>
     <lastmod>2015-03-16T00:00:00+08:00</lastmod>
     <priority>0.8</priority>
   </url>
@@ -242,37 +267,37 @@
   </url>
   <url>
     <loc>http://baxiang123.com//404.html</loc>
-    <lastmod>2015-03-15T04:49:58+08:00</lastmod>
+    <lastmod>2015-03-15T05:16:02+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://baxiang123.com//blog/archives/</loc>
-    <lastmod>2015-03-15T04:49:58+08:00</lastmod>
+    <lastmod>2015-03-15T05:16:02+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://baxiang123.com//</loc>
-    <lastmod>2015-03-15T04:49:58+08:00</lastmod>
+    <lastmod>2015-03-15T05:16:02+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://baxiang123.com//aboutme/</loc>
-    <lastmod>2015-03-15T04:49:58+08:00</lastmod>
+    <lastmod>2015-03-15T05:16:02+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://baxiang123.com//blog/categories/</loc>
-    <lastmod>2015-03-15T04:49:58+08:00</lastmod>
+    <lastmod>2015-03-15T05:16:02+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://baxiang123.com//issue/deploy/github/issues/</loc>
-    <lastmod>2015-03-15T04:49:58+08:00</lastmod>
+    <lastmod>2015-03-15T05:16:02+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

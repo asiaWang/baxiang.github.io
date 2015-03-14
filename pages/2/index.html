@@ -9,7 +9,8 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="Mar 15,&nbsp 2015 swift Comments Swift基础 常量和变量 常量和变量把一个名字（比如maximumNumberOfLoginAttempts或者welcomeMessage）和一个指定类型的值（比如数字10或者字符串"Hello"）关联起来。 &hellip;">
+	<meta name="description" content="Mar 16,&nbsp 2015 Comments Adopting Cocoa Design Patterns layout: post
+title: 采用Cocoa设计模式 categories: [swift] 使用 Cocoa 现有的一些设计模式，是帮助开发者开发一款拥有合理设计思路、 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -141,31 +142,26 @@ var _hmt = _hmt || [];
 
 
 
-Mar 15,&nbsp 2015  </div>
+Mar 16,&nbsp 2015  </div>
 		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/swift/'>swift</a>
-
 
 </div>
 		
-			<span class="comments"><a href="/blog/Swift%E8%AF%AD%E8%A8%80%E7%AE%80%E4%BB%8B.html#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/Adopting%20Cocoa%20Design%20Patterns.html#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/Swift%E8%AF%AD%E8%A8%80%E7%AE%80%E4%BB%8B.html" itemprop="url">Swift基础</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/Adopting%20Cocoa%20Design%20Patterns.html" itemprop="url">Adopting Cocoa Design Patterns</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<h3>常量和变量</h3>
+		<hr />
 
-<p>常量和变量把一个名字（比如maximumNumberOfLoginAttempts或者welcomeMessage）和一个指定类型的值（比如数字10或者字符串&#8221;Hello&#8221;）关联起来。常量的值一旦设定就不能改变，而变量的值可以随意更改。</p>
+<p>layout: post<br/>
+title: 采用Cocoa设计模式</p>
 
+<h2>categories: [swift]</h2>
 
-<p>Swift 是 iOS 和 OS X 应用开发的一门新语言。然而，如果你有 C 或者 Objective-C 开发经验的话，你会发现 Swift 的很多内容都是你熟悉的。</p>
-
-
-
+<p>使用 Cocoa 现有的一些设计模式，是帮助开发者开发一款拥有合理设计思路、稳定的性能、良好的可扩展性应用的有效方法之一。这些模式都依赖于在 Objective-C 中定义的类。因为 Swift 与 Objective-C 的互用性，所以你依然可以在 Swift 代码中使用这些设计模式。在一些情况下，你甚至可以使用 Swift 语言的特性扩展或简化这些 Cocoa 设计模式，使这些设计模式更强大、更易于使用。
 		
-		<a href="/blog/Swift%E8%AF%AD%E8%A8%80%E7%AE%80%E4%BB%8B.html" class="more-link">继续阅读 &rarr;</a>
+		<a href="/blog/Adopting%20Cocoa%20Design%20Patterns.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
@@ -195,20 +191,20 @@ Mar 15,&nbsp 2015  </div>
 
 </div>
 		
-			<span class="comments"><a href="/blog/Swift%E8%87%AA%E5%8A%A8%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0.html#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/Swif%E6%B3%9B%E5%9E%8B.html#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/Swift%E8%87%AA%E5%8A%A8%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0.html" itemprop="url">Swift自动引用计数</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/Swif%E6%B3%9B%E5%9E%8B.html" itemprop="url">Swift泛型</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p>Swift 使用自动引用计数（ARC）这一机制来跟踪和管理你的应用程序的内存。通常情况下，Swift 的内存管理机制会一直起着作用，你无须自己来考虑内存的管理。ARC 会在类的实例不再被使用时，自动释放其占用的内存。</p>
+		<p><em>泛型代码</em>可以让你写出根据自我需求定义、适用于任何类型的，灵活且可重用的函数和类型。它的可以让你避免重复的代码，用一种清晰和抽象的方式来表达代码的意图。</p>
 
 
-<p>然而，在少数情况下，ARC 为了能帮助你管理内存，需要更多的关于你的代码之间关系的信息。本章描述了这些情况，并且为你示范怎样启用 ARC 来管理你的应用程序的内存。</p>
+<p>泛型是 Swift 强大特征中的其中一个，许多 Swift 标准库是通过泛型代码构建出来的。事实上，泛型的使用贯穿了整本语言手册，只是你没有发现而已。例如，Swift 的数组和字典类型都是泛型集。你可以创建一个<code>Int</code>数组，也可创建一个<code>String</code>数组，或者甚至于可以是任何其他 Swift 的类型数据数组。同样的，你也可以创建存储任何指定类型的字典（dictionary），而且这些类型可以是没有限制的。</p>
 
 
 
 		
-		<a href="/blog/Swift%E8%87%AA%E5%8A%A8%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0.html" class="more-link">继续阅读 &rarr;</a>
+		<a href="/blog/Swif%E6%B3%9B%E5%9E%8B.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
@@ -238,17 +234,20 @@ Mar 15,&nbsp 2015  </div>
 
 </div>
 		
-			<span class="comments"><a href="/blog/Swift%E7%BB%A7%E6%89%BF.html#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/Swift%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B.html#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/Swift%E7%BB%A7%E6%89%BF.html" itemprop="url">Swift继承</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/Swift%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B.html" itemprop="url">Swift集合类型</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p>一个类可以<em>继承（inherit）</em>另一个类的方法（methods），属性（property）和其它特性。当一个类继承其它类时，继承类叫<em>子类（subclass）</em>，被继承类叫<em>超类（或父类，superclass）</em>。在 Swift 中，继承是区分「类」与其它类型的一个基本特征。</p>
+		<p>Swift 语言提供经典的数组和字典两种集合类型来存储集合数据。数组用来按顺序存储相同类型的数据。字典虽然无序存储相同类型数据值但是需要由独有的标识符引用和寻址（就是键值对）。</p>
+
+
+<p>Swift 语言里的数组和字典中存储的数据值类型必须明确。 这意味着我们不能把不正确的数据类型插入其中。 同时这也说明我们完全可以对获取出的值类型非常自信。 Swift 对显式类型集合的使用确保了我们的代码对工作所需要的类型非常清楚，也让我们在开发中可以早早地找到任何的类型不匹配错误。</p>
 
 
 
 		
-		<a href="/blog/Swift%E7%BB%A7%E6%89%BF.html" class="more-link">继续阅读 &rarr;</a>
+		<a href="/blog/Swift%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
@@ -278,20 +277,20 @@ Mar 15,&nbsp 2015  </div>
 
 </div>
 		
-			<span class="comments"><a href="/blog/Swift%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5.html#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/Swift%E9%99%84%E5%B1%9E%E8%84%9A%E6%9C%AC.html#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/Swift%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5.html" itemprop="url">Swift类型检查</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/Swift%E9%99%84%E5%B1%9E%E8%84%9A%E6%9C%AC.html" itemprop="url">Swift附属脚本</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p>  <em>类型检查</em>是一种检查类实例的方式，并且或者也是让实例作为它的父类或者子类的一种方式。</p>
+		<p><em>附属脚本</em> 可以定义在类（Class）、结构体（structure）和枚举（enumeration）这些目标中，可以认为是访问对象、集合或序列的快捷方式，不需要再调用实例的特定的赋值和访问方法。举例来说，用附属脚本访问一个数组(Array)实例中的元素可以这样写 <code>someArray[index]</code> ，访问字典(Dictionary)实例中的元素可以这样写 <code>someDictionary[key]</code>。</p>
 
 
-<p>  类型检查在 Swift 中使用<code>is</code> 和 <code>as</code>操作符实现。这两个操作符提供了一种简单达意的方式去检查值的类型或者转换它的类型。</p>
+<p>对于同一个目标可以定义多个附属脚本，通过索引值类型的不同来进行重载，而且索引值的个数可以是多个。</p>
 
 
 
 		
-		<a href="/blog/Swift%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5.html" class="more-link">继续阅读 &rarr;</a>
+		<a href="/blog/Swift%E9%99%84%E5%B1%9E%E8%84%9A%E6%9C%AC.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
@@ -321,17 +320,22 @@ Mar 15,&nbsp 2015  </div>
 
 </div>
 		
-			<span class="comments"><a href="/blog/Swift%E7%B1%BB%E5%9E%8B%E5%B5%8C%E5%A5%97.html#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/Swift%E9%97%AD%E5%8C%85.html#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/Swift%E7%B1%BB%E5%9E%8B%E5%B5%8C%E5%A5%97.html" itemprop="url">Swift类型嵌套</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/Swift%E9%97%AD%E5%8C%85.html" itemprop="url">Swift闭包</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p>枚举类型常被用于实现特定类或结构体的功能。也能够在有多种变量类型的环境中，方便地定义通用类或结构体来使用，为了实现这种功能，Swift允许你定义类型嵌套，可以在枚举类型、类和结构体中定义支持嵌套的类型。</p>
+		<p>闭包是自包含的函数代码块，可以在代码中被传递和使用。
+Swift 中的闭包与 C 和 Objective-C 中的代码块（blocks）以及其他一些编程语言中的 lambdas 函数比较相似。</p>
+
+
+<p>闭包可以捕获和存储其所在上下文中任意常量和变量的引用。
+这就是所谓的闭合并包裹着这些常量和变量，俗称闭包。Swift 会为您管理在捕获过程中涉及到的所有内存操作。</p>
 
 
 
 		
-		<a href="/blog/Swift%E7%B1%BB%E5%9E%8B%E5%B5%8C%E5%A5%97.html" class="more-link">继续阅读 &rarr;</a>
+		<a href="/blog/Swift%E9%97%AD%E5%8C%85.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>

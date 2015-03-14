@@ -1,0 +1,674 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>与 C 语言交互编程 - 小巴童鞋</title>
+	<meta name="author" content="小巴">
+
+	
+	<meta name="description" content="与 C 语言交互编程 作为一种可与 Objective-C 相互调用的语言，Swift 也具有一些与 C 语言的类型和特性，如果你的代码有需要，Swift 也提供了和常见的 C 代码结构混合编程的编程方式。 基本数据类型 Swift 提供了一些和 C 语言的基本类型如char，int，float &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://baxiang123.com//blog/Interacting%20with%20C%20APIs.html">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+	<link href="/stylesheets/google-fonts.css" rel="stylesheet" type="text/css">
+	
+	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<meta name="baidu-site-verification" content="tXGpoDjJRv" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script type="text/javascript">
+ function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+ $(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+ });
+ </script>
+ 
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script async src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">BaXiang&#8217;s technology blog</p>
+<nav id="main-nav"><!--ul class="main">
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
+</ul><!-->
+<ul class="main-navigation">
+  <li><a href="/">Blog | 博客</a></li>
+  <li><a href="/blog/archives">Archives | 目录</a></li>
+  <li><a href="/blog/categories">Categories  | 分类</a></li>
+  <li><a href="/aboutme/">About Me | 关于</a></li>
+  
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<br/>
+	<div class="social">
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
+        
+		
+		
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">与 C 语言交互编程</h1>
+	<div class="entry-content" itemprop="articleBody"><p>作为一种可与 Objective-C 相互调用的语言，Swift 也具有一些与 C 语言的类型和特性，如果你的代码有需要，Swift 也提供了和常见的 C 代码结构混合编程的编程方式。<!--more--></p>
+
+<h3>基本数据类型</h3>
+
+<p>Swift 提供了一些和 C 语言的基本类型如<code>char</code>，<code>int</code>，<code>float</code>，<code>double</code>等价的 Swift 基本数据类型。然而，这些 Swift 的核心基本类型之间并不能隐式的相互转换，如 Int。因此，只有你的代码明确要求它们时再使用这些类型，而 Int 可以在任何你想使用它的时候使用。</p>
+
+<table>
+<thead>
+<tr>
+<th> C 类型 </th>
+<th> Swift 类型 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> bool </td>
+<td> CBool </td>
+</tr>
+<tr>
+<td> char, signed char </td>
+<td> CChar </td>
+</tr>
+<tr>
+<td> unsigned char </td>
+<td> CUnsignedChar </td>
+</tr>
+<tr>
+<td> short </td>
+<td> CShort </td>
+</tr>
+<tr>
+<td> unsigned short </td>
+<td> CUnsignedShort </td>
+</tr>
+<tr>
+<td> int </td>
+<td> CInt </td>
+</tr>
+<tr>
+<td> unsigned int </td>
+<td> CUnsignedInt </td>
+</tr>
+<tr>
+<td> long </td>
+<td> CLong </td>
+</tr>
+<tr>
+<td> unsigned long </td>
+<td> CUnsignedLong </td>
+</tr>
+<tr>
+<td> long long </td>
+<td> CLongLong </td>
+</tr>
+<tr>
+<td> unsigned long long </td>
+<td> CUnsignedLongLong </td>
+</tr>
+<tr>
+<td> wchar_t </td>
+<td> CWideChar </td>
+</tr>
+<tr>
+<td> char16_t </td>
+<td> CChar16 </td>
+</tr>
+<tr>
+<td> char32_t </td>
+<td> CChar32 </td>
+</tr>
+<tr>
+<td> float </td>
+<td> CFloat </td>
+</tr>
+<tr>
+<td> double </td>
+<td> CDouble </td>
+</tr>
+</tbody>
+</table>
+
+
+<p><a name="enumerations"></a></p>
+
+<h3>枚举</h3>
+
+<p>Swift 引进了用宏<code>NS_ENUM</code>来标记的任何 C 风格的枚举类型。这意味着无论枚举值是在系统框架还是在自定义的代码中定义的，当他们导入到 Swift 时，他们的前缀名称将被截断。例如，看这个 Objective-C 枚举：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//Objective-C</span>
+</span><span class='line'><span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">,</span> <span class="n">UITableViewCellStyle</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">UITableViewCellStyleDefault</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">UITableViewCellStyleValue1</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">UITableViewCellStyleValue2</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">UITableViewCellStyleSubtitle</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在 Swift 中这样来实现：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">//Swift</span>
+</span><span class='line'><span class="k">enum</span> <span class="nl">UITableViewCellStyle</span><span class="p">:</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">case</span> <span class="n">Default</span>
+</span><span class='line'>  <span class="k">case</span> <span class="n">Value1</span>
+</span><span class='line'>  <span class="k">case</span> <span class="n">Value2</span>
+</span><span class='line'>  <span class="k">case</span> <span class="n">Subtitle</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当您需要指向一个枚举值时，使用以点（.）开头的枚举名称：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">//Swift</span>
+</span><span class='line'><span class="k">let</span> <span class="nl">cellStyle</span><span class="p">:</span> <span class="n">UITableViewCellStyle</span> <span class="o">=</span> <span class="p">.</span><span class="n">Default</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Swift 也引进了标有<code>NS_OPTIONS</code>宏选项。而选项的行为类似于引进的枚举，选项还可以支持一些位操作，如 ＆，| 和 〜。在 Objective-C 中，你用一个空的选项设置标示恒为零（0）。在 Swift 中，使用 <code>nil</code>代表没有任何选项。</p>
+
+<p><a name="pointer"></a></p>
+
+<h3>指针</h3>
+
+<p>Swift 尽可能避免让您直接访问指针。然而，当您需要直接操作内存的时候，Swift 也为您提供了多种指针类型。下面的表使用 Type 作为占位符类型名称来表示语法的映射。</p>
+
+<p>对于参数，使用以下映射：</p>
+
+<table>
+<thead>
+<tr>
+<th> C 句法 </th>
+<th> Swift 句法 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> const void * </td>
+<td> CConstVoidPointer </td>
+</tr>
+<tr>
+<td> void * </td>
+<td> CMutableVoidPointer </td>
+</tr>
+<tr>
+<td> const Type * </td>
+<td> CConstPointer\&lt;Type> </td>
+</tr>
+<tr>
+<td> Type * </td>
+<td> CMutablePointer\&lt;Type> </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>对于返回类型，变量和参数类型的多层次指针，使用以下映射：</p>
+
+<table>
+<thead>
+<tr>
+<th> C 句法 </th>
+<th> Swift 句法 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> void * </td>
+<td> COpaquePointer </td>
+</tr>
+<tr>
+<td> Type * </td>
+<td> UnsafePointer\&lt;Type> </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>对于类（class）类型，使用以下映射：</p>
+
+<table>
+<thead>
+<tr>
+<th> C 句法 </th>
+<th> Swift 句法 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Type * const * </td>
+<td> CConstPointer\&lt;Type> </td>
+</tr>
+<tr>
+<td> Type * __strong * </td>
+<td> CMutablePointer\&lt;Type> </td>
+</tr>
+<tr>
+<td> Type ** </td>
+<td> AutoreleasingUnsafePointer\&lt;Type> </td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>C 可变指针</h4>
+
+<p>当一个函数被声明为接受<code>CMutablePointer&lt;Type&gt;</code>参数时，这个函数可以接受下列任何一个类型作为参数：</p>
+
+<ul>
+<li><code>nil</code>，作为空指针传入</li>
+<li>一个<code>CMutablePointer&lt;Type&gt;</code>类型的值</li>
+<li>一个操作数是 <code>Type</code> 类型的左值的输入输出表达式，作为这个左值的内存地址传入</li>
+<li>一个输入输出 <code>Type[]</code> 值，作为一个数组的起始指针传入，并且它的生命周期将在这个调用期间被延长</li>
+</ul>
+
+
+<p>如果您像这样声明了一个函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">//Swift</span>
+</span><span class='line'><span class="k">func</span> <span class="nf">takesAMutablePointer</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">CMutablePointer</span><span class="o">&lt;</span><span class="n">Float</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么您可以使用以下任何一种方式来调用这个函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">//Swift</span>
+</span><span class='line'><span class="k">var</span> <span class="nl">x</span><span class="p">:</span> <span class="n">Float</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'><span class="k">var</span> <span class="nl">p</span><span class="p">:</span> <span class="n">CMutablePointer</span><span class="o">&lt;</span><span class="n">Float</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nb">nil</span>
+</span><span class='line'><span class="k">var</span> <span class="nl">a</span><span class="p">:</span> <span class="n">Float</span><span class="p">[]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">takesAMutablePointer</span><span class="p">(</span><span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAMutablePointer</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAMutablePointer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAMutablePointer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当函数被声明使用一个<code>CMutableVoidPointer</code>参数，那么这个函数接受任何和<code>CMutablePointer&lt;Type&gt;</code>相似类型的<code>Type</code>操作数。</p>
+
+<p>如果您这样定义了一个函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">//Swift</span>
+</span><span class='line'><span class="k">func</span> <span class="nf">takesAMutableVoidPointer</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">CMutableVoidPointer</span><span class="p">)</span> <span class="p">{</span> <span class="cm">/* ... */</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么您可以使用以下任何一种方式来调用这个函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">//Swift</span>
+</span><span class='line'><span class="k">var</span> <span class="nl">x</span><span class="p">:</span> <span class="n">Float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">var</span> <span class="nl">p</span><span class="p">:</span> <span class="n">CMutablePointer</span><span class="o">&lt;</span><span class="n">Float</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">,</span> <span class="nl">q</span><span class="p">:</span> <span class="n">CMutablePointer</span><span class="o">&lt;</span><span class="n">Int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nb">nil</span>
+</span><span class='line'><span class="k">var</span> <span class="nl">a</span><span class="p">:</span> <span class="n">Float</span><span class="p">[]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="nl">b</span><span class="p">:</span> <span class="n">Int</span><span class="p">[]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">takesAMutableVoidPointer</span><span class="p">(</span><span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAMutableVoidPointer</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAMutableVoidPointer</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAMutableVoidPointer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAMutableVoidPointer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">y</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAMutableVoidPointer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAMutableVoidPointer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">b</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>C 常指针</h4>
+
+<p>当一个函数被声明为接受<code>CConstPointer&lt;Type&gt;</code>参数时，这个函数可以接受下列任何一个类型作为参数：</p>
+
+<ul>
+<li><code>nil</code>，作为空指针传入</li>
+<li>一个<code>CMutablePointer&lt;Type&gt;</code>, <code>CMutableVoidPointer</code>, <code>CConstPointer&lt;Type&gt;</code>, <code>CConstVoidPointer</code>,  或者在必要情况下转换成<code>CConstPointer&lt;Type&gt;</code>的<code>AutoreleasingUnsafePointer&lt;Type&gt;</code>值</li>
+<li>一个操作数是 <code>Type</code> 类型的左值的输入输出表达式，作为这个左值的内存地址传入</li>
+<li>一个<code>Type[]</code>数组值，作为一个数组的起始指针传入，并且它的生命周期将在这个调用期间被延长</li>
+</ul>
+
+
+<p>如果您这样定义了一个函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">//Swift</span>
+</span><span class='line'><span class="k">func</span> <span class="nf">takesAConstPointer</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">CConstPointer</span><span class="o">&lt;</span><span class="n">Float</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么您可以使用以下任何一种方式来调用这个函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">//Swift</span>
+</span><span class='line'><span class="k">var</span> <span class="nl">x</span><span class="p">:</span> <span class="n">Float</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'><span class="k">var</span> <span class="nl">p</span><span class="p">:</span> <span class="n">CConstPointer</span><span class="o">&lt;</span><span class="n">Float</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nb">nil</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">takesAConstPointer</span><span class="p">(</span><span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAConstPointer</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAConstPointer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAConstPointer</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当函数被声明使用一个<code>CConstVoidPointer</code>参数，那么这个函数接受任何和<code>CConstPointer&lt;Type&gt;</code> 相似类型的<code>Type</code>操作数。
+￼
+如果您这样定义了一个函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">//Swift</span>
+</span><span class='line'><span class="err">￼￼￼￼</span><span class="k">func</span> <span class="n">takesAConstVoidPointer</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">CConstVoidPointer</span><span class="p">)</span> <span class="p">{</span> <span class="cm">/* ... */</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么您可以使用以下任何一种方式来调用这个函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">//Swift</span>
+</span><span class='line'><span class="k">var</span> <span class="nl">x</span><span class="p">:</span> <span class="n">Float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">var</span> <span class="nl">p</span><span class="p">:</span> <span class="n">CConstPointer</span><span class="o">&lt;</span><span class="n">Float</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">,</span> <span class="nl">q</span><span class="p">:</span> <span class="n">CConstPointer</span><span class="o">&lt;</span><span class="n">Int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nb">nil</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">takesAConstVoidPointer</span><span class="p">(</span><span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAConstVoidPointer</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAConstVoidPointer</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAConstVoidPointer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAConstVoidPointer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">y</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAConstVoidPointer</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+</span><span class='line'><span class="n">takesAConstVoidPointer</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>自动释放不安全指针</h4>
+
+<p>当一个函数被声明为接受<code>AutoreleasingUnsafePointer&lt;Type&gt;</code>参数时，这个函数可以接受下列任何一个类型作为参数：</p>
+
+<ul>
+<li><code>nil</code>，作为空指针传入</li>
+<li>一个<code>AutoreleasingUnsafePointer&lt;Type&gt;</code>值</li>
+<li>其操作数是原始的，复制到一个临时的没有所有者的缓冲区的一个输入输出表达式，该缓冲区的地址传递给调用，并返回时，缓冲区中的值加载，保存，并重新分配到操作数。</li>
+</ul>
+
+
+<p><strong>注意：这个列表没有包含数组。</strong></p>
+
+<p>如果您这样定义了一个函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">//Swift</span>
+</span><span class='line'><span class="k">func</span> <span class="nf">takesAnAutoreleasingPointer</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">AutoreleasingUnsafePointer</span><span class="o">&lt;</span><span class="bp">NSDate</span><span class="o">?&gt;</span><span class="p">)</span> <span class="p">{</span> <span class="cm">/* ... */</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么您可以使用以下任何一种方式来调用这个函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">//Swift</span>
+</span><span class='line'><span class="k">var</span> <span class="nl">x</span><span class="p">:</span> <span class="bp">NSDate</span><span class="o">?</span> <span class="o">=</span> <span class="nb">nil</span>
+</span><span class='line'><span class="k">var</span> <span class="nl">p</span><span class="p">:</span> <span class="n">AutoreleasingUnsafePointer</span><span class="o">&lt;</span><span class="bp">NSDate</span><span class="o">?&gt;</span> <span class="o">=</span> <span class="nb">nil</span>
+</span><span class='line'><span class="err">￼￼￼￼￼</span>
+</span><span class='line'><span class="n">takesAnAutoreleasingPointer</span><span class="p">(</span><span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAnAutoreleasingPointer</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span><span class='line'><span class="n">takesAnAutoreleasingPointer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>注意：C 语言函数指针没有被 Swift 引进。</strong></p>
+
+<p><a name="global_constants"></a></p>
+
+<h3>全局常量</h3>
+
+<p>在 C 和 Objective-C 语言源文件中定义的全局常量会自动地被 Swift 编译引进并做为 Swift 的全局常量。</p>
+
+<p><a name="preprocessor_directives"></a></p>
+
+<h3>预处理指令</h3>
+
+<p>Swift 编译器不包含预处理器。取而代之的是，它充分利用了编译时属性，生成配置，和语言特性来完成相同的功能。因此，Swift 没有引进预处理指令。</p>
+
+<h4>简单宏</h4>
+
+<p>在 C 和 Objective-C，您通常使用的#define指令定义的一个宏常数，在 Swift，您可以使用全局常量来代替。例如：一个全局定义<code>#define FADE_ANIMATION_DURATION 0.35</code>，在 Swift 可以使用<code>let FADE_ANIMATION_DURATION = 0.35</code>来更好的表述。由于简单的用于定义常量的宏会被直接被映射成 Swift 全局量，Swift 编译器会自动引进在 C 或 Objective-C 源文件中定义的简单宏。</p>
+
+<h4>复杂宏</h4>
+
+<p>在 C 和 Objective-C 中使用的复杂宏在 Swift 中并没有与之对应的定义。复杂宏是那些不用来定义常量的宏，而是用来定义包含小括号（），函数的宏。您在 C 和 Objective-C 使用复杂的宏是用来避免类型检查的限制和相同代码的重复劳动。然而，宏也会产生Bug和重构的困难。在 Swift 中你可以直接使用函数和泛型来达到同样的效果。因此，在 C 和 Objective-C 源文件中定义的复杂宏在 Swift 是不能使用的。</p>
+
+<h4>编译配置</h4>
+
+<p>Swift 代码和 Objective-C 代码以不同的方式进行条件编译。Swift 代码可以根据生成配置的评价配进行有条件的编译。生成配置包括 <code>true</code> 和 <code>false</code> 字面值，命令行标志，和下表中的平台测试函数。您可以使用-D \&lt;＃Flag＃>指定命令行标志。</p>
+
+<table>
+<thead>
+<tr>
+<th> 函数 </th>
+<th> 有效参数 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> os() </td>
+<td> OSX, iOS </td>
+</tr>
+<tr>
+<td> arch() </td>
+<td> x86_64, arm, arm64, i386 </td>
+</tr>
+</tbody>
+</table>
+
+
+<blockquote><p>注意</p>
+
+<p>arch(arm) 的生成配置不会为64位 ARM 设备返回<code>true</code>，当代码运行在为32位的 iOS 模拟器器时，arch(i386) 的生成配置返回<code>true</code>。</p></blockquote>
+
+<p>一个简单的条件编译需要以下代码格式：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="cp">#if build configuration</span>
+</span><span class='line'>  <span class="n">statements</span>
+</span><span class='line'><span class="cp">#else</span>
+</span><span class='line'>  <span class="n">statements</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`</p>
+
+<p>一个由零个或多个有效的 Swift 语句声明的<code>statements</code>，可以包括表达式，语句和控制流语句。您可以添加额外的构建配置要求，条件编译说明用 &amp;&amp; 和 | | 操作符以及 ！ 操作符，添加条件控制块用 ＃elseif：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="cp">#if build configuration &amp;&amp; !build configuration</span>
+</span><span class='line'>  <span class="n">statements</span>
+</span><span class='line'><span class="cp">#elseif build configuration</span>
+</span><span class='line'>  <span class="n">statements</span>
+</span><span class='line'><span class="cp">#else</span>
+</span><span class='line'>  <span class="n">statements</span>
+</span><span class='line'><span class="cp">#endif </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>与 C 语言编译器的条件编译相反，Swift 条件编译语句必须完全是自包含和语法有效的代码块。这是因为 Swift 代码即使没有被编译，也要全部进行语法检查。</p>
+</div>
+
+</article>
+
+	<div class="bdsharebuttonbox"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["qzone","bdysc","renren","douban","fx","youdao","mail","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+<!--兼容版，可保证页面完全兼容-->
+<div id="SOHUCS"></div>
+<script>
+  (function(){
+    var appid = 'cyrof0xla',
+    conf = 'prod_33cb4369c37266cd8994da8878b17b87';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+  })()
+</script>
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+</body>
+</html>

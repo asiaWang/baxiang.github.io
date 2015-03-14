@@ -9,9 +9,9 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="Nov 14,&nbsp 2013 ios, security Comments iOS应用程序安全(3)-理解Objective-C Runtime 作者：Prateek Gianchandani
+	<meta name="description" content="Nov 14,&nbsp 2013 ios, security Comments iOS应用程序安全(8)-用Cycript进行Method Swizzling 作者：Prateek Gianchandani
 译者：吴发伟
-原文网址：http://resources.infosecinstitute. &hellip;">
+原文网址：http://resources. &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -152,23 +152,26 @@ Nov 14,&nbsp 2013  </div>
 
 </div>
 		
-			<span class="comments"><a href="/blog/ios-application-security-3.html#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/ios-application-security-8.html#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-3.html" itemprop="url">iOS应用程序安全(3)-理解Objective-C Runtime</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-8.html" itemprop="url">iOS应用程序安全(8)-用Cycript进行Method Swizzling</a></h1>
 	<div class="entry-content" itemprop="articleBody">
 		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-3-understanding-the-objective-c-runtime/">http://resources.infosecinstitute.com/ios-application-security-part-3-understanding-the-objective-c-runtime/</a><br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-8-method-swizzling-using-cycript/">http://resources.infosecinstitute.com/ios-application-security-part-8-method-swizzling-using-cycript/</a><br/>
 版权声明：自由转载-非商用-保持署名</p>
 
-<h3>引言</h3>
+<h2>引言</h2>
 
-<p>基本上所有的iOS应用都是用Objective-C编写的。所有这些应用都使用Cocoa，Cocoa在Objective-C上面，提供更高层次的API，使得Mac和iOS开发变得更容易一些。Cocoa也给应用提供了一个运行时环境。本文我们将着重理解Objective-C的运行时和关于内部函数如何运行的错综复杂的细节。这会让我们能够更深入的理解应用程序。</p>
+<p>在前面的文章当中，我们学习了如何在没有开发者证书的情况下安装自己的应用。本文我们将在一个例子程序上看如何用Cycript做method Swizzling。</p>
+
+<p>第一件事情就是下载Xcode例子工程。你可以从<a href="https://dl.dropboxusercontent.com/u/34557464/MethodSwizzlingDemo.zip">这</a>下载。或者你也可以从<a href="https://dl.dropboxusercontent.com/u/34557464/MethodSwizzlingDemo.ipa">这</a>下载二进制文件。如果你已经安装了Xcode，你可以用自签名证书来构建这个工程。上一篇文章详细介绍了如何做。如果你下载了ipa文件，你可以直接把它安装到你的越狱设备上。
+推荐你下载Xcode例子工程，看看源代码。</p>
 
 
 		
-		<a href="/blog/ios-application-security-3.html" class="more-link">继续阅读 &rarr;</a>
+		<a href="/blog/ios-application-security-8.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
@@ -198,27 +201,25 @@ Nov 14,&nbsp 2013  </div>
 
 </div>
 		
-			<span class="comments"><a href="/blog/ios-application-security-2.html#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/ios-application-security-7.html#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-2.html" itemprop="url">iOS应用程序安全(2)-获得iOS应用程序的类信息</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-7.html" itemprop="url">iOS应用程序安全(7)-不用证书安装应用到设备的方法</a></h1>
 	<div class="entry-content" itemprop="articleBody">
 		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-2-getting-class-information-of-ios-apps/">http://resources.infosecinstitute.com/ios-application-security-part-2-getting-class-information-of-ios-apps/</a><br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account/">http://resources.infosecinstitute.com/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account/</a><br/>
 版权声明：自由转载-非商用-保持署名</p>
 
-<h3>介绍</h3>
+<h2>引言</h2>
 
-<p>你是否下载过非常cool的app（不管它是预装应用还是从App store下载的应用），然后想知道它是如何编写的，它使用了哪些第3方库呢？是否想知道这个app内部代码是如何组织的？你是否想导出它内部的图片（images）、plist文件？如果答案是想的话，那你来对地方了，本文就将解答这些信息。</p>
+<p>通常情况下，如果你要在设备上测试应用，你需要每年花99美元注册成为开发者。对于想要学习iOS应用安全的人来说，能够在设备上运行并测试应用非常重要。对于不想在app store发布任何程序的人来说，每年99美元并不值得。本文我们将看看在没有注册成为开发者账号的情况下，如何在越狱设备上构建和安装应用。在接下来的文章中，我们将看看如何在设备上运行我们自己的应用，使用Cycript来做method swizzling和其它一些技巧。</p>
 
-<p>本文我们将分析应用（不管是预装应用还是从App store下载的应用）内部的类（class）是如何使用的，它的view controller使用的view的名称，它内部使用的库，甚至更复杂的，例如变量和方法的名称。我们将解密（decrypt）从App store下载的应用，导出它所有的image、plist文件。</p>
-
-<p>点击<a href="http://wufawei.com/2013/11/ios-application-security-1/">此</a>查看上一篇文章。</p>
+<p>本文将使用Xcode 4.5.2，设备是iOS5.1的系统。同样的技巧可能在其他版本的的iOS或者Xcode有效，但是也不一定。如果你在运行应用的时候遇到同样的问题，请留言，我会尽快回复。</p>
 
 
 		
-		<a href="/blog/ios-application-security-2.html" class="more-link">继续阅读 &rarr;</a>
+		<a href="/blog/ios-application-security-7.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
@@ -248,28 +249,117 @@ Nov 14,&nbsp 2013  </div>
 
 </div>
 		
-			<span class="comments"><a href="/blog/ios-application-security-1.html#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/ios-application-security-6.html#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-1.html" itemprop="url">iOS应用程序安全(1)-搭建移动渗透测试平台</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-6.html" itemprop="url">iOS应用程序安全(6)-iOS 7的新安全功能</a></h1>
 	<div class="entry-content" itemprop="articleBody">
 		<p>作者：Prateek Gianchandani<br/>
 译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-1-setting-up-a-mobile-pentesting-platform/">http://resources.infosecinstitute.com/ios-application-security-part-1-setting-up-a-mobile-pentesting-platform/</a></p>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-6-new-security-features-in-ios-7/">http://resources.infosecinstitute.com/ios-application-security-part-6-new-security-features-in-ios-7/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
 
-<h3>引言</h3>
+<h2>引言</h2>
 
-<p>在本系列文章中，我们将开始学习对iOS应用程序进行渗透测试和漏洞评估的一系列工具和技巧。</p>
+<p>我们都知道，苹果在WWDC 2013介绍了新的iOS系统,有着完全重新设计的用户界面。如果你还没看过，请看看WWDC 2013的视频。</p>
 
-<h3>越狱你的设备</h3>
-
-<p>如果你真的对iOS安全很感兴趣，有一个越狱设备是非常有必要的。在本节，我们将介绍如何越狱iOS设备。越狱之后有很多好处，你可以安装很多工具，例如nmap, metasploit，甚至在设备上运行自己写的python代码。想像一下，你在手掌中通过手持设备就能对网站进行漏洞扫描的能力还是很酷的。为了更多的了解越狱和这样做的好处，我推荐你看看<a href="http://www.ibtimes.com/why-jailbreak-your-iphone-5-reasons-you-should-download-evasi0n-jailbreak-ios-6-1080412">这篇文章</a>。</p>
-
-<p>越狱非常简单，下载一个越狱软件，然后点击越狱就可以了。如果你的设备运行的是iOS 6.x的系统，我推荐你使用<a href="http://evasi0n.com/">evasi0n</a>，如果你的设备运行的是iOS 5.x，那推荐用<a href="http://www.redsn0w.us/">redsn0w</a>。</p>
+<p>与本系列的其他文章相比，我们在本文将稍微偏离下主题。在本文中，我们将介绍在iOS7中引入的新安全功能。</p>
 
 
 		
-		<a href="/blog/ios-application-security-1.html" class="more-link">继续阅读 &rarr;</a>
+		<a href="/blog/ios-application-security-6.html" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 14,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/security/'>security</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/ios-application-security-5.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-5.html" itemprop="url">iOS应用程序安全(5)-用Cycript做运行时分析的高级技巧(Yahoo天气应用)</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app/">http://resources.infosecinstitute.com/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<h2>引言</h2>
+
+<p>在前一篇文章中，我们学习了如何在设备上安装使用Cycript。本文我们将使用一些运行时分析的高级技巧。我们将看看如何获得特定类（方法，实例变量）的值并且在运行时修改它们。</p>
+
+
+		
+		<a href="/blog/ios-application-security-5.html" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 14,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/security/'>security</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/ios-application-security-4.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-4.html" itemprop="url">iOS应用程序安全(4)-用Cycript进行运行时分析(Yahoo天气应用)</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-4-runtime-analysis-using-cycript-yahoo-weather-app/">http://resources.infosecinstitute.com/ios-application-security-part-4-runtime-analysis-using-cycript-yahoo-weather-app/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<h2>引言</h2>
+
+<p>在前面的文章当中，我们学到了用Objective－C编写的、使用Cocoa framework的iOS应用的运行时能力。本文，我们将会使用一个很基本的工具Cycript来分析和修改iOS程序的运行时。本文将使用Yahoo 天气应用作为例子。</p>
+
+
+		
+		<a href="/blog/ios-application-security-4.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
@@ -282,6 +372,8 @@ Nov 14,&nbsp 2013  </div>
     
        <a href="/pages/9" class="prev">上一页</a>
     
+    
+        <a href="/pages/11" class="next">下一页</a>
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
