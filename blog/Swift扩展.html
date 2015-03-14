@@ -1,0 +1,511 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>swift扩展 - 小巴童鞋</title>
+	<meta name="author" content="小巴">
+
+	
+	<meta name="description" content="Swift扩展 扩展就是向一个已有的类、结构体或枚举类型添加新功能（functionality）。这包括在没有权限获取原始源代码的情况下扩展类型的能力（即逆向建模）。扩展和 Objective-C 中的分类（categories）类似。（不过与Objective-C不同的是，Swift &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://baxiang123.com//blog/Swift%E6%89%A9%E5%B1%95.html">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+	<link href="/stylesheets/google-fonts.css" rel="stylesheet" type="text/css">
+	
+	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<meta name="baidu-site-verification" content="tXGpoDjJRv" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script type="text/javascript">
+ function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+ $(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+ });
+ </script>
+ 
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script async src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">BaXiang&#8217;s technology blog</p>
+<nav id="main-nav"><!--ul class="main">
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
+</ul><!-->
+<ul class="main-navigation">
+  <li><a href="/">Blog | 博客</a></li>
+  <li><a href="/blog/archives">Archives | 目录</a></li>
+  <li><a href="/blog/categories">Categories  | 分类</a></li>
+  <li><a href="/aboutme/">About Me | 关于</a></li>
+  
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<br/>
+	<div class="social">
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
+        
+		
+		
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Swift扩展</h1>
+	<div class="entry-content" itemprop="articleBody"><p><em>扩展</em>就是向一个已有的类、结构体或枚举类型添加新功能（functionality）。这包括在没有权限获取原始源代码的情况下扩展类型的能力（即<em>逆向建模</em>）。扩展和 Objective-C 中的分类（categories）类似。（不过与Objective-C不同的是，Swift 的扩展没有名字。）</p>
+
+
+<p>Swift 中的扩展可以：</p>
+
+
+<ul>
+<li>添加计算型属性和计算静态属性</li>
+<li>定义实例方法和类型方法</li>
+<li>提供新的构造器</li>
+<li>定义下标</li>
+<li>定义和使用新的嵌套类型</li>
+<li>使一个已有类型符合某个接口</li>
+</ul>
+
+
+<blockquote>
+<p>注意：</p>
+<p>如果你定义了一个扩展向一个已有类型添加新功能，那么这个新功能对该类型的所有已有实例中都是可用的，即使它们是在你的这个扩展的前面定义的。</p>
+</blockquote>
+
+
+<p><a name="extension_syntax"></a></p>
+
+
+<h2 id="-extension-syntax-">扩展语法（Extension Syntax）</h2>
+
+
+<p>声明一个扩展使用关键字<code>extension</code>：</p>
+
+
+<pre><code>extension SomeType {
+    // 加到SomeType的新功能写到这里
+}
+</code></pre>
+
+
+<p>一个扩展可以扩展一个已有类型，使其能够适配一个或多个协议（protocol）。当这种情况发生时，接口的名字应该完全按照类或结构体的名字的方式进行书写：</p>
+
+
+<pre><code>extension SomeType: SomeProtocol, AnotherProctocol {
+    // 协议实现写到这里
+}
+</code></pre>
+
+
+<p>按照这种方式添加的协议遵循者（protocol conformance）被称之为<a href="21_Protocols.html#adding_protocol_conformance_with_an_extension">在扩展中添加协议遵循者</a></p>
+
+
+<p><a name="computed_properties"></a></p>
+
+
+<h2 id="-computed-properties-">计算型属性（Computed Properties）</h2>
+
+
+<p>扩展可以向已有类型添加计算型实例属性和计算型类型属性。下面的例子向 Swift 的内建<code>Double</code>类型添加了5个计算型实例属性，从而提供与距离单位协作的基本支持。</p>
+
+
+<pre><code>extension Double {
+    var km: Double { return self * 1_000.0 }
+    var m : Double { return self }
+    var cm: Double { return self / 100.0 }
+    var mm: Double { return self / 1_000.0 }
+    var ft: Double { return self / 3.28084 }
+}
+let oneInch = 25.4.mm
+println("One inch is \(oneInch) meters")
+// 打印输出："One inch is 0.0254 meters"
+let threeFeet = 3.ft
+println("Three feet is \(threeFeet) meters")
+// 打印输出："Three feet is 0.914399970739201 meters"
+</code></pre>
+
+
+<p>这些计算属性表达的含义是把一个<code>Double</code>型的值看作是某单位下的长度值。即使它们被实现为计算型属性，但这些属性仍可以接一个带有dot语法的浮点型字面值，而这恰恰是使用这些浮点型字面量实现距离转换的方式。</p>
+
+
+<p>在上述例子中，一个<code>Double</code>型的值<code>1.0</code>被用来表示“1米”。这就是为什么<code>m</code>计算型属性返回<code>self</code>——表达式<code>1.m</code>被认为是计算<code>1.0</code>的<code>Double</code>值。</p>
+
+
+<p>其它单位则需要一些转换来表示在米下测量的值。1千米等于1,000米，所以<code>km</code>计算型属性要把值乘以<code>1_000.00</code>来转化成单位米下的数值。类似地，1米有3.28024英尺，所以<code>ft</code>计算型属性要把对应的<code>Double</code>值除以<code>3.28024</code>来实现英尺到米的单位换算。</p>
+
+
+<p>这些属性是只读的计算型属性，所有从简考虑它们不用<code>get</code>关键字表示。它们的返回值是<code>Double</code>型，而且可以用于所有接受<code>Double</code>的数学计算中：</p>
+
+
+<pre><code>let aMarathon = 42.km + 195.m
+println("A marathon is \(aMarathon) meters long")
+// 打印输出："A marathon is 42495.0 meters long"
+</code></pre>
+
+
+<blockquote>
+<p>注意：</p>
+<p>扩展可以添加新的计算属性，但是不可以添加存储属性，也不可以向已有属性添加属性观测器(property observers)。</p>
+</blockquote>
+
+
+<p><a name="initializers"></a></p>
+
+
+<h2 id="-initializers-">构造器（Initializers）</h2>
+
+
+<p>扩展可以向已有类型添加新的构造器。这可以让你扩展其它类型，将你自己的定制类型作为构造器参数，或者提供该类型的原始实现中没有包含的额外初始化选项。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>如果你使用扩展向一个值类型添加一个构造器，该构造器向所有的存储属性提供默认值，而且没有定义任何定制构造器（custom initializers），那么对于来自你的扩展构造器中的值类型，你可以调用默认构造器(default initializers)和成员级构造器(memberwise initializers)。
+正如在值类型的构造器授权中描述的，如果你已经把构造器写成值类型原始实现的一部分，上述规则不再适用。</p>
+</blockquote>
+
+
+<p>下面的例子定义了一个用于描述几何矩形的定制结构体<code>Rect</code>。这个例子同时定义了两个辅助结构体<code>Size</code>和<code>Point</code>，它们都把<code>0.0</code>作为所有属性的默认值：</p>
+
+
+<pre><code>struct Size {
+    var width = 0.0, height = 0.0
+}
+struct Point {
+    var x = 0.0, y = 0.0
+}
+struct Rect {
+    var origin = Point()
+    var size = Size()
+}
+</code></pre>
+
+
+<p>因为结构体<code>Rect</code>提供了其所有属性的默认值，所以正如默认构造器中描述的，它可以自动接受一个默认的构造器和一个成员级构造器。这些构造器可以用于构造新的<code>Rect</code>实例：</p>
+
+
+<pre><code>let defaultRect = Rect()
+let memberwiseRect = Rect(origin: Point(x: 2.0, y: 2.0),
+    size: Size(width: 5.0, height: 5.0))
+</code></pre>
+
+
+<p>你可以提供一个额外的使用特殊中心点和大小的构造器来扩展<code>Rect</code>结构体：</p>
+
+
+<pre><code>extension Rect {
+    init(center: Point, size: Size) {
+        let originX = center.x - (size.width / 2)
+        let originY = center.y - (size.height / 2)
+        self.init(origin: Point(x: originX, y: originY), size: size)
+    }
+}
+</code></pre>
+
+
+<p>这个新的构造器首先根据提供的<code>center</code>和<code>size</code>值计算一个合适的原点。然后调用该结构体自动的成员构造器<code>init(origin:size:)</code>，该构造器将新的原点和大小存到了合适的属性中：</p>
+
+
+<pre><code>let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
+    size: Size(width: 3.0, height: 3.0))
+// centerRect的原点是 (2.5, 2.5)，大小是 (3.0, 3.0)
+</code></pre>
+
+
+<blockquote>
+<p>注意：</p>
+<p>如果你使用扩展提供了一个新的构造器，你依旧有责任保证构造过程能够让所有实例完全初始化。</p>
+</blockquote>
+
+
+<p><a name="methods"></a></p>
+
+
+<h2 id="-methods-">方法（Methods）</h2>
+
+
+<p>扩展可以向已有类型添加新的实例方法和类型方法。下面的例子向<code>Int</code>类型添加一个名为<code>repetitions</code>的新实例方法：</p>
+
+
+<pre><code>extension Int {
+    func repetitions(task: () -&gt; ()) {
+        for i in 0..self {
+            task()
+        }
+    }
+}
+</code></pre>
+
+
+<p>这个<code>repetitions</code>方法使用了一个<code>() -&gt; ()</code>类型的单参数（single argument），表明函数没有参数而且没有返回值。</p>
+
+
+<p>定义该扩展之后，你就可以对任意整数调用<code>repetitions</code>方法,实现的功能则是多次执行某任务：</p>
+
+
+<pre><code>3.repetitions({
+    println("Hello!")
+    })
+// Hello!
+// Hello!
+// Hello!
+</code></pre>
+
+
+<p>可以使用 trailing 闭包使调用更加简洁：</p>
+
+
+<pre><code>3.repetitions{
+    println("Goodbye!")
+}
+// Goodbye!
+// Goodbye!
+// Goodbye!
+</code></pre>
+
+
+<p><a name="mutating_instance_methods"></a></p>
+
+
+<h3 id="-mutating-instance-methods-">修改实例方法（Mutating Instance Methods）</h3>
+
+
+<p>通过扩展添加的实例方法也可以修改该实例本身。结构体和枚举类型中修改<code>self</code>或其属性的方法必须将该实例方法标注为<code>mutating</code>，正如来自原始实现的修改方法一样。</p>
+
+
+<p>下面的例子向Swift的<code>Int</code>类型添加了一个新的名为<code>square</code>的修改方法，来实现一个原始值的平方计算：</p>
+
+
+<pre><code>extension Int {
+    mutating func square() {
+        self = self * self
+    }
+}
+var someInt = 3
+someInt.square()
+// someInt 现在值是 9
+</code></pre>
+
+
+<p><a name="subscripts"></a></p>
+
+
+<h2 id="-subscripts-">下标（Subscripts）</h2>
+
+
+<p>扩展可以向一个已有类型添加新下标。这个例子向Swift内建类型<code>Int</code>添加了一个整型下标。该下标<code>[n]</code>返回十进制数字从右向左数的第n个数字</p>
+
+
+<ul>
+<li>123456789[0]返回9</li>
+<li>123456789[1]返回8</li>
+</ul>
+
+
+<p>&#8230;等等</p>
+
+
+<pre><code>extension Int {
+    subscript(digitIndex: Int) -&gt; Int {
+        var decimalBase = 1
+            for _ in 1...digitIndex {
+                decimalBase *= 10
+            }
+        return (self / decimalBase) % 10
+    }
+}
+746381295[0]
+// returns 5
+746381295[1]
+// returns 9
+746381295[2]
+// returns 2
+746381295[8]
+// returns 7
+</code></pre>
+
+
+<p>如果该<code>Int</code>值没有足够的位数，即下标越界，那么上述实现的下标会返回0，因为它会在数字左边自动补0：</p>
+
+
+<pre><code>746381295[9]
+//returns 0, 即等同于：
+0746381295[9]
+</code></pre>
+
+
+<p><a name="nested_types"></a></p>
+
+
+<h2 id="-nested-types-">嵌套类型（Nested Types）</h2>
+
+
+<p>扩展可以向已有的类、结构体和枚举添加新的嵌套类型：</p>
+
+
+<pre><code>extension Character {
+    enum Kind {
+        case Vowel, Consonant, Other
+    }
+    var kind: Kind {
+        switch String(self).lowercaseString {
+        case "a", "e", "i", "o", "u":
+            return .Vowel
+        case "b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
+             "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z":
+            return .Consonant
+        default:
+            return .Other
+        }
+    }
+}
+</code></pre>
+
+
+<p>该例子向<code>Character</code>添加了新的嵌套枚举。这个名为<code>Kind</code>的枚举表示特定字符的类型。具体来说，就是表示一个标准的拉丁脚本中的字符是元音还是辅音（不考虑口语和地方变种），或者是其它类型。</p>
+
+
+<p>这个类子还向<code>Character</code>添加了一个新的计算实例属性，即<code>kind</code>，用来返回合适的<code>Kind</code>枚举成员。</p>
+
+
+<p>现在，这个嵌套枚举可以和一个<code>Character</code>值联合使用了：</p>
+
+
+<pre><code>func printLetterKinds(word: String) {
+    println("'\\(word)' is made up of the following kinds of letters:")
+    for character in word {
+        switch character.kind {
+        case .Vowel:
+            print("vowel ")
+        case .Consonant:
+            print("consonant ")
+        case .Other:
+            print("other ")
+        }
+    }
+    print("\n")
+}
+printLetterKinds("Hello")
+// 'Hello' is made up of the following kinds of letters:
+// consonant vowel consonant consonant vowel
+</code></pre>
+
+
+<p>函数<code>printLetterKinds</code>的输入是一个<code>String</code>值并对其字符进行迭代。在每次迭代过程中，考虑当前字符的<code>kind</code>计算属性，并打印出合适的类别描述。所以<code>printLetterKinds</code>就可以用来打印一个完整单词中所有字母的类型，正如上述单词<code>"hello"</code>所展示的。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>由于已知<code>character.kind</code>是<code>Character.Kind</code>型，所以<code>Character.Kind</code>中的所有成员值都可以使用<code>switch</code>语句里的形式简写，比如使用 <code>.Vowel</code>代替<code>Character.Kind.Vowel</code></p>
+</blockquote>
+
+</div>
+
+</article>
+
+	<div class="bdsharebuttonbox"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["qzone","bdysc","renren","douban","fx","youdao","mail","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+<!--兼容版，可保证页面完全兼容-->
+<div id="SOHUCS"></div>
+<script>
+  (function(){
+    var appid = 'cyrof0xla',
+    conf = 'prod_33cb4369c37266cd8994da8878b17b87';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+  })()
+</script>
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+</body>
+</html>

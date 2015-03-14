@@ -1,0 +1,265 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>swift类型嵌套 - 小巴童鞋</title>
+	<meta name="author" content="小巴">
+
+	
+	<meta name="description" content="Swift类型嵌套 枚举类型常被用于实现特定类或结构体的功能。也能够在有多种变量类型的环境中，方便地定义通用类或结构体来使用，为了实现这种功能，Swift允许你定义类型嵌套，可以在枚举类型、类和结构体中定义支持嵌套的类型。 要在一个类型中嵌套另一个类型，将需要嵌套的类型的定义写在被嵌套类型的区域 &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://baxiang123.com//blog/Swift%E7%B1%BB%E5%9E%8B%E5%B5%8C%E5%A5%97.html">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+	<link href="/stylesheets/google-fonts.css" rel="stylesheet" type="text/css">
+	
+	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<meta name="baidu-site-verification" content="tXGpoDjJRv" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script type="text/javascript">
+ function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+ $(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+ });
+ </script>
+ 
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script async src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">BaXiang&#8217;s technology blog</p>
+<nav id="main-nav"><!--ul class="main">
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
+</ul><!-->
+<ul class="main-navigation">
+  <li><a href="/">Blog | 博客</a></li>
+  <li><a href="/blog/archives">Archives | 目录</a></li>
+  <li><a href="/blog/categories">Categories  | 分类</a></li>
+  <li><a href="/aboutme/">About Me | 关于</a></li>
+  
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<br/>
+	<div class="social">
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
+        
+		
+		
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Swift类型嵌套</h1>
+	<div class="entry-content" itemprop="articleBody"><p>枚举类型常被用于实现特定类或结构体的功能。也能够在有多种变量类型的环境中，方便地定义通用类或结构体来使用，为了实现这种功能，Swift允许你定义类型嵌套，可以在枚举类型、类和结构体中定义支持嵌套的类型。</p>
+
+
+<p>要在一个类型中嵌套另一个类型，将需要嵌套的类型的定义写在被嵌套类型的区域{}内，而且可以根据需要定义多级嵌套。</p>
+
+
+<p><a name="nested_types_in_action"></a></p>
+
+
+<h2 id="-">类型嵌套实例</h2>
+
+
+<p>下面这个例子定义了一个结构体<code>BlackjackCard</code>(二十一点)，用来模拟<code>BlackjackCard</code>中的扑克牌点数。<code>BlackjackCard</code>结构体包含2个嵌套定义的枚举类型<code>Suit</code> 和 <code>Rank</code>。</p>
+
+
+<p>在<code>BlackjackCard</code>规则中，<code>Ace</code>牌可以表示1或者11，<code>Ace</code>牌的这一特征用一个嵌套在枚举型<code>Rank</code>的结构体<code>Values</code>来表示。</p>
+
+
+<pre><code>struct BlackjackCard {
+    // 嵌套定义枚举型Suit
+    enum Suit: Character {
+       case Spades = "♠", Hearts = "♡", Diamonds = "♢", Clubs = "♣"
+   }
+    // 嵌套定义枚举型Rank
+    enum Rank: Int {
+       case Two = 2, Three, Four, Five, Six, Seven, Eight, Nine, Ten
+       case Jack, Queen, King, Ace
+       struct Values {
+           let first: Int, second: Int?
+       }
+       var values: Values {
+        switch self {
+        case .Ace:
+            return Values(first: 1, second: 11)
+        case .Jack, .Queen, .King:
+            return Values(first: 10, second: nil)
+        default:
+            return Values(first: self.toRaw(), second: nil)
+            }
+       }
+    }
+    // BlackjackCard 的属性和方法
+    let rank: Rank, suit: Suit
+    var description: String {
+    var output = "suit is \(suit.toRaw()),"
+        output += " value is \(rank.values.first)"
+        if let second = rank.values.second {
+            output += " or \(second)"
+        }
+        return output
+    }
+}
+</code></pre>
+
+
+<p>枚举型的<code>Suit</code>用来描述扑克牌的四种花色，并分别用一个<code>Character</code>类型的值代表花色符号。</p>
+
+
+<p>枚举型的<code>Rank</code>用来描述扑克牌从<code>Ace</code>~10,<code>J</code>,<code>Q</code>,<code>K</code>,13张牌，并分别用一个<code>Int</code>类型的值表示牌的面值。(这个<code>Int</code>类型的值不适用于<code>Ace</code>,<code>J</code>,<code>Q</code>,<code>K</code>的牌)。</p>
+
+
+<p>如上文所提到的，枚举型<code>Rank</code>在自己内部定义了一个嵌套结构体<code>Values</code>。这个结构体包含两个变量，只有<code>Ace</code>有两个数值，其余牌都只有一个数值。结构体<code>Values</code>中定义的两个属性：</p>
+
+
+<p><code>first</code>, 为<code>Int</code>
+<code>second</code>, 为 <code>Int?</code>, 或 “optional <code>Int</code>”</p>
+
+
+<p><code>Rank</code>定义了一个计算属性<code>values</code>，这个计算属性会根据牌的面值，用适当的数值去初始化<code>Values</code>实例，并赋值给<code>values</code>。对于<code>J</code>,<code>Q</code>,<code>K</code>,<code>Ace</code>会使用特殊数值，对于数字面值的牌使用<code>Int</code>类型的值。</p>
+
+
+<p><code>BlackjackCard</code>结构体自身有两个属性—<code>rank</code>与<code>suit</code>，也同样定义了一个计算属性<code>description</code>，<code>description</code>属性用<code>rank</code>和<code>suit</code>的中内容来构建对这张扑克牌名字和数值的描述，并用可选类型<code>second</code>来检查是否存在第二个值，若存在，则在原有的描述中增加对第二数值的描述。</p>
+
+
+<p>因为<code>BlackjackCard</code>是一个没有自定义构造函数的结构体，在<a href="https://github.com/CocoaChina-editors/Welcome-to-Swift/blob/master/The%20Swift%20Programming%20Language/02Language%20Guide/14Initialization.md" target="_blank">Memberwise Initializers for Structure Types</a>中知道结构体有默认的成员构造函数，所以你可以用默认的<code>initializer</code>去初始化新的常量<code>theAceOfSpades</code>:</p>
+
+
+<pre><code>let theAceOfSpades = BlackjackCard(rank: .Ace, suit: .Spades)
+println("theAceOfSpades: \(theAceOfSpades.description)")
+// 打印出 "theAceOfSpades: suit is ♠, value is 1 or 11"
+</code></pre>
+
+
+<p>尽管<code>Rank</code>和<code>Suit</code>嵌套在<code>BlackjackCard</code>中，但仍可被引用，所以在初始化实例时能够通过枚举类型中的成员名称单独引用。在上面的例子中<code>description</code>属性能正确得输出对<code>Ace</code>牌有1和11两个值。</p>
+
+
+<p><a name="referring_to_nested_types"></a></p>
+
+
+<h2 id="-">类型嵌套的引用</h2>
+
+
+<p>在外部对嵌套类型的引用，以被嵌套类型的名字为前缀，加上所要引用的属性名：</p>
+
+
+<pre><code>let heartsSymbol = BlackjackCard.Suit.Hearts.toRaw()
+// 红心的符号 为 "♡"
+</code></pre>
+
+
+<p>对于上面这个例子，这样可以使<code>Suit</code>, <code>Rank</code>, 和 <code>Values</code>的名字尽可能的短，因为它们的名字会自然的由被定义的上下文来限定。</p>
+
+</div>
+
+</article>
+
+	<div class="bdsharebuttonbox"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["qzone","bdysc","renren","douban","fx","youdao","mail","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+<!--兼容版，可保证页面完全兼容-->
+<div id="SOHUCS"></div>
+<script>
+  (function(){
+    var appid = 'cyrof0xla',
+    conf = 'prod_33cb4369c37266cd8994da8878b17b87';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+  })()
+</script>
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+</body>
+</html>

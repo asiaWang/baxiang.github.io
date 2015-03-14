@@ -9,9 +9,7 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="Nov 15,&nbsp 2013 ios, security Comments iOS应用程序安全(16)-使用iNalyzer对iOS应用进行动态分析 作者：Prateek Gianchandani
-译者：吴发伟
-原文网址：http://resources.infosecinstitute. &hellip;">
+	<meta name="description" content="Nov 27,&nbsp 2014 swift Comments Swift类和结构体 类和结构体是人们构建代码所用的一种通用且灵活的构造体。为了在类和结构体中实现各种功能，我们必须要严格按照对于常量，变量以及函数所规定的语法规则来定义属性和添加方法。 与其他编程语言所不同的是，Swift &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -143,32 +141,588 @@ var _hmt = _hmt || [];
 
 
 
-Nov 15,&nbsp 2013  </div>
+Nov 27,&nbsp 2014  </div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/security/'>security</a>
+	<a class='category' href='/blog/categories/swift/'>swift</a>
 
 
 </div>
 		
-			<span class="comments"><a href="/blog/ios-application-security-16.html#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/Swift%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93.html#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-16.html" itemprop="url">iOS应用程序安全(16)-使用iNalyzer对iOS应用进行动态分析</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/Swift%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93.html" itemprop="url">Swift类和结构体</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-app-security-part-16-runtime-analysis-of-ios-apps-using-inalyzer/">http://resources.infosecinstitute.com/ios-app-security-part-16-runtime-analysis-of-ios-apps-using-inalyzer/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
+		<p>类和结构体是人们构建代码所用的一种通用且灵活的构造体。为了在类和结构体中实现各种功能，我们必须要严格按照对于常量，变量以及函数所规定的语法规则来定义属性和添加方法。</p>
 
-<p>上一篇文章我们看到了如何使用iNalyzer对iOS应用进行静态分析。本文我们将看看如何用iNalyer对iOS应用进行运行时分析。我们能够在运行时调用方法，能够在应用的某个特殊时间找出特定实例变量的值，基本上能做我们用Cycript做的所有事情。</p>
 
-<p>在上一篇文章当中，我们成功的用Doxygen生成了html文件，并且打开它看到了关于这个应用的类信息和其他信息。我们将使用Firefox浏览器进行运行时分析。这个工具的开发者推荐我再进行运行时分析的时候使用Firefox浏览器，因为其它浏览器用起来可能会有问题。 不过，对我来说，在chrome上好像也工作正常。</p>
+<p>与其他编程语言所不同的是，Swift 并不要求你为自定义类和结构去创建独立的接口和实现文件。你所要做的是在一个单一文件中定义一个类或者结构体，系统将会自动生成面向其它代码的外部接口。</p>
+
+
+<blockquote>
+<p> 注意：</p>
+<p>通常一个<code>类</code>的实例被称为<code>对象</code>。然而在Swift 中，类和结构体的关系要比在其他语言中更加的密切，本章中所讨论的大部分功能都可以用在类和结构体上。因此，我们会主要使用<code>实例</code>而不是<code>对象</code>。</p>
+</blockquote>
+
+
+<p><a name="comparing_classes_and_structures"></a></p>
+
+
+<h3 id="-">类和结构体对比</h3>
+
+
+<p>Swift 中类和结构体有很多共同点。共同处在于：</p>
+
+
+<ul>
+<li>定义属性用于储存值</li>
+<li>定义方法用于提供功能</li>
+<li>定义下标用于通过下标语法访问值</li>
+<li>定义初始化器用于生成初始化值</li>
+<li>通过扩展以增加默认实现的功能</li>
+<li>符合协议以对某类提供标准功能</li>
+</ul>
+
+
+<p>更多信息请参见 <a href="10_Properties.html">属性</a>，<a href="11_Methods.html">方法</a>，<a href="12_Subscripts.html">下标</a>，<a href="14_Initialization.html">初始过程</a>，<a href="20_Extensions.html">扩展</a>，和<a href="21_Protocols.html">协议</a>。</p>
+
+
+<p>与结构体相比，类还有如下的附加功能：</p>
+
+
+<ul>
+<li>继承允许一个类继承另一个类的特征</li>
+<li>类型转换允许在运行时检查和解释一个类实例的类型</li>
+<li>取消初始化器允许一个类实例释放任何其所被分配的资源</li>
+<li>引用计数允许对一个类的多次引用</li>
+</ul>
+
+
+<p>更多信息请参见<a href="http://" target="_blank">继承</a>，<a href="http://" target="_blank">类型转换</a>，<a href="http://" target="_blank">初始化</a>，和<a href="http://" target="_blank">自动引用计数</a>。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>结构体总是通过被复制的方式在代码中传递，因此请不要使用引用计数。</p>
+</blockquote>
+
+
+<h3 id="-">定义</h3>
+
+
+<p>类和结构体有着类似的定义方式。我们通过关键字<code>class</code>和<code>struct</code>来分别表示类和结构体，并在一对大括号中定义它们的具体内容：</p>
+
+
+<pre><code>class SomeClass {
+    // class definition goes here
+}
+struct SomeStructure {
+    // structure definition goes here
+}
+</code></pre>
+
+
+<blockquote>
+<p> 注意：</p>
+<p>在你每次定义一个新类或者结构体的时候，实际上你是有效地定义了一个新的 Swift 类型。因此请使用 <code>UpperCamelCase</code> 这种方式来命名（如 <code>SomeClass</code> 和<code>SomeStructure</code>等），以便符合标准Swift 类型的大写命名风格（如<code>String</code>，<code>Int</code>和<code>Bool</code>）。相反的，请使用<code>lowerCamelCase</code>这种方式为属性和方法命名（如<code>framerate</code>和<code>incrementCount</code>），以便和类区分。</p>
+</blockquote>
+
+
+<p>以下是定义结构体和定义类的示例：</p>
+
+
+<pre><code>struct Resolution {
+    var width = 0
+    var heigth = 0
+}
+class VideoMode {
+    var resolution = Resolution()
+    var interlaced = false
+    var frameRate = 0.0
+    var name: String?
+}
+</code></pre>
+
+
+<p>在上面的示例中我们定义了一个名为<code>Resolution</code>的结构体，用来描述一个显示器的像素分辨率。这个结构体包含了两个名为<code>width</code>和<code>height</code>的储存属性。储存属性是捆绑和储存在类或结构体中的常量或变量。当这两个属性被初始化为整数<code>0</code>的时候，它们会被推断为<code>Int</code>类型。</p>
+
+
+<p>在上面的示例中我们还定义了一个名为<code>VideoMode</code>的类，用来描述一个视频显示器的特定模式。这个类包含了四个储存属性变量。第一个是<code>分辨率</code>，它被初始化为一个新的<code>Resolution</code>结构体的实例，具有<code>Resolution</code>的属性类型。新<code>VideoMode</code>实例同时还会初始化其它三个属性，它们分别是，初始值为<code>false</code>(意为“non-interlaced video”)的<code>inteflaced</code>，回放帧率初始值为<code>0.0</code>的<code>frameRate</code>和值为可选<code>String</code>的<code>name</code>。<code>name</code>属性会被自动赋予一个默认值<code>nil</code>，意为“没有<code>name</code>值”，因它是一个可选类型。</p>
+
+
+<h3 id="-">类和结构体实例</h3>
+
+
+<p><code>Resolution</code>结构体和<code>VideoMode</code>类的定义仅描述了什么是<code>Resolution</code>和<code>VideoMode</code>。它们并没有描述一个特定的分辨率（resolution）或者视频模式（video mode）。为了描述一个特定的分辨率或者视频模式，我们需要生成一个它们的实例。</p>
+
+
+<p>生成结构体和类实例的语法非常相似：</p>
+
+
+<pre><code>let someResolution = Resolution()
+let someVideoMode = VideoMode()
+</code></pre>
+
+
+<p>结构体和类都使用初始化器语法来生成新的实例。初始化器语法的最简单形式是在结构体或者类的类型名称后跟随一个空括弧，如<code>Resolution()</code>或<code>VideoMode()</code>。通过这种方式所创建的类或者结构体实例，其属均会被初始化为默认值。<a href="14_Initialization.html">构造过程</a>章节会对类和结构体的初始化进行更详细的讨论。</p>
+
+
+<h3 id="-">属性访问</h3>
+
+
+<p>通过使用<em>点语法</em>（<em>dot syntax</em>）,你可以访问实例中所含有的属性。其语法规则是，实例名后面紧跟属性名，两者通过点号(.)连接：</p>
+
+
+<pre><code>println("The width of someResolution is \(someResolution.width)")
+// 输出 "The width of someResolution is 0"
+</code></pre>
+
+
+<p>在上面的例子中，<code>someResolution.width</code>引用<code>someResolution</code>的<code>width</code>属性，返回<code>width</code>的初始值<code>0</code>。</p>
+
+
+<p>你也可以访问子属性，如何<code>VideoMode</code>中<code>Resolution</code>属性的<code>width</code>属性：</p>
+
+
+<pre><code>println("The width of someVideoMode is \(someVideoMode.resolution.width)")
+// 输出 "The width of someVideoMode is 0"
+</code></pre>
+
+
+<p>你也可以使用点语法为属性变量赋值：</p>
+
+
+<pre><code>someVideoMode.resolution.width = 12880
+println("The width of someVideoMode is now \(someVideoMode.resolution.width)")
+// 输出 "The width of someVideoMode is now 1280"
+</code></pre>
+
+
+<blockquote>
+<p> 注意：</p>
+<p>与 Objective-C 语言不同的是，Swift 允许直接设置结构体属性的子属性。上面的最后一个例子，就是直接设置了<code>someVideoMode</code>中<code>resolution</code>属性的<code>width</code>这个子属性，以上操作并不需要从新设置<code>resolution</code>属性。</p>
+</blockquote>
+
+
+<h3 id="-">结构体类型的成员逐一初始化器</h3>
+
+
+<p>//Memberwise Initializers for structure Types</p>
+
+
+<p>所有结构体都有一个自动生成的成员逐一初始化器，用于初始化新结构体实例中成员的属性。新实例中各个属性的初始值可以通过属性的名称传递到成员逐一初始化器之中：</p>
+
+
+<pre><code>let vga = resolution（width:640, heigth: 480）
+</code></pre>
+
+
+<p>与结构体不同，类实例没有默认的成员逐一初始化器。<a href="14_Initialization.html">构造过程</a>章节会对初始化器进行更详细的讨论。</p>
+
+
+<p><a name="structures_and_enumerations_are_value_types"></a></p>
+
+
+<h2 id="-">结构体和枚举是值类型</h2>
+
+
+<p>值类型被赋予给一个变量，常数或者本身被传递给一个函数的时候，实际上操作的是其的拷贝。</p>
+
+
+<p>在之前的章节中，我们已经大量使用了值类型。实际上，在 Swift 中，所有的基本类型：整数(Integer)、浮点数(floating-point)、布尔值(Booleans)、字符串(string)、数组(array)和字典(dictionaries)，都是值类型，并且都是以结构体的形式在后台所实现。</p>
+
+
+<p>在 Swift 中，所有的结构体和枚举都是值类型。这意味着它们的实例，以及实例中所包含的任何值类型属性，在代码中传递的时候都会被复制。</p>
+
+
+<p>请看下面这个示例，其使用了前一个示例中<code>Resolution</code>结构体：</p>
+
+
+<pre><code>let hd = Resolution(width: 1920, height: 1080)
+var cinema = hd
+</code></pre>
+
+
+<p>在以上示例中，声明了一个名为<code>hd</code>的常量，其值为一个初始化为全高清视频分辨率(1920 像素宽，1080 像素高)的<code>Resolution</code>实例。</p>
+
+
+<p>然后示例中又声明了一个名为<code>cinema</code>的变量，其值为之前声明的<code>hd</code>。因为<code>Resolution</code>是一个结构体，所以<code>cinema</code>的值其实是<code>hd</code>的一个拷贝副本，而不是<code>hd</code>本身。尽管<code>hd</code>和<code>cinema</code>有着相同的宽(width)和高(height)属性，但是在后台中，它们是两个完全不同的实例。</p>
+
+
+<p>下面，为了符合数码影院放映的需求(2048 像素宽，1080 像素高)，<code>cinema</code>的<code>width</code>属性需要作如下修改：</p>
+
+
+<pre><code>cinema.width = 2048
+</code></pre>
+
+
+<p>这里，将会显示<code>cinema</code>的<code>width</code>属性确已改为了<code>2048</code>：</p>
+
+
+<pre><code>println("cinema is now  \(cinema.width) pixels wide")
+// 输出 "cinema is now 2048 pixels wide"
+</code></pre>
+
+
+<p>然而，初始的<code>hd</code>实例中<code>width</code>属性还是<code>1920</code>：</p>
+
+
+<pre><code>println("hd is still \(hd.width    ) pixels wide")
+// 输出 "hd is still 1920 pixels wide"
+</code></pre>
+
+
+<p>在将<code>hd</code>赋予给<code>cinema</code>的时候，实际上是将<code>hd</code>中所储存的<code>值(values)</code>进行拷贝，然后将拷贝的数据储存到新的<code>cinema</code>实例中。结果就是两个完全独立的实例碰巧包含有相同的数值。由于两者相互独立，因此将<code>cinema</code>的<code>width</code>修改为<code>2048</code>并不会影响<code>hd</code>中的宽(width)。</p>
+
+
+<p>枚举也遵循相同的行为准则：</p>
+
+
+<pre><code>enum CompassPoint {
+    case North, South, East, West
+}
+var currentDirection = CompassPoint.West
+let rememberedDirection = currentDirection
+currentDirection = .East
+if rememberDirection == .West {
+    println("The remembered direction is still .West")
+}
+// 输出 "The remembered direction is still .West"
+</code></pre>
+
+
+<p>上例中<code>rememberedDirection</code>被赋予了<code>currentDirection</code>的值(value)，实际上它被赋予的是值(value)的一个拷贝。赋值过程结束后再修改<code>currentDirection</code>的值并不影响<code>rememberedDirection</code>所储存的原始值(value)的拷贝。</p>
+
+
+<p><a name="classes_are_reference_types"></a></p>
+
+
+<h2 id="-">类是引用类型</h2>
+
+
+<p>与值类型不同，引用类型在被赋予到一个变量，常量或者被传递到一个函数时，操作的并不是其拷贝。因此，引用的是已存在的实例本身而不是其拷贝。</p>
+
+
+<p>请看下面这个示例，其使用了之前定义的<code>VideoMode</code>类：</p>
+
+
+<pre><code>let tenEighty = VideoMode()
+tenEighty.resolution = hd
+tenEighty.interlaced = true
+tenEighty.name = "1080i"
+tenEighty.frameRate = 25.0
+</code></pre>
+
+
+<p>以上示例中，声明了一个名为<code>tenEighty</code>的常量，其引用了一个<code>VideoMode</code>类的新实例。在之前的示例中，这个视频模式(video mode)被赋予了HD分辨率(1920*1080)的一个拷贝(<code>hd</code>)。同时设置为交错(interlaced),命名为<code>“1080i”</code>。最后，其帧率是<code>25.0</code>帧每秒。</p>
+
+
+<p>然后，<code>tenEighty</code> 被赋予名为<code>alsoTenEighty</code>的新常量，同时对<code>alsoTenEighty</code>的帧率进行修改：</p>
+
+
+<pre><code>let alsoTenEighty = tenEighty
+alsoTenEighty.frameRate = 30.0
+</code></pre>
+
+
+<p>因为类是引用类型，所以<code>tenEight</code>和<code>alsoTenEight</code>实际上引用的是相同的<code>VideoMode</code>实例。换句话说，它们只是同一个实例的两种叫法。</p>
+
+
+<p>下面，通过查看<code>tenEighty</code>的<code>frameRate</code>属性，我们会发现它正确的显示了基本<code>VideoMode</code>实例的新帧率，其值为<code>30.0</code>：</p>
+
+
+<pre><code>println("The frameRate property of tenEighty is now \(tenEighty.frameRate)")
+// 输出 "The frameRate property of theEighty is now 30.0"
+</code></pre>
+
+
+<p>需要注意的是<code>tenEighty</code>和<code>alsoTenEighty</code>被声明为<em>常量(constants)</em>而不是变量。然而你依然可以改变<code>tenEighty.frameRate</code>和<code>alsoTenEighty.frameRate</code>,因为这两个常量本身不会改变。它们并不<code>储存</code>这个<code>VideoMode</code>实例，在后台仅仅是对<code>VideoMode</code>实例的引用。所以，改变的是被引用的基础<code>VideoMode</code>的<code>frameRate</code>参数，而不改变常量的值。</p>
+
+
+<h3 id="-">恒等运算符</h3>
+
+
+<p>因为类是引用类型，有可能有多个常量和变量在后台同时引用某一个类实例。(对于结构体和枚举来说，这并不成立。因为它们作值类型，在被赋予到常量，变量或者传递到函数时，总是会被拷贝。)</p>
+
+
+<p>如果能够判定两个常量或者变量是否引用同一个类实例将会很有帮助。为了达到这个目的，Swift 内建了两个恒等运算符：</p>
+
+
+<ul>
+<li>等价于 ( === )</li>
+<li>不等价于 ( !== )</li>
+</ul>
+
+
+<p>以下是运用这两个运算符检测两个常量或者变量是否引用同一个实例：</p>
+
+
+<pre><code>if tenEighty === alsoTenTighty {
+    println("tenTighty and alsoTenEighty refer to the same Resolution instance.")
+}
+//输出 "tenEighty and alsoTenEighty refer to the same Resolution instance."
+</code></pre>
+
+
+<p>请注意“等价于”(用三个等号表示，===) 与“等于”(用两个等号表示，==)的不同：</p>
+
+
+<ul>
+<li>“等价于”表示两个类类型(class type)的常量或者变量引用同一个类实例。</li>
+<li>“等于”表示两个实例的值“相等”或“相同”，判定时要遵照类设计者定义定义的评判标准，因此相比于“相等”，这是一种更加合适的叫法。</li>
+</ul>
+
+
+<p>当你在定义你的自定义类和结构体的时候，你有义务来决定判定两个实例“相等”的标准。在章节<a href="23_Advanced_Operators.html#operator_functions">运算符函数(Operator Functions)</a>中将会详细介绍实现自定义“等于”和“不等于”运算符的流程。</p>
+
+
+<h3 id="-">指针</h3>
+
+
+<p>如果你有 C，C++ 或者 Objective-C 语言的经验，那么你也许会知道这些语言使用指针来引用内存中的地址。一个 Swift 常量或者变量引用一个引用类型的实例与C语言中的指针类似，不同的是并不直接指向内存中的某个地址，而且也不要求你使用星号(*)来表明你在创建一个引用。Swift 中这些引用与其它的常量或变量的定义方式相同。</p>
+
+
+<p><a name="choosing_between_classes_and_structures"></a></p>
+
+
+<h2 id="-">类和结构体的选择</h2>
+
+
+<p>在你的代码中，你可以使用类和结构体来定义你的自定义数据类型。</p>
+
+
+<p>然而，结构体实例总是通过值传递，类实例总是通过引用传递。这意味两者适用不同的任务。当你的在考虑一个工程项目的数据构造和功能的时候，你需要决定每个数据构造是定义成类还是结构体。</p>
+
+
+<p>按照通用的准则，当符合一条或多条以下条件时，请考虑构建结构体：</p>
+
+
+<ul>
+<li>结构体的主要目的是用来封装少量相关简单数据值。</li>
+<li>有理由预计一个结构体实例在赋值或传递时，封装的数据将会被拷贝而不是被引用。</li>
+<li>任何在结构体中储存的值类型属性，也将会被拷贝，而不是被引用。</li>
+<li>结构体不需要去继承另一个已存在类型的属性或者行为。</li>
+</ul>
+
+
+<p>合适的结构体候选者包括：</p>
+
+
+<ul>
+<li>几何形状的大小，封装一个<code>width</code>属性和<code>height</code>属性，两者均为<code>Double</code>类型。</li>
+<li>一定范围内的路径，封装一个<code>start</code>属性和<code>length</code>属性，两者均为<code>Int</code>类型。</li>
+<li>三维坐标系内一点，封装<code>x</code>，<code>y</code>和<code>z</code>属性，三者均为<code>Double</code>类型。</li>
+</ul>
+
+
+<p>在所有其它案例中，定义一个类，生成一个它的实例，并通过引用来管理和传递。实际中，这意味着绝大部分的自定义数据构造都应该是类，而非结构体。</p>
+
+
+<p><a name="assignment_and_copy_behavior_for_collection_types"></a></p>
+
+
+<h2 id="-collection-">集合(Collection)类型的赋值和拷贝行为</h2>
+
+
+<p>Swift 中<code>数组(Array)</code>和<code>字典(Dictionary)</code>类型均以结构体的形式实现。然而当数组被赋予一个常量或变量，或被传递给一个函数或方法时，其拷贝行为与字典和其它结构体有些许不同。</p>
+
+
+<p>以下对<code>数组</code>和<code>结构体</code>的行为描述与对<code>NSArray</code>和<code>NSDictionary</code>的行为描述在本质上不同，后者是以类的形式实现，前者是以结构体的形式实现。<code>NSArray</code>和<code>NSDictionary</code>实例总是以对已有实例引用,而不是拷贝的方式被赋值和传递。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>以下是对于数组，字典，字符串和其它值的<code>拷贝</code>的描述。
+在你的代码中，拷贝好像是确实是在有拷贝行为的地方产生过。然而，在Swift 的后台中，只有确有必要，<code>实际(actual)</code>拷贝才会被执行。Swift 管理所有的值拷贝以确保性能最优化的性能，所以你也没有必要去避免赋值以保证最优性能。(实际赋值由系统管理优化)</p>
+</blockquote>
+
+
+<h3 id="-">字典类型的赋值和拷贝行为</h3>
+
+
+<p>无论何时将一个<code>字典</code>实例赋给一个常量或变量，或者传递给一个函数或方法，这个字典会即会在赋值或调用发生时被拷贝。在章节<a href="#structures_and_enumerations_are_value_types">结构体和枚举是值类型</a>中将会对此过程进行详细介绍。</p>
+
+
+<p>如果<code>字典</code>实例中所储存的键(keys)和/或值(values)是值类型(结构体或枚举)，当赋值或调用发生时，它们都会被拷贝。相反，如果键(keys)和/或值(values)是引用类型，被拷贝的将会是引用，而不是被它们引用的类实例或函数。<code>字典</code>的键和值的拷贝行为与结构体所储存的属性的拷贝行为相同。</p>
+
+
+<p>下面的示例定义了一个名为<code>ages</code>的字典，其中储存了四个人的名字和年龄。<code>ages</code>字典被赋予了一个名为<code>copiedAges</code>的新变量，同时<code>ages</code>在赋值的过程中被拷贝。赋值结束后，<code>ages</code>和<code>copiedAges</code>成为两个相互独立的字典。</p>
+
+
+<pre><code>var ages = ["Peter": 23, "Wei": 35, "Anish": 65, "Katya": 19]
+var copiedAges = ages
+</code></pre>
+
+
+<p>这个字典的键(keys)是<code>字符串(String)</code>类型，值(values)是<code>整(Int)</code>类型。这两种类型在Swift 中都是值类型(value types)，所以当字典被拷贝时，两者都会被拷贝。</p>
+
+
+<p>我们可以通过改变一个字典中的年龄值(age value)，检查另一个字典中所对应的值，来证明<code>ages</code>字典确实是被拷贝了。如果在<code>copiedAges</code>字典中将<code>Peter</code>的值设为<code>24</code>，那么<code>ages</code>字典仍然会返回修改前的值<code>23</code>：</p>
+
+
+<pre><code>copiedAges["Peter"] = 24
+println(ages["Peter"])
+// 输出 "23"
+</code></pre>
+
+
+<h3 id="-">数组的赋值和拷贝行为</h3>
+
+
+<p>在Swift 中，<code>数组(Arrays)</code>类型的赋值和拷贝行为要比<code>字典(Dictionary)</code>类型的复杂的多。当操作数组内容时，<code>数组(Array)</code>能提供接近C语言的的性能，并且拷贝行为只有在必要时才会发生。</p>
+
+
+<p>如果你将一个<code>数组(Array)</code>实例赋给一个变量或常量，或者将其作为参数传递给函数或方法调用，在事件发生时数组的内容<code>不</code>会被拷贝。相反，数组公用相同的元素序列。当你在一个数组内修改某一元素，修改结果也会在另一数组显示。</p>
+
+
+<p>对数组来说，拷贝行为仅仅当操作有可能修改数组<code>长度</code>时才会发生。这种行为包括了附加(appending),插入(inserting),删除(removing)或者使用范围下标(ranged subscript)去替换这一范围内的元素。只有当数组拷贝确要发生时，数组内容的行为规则与字典中键值的相同，参见章节[集合（collection）类型的赋值与复制行为](#assignment_and_copy_behavior_for_collection_types。</p>
+
+
+<p>下面的示例将一个<code>整数(Int)</code>数组赋给了一个名为<code>a</code>的变量，继而又被赋给了变量<code>b</code>和<code>c</code>：</p>
+
+
+<pre><code>var a = [1, 2, 3]
+var b = a
+var c = a
+</code></pre>
+
+
+<p>我们可以在<code>a</code>,<code>b</code>,<code>c</code>上使用下标语法以得到数组的第一个元素：</p>
+
+
+<pre><code>println(a[0])
+// 1
+println(b[0])
+// 1
+println(c[0])
+// 1
+</code></pre>
+
+
+<p>如果通过下标语法修改数组中某一元素的值，那么<code>a</code>,<code>b</code>,<code>c</code>中的相应值都会发生改变。请注意当你用下标语法修改某一值时，并没有拷贝行为伴随发生，因为下表语法修改值时没有改变数组长度的可能：</p>
+
+
+<pre><code>a[0] = 42
+println(a[0])
+// 42
+println(b[0])
+// 42
+println(c[0])
+// 42
+</code></pre>
+
+
+<p>然而，当你给<code>a</code>附加新元素时，数组的长度<code>会</code>改变。
+当附加元素这一事件发生时，Swift 会创建这个数组的一个拷贝。从此以后，<code>a</code>将会是原数组的一个独立拷贝。</p>
+
+
+<p>拷贝发生后，如果再修改<code>a</code>中元素值的话，<code>a</code>将会返回与<code>b</code>，<code>c</code>不同的结果，因为后两者引用的是原来的数组：</p>
+
+
+<pre><code>a.append(4)
+a[0] = 777
+println(a[0])
+// 777
+println(b[0])
+// 42
+println(c[0])
+// 42
+</code></pre>
+
+
+<h3 id="-">确保数组的唯一性</h3>
+
+
+<p>在操作一个数组，或将其传递给函数以及方法调用之前是很有必要先确定这个数组是有一个唯一拷贝的。通过在数组变量上调用<code>unshare</code>方法来确定数组引用的唯一性。(当数组赋给常量时，不能调用<code>unshare</code>方法)</p>
+
+
+<p>如果一个数组被多个变量引用，在其中的一个变量上调用<code>unshare</code>方法，则会拷贝此数组，此时这个变量将会有属于它自己的独立数组拷贝。当数组仅被一个变量引用时，则不会有拷贝发生。</p>
+
+
+<p>在上一个示例的最后，<code>b</code>和<code>c</code>都引用了同一个数组。此时在<code>b</code>上调用<code>unshare</code>方法则会将<code>b</code>变成一个唯一个拷贝：</p>
+
+
+<pre><code>b.unshare()
+</code></pre>
+
+
+<p>在<code>unshare</code>方法调用后再修改<code>b</code>中第一个元素的值，这三个数组(<code>a</code>,<code>b</code>,<code>c</code>)会返回不同的三个值：</p>
+
+
+<pre><code>b[0] = -105
+println(a[0])
+// 77
+println(b[0])
+// -105
+println(c[0])
+// 42
+</code></pre>
+
+
+<h3 id="-">判定两个数组是否共用相同元素</h3>
+
+
+<p>我们通过使用恒等运算符(identity operators)( === and !==)来判定两个数组或子数组共用相同的储存空间或元素。</p>
+
+
+<p>下面这个示例使用了“恒等于(identical to)” 运算符(===) 来判定<code>b</code>和<code>c</code>是否共用相同的数组元素：</p>
+
+
+<pre><code>if b === c {
+    println("b and c still share the same array elements.")
+} else {
+    println("b and c now refer to two independent sets of array elements.")
+}
+
+// 输出 "b and c now refer totwo independent sets of array elements."
+</code></pre>
+
+
+<p>此外，我们还可以使用恒等运算符来判定两个子数组是否共用相同的元素。下面这个示例中，比较了<code>b</code>的两个相等的子数组，并且确定了这两个子数组都引用相同的元素：</p>
+
+
+<pre><code>if b[0...1] === b[0...1] {
+    println("These two subarrays share the same elements.")
+} else {
+    println("These two subarrays do not share the same elements.")
+}
+// 输出 "These two subarrays share the same elements."
+</code></pre>
+
+
+<h3 id="-">强制复制数组</h3>
+
+
+<p>我们通过调用数组的<code>copy</code>方法进行强制显性复制。这个方法对数组进行了浅拷贝(shallow copy),并且返回一个包含此拷贝的新数组。</p>
+
+
+<p>下面这个示例中定义了一个<code>names</code>数组，其包含了七个人名。还定义了一个<code>copiedNames</code>变量，用以储存在<code>names</code>上调用<code>copy</code>方法所返回的结果：</p>
+
+
+<pre><code>var names = ["Mohsen", "Hilary", "Justyn", "Amy", "Rich", "Graham", "Vic"]
+var copiedNames = names.copy
+</code></pre>
+
+
+<p>我们可以通过修改一个数组中某元素，并且检查另一个数组中对应元素的方法来判定<code>names</code>数组确已被复制。如果你将<code>copiedNames</code>中第一个元素从&#8221;<code>Mohsen</code>&#8220;修改为&#8221;<code>Mo</code>&#8220;,则<code>names</code>数组返回的仍是拷贝发生前的&#8221;<code>Mohsen</code>&#8220;：</p>
+
+
+<pre><code>copiedName[0] = "Mo"
+println(name[0])
+// 输出 "Mohsen"
+</code></pre>
+
+
+<blockquote>
+<p>注意：</p>
+<p>如果你仅需要确保你对数组的引用是唯一引用，请调用<code>unshare</code>方法，而不是<code>copy</code>方法。<code>unshare</code>方法仅会在确有必要时才会创建数组拷贝。<code>copy</code>方法会在任何时候都创建一个新的拷贝，即使引用已经是唯一引用。</p>
+</blockquote>
 
 
 		
-		<a href="/blog/ios-application-security-16.html" class="more-link">继续阅读 &rarr;</a>
+		
 	</div>
 
 </article>
@@ -189,31 +743,141 @@ Nov 15,&nbsp 2013  </div>
 
 
 
-Nov 15,&nbsp 2013  </div>
+Nov 27,&nbsp 2014  </div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/security/'>security</a>
+	<a class='category' href='/blog/categories/swift/'>swift</a>
 
 
 </div>
 		
-			<span class="comments"><a href="/blog/ios-application-security-15.html#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/Swift%E6%9E%90%E6%9E%84%E8%BF%87%E7%A8%8B.html#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-15.html" itemprop="url">iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/Swift%E6%9E%90%E6%9E%84%E8%BF%87%E7%A8%8B.html" itemprop="url">Swif析构过程</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/">http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
+		<p>在一个类的实例被释放之前，析构函数被立即调用。用关键字<code>deinit</code>来标示析构函数，类似于初始化函数用<code>init</code>来标示。析构函数只适用于类类型。</p>
 
-<p>在前面的文章当中，我们看到了如何使用Sogeti Data protection tools利用bottom的漏洞，使用定制的ramdisk来启动iOS设备。本文我们将学习用iNalyzer工具来对iOS
-应用进行黑盒测试。iNalyzer允许我们查看类信息，执行运行时分析和其他一些事情。基本上它把解密应用、导出类信息这些事情自动化了，并且更好的展示了出来。我们也可以像Cycript那样挂钩运行的进程。iNalyzer由<a href="https://appsec-labs.com/">AppSec Labs</a>开发和维护，它的官方地址在<a href="https://appsec-labs.com/iNalyzer">这</a>。iNalyzer同时也已经开源了，gitub地址在<a href="https://github.com/appsec-labs/iNalyzer">这</a>。</p>
+
+<p><a name="how_deinitialization_works"></a></p>
+
+
+<h2 id="-">析构过程原理</h2>
+
+
+<p>Swift 会自动释放不再需要的实例以释放资源。如<a href="16_Automatic_Reference_Counting.html">自动引用计数</a>那一章描述，Swift 通过<em>自动引用计数</em>（ARC）处理实例的内存管理。通常当你的实例被释放时不需要手动地去清理。但是，当使用自己的资源时，你可能需要进行一些额外的清理。例如，如果创建了一个自定义的类来打开一个文件，并写入一些数据，你可能需要在类实例被释放之前关闭该文件。</p>
+
+
+<p>在类的定义中，每个类最多只能有一个析构函数。析构函数不带任何参数，在写法上不带括号：</p>
+
+
+<pre><code>deinit {
+    // 执行析构过程
+}
+</code></pre>
+
+
+<p>析构函数是在实例释放发生前一步被自动调用。不允许主动调用自己的析构函数。子类继承了父类的析构函数，并且在子类析构函数实现的最后，父类的析构函数被自动调用。即使子类没有提供自己的析构函数，父类的析构函数也总是被调用。</p>
+
+
+<p>因为直到实例的析构函数被调用时，实例才会被释放，所以析构函数可以访问所有请求实例的属性，并且根据那些属性可以修改它的行为（比如查找一个需要被关闭的文件的名称）。</p>
+
+
+<p><a name="deinitializers_in_action"></a></p>
+
+
+<h2 id="-">析构函数操作</h2>
+
+
+<p>这里是一个析构函数操作的例子。这个例子是一个简单的游戏，定义了两种新类型，<code>Bank</code>和<code>Player</code>。<code>Bank</code>结构体管理一个虚拟货币的流通，在这个流通中<code>Bank</code>永远不可能拥有超过 10,000 的硬币。在这个游戏中有且只能有一个<code>Bank</code>存在，因此<code>Bank</code>由带有静态属性和静态方法的结构体实现，从而存储和管理其当前的状态。</p>
+
+
+<pre><code>struct Bank {
+    static var coinsInBank = 10_000
+    static func vendCoins(var numberOfCoinsToVend: Int) -&gt; Int {
+          numberOfCoinsToVend = min(numberOfCoinsToVend, coinsInBank)
+          coinsInBank -= numberOfCoinsToVend
+         return numberOfCoinsToVend
+    }
+    static func receiveCoins(coins: Int) {
+    coinsInBank += coins
+    }
+}
+</code></pre>
+
+
+<p><code>Bank</code>根据它的<code>coinsInBank</code>属性来跟踪当前它拥有的硬币数量。银行还提供两个方法——<code>vendCoins</code>和<code>receiveCoins</code>——用来处理硬币的分发和收集。</p>
+
+
+<p><code>vendCoins</code>方法在 bank 分发硬币之前检查是否有足够的硬币。如果没有足够多的硬币，<code>Bank</code>返回一个比请求时小的数字(如果没有硬币留在 bank 中就返回 0)。<code>vendCoins</code>方法声明<code>numberOfCoinsToVend</code>为一个变量参数，这样就可以在方法体的内部修改数字，而不需要定义一个新的变量。<code>vendCoins</code>方法返回一个整型值，表明了提供的硬币的实际数目。</p>
+
+
+<p><code>receiveCoins</code>方法只是将 bank 的硬币存储和接收到的硬币数目相加，再保存回 bank。</p>
+
+
+<p><code>Player</code>类描述了游戏中的一个玩家。每一个 player 在任何时刻都有一定数量的硬币存储在他们的钱包中。这通过 player 的<code>coinsInPurse</code>属性来体现：</p>
+
+
+<pre><code>    class Player {
+      var coinsInPurse: Int
+      init(coins: Int) {
+          coinsInPurse = Bank.vendCoins(coins)
+    }
+    func winCoins(coins: Int) {
+          coinsInPurse += Bank.vendCoins(coins)
+    }
+    deinit {
+          Bank.receiveCoins(coinsInPurse)
+    }
+    }
+</code></pre>
+
+
+<p>每个<code>Player</code>实例都由一个指定数目硬币组成的启动额度初始化，这些硬币在 bank 初始化的过程中得到。如果没有足够的硬币可用，<code>Player</code>实例可能收到比指定数目少的硬币。</p>
+
+
+<p><code>Player</code>类定义了一个<code>winCoins</code>方法，该方法从银行获取一定数量的硬币，并把它们添加到玩家的钱包。<code>Player</code>类还实现了一个析构函数，这个析构函数在<code>Player</code>实例释放前一步被调用。这里析构函数只是将玩家的所有硬币都返回给银行：</p>
+
+
+<pre><code>var playerOne: Player? = Player(coins: 100)
+println("A new player has joined the game with \(playerOne!.coinsInPurse) coins")
+// 输出 "A new player has joined the game with 100     coins"
+println("There are now \(Bank.coinsInBank) coins left     in the bank")
+// 输出 "There are now 9900 coins left in the bank"
+</code></pre>
+
+
+<p>一个新的<code>Player</code>实例随着一个 100 个硬币（如果有）的请求而被创建。这<code>个Player</code>实例存储在一个名为<code>playerOne</code>的可选<code>Player</code>变量中。这里使用一个可选变量，是因为玩家可以随时离开游戏。设置为可选使得你可以跟踪当前是否有玩家在游戏中。</p>
+
+
+<p>因为<code>playerOne</code>是可选的，所以由一个感叹号（<code>!</code>）来修饰，每当其<code>winCoins</code>方法被调用时，<code>coinsInPurse</code>属性被访问并打印出它的默认硬币数目。</p>
+
+
+<pre><code>playerOne!.winCoins(2_000)
+println("PlayerOne won 2000 coins &amp; now has \    (playerOne!.coinsInPurse) coins")
+// 输出 "PlayerOne won 2000 coins &amp; now has 2100 coins"
+println("The bank now only has \(Bank.coinsInBank) coins left")
+// 输出 "The bank now only has 7900 coins left"
+</code></pre>
+
+
+<p>这里，player 已经赢得了 2,000 硬币。player 的钱包现在有 2,100 硬币，bank 只剩余 7,900 硬币。</p>
+
+
+<pre><code>playerOne = nil
+println("PlayerOne has left the game")
+// 输出 "PlayerOne has left the game"
+println("The bank now has \(Bank.coinsInBank) coins")
+// 输出 "The bank now has 10000 coins"
+</code></pre>
+
+
+<p>玩家现在已经离开了游戏。这表明是要将可选的<code>playerOne</code>变量设置为<code>nil</code>，意思是“没有<code>Player</code>实例”。当这种情况发生的时候，<code>playerOne</code>变量对<code>Player</code>实例的引用被破坏了。没有其它属性或者变量引用<code>Player</code>实例，因此为了清空它占用的内存从而释放它。在这发生前一步，其析构函数被自动调用，其硬币被返回到银行。</p>
 
 
 		
-		<a href="/blog/ios-application-security-15.html" class="more-link">继续阅读 &rarr;</a>
+		
 	</div>
 
 </article>
@@ -234,32 +898,864 @@ Nov 15,&nbsp 2013  </div>
 
 
 
-Nov 15,&nbsp 2013  </div>
+Nov 27,&nbsp 2014  </div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/security/'>security</a>
+	<a class='category' href='/blog/categories/swift/'>swift</a>
 
 
 </div>
 		
-			<span class="comments"><a href="/blog/ios-application-security-14.html#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/Swift%E6%9E%84%E9%80%A0%E8%BF%87%E7%A8%8B.html#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-14.html" itemprop="url">iOS应用程序安全(14)-使用Sogeti Data Protection Tools收集信息</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/Swift%E6%9E%84%E9%80%A0%E8%BF%87%E7%A8%8B.html" itemprop="url">Swift构造过程</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/">http://resources.infosecinstitute.com/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
+		<p>构造过程是为了使用某个类、结构体或枚举类型的实例而进行的准备过程。这个过程包含了为实例中的每个属性设置初始值和为其执行必要的准备和初始化任务。</p>
 
-<p>在前面一篇文章中，我们看到了如何使用Sogeti Data Protection tools用定制的ramdisk启动iOS设备。本文我们将如何用其中的一些工具来收集设备的信息，比如keychain的内容，导出整个文件系统甚至暴力破解口令。</p>
 
-<p>在上一篇文章当中，我们已经成功的用usbmux与设备建立了连接，ssh进设备，并且加载了分区。下面是分区包含的内容。</p>
+<p>构造过程是通过定义构造器（<code>Initializers</code>）来实现的，这些构造器可以看做是用来创建特定类型实例的特殊方法。与 Objective-C 中的构造器不同，Swift 的构造器无需返回值，它们的主要任务是保证新实例在第一次使用前完成正确的初始化。</p>
+
+
+<p>类实例也可以通过定义析构器（<code>deinitializer</code>）在类实例释放之前执行特定的清除工作。想了解更多关于析构器的内容，请参考<a href="../chapter2/15_Deinitialization.html">析构过程</a>。</p>
+
+
+<p><a name="setting_initial_values_for_stored_properties"></a></p>
+
+
+<h2 id="-">存储型属性的初始赋值</h2>
+
+
+<p>类和结构体在实例创建时，必须为所有存储型属性设置合适的初始值。存储型属性的值不能处于一个未知的状态。</p>
+
+
+<p>你可以在构造器中为存储型属性赋初值，也可以在定义属性时为其设置默认值。以下章节将详细介绍这两种方法。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>当你为存储型属性设置默认值或者在构造器中为其赋值时，它们的值是被直接设置的，不会触发任何属性观测器（<code>property observers</code>）。</p>
+</blockquote>
+
+
+<h3 id="-">构造器</h3>
+
+
+<p>构造器在创建某特定类型的新实例时调用。它的最简形式类似于一个不带任何参数的实例方法，以关键字<code>init</code>命名。</p>
+
+
+<p>下面例子中定义了一个用来保存华氏温度的结构体<code>Fahrenheit</code>，它拥有一个<code>Double</code>类型的存储型属性<code>temperature</code>：</p>
+
+
+<pre><code>struct Fahrenheit {
+    var temperature: Double
+    init() {
+        temperature = 32.0
+    }
+}
+
+var f = Fahrenheit()
+println("The default temperature is \(f.temperature)° Fahrenheit")
+// 输出 "The default temperature is 32.0° Fahrenheit”
+</code></pre>
+
+
+<p>这个结构体定义了一个不带参数的构造器<code>init</code>，并在里面将存储型属性<code>temperature</code>的值初始化为<code>32.0</code>（华摄氏度下水的冰点）。</p>
+
+
+<h3 id="-">默认属性值</h3>
+
+
+<p>如前所述，你可以在构造器中为存储型属性设置初始值；同样，你也可以在属性声明时为其设置默认值。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>如果一个属性总是使用同一个初始值，可以为其设置一个默认值。无论定义默认值还是在构造器中赋值，最终它们实现的效果是一样的，只不过默认值跟属性构造过程结合的更紧密。使用默认值能让你的构造器更简洁、更清晰，且能通过默认值自动推导出属性的类型；同时，它也能让你充分利用默认构造器、构造器继承（后续章节将讲到）等特性。</p>
+</blockquote>
+
+
+<p>你可以使用更简单的方式在定义结构体<code>Fahrenheit</code>时为属性<code>temperature</code>设置默认值：</p>
+
+
+<pre><code>struct Fahrenheit {
+    var temperature = 32.0
+}
+</code></pre>
+
+
+<p><a name="customizing_initialization"></a></p>
+
+
+<h2 id="-">定制化构造过程</h2>
+
+
+<p>你可以通过输入参数和可选属性类型来定制构造过程，也可以在构造过程中修改常量属性。这些都将在后面章节中提到。</p>
+
+
+<h3 id="-">构造参数</h3>
+
+
+<p>你可以在定义构造器时提供构造参数，为其提供定制化构造所需值的类型和名字。构造器参数的功能和语法跟函数和方法参数相同。</p>
+
+
+<p>下面例子中定义了一个包含摄氏度温度的结构体<code>Celsius</code>。它定义了两个不同的构造器：<code>init(fromFahrenheit:)</code>和<code>init(fromKelvin:)</code>，二者分别通过接受不同刻度表示的温度值来创建新的实例：</p>
+
+
+<pre><code>struct Celsius {
+    var temperatureInCelsius: Double = 0.0
+    init(fromFahrenheit fahrenheit: Double) {
+        temperatureInCelsius = (fahrenheit - 32.0) / 1.8
+    }
+    init(fromKelvin kelvin: Double) {
+        temperatureInCelsius = kelvin - 273.15
+    }
+}
+
+let boilingPointOfWater = Celsius(fromFahrenheit: 212.0)
+// boilingPointOfWater.temperatureInCelsius 是 100.0
+let freezingPointOfWater = Celsius(fromKelvin: 273.15)
+// freezingPointOfWater.temperatureInCelsius 是 0.0”
+</code></pre>
+
+
+<p>第一个构造器拥有一个构造参数，其外部名字为<code>fromFahrenheit</code>，内部名字为<code>fahrenheit</code>；第二个构造器也拥有一个构造参数，其外部名字为<code>fromKelvin</code>，内部名字为<code>kelvin</code>。这两个构造器都将唯一的参数值转换成摄氏温度值，并保存在属性<code>temperatureInCelsius</code>中。</p>
+
+
+<h3 id="-">内部和外部参数名</h3>
+
+
+<p>跟函数和方法参数相同，构造参数也存在一个在构造器内部使用的参数名字和一个在调用构造器时使用的外部参数名字。</p>
+
+
+<p>然而，构造器并不像函数和方法那样在括号前有一个可辨别的名字。所以在调用构造器时，主要通过构造器中的参数名和类型来确定需要调用的构造器。正因为参数如此重要，如果你在定义构造器时没有提供参数的外部名字，Swift 会为每个构造器的参数自动生成一个跟内部名字相同的外部名，就相当于在每个构造参数之前加了一个哈希符号。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>如果你不希望为构造器的某个参数提供外部名字，你可以使用下划线<code>_</code>来显示描述它的外部名，以此覆盖上面所说的默认行为。</p>
+</blockquote>
+
+
+<p>以下例子中定义了一个结构体<code>Color</code>，它包含了三个常量：<code>red</code>、<code>green</code>和<code>blue</code>。这些属性可以存储0.0到1.0之间的值，用来指示颜色中红、绿、蓝成分的含量。</p>
+
+
+<p><code>Color</code>提供了一个构造器，其中包含三个<code>Double</code>类型的构造参数：</p>
+
+
+<pre><code>struct Color {
+    let red = 0.0, green = 0.0, blue = 0.0
+    init(red: Double, green: Double, blue: Double) {
+        self.red   = red
+        self.green = green
+        self.blue  = blue
+    }
+}
+</code></pre>
+
+
+<p>每当你创建一个新的<code>Color</code>实例，你都需要通过三种颜色的外部参数名来传值，并调用构造器。</p>
+
+
+<pre><code>let magenta = Color(red: 1.0, green: 0.0, blue: 1.0)
+</code></pre>
+
+
+<p>注意，如果不通过外部参数名字传值，你是没法调用这个构造器的。只要构造器定义了某个外部参数名，你就必须使用它，忽略它将导致编译错误：</p>
+
+
+<pre><code>let veryGreen = Color(0.0, 1.0, 0.0)
+// 报编译时错误，需要外部名称
+</code></pre>
+
+
+<h3 id="-">可选属性类型</h3>
+
+
+<p>如果你定制的类型包含一个逻辑上允许取值为空的存储型属性&#8211;不管是因为它无法在初始化时赋值，还是因为它可以在之后某个时间点可以赋值为空&#8211;你都需要将它定义为可选类型<code>optional type</code>。可选类型的属性将自动初始化为空<code>nil</code>，表示这个属性是故意在初始化时设置为空的。</p>
+
+
+<p>下面例子中定义了类<code>SurveyQuestion</code>，它包含一个可选字符串属性<code>response</code>：</p>
+
+
+<pre><code>class SurveyQuestion {
+    var text: String
+    var response: String?
+    init(text: String) {
+        self.text = text
+    }
+    func ask() {
+        println(text)
+    }
+}
+let cheeseQuestion = SurveyQuestion(text: "Do you like cheese?")
+cheeseQuestion.ask()
+// 输出 "Do you like cheese?"
+cheeseQuestion.response = "Yes, I do like cheese.
+</code></pre>
+
+
+<p>调查问题在问题提出之后，我们才能得到回答。所以我们将属性回答<code>response</code>声明为<code>String?</code>类型，或者说是可选字符串类型<code>optional String</code>。当<code>SurveyQuestion</code>实例化时，它将自动赋值为空<code>nil</code>，表明暂时还不存在此字符串。</p>
+
+
+<h3 id="-">构造过程中常量属性的修改</h3>
+
+
+<p>只要在构造过程结束前常量的值能确定，你可以在构造过程中的任意时间点修改常量属性的值。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>对某个类实例来说，它的常量属性只能在定义它的类的构造过程中修改；不能在子类中修改。</p>
+</blockquote>
+
+
+<p>你可以修改上面的<code>SurveyQuestion</code>示例，用常量属性替代变量属性<code>text</code>，指明问题内容<code>text</code>在其创建之后不会再被修改。尽管<code>text</code>属性现在是常量，我们仍然可以在其类的构造器中修改它的值：</p>
+
+
+<pre><code>class SurveyQuestion {
+    let text: String
+    var response: String?
+    init(text: String) {
+        self.text = text
+    }
+    func ask() {
+        println(text)
+    }
+}
+let beetsQuestion = SurveyQuestion(text: "How about beets?")
+beetsQuestion.ask()
+// 输出 "How about beets?"
+beetsQuestion.response = "I also like beets. (But not with cheese.)
+</code></pre>
+
+
+<p><a name="default_initializers"></a></p>
+
+
+<h2 id="-">默认构造器</h2>
+
+
+<p>Swift 将为所有属性已提供默认值的且自身没有定义任何构造器的结构体或基类，提供一个默认的构造器。这个默认构造器将简单的创建一个所有属性值都设置为默认值的实例。</p>
+
+
+<p>下面例子中创建了一个类<code>ShoppingListItem</code>，它封装了购物清单中的某一项的属性：名字（<code>name</code>）、数量（<code>quantity</code>）和购买状态 <code>purchase state</code>。</p>
+
+
+<pre><code>class ShoppingListItem {
+    var name: String?
+    var quantity = 1
+    var purchased = false
+}
+var item = ShoppingListItem()
+</code></pre>
+
+
+<p>由于<code>ShoppingListItem</code>类中的所有属性都有默认值，且它是没有父类的基类，它将自动获得一个可以为所有属性设置默认值的默认构造器（尽管代码中没有显式为<code>name</code>属性设置默认值，但由于<code>name</code>是可选字符串类型，它将默认设置为<code>nil</code>）。上面例子中使用默认构造器创造了一个<code>ShoppingListItem</code>类的实例（使用<code>ShoppingListItem()</code>形式的构造器语法），并将其赋值给变量<code>item</code>。</p>
+
+
+<h3 id="-">结构体的逐一成员构造器</h3>
+
+
+<p>除上面提到的默认构造器，如果结构体对所有存储型属性提供了默认值且自身没有提供定制的构造器，它们能自动获得一个逐一成员构造器。</p>
+
+
+<p>逐一成员构造器是用来初始化结构体新实例里成员属性的快捷方法。我们在调用逐一成员构造器时，通过与成员属性名相同的参数名进行传值来完成对成员属性的初始赋值。</p>
+
+
+<p>下面例子中定义了一个结构体<code>Size</code>，它包含两个属性<code>width</code>和<code>height</code>。Swift 可以根据这两个属性的初始赋值<code>0.0</code>自动推导出它们的类型<code>Double</code>。</p>
+
+
+<p>由于这两个存储型属性都有默认值，结构体<code>Size</code>自动获得了一个逐一成员构造器 <code>init(width:height:)</code>。 你可以用它来为<code>Size</code>创建新的实例：</p>
+
+
+<pre><code>struct Size {
+    var width = 0.0, height = 0.0
+}
+let twoByTwo = Size(width: 2.0, height: 2.0)
+</code></pre>
+
+
+<p><a name="initializer_delegation_for_value_types"></a></p>
+
+
+<h2 id="-">值类型的构造器代理</h2>
+
+
+<p>构造器可以通过调用其它构造器来完成实例的部分构造过程。这一过程称为构造器代理，它能减少多个构造器间的代码重复。</p>
+
+
+<p>构造器代理的实现规则和形式在值类型和类类型中有所不同。值类型（结构体和枚举类型）不支持继承，所以构造器代理的过程相对简单，因为它们只能代理任务给本身提供的其它构造器。类则不同，它可以继承自其它类（请参考<a href="../chapter2/13_Inheritance.html">继承</a>），这意味着类有责任保证其所有继承的存储型属性在构造时也能正确的初始化。这些责任将在后续章节<a href="#class_inheritance_and_initialization">类的继承和构造过程</a>中介绍。</p>
+
+
+<p>对于值类型，你可以使用<code>self.init</code>在自定义的构造器中引用其它的属于相同值类型的构造器。并且你只能在构造器内部调用<code>self.init</code>。</p>
+
+
+<p>注意，如果你为某个值类型定义了一个定制的构造器，你将无法访问到默认构造器（如果是结构体，则无法访问逐一对象构造器）。这个限制可以防止你在为值类型定义了一个更复杂的，完成了重要准备构造器之后，别人还是错误的使用了那个自动生成的构造器。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>假如你想通过默认构造器、逐一对象构造器以及你自己定制的构造器为值类型创建实例，我们建议你将自己定制的构造器写到扩展（<code>extension</code>）中，而不是跟值类型定义混在一起。想查看更多内容，请查看<a href="../chapter2/20_Extensions.html">扩展</a>章节。</p>
+</blockquote>
+
+
+<p>下面例子将定义一个结构体<code>Rect</code>，用来展现几何矩形。这个例子需要两个辅助的结构体<code>Size</code>和<code>Point</code>，它们各自为其所有的属性提供了初始值<code>0.0</code>。</p>
+
+
+<pre><code>struct Size {
+    var width = 0.0, height = 0.0
+}
+struct Point {
+    var x = 0.0, y = 0.0
+}
+</code></pre>
+
+
+<p>你可以通过以下三种方式为<code>Rect</code>创建实例&#8211;使用默认的0值来初始化<code>origin</code>和<code>size</code>属性；使用特定的<code>origin</code>和<code>size</code>实例来初始化；使用特定的<code>center</code>和<code>size</code>来初始化。在下面<code>Rect</code>结构体定义中，我们为着三种方式提供了三个自定义的构造器：</p>
+
+
+<pre><code>struct Rect {
+    var origin = Point()
+    var size = Size()
+    init() {}
+    init(origin: Point, size: Size) {
+        self.origin = origin
+        self.size = size
+    }
+    init(center: Point, size: Size) {
+        let originX = center.x - (size.width / 2)
+        let originY = center.y - (size.height / 2)
+        self.init(origin: Point(x: originX, y: originY), size: size)
+    }
+}
+</code></pre>
+
+
+<p>第一个<code>Rect</code>构造器<code>init()</code>，在功能上跟没有自定义构造器时自动获得的默认构造器是一样的。这个构造器是一个空函数，使用一对大括号<code>{}</code>来描述，它没有执行任何定制的构造过程。调用这个构造器将返回一个<code>Rect</code>实例，它的<code>origin</code>和<code>size</code>属性都使用定义时的默认值<code>Point(x: 0.0, y: 0.0)</code>和<code>Size(width: 0.0, height: 0.0)</code>：</p>
+
+
+<pre><code>let basicRect = Rect()
+// basicRect 的原点是 (0.0, 0.0)，尺寸是 (0.0, 0.0)
+</code></pre>
+
+
+<p>第二个<code>Rect</code>构造器<code>init(origin:size:)</code>，在功能上跟结构体在没有自定义构造器时获得的逐一成员构造器是一样的。这个构造器只是简单的将<code>origin</code>和<code>size</code>的参数值赋给对应的存储型属性：</p>
+
+
+<pre><code>let originRect = Rect(origin: Point(x: 2.0, y: 2.0),
+    size: Size(width: 5.0, height: 5.0))
+// originRect 的原点是 (2.0, 2.0)，尺寸是 (5.0, 5.0)
+</code></pre>
+
+
+<p>第三个<code>Rect</code>构造器<code>init(center:size:)</code>稍微复杂一点。它先通过<code>center</code>和<code>size</code>的值计算出<code>origin</code>的坐标。然后再调用（或代理给）<code>init(origin:size:)</code>构造器来将新的<code>origin</code>和<code>size</code>值赋值到对应的属性中：</p>
+
+
+<p>let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
+    size: Size(width: 3.0, height: 3.0))
+// centerRect 的原点是 (2.5, 2.5)，尺寸是 (3.0, 3.0)</p>
+
+
+<p>构造器<code>init(center:size:)</code>可以自己将<code>origin</code>和<code>size</code>的新值赋值到对应的属性中。然而尽量利用现有的构造器和它所提供的功能来实现<code>init(center:size:)</code>的功能，是更方便、更清晰和更直观的方法。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>如果你想用另外一种不需要自己定义<code>init()</code>和<code>init(origin:size:)</code>的方式来实现这个例子，请参考<a href="../chapter2/20_Extensions.html">扩展</a>。</p>
+</blockquote>
+
+
+<p><a name="class_inheritance_and_initialization"></a></p>
+
+
+<h2 id="-">类的继承和构造过程</h2>
+
+
+<p>类里面的所有存储型属性&#8211;包括所有继承自父类的属性&#8211;都必须在构造过程中设置初始值。</p>
+
+
+<p>Swift 提供了两种类型的类构造器来确保所有类实例中存储型属性都能获得初始值，它们分别是指定构造器和便利构造器。</p>
+
+
+<h3 id="-">指定构造器和便利构造器</h3>
+
+
+<p>指定构造器是类中最主要的构造器。一个指定构造器将初始化类中提供的所有属性，并根据父类链往上调用父类的构造器来实现父类的初始化。</p>
+
+
+<p>每一个类都必须拥有至少一个指定构造器。在某些情况下，许多类通过继承了父类中的指定构造器而满足了这个条件。具体内容请参考后续章节<a href="#automatic_initializer_inheritance">自动构造器的继承</a>。</p>
+
+
+<p>便利构造器是类中比较次要的、辅助型的构造器。你可以定义便利构造器来调用同一个类中的指定构造器，并为其参数提供默认值。你也可以定义便利构造器来创建一个特殊用途或特定输入的实例。</p>
+
+
+<p>你应当只在必要的时候为类提供便利构造器，比方说某种情况下通过使用便利构造器来快捷调用某个指定构造器，能够节省更多开发时间并让类的构造过程更清、晰明。</p>
+
+
+<p><a name="initialization_chain"></a></p>
+
+
+<h3 id="-">构造器链</h3>
+
+
+<p>为了简化指定构造器和便利构造器之间的调用关系，Swift 采用以下三条规则来限制构造器之间的代理调用：</p>
+
+
+<h4 id="-1">规则 1</h4>
+
+
+<p>指定构造器必须调用其直接父类的的指定构造器。</p>
+
+
+<h4 id="-2">规则 2</h4>
+
+
+<p>便利构造器必须调用同一类中定义的其它构造器。</p>
+
+
+<h4 id="-3">规则 3</h4>
+
+
+<p>便利构造器必须最终以调用一个指定构造器结束。</p>
+
+
+<p>一个更方便记忆的方法是：</p>
+
+
+<ul>
+<li>指定构造器必须总是向上代理</li>
+<li>便利构造器必须总是横向代理</li>
+</ul>
+
+
+<p>这些规则可以通过下面图例来说明：</p>
+
+
+<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/initializerDelegation01_2x.png" alt="构造器代理图"></p>
+
+
+<p>如图所示，父类中包含一个指定构造器和两个便利构造器。其中一个便利构造器调用了另外一个便利构造器，而后者又调用了唯一的指定构造器。这满足了上面提到的规则2和3。这个父类没有自己的父类，所以规则1没有用到。</p>
+
+
+<p>子类中包含两个指定构造器和一个便利构造器。便利构造器必须调用两个指定构造器中的任意一个，因为它只能调用同一个类里的其他构造器。这满足了上面提到的规则2和3。而两个指定构造器必须调用父类中唯一的指定构造器，这满足了规则1。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>这些规则不会影响使用时，如何用类去创建实例。任何上图中展示的构造器都可以用来完整创建对应类的实例。这些规则只在实现类的定义时有影响。</p>
+</blockquote>
+
+
+<p>下面图例中展示了一种更复杂的类层级结构。它演示了指定构造器是如果在类层级中充当“管道”的作用，在类的构造器链上简化了类之间的内部关系。</p>
+
+
+<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/initializerDelegation02_2x.png" alt="复杂构造器代理图"></p>
+
+
+<p><a name="two_phase_initialization"></a></p>
+
+
+<h3 id="-">两段式构造过程</h3>
+
+
+<p>Swift 中类的构造过程包含两个阶段。第一个阶段，每个存储型属性通过引入它们的类的构造器来设置初始值。当每一个存储型属性值被确定后，第二阶段开始，它给每个类一次机会在新实例准备使用之前进一步定制它们的存储型属性。</p>
+
+
+<p>两段式构造过程的使用让构造过程更安全，同时在整个类层级结构中给予了每个类完全的灵活性。两段式构造过程可以防止属性值在初始化之前被访问；也可以防止属性被另外一个构造器意外地赋予不同的值。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>Swift的两段式构造过程跟 Objective-C 中的构造过程类似。最主要的区别在于阶段 1，Objective-C 给每一个属性赋值<code>0</code>或空值（比如说<code>0</code>或<code>nil</code>）。Swift  的构造流程则更加灵活，它允许你设置定制的初始值，并自如应对某些属性不能以<code>0</code>或<code>nil</code>作为合法默认值的情况。</p>
+</blockquote>
+
+
+<p>Swift 编译器将执行 4 种有效的安全检查，以确保两段式构造过程能顺利完成：</p>
+
+
+<h4 id="-1">安全检查 1</h4>
+
+
+<p>指定构造器必须保证它所在类引入的所有属性都必须先初始化完成，之后才能将其它构造任务向上代理给父类中的构造器。</p>
+
+
+<p>如上所述，一个对象的内存只有在其所有存储型属性确定之后才能完全初始化。为了满足这一规则，指定构造器必须保证它所在类引入的属性在它往上代理之前先完成初始化。</p>
+
+
+<h4 id="-2">安全检查 2</h4>
+
+
+<p>指定构造器必须先向上代理调用父类构造器，然后再为继承的属性设置新值。如果没这么做，指定构造器赋予的新值将被父类中的构造器所覆盖。</p>
+
+
+<h4 id="-3">安全检查 3</h4>
+
+
+<p>便利构造器必须先代理调用同一类中的其它构造器，然后再为任意属性赋新值。如果没这么做，便利构造器赋予的新值将被同一类中其它指定构造器所覆盖。</p>
+
+
+<h4 id="-4">安全检查 4</h4>
+
+
+<p>构造器在第一阶段构造完成之前，不能调用任何实例方法、不能读取任何实例属性的值，也不能引用<code>self</code>的值。</p>
+
+
+<p>以下是两段式构造过程中基于上述安全检查的构造流程展示：</p>
+
+
+<h4 id="-1">阶段 1</h4>
+
+
+<ul>
+<li>某个指定构造器或便利构造器被调用；</li>
+<li>完成新实例内存的分配，但此时内存还没有被初始化；</li>
+<li>指定构造器确保其所在类引入的所有存储型属性都已赋初值。存储型属性所属的内存完成初始化；</li>
+<li>指定构造器将调用父类的构造器，完成父类属性的初始化；</li>
+<li>这个调用父类构造器的过程沿着构造器链一直往上执行，直到到达构造器链的最顶部；</li>
+<li>当到达了构造器链最顶部，且已确保所有实例包含的存储型属性都已经赋值，这个实例的内存被认为已经完全初始化。此时阶段1完成。</li>
+</ul>
+
+
+<h4 id="-2">阶段 2</h4>
+
+
+<ul>
+<li>从顶部构造器链一直往下，每个构造器链中类的指定构造器都有机会进一步定制实例。构造器此时可以访问<code>self</code>、修改它的属性并调用实例方法等等。</li>
+<li>最终，任意构造器链中的便利构造器可以有机会定制实例和使用<code>self</code>。</li>
+</ul>
+
+
+<p>下图展示了在假定的子类和父类之间构造的阶段1：
+·
+<img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/twoPhaseInitialization01_2x.png" alt="构造过程阶段1"></p>
+
+
+<p>在这个例子中，构造过程从对子类中一个便利构造器的调用开始。这个便利构造器此时没法修改任何属性，它把构造任务代理给同一类中的指定构造器。</p>
+
+
+<p>如安全检查1所示，指定构造器将确保所有子类的属性都有值。然后它将调用父类的指定构造器，并沿着造器链一直往上完成父类的构建过程。</p>
+
+
+<p>父类中的指定构造器确保所有父类的属性都有值。由于没有更多的父类需要构建，也就无需继续向上做构建代理。</p>
+
+
+<p>一旦父类中所有属性都有了初始值，实例的内存被认为是完全初始化，而阶段1也已完成。</p>
+
+
+<p>以下展示了相同构造过程的阶段2：</p>
+
+
+<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/twoPhaseInitialization02_2x.png" alt="构建过程阶段2"></p>
+
+
+<p>父类中的指定构造器现在有机会进一步来定制实例（尽管它没有这种必要）。</p>
+
+
+<p>一旦父类中的指定构造器完成调用，子类的构指定构造器可以执行更多的定制操作（同样，它也没有这种必要）。</p>
+
+
+<p>最终，一旦子类的指定构造器完成调用，最开始被调用的便利构造器可以执行更多的定制操作。</p>
+
+
+<h3 id="-">构造器的继承和重载</h3>
+
+
+<p>跟 Objective-C 中的子类不同，Swift 中的子类不会默认继承父类的构造器。Swift 的这种机制可以防止一个父类的简单构造器被一个更专业的子类继承，并被错误的用来创建子类的实例。</p>
+
+
+<p>假如你希望自定义的子类中能实现一个或多个跟父类相同的构造器&#8211;也许是为了完成一些定制的构造过程&#8211;你可以在你定制的子类中提供和重载与父类相同的构造器。</p>
+
+
+<p>如果你重载的构造器是一个指定构造器，你可以在子类里重载它的实现，并在自定义版本的构造器中调用父类版本的构造器。</p>
+
+
+<p>如果你重载的构造器是一个便利构造器，你的重载过程必须通过调用同一类中提供的其它指定构造器来实现。这一规则的详细内容请参考<a href="#initialization_chain">构造器链</a>。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>与方法、属性和下标不同，在重载构造器时你没有必要使用关键字<code>override</code>。</p>
+</blockquote>
+
+
+<p><a name="automatic_initializer_inheritance"></a></p>
+
+
+<h3 id="-">自动构造器的继承</h3>
+
+
+<p>如上所述，子类不会默认继承父类的构造器。但是如果特定条件可以满足，父类构造器是可以被自动继承的。在实践中，这意味着对于许多常见场景你不必重载父类的构造器，并且在尽可能安全的情况下以最小的代价来继承父类的构造器。</p>
+
+
+<p>假设要为子类中引入的任意新属性提供默认值，请遵守以下2个规则：</p>
+
+
+<h4 id="-1">规则 1</h4>
+
+
+<p>如果子类没有定义任何指定构造器，它将自动继承所有父类的指定构造器。</p>
+
+
+<h4 id="-2">规则 2</h4>
+
+
+<p>如果子类提供了所有父类指定构造器的实现&#8211;不管是通过规则1继承过来的，还是通过自定义实现的&#8211;它将自动继承所有父类的便利构造器。</p>
+
+
+<p>即使你在子类中添加了更多的便利构造器，这两条规则仍然适用。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>子类可以通过部分满足规则2的方式，使用子类便利构造器来实现父类的指定构造器。</p>
+</blockquote>
+
+
+<h3 id="-">指定构造器和便利构造器的语法</h3>
+
+
+<p>类的指定构造器的写法跟值类型简单构造器一样：</p>
+
+
+<pre><code>init(parameters) {
+    statements
+}
+</code></pre>
+
+
+<p>便利构造器也采用相同样式的写法，但需要在<code>init</code>关键字之前放置<code>convenience</code>关键字，并使用空格将它们俩分开：</p>
+
+
+<pre><code>convenience init(parameters) {
+    statements
+}
+</code></pre>
+
+
+<h3 id="-">指定构造器和便利构造器实战</h3>
+
+
+<p>接下来的例子将在实战中展示指定构造器、便利构造器和自动构造器的继承。它定义了包含三个类<code>Food</code>、<code>RecipeIngredient</code>以及<code>ShoppingListItem</code>的类层次结构，并将演示它们的构造器是如何相互作用的。</p>
+
+
+<p>类层次中的基类是<code>Food</code>，它是一个简单的用来封装食物名字的类。<code>Food</code>类引入了一个叫做<code>name</code>的<code>String</code>类型属性，并且提供了两个构造器来创建<code>Food</code>实例：</p>
+
+
+<pre><code>class Food {
+    var name: String
+    init(name: String) {
+        self.name = name
+    }
+    convenience init() {
+        self.init(name: "[Unnamed]")
+    }
+}
+</code></pre>
+
+
+<p>下图中展示了<code>Food</code>的构造器链：</p>
+
+
+<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/initializersExample01_2x.png" alt="Food构造器链"></p>
+
+
+<p>类没有提供一个默认的逐一成员构造器，所以<code>Food</code>类提供了一个接受单一参数<code>name</code>的指定构造器。这个构造器可以使用一个特定的名字来创建新的<code>Food</code>实例：</p>
+
+
+<pre><code>let namedMeat = Food(name: "Bacon")
+// namedMeat 的名字是 "Bacon”
+</code></pre>
+
+
+<p><code>Food</code>类中的构造器<code>init(name: String)</code>被定义为一个指定构造器，因为它能确保所有新<code>Food</code>实例的中存储型属性都被初始化。<code>Food</code>类没有父类，所以<code>init(name: String)</code>构造器不需要调用<code>super.init()</code>来完成构造。</p>
+
+
+<p><code>Food</code>类同样提供了一个没有参数的便利构造器 <code>init()</code>。这个<code>init()</code>构造器为新食物提供了一个默认的占位名字，通过代理调用同一类中定义的指定构造器<code>init(name: String)</code>并给参数<code>name</code>传值<code>[Unnamed]</code>来实现：</p>
+
+
+<pre><code>let mysteryMeat = Food()
+// mysteryMeat 的名字是 [Unnamed]
+</code></pre>
+
+
+<p>类层级中的第二个类是<code>Food</code>的子类<code>RecipeIngredient</code>。<code>RecipeIngredient</code>类构建了食谱中的一味调味剂。它引入了<code>Int</code>类型的数量属性<code>quantity</code>（以及从<code>Food</code>继承过来的<code>name</code>属性），并且定义了两个构造器来创建<code>RecipeIngredient</code>实例：</p>
+
+
+<pre><code>class RecipeIngredient: Food {
+    var quantity: Int
+    init(name: String, quantity: Int) {
+        self.quantity = quantity
+        super.init(name: name)
+    }
+    convenience init(name: String) {
+        self.init(name: name, quantity: 1)
+    }
+}
+</code></pre>
+
+
+<p>下图中展示了<code>RecipeIngredient</code>类的构造器链：</p>
+
+
+<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/initializersExample02_2x.png" alt="RecipeIngredient构造器"></p>
+
+
+<p><code>RecipeIngredient</code>类拥有一个指定构造器<code>init(name: String, quantity: Int)</code>，它可以用来产生新<code>RecipeIngredient</code>实例的所有属性值。这个构造器一开始先将传入的<code>quantity</code>参数赋值给<code>quantity</code>属性，这个属性也是唯一在<code>RecipeIngredient</code>中新引入的属性。随后，构造器将任务向上代理给父类<code>Food</code>的<code>init(name: String)</code>。这个过程满足<a href="#two_phase_initialization">两段式构造过程</a>中的安全检查1。</p>
+
+
+<p><code>RecipeIngredient</code>也定义了一个便利构造器<code>init(name: String)</code>，它只通过<code>name</code>来创建<code>RecipeIngredient</code>的实例。这个便利构造器假设任意<code>RecipeIngredient</code>实例的<code>quantity</code>为1，所以不需要显示指明数量即可创建出实例。这个便利构造器的定义可以让创建实例更加方便和快捷，并且避免了使用重复的代码来创建多个<code>quantity</code>为 1 的<code>RecipeIngredient</code>实例。这个便利构造器只是简单的将任务代理给了同一类里提供的指定构造器。</p>
+
+
+<p>注意，<code>RecipeIngredient</code>的便利构造器<code>init(name: String)</code>使用了跟<code>Food</code>中指定构造器<code>init(name: String)</code>相同的参数。尽管<code>RecipeIngredient</code>这个构造器是便利构造器，<code>RecipeIngredient</code>依然提供了对所有父类指定构造器的实现。因此，<code>RecipeIngredient</code>也能自动继承了所有父类的便利构造器。</p>
+
+
+<p>在这个例子中，<code>RecipeIngredient</code>的父类是<code>Food</code>，它有一个便利构造器<code>init()</code>。这个构造器因此也被<code>RecipeIngredient</code>继承。这个继承的<code>init()</code>函数版本跟<code>Food</code>提供的版本是一样的，除了它是将任务代理给<code>RecipeIngredient</code>版本的<code>init(name: String)</code>而不是<code>Food</code>提供的版本。</p>
+
+
+<p>所有的这三种构造器都可以用来创建新的<code>RecipeIngredient</code>实例：</p>
+
+
+<pre><code>let oneMysteryItem = RecipeIngredient()
+let oneBacon = RecipeIngredient(name: "Bacon")
+let sixEggs = RecipeIngredient(name: "Eggs", quantity: 6)
+</code></pre>
+
+
+<p>类层级中第三个也是最后一个类是<code>RecipeIngredient</code>的子类，叫做<code>ShoppingListItem</code>。这个类构建了购物单中出现的某一种调味料。</p>
+
+
+<p>购物单中的每一项总是从<code>unpurchased</code>未购买状态开始的。为了展现这一事实，<code>ShoppingListItem</code>引入了一个布尔类型的属性<code>purchased</code>，它的默认值是<code>false</code>。<code>ShoppingListItem</code>还添加了一个计算型属性<code>description</code>，它提供了关于<code>ShoppingListItem</code>实例的一些文字描述：</p>
+
+
+<pre><code>class ShoppingListItem: RecipeIngredient {
+    var purchased = false
+    var description: String {
+    var output = "\(quantity) x \(name.lowercaseString)"
+        output += purchased ? " ✔" : " ✘"
+        return output
+    }
+}
+</code></pre>
+
+
+<blockquote>
+<p>注意：</p>
+<p><code>ShoppingListItem</code>没有定义构造器来为<code>purchased</code>提供初始化值，这是因为任何添加到购物单的项的初始状态总是未购买。</p>
+</blockquote>
+
+
+<p>由于它为自己引入的所有属性都提供了默认值，并且自己没有定义任何构造器，<code>ShoppingListItem</code>将自动继承所有父类中的指定构造器和便利构造器。</p>
+
+
+<p>下图种展示了所有三个类的构造器链：</p>
+
+
+<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/initializersExample03_2x.png" alt="三类构造器图"></p>
+
+
+<p>你可以使用全部三个继承来的构造器来创建<code>ShoppingListItem</code>的新实例：</p>
+
+
+<pre><code>var breakfastList = [
+    ShoppingListItem(),
+    ShoppingListItem(name: "Bacon"),
+    ShoppingListItem(name: "Eggs", quantity: 6),
+]
+breakfastList[0].name = "Orange juice"
+breakfastList[0].purchased = true
+for item in breakfastList {
+    println(item.description)
+}
+// 1 x orange juice ✔
+// 1 x bacon ✘
+// 6 x eggs ✘
+</code></pre>
+
+
+<p>如上所述，例子中通过字面量方式创建了一个新数组<code>breakfastList</code>，它包含了三个新的<code>ShoppingListItem</code>实例，因此数组的类型也能自动推导为<code>ShoppingListItem[]</code>。在数组创建完之后，数组中第一个<code>ShoppingListItem</code>实例的名字从<code>[Unnamed]</code>修改为<code>Orange juice</code>，并标记为已购买。接下来通过遍历数组每个元素并打印它们的描述值，展示了所有项当前的默认状态都已按照预期完成了赋值。</p>
+
+
+<p><a name="setting_a_default_property_value_with_a_closure_or_function"></a></p>
+
+
+<h2 id="-">通过闭包和函数来设置属性的默认值</h2>
+
+
+<p>如果某个存储型属性的默认值需要特别的定制或准备，你就可以使用闭包或全局函数来为其属性提供定制的默认值。每当某个属性所属的新类型实例创建时，对应的闭包或函数会被调用，而它们的返回值会当做默认值赋值给这个属性。</p>
+
+
+<p>这种类型的闭包或函数一般会创建一个跟属性类型相同的临时变量，然后修改它的值以满足预期的初始状态，最后将这个临时变量的值作为属性的默认值进行返回。</p>
+
+
+<p>下面列举了闭包如何提供默认值的代码概要：</p>
+
+
+<pre><code>class SomeClass {
+    let someProperty: SomeType = {
+        // 在这个闭包中给 someProperty 创建一个默认值
+        // someValue 必须和 SomeType 类型相同
+        return someValue
+        }()
+}
+</code></pre>
+
+
+<p>注意闭包结尾的大括号后面接了一对空的小括号。这是用来告诉 Swift 需要立刻执行此闭包。如果你忽略了这对括号，相当于是将闭包本身作为值赋值给了属性，而不是将闭包的返回值赋值给属性。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>如果你使用闭包来初始化属性的值，请记住在闭包执行时，实例的其它部分都还没有初始化。这意味着你不能够在闭包里访问其它的属性，就算这个属性有默认值也不允许。同样，你也不能使用隐式的<code>self</code>属性，或者调用其它的实例方法。</p>
+</blockquote>
+
+
+<p>下面例子中定义了一个结构体<code>Checkerboard</code>，它构建了西洋跳棋游戏的棋盘：</p>
+
+
+<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/checkersBoard_2x.png" alt="西洋跳棋棋盘"></p>
+
+
+<p>西洋跳棋游戏在一副黑白格交替的 10x10 的棋盘中进行。为了呈现这副游戏棋盘，<code>Checkerboard</code>结构体定义了一个属性<code>boardColors</code>，它是一个包含 100 个布尔值的数组。数组中的某元素布尔值为<code>true</code>表示对应的是一个黑格，布尔值为<code>false</code>表示对应的是一个白格。数组中第一个元素代表棋盘上左上角的格子，最后一个元素代表棋盘上右下角的格子。</p>
+
+
+<p><code>boardColor</code>数组是通过一个闭包来初始化和组装颜色值的：</p>
+
+
+<pre><code>struct Checkerboard {
+    let boardColors: Bool[] = {
+        var temporaryBoard = Bool[]()
+        var isBlack = false
+        for i in 1...10 {
+            for j in 1...10 {
+                temporaryBoard.append(isBlack)
+                isBlack = !isBlack
+            }
+            isBlack = !isBlack
+        }
+        return temporaryBoard
+        }()
+    func squareIsBlackAtRow(row: Int, column: Int) -&gt; Bool {
+        return boardColors[(row * 10) + column]
+    }
+}
+</code></pre>
+
+
+<p>每当一个新的<code>Checkerboard</code>实例创建时，对应的赋值闭包会执行，一系列颜色值会被计算出来作为默认值赋值给<code>boardColors</code>。上面例子中描述的闭包将计算出棋盘中每个格子合适的颜色，将这些颜色值保存到一个临时数组<code>temporaryBoard</code>中，并在构建完成时将此数组作为闭包返回值返回。这个返回的值将保存到<code>boardColors</code>中，并可以通<code>squareIsBlackAtRow</code>这个工具函数来查询。</p>
+
+
+<pre><code>let board = Checkerboard()
+println(board.squareIsBlackAtRow(0, column: 1))
+// 输出 "true"
+println(board.squareIsBlackAtRow(9, column: 9))
+// 输出 "false"
+</code></pre>
 
 
 		
-		<a href="/blog/ios-application-security-14.html" class="more-link">继续阅读 &rarr;</a>
+		
 	</div>
 
 </article>
@@ -280,30 +1776,397 @@ Nov 15,&nbsp 2013  </div>
 
 
 
-Nov 15,&nbsp 2013  </div>
+Nov 27,&nbsp 2014  </div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/security/'>security</a>
+	<a class='category' href='/blog/categories/swift/'>swift</a>
 
 
 </div>
 		
-			<span class="comments"><a href="/blog/ios-application-security-13.html#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/Swift%E6%96%B9%E6%B3%95.html#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-13.html" itemprop="url">iOS应用程序安全(13)-使用Sogeti Data Protection tools启动定制的Ramdisk</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/Swift%E6%96%B9%E6%B3%95.html" itemprop="url">Swift方法</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/">http://resources.infosecinstitute.com/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
+		<p><strong>方法</strong>是与某些特定类型相关联的函数。类、结构体、枚举都可以定义实例方法；实例方法为给定类型的实例封装了具体的任务与功能。类、结构体、枚举也可以定义类型方法；类型方法与类型本身相关联。类型方法与 Objective-C 中的类方法（class methods）相似。</p>
 
-<p>在前面的文章当中，我们学习了如何使用Keychain-Dumper和Snoop-it来从iOS设备上导出和分析keychain的内容。本文我们将看看如何用一个自己的ramdisk来启动一个没有越狱的设备，并且分析该设备的内容。</p>
+
+<p>结构体和枚举能够定义方法是 Swift 与 C/Objective-C 的主要区别之一。在 Objective-C 中，类是唯一能定义方法的类型。但在 Swift 中，你不仅能选择是否要定义一个类/结构体/枚举，还能灵活的在你创建的类型（类/结构体/枚举）上定义方法。</p>
+
+
+<p><a name="instance_methods"></a></p>
+
+
+<h2 id="-instance-methods-">实例方法(Instance Methods)</h2>
+
+
+<p><strong>实例方法</strong>是属于某个特定类、结构体或者枚举类型实例的方法。实例方法提供访问和修改实例属性的方法或提供与实例目的相关的功能，并以此来支撑实例的功能。实例方法的语法与函数完全一致，详情参见<a href="../charpter2/06_Functions.html">函数</a>。</p>
+
+
+<p>实例方法要写在它所属的类型的前后大括号之间。实例方法能够隐式访问它所属类型的所有的其他实例方法和属性。实例方法只能被它所属的类的某个特定实例调用。实例方法不能脱离于现存的实例而被调用。</p>
+
+
+<p>下面的例子，定义一个很简单的类<code>Counter</code>，<code>Counter</code>能被用来对一个动作发生的次数进行计数：</p>
+
+
+<pre><code>class Counter {
+  var count = 0
+  func increment() {
+    count++
+  }
+  func incrementBy(amount: Int) {
+    count += amount
+  }
+  func reset() {
+    count = 0
+  }
+}
+</code></pre>
+
+
+<p><code>Counter</code>类定义了三个实例方法：</p>
+
+
+<ul>
+<li><code>increment</code>让计数器按一递增；</li>
+<li><code>incrementBy(amount: Int)</code>让计数器按一个指定的整数值递增；</li>
+<li><code>reset</code>将计数器重置为0。</li>
+</ul>
+
+
+<p><code>Counter</code>这个类还声明了一个可变属性<code>count</code>，用它来保持对当前计数器值的追踪。</p>
+
+
+<p>和调用属性一样，用点语法（dot syntax）调用实例方法：</p>
+
+
+<pre><code> let counter = Counter()
+ // 初始计数值是0
+ counter.increment()
+ // 计数值现在是1
+ counter.incrementBy(5)
+ // 计数值现在是6
+ counter.reset()
+ // 计数值现在是0
+</code></pre>
+
+
+<p><a name="local_and_external_parameter"></a></p>
+
+
+<h3 id="-local-and-external-parameter-names-for-methods-">方法的局部参数名称和外部参数名称(Local and External Parameter Names for Methods)</h3>
+
+
+<p>函数参数可以同时有一个局部名称（在函数体内部使用）和一个外部名称（在调用函数时使用），详情参见<a href="06_Functions.html">函数的外部参数名</a>。方法参数也一样（因为方法就是函数，只是这个函数与某个类型相关联了）。但是，方法和函数的局部名称和外部名称的默认行为是不一样的。</p>
+
+
+<p>Swift 中的方法和 Objective-C 中的方法极其相似。像在 Objective-C 中一样，Swift 中方法的名称通常用一个介词指向方法的第一个参数，比如：<code>with</code>，<code>for</code>，<code>by</code>等等。前面的<code>Counter</code>类的例子中<code>incrementBy</code>方法就是这样的。介词的使用让方法在被调用时能像一个句子一样被解读。和函数参数不同，对于方法的参数，Swift 使用不同的默认处理方式，这可以让方法命名规范更容易写。</p>
+
+
+<p>具体来说，Swift  默认仅给方法的第一个参数名称一个局部参数名称;默认同时给第二个和后续的参数名称局部参数名称和外部参数名称。这个约定与典型的命名和调用约定相适应，与你在写 Objective-C 的方法时很相似。这个约定还让表达式方法在调用时不需要再限定参数名称。</p>
+
+
+<p>看看下面这个<code>Counter</code>的另一个版本（它定义了一个更复杂的<code>incrementBy</code>方法）：</p>
+
+
+<pre><code>class Counter {
+  var count: Int = 0
+  func incrementBy(amount: Int, numberOfTimes: Int) {
+    count += amount * numberOfTimes
+  }
+}
+</code></pre>
+
+
+<p><code>incrementBy</code>方法有两个参数： <code>amount</code>和<code>numberOfTimes</code>。默认情况下，Swift 只把<code>amount</code>当作一个局部名称，但是把<code>numberOfTimes</code>即看作局部名称又看作外部名称。下面调用这个方法：</p>
+
+
+<pre><code>let counter = Counter()
+counter.incrementBy(5, numberOfTimes: 3)
+// counter value is now 15
+</code></pre>
+
+
+<p>你不必为第一个参数值再定义一个外部变量名：因为从函数名<code>incrementBy</code>已经能很清楚地看出它的作用。但是第二个参数，就要被一个外部参数名称所限定，以便在方法被调用时明确它的作用。</p>
+
+
+<p>这种默认的行为能够有效的处理方法（method）,类似于在参数<code>numberOfTimes</code>前写一个井号（<code>#</code>）：</p>
+
+
+<pre><code>func incrementBy(amount: Int, #numberOfTimes: Int) {
+ count += amount * numberOfTimes
+}
+</code></pre>
+
+
+<p>这种默认行为使上面代码意味着：在 Swift 中定义方法使用了与 Objective-C 同样的语法风格，并且方法将以自然表达式的方式被调用。</p>
+
+
+<p><a name="modifying_external_parameter"></a></p>
+
+
+<h3 id="-modifying-external-parameter-name-behavior-for-methods-">修改方法的外部参数名称(Modifying External Parameter Name Behavior for Methods)</h3>
+
+
+<p>有时为方法的第一个参数提供一个外部参数名称是非常有用的，尽管这不是默认的行为。你可以自己添加一个显式的外部名称或者用一个井号（<code>#</code>）作为第一个参数的前缀来把这个局部名称当作外部名称使用。</p>
+
+
+<p>相反，如果你不想为方法的第二个及后续的参数提供一个外部名称，可以通过使用下划线（<code>_</code>）作为该参数的显式外部名称，这样做将覆盖默认行为。</p>
+
+
+<p><a name="self_property"></a></p>
+
+
+<h2 id="-self-the-self-property-"><code>self</code>属性(The self Property)</h2>
+
+
+<p>类型的每一个实例都有一个隐含属性叫做<code>self</code>，<code>self</code>完全等同于该实例本身。你可以在一个实例的实例方法中使用这个隐含的<code>self</code>属性来引用当前实例。</p>
+
+
+<p>上面例子中的<code>increment</code>方法还可以这样写：</p>
+
+
+<pre><code>func increment() {
+  self.count++
+}
+</code></pre>
+
+
+<p>实际上，你不必在你的代码里面经常写<code>self</code>。不论何时，只要在一个方法中使用一个已知的属性或者方法名称，如果你没有明确的写<code>self</code>，Swift 假定你是指当前实例的属性或者方法。这种假定在上面的<code>Counter</code>中已经示范了：<code>Counter</code>中的三个实例方法中都使用的是<code>count</code>（而不是<code>self.count</code>）。</p>
+
+
+<p>使用这条规则的主要场景是实例方法的某个参数名称与实例的某个属性名称相同的时候。在这种情况下，参数名称享有优先权，并且在引用属性时必须使用一种更严格的方式。这时你可以使用<code>self</code>属性来区分参数名称和属性名称。</p>
+
+
+<p>下面的例子中，<code>self</code>消除方法参数<code>x</code>和实例属性<code>x</code>之间的歧义：</p>
+
+
+<pre><code>struct Point {
+  var x = 0.0, y = 0.0
+  func isToTheRightOfX(x: Double) -&gt; Bool {
+    return self.x &gt; x
+  }
+}
+let somePoint = Point(x: 4.0, y: 5.0)
+if somePoint.isToTheRightOfX(1.0) {
+  println("This point is to the right of the line where x == 1.0")
+}
+// 输出 "This point is to the right of the line where x == 1.0"（这个点在x等于1.0这条线的右边）
+</code></pre>
+
+
+<p>如果不使用<code>self</code>前缀，Swift 就认为两次使用的<code>x</code>都指的是名称为<code>x</code>的函数参数。</p>
+
+
+<p><a name="modifying_value_types"></a></p>
+
+
+<h3 id="-modifying-value-types-from-within-instance-methods-">在实例方法中修改值类型(Modifying Value Types from Within Instance Methods)</h3>
+
+
+<p>结构体和枚举是<strong>值类型</strong>。一般情况下，值类型的属性不能在它的实例方法中被修改。</p>
+
+
+<p>但是，如果你确实需要在某个具体的方法中修改结构体或者枚举的属性，你可以选择<code>变异(mutating)</code>这个方法，然后方法就可以从方法内部改变它的属性；并且它做的任何改变在方法结束时还会保留在原始结构中。方法还可以给它隐含的<code>self</code>属性赋值一个全新的实例，这个新实例在方法结束后将替换原来的实例。</p>
+
+
+<p>要使用<code>变异</code>方法， 将关键字<code>mutating</code> 放到方法的<code>func</code>关键字之前就可以了：</p>
+
+
+<pre><code>struct Point {
+  var x = 0.0, y = 0.0
+  mutating func moveByX(deltaX: Double, y deltaY: Double) {
+    x += deltaX
+    y += deltaY
+  }
+}
+var somePoint = Point(x: 1.0, y: 1.0)
+somePoint.moveByX(2.0, y: 3.0)
+println("The point is now at (\(somePoint.x), \(somePoint.y))")
+// 输出 "The point is now at (3.0, 4.0)"
+</code></pre>
+
+
+<p>上面的<code>Point</code>结构体定义了一个变异方法（mutating method）<code>moveByX</code>，<code>moveByX</code>用来移动点。<code>moveByX</code>方法在被调用时修改了这个点，而不是返回一个新的点。方法定义时加上<code>mutating</code>关键字,这才让方法可以修改值类型的属性。</p>
+
+
+<p>注意：不能在结构体类型常量上调用变异方法，因为常量的属性不能被改变，即使想改变的是常量的变量属性也不行，详情参见<a href="&quot;10_Properties.html&quot;">存储属性和实例变量</a></p>
+
+
+<pre><code>let fixedPoint = Point(x: 3.0, y: 3.0)
+fixedPoint.moveByX(2.0, y: 3.0)
+// this will report an error
+</code></pre>
+
+
+<p><a name="mutating_method_self"></a></p>
+
+
+<h3 id="-self-assigning-to-self-within-a-mutating-method-">在变异方法中给self赋值(Assigning to self Within a Mutating Method)</h3>
+
+
+<p>变异方法能够赋给隐含属性<code>self</code>一个全新的实例。上面<code>Point</code>的例子可以用下面的方式改写：</p>
+
+
+<pre><code>struct Point {
+  var x = 0.0, y = 0.0
+  mutating func moveByX(deltaX: Double, y deltaY: Double) {
+    self = Point(x: x + deltaX, y: y + deltaY)
+  }
+}
+</code></pre>
+
+
+<p>新版的变异方法<code>moveByX</code>创建了一个新的结构（它的 x 和 y 的值都被设定为目标值）。调用这个版本的方法和调用上个版本的最终结果是一样的。</p>
+
+
+<p>枚举的变异方法可以把<code>self</code>设置为相同的枚举类型中不同的成员：</p>
+
+
+<pre><code>enum TriStateSwitch {
+  case Off, Low, High
+  mutating func next() {
+    switch self {
+    case Off:
+      self = Low
+    case Low:
+      self = High
+    case High:
+      self = Off
+    }
+  }
+}
+var ovenLight = TriStateSwitch.Low
+ovenLight.next()
+// ovenLight 现在等于 .High
+ovenLight.next()
+// ovenLight 现在等于 .Off
+</code></pre>
+
+
+<p>上面的例子中定义了一个三态开关的枚举。每次调用<code>next</code>方法时，开关在不同的电源状态（<code>Off</code>，<code>Low</code>，<code>High</code>）之前循环切换。</p>
+
+
+<p><a name="type_methods"></a></p>
+
+
+<h2 id="-type-methods-">类型方法(Type Methods)</h2>
+
+
+<p>实例方法是被类型的某个实例调用的方法。你也可以定义类型本身调用的方法，这种方法就叫做<strong>类型方法</strong>。声明类的类型方法，在方法的<code>func</code>关键字之前加上关键字<code>class</code>；声明结构体和枚举的类型方法，在方法的<code>func</code>关键字之前加上关键字<code>static</code>。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>在 Objective-C 里面，你只能为 Objective-C 的类定义类型方法（type-level methods）。在 Swift 中，你可以为所有的类、结构体和枚举定义类型方法：每一个类型方法都被它所支持的类型显式包含。</p>
+</blockquote>
+
+
+<p>类型方法和实例方法一样用点语法调用。但是，你是在类型层面上调用这个方法，而不是在实例层面上调用。下面是如何在<code>SomeClass</code>类上调用类型方法的例子：</p>
+
+
+<pre><code>class SomeClass {
+  class func someTypeMethod() {
+    // type method implementation goes here
+  }
+}
+SomeClass.someTypeMethod()
+</code></pre>
+
+
+<p>在类型方法的方法体（body）中，<code>self</code>指向这个类型本身，而不是类型的某个实例。对于结构体和枚举来说，这意味着你可以用<code>self</code>来消除静态属性和静态方法参数之间的歧义（类似于我们在前面处理实例属性和实例方法参数时做的那样）。</p>
+
+
+<p>一般来说，任何未限定的方法和属性名称，将会来自于本类中另外的类型级别的方法和属性。一个类型方法可以调用本类中另一个类型方法的名称，而无需在方法名称前面加上类型名称的前缀。同样，结构体和枚举的类型方法也能够直接通过静态属性的名称访问静态属性，而不需要类型名称前缀。</p>
+
+
+<p>下面的例子定义了一个名为<code>LevelTracker</code>结构体。它监测玩家的游戏发展情况（游戏的不同层次或阶段）。这是一个单人游戏，但也可以存储多个玩家在同一设备上的游戏信息。</p>
+
+
+<p>游戏初始时，所有的游戏等级（除了等级 1）都被锁定。每次有玩家完成一个等级，这个等级就对这个设备上的所有玩家解锁。<code>LevelTracker</code>结构体用静态属性和方法监测游戏的哪个等级已经被解锁。它还监测每个玩家的当前等级。</p>
+
+
+<pre><code>struct LevelTracker {
+  static var highestUnlockedLevel = 1
+  static func unlockLevel(level: Int) {
+    if level &gt; highestUnlockedLevel { highestUnlockedLevel = level }
+  }
+  static func levelIsUnlocked(level: Int) -&gt; Bool {
+    return level &lt;= highestUnlockedLevel
+  }
+  var currentLevel = 1
+  mutating func advanceToLevel(level: Int) -&gt; Bool {
+    if LevelTracker.levelIsUnlocked(level) {
+      currentLevel = level
+      return true
+    } else {
+      return false
+    }
+  }
+}
+</code></pre>
+
+
+<p><code>LevelTracker</code>监测玩家的已解锁的最高等级。这个值被存储在静态属性<code>highestUnlockedLevel</code>中。</p>
+
+
+<p><code>LevelTracker</code>还定义了两个类型方法与<code>highestUnlockedLevel</code>配合工作。第一个类型方法是<code>unlockLevel</code>：一旦新等级被解锁，它会更新<code>highestUnlockedLevel</code>的值。第二个类型方法是<code>levelIsUnlocked</code>：如果某个给定的等级已经被解锁，它将返回<code>true</code>。（注意：尽管我们没有使用类似<code>LevelTracker.highestUnlockedLevel</code>的写法，这个类型方法还是能够访问静态属性<code>highestUnlockedLevel</code>）</p>
+
+
+<p>除了静态属性和类型方法，<code>LevelTracker</code>还监测每个玩家的进度。它用实例属性<code>currentLevel</code>来监测玩家当前的等级。</p>
+
+
+<p>为了便于管理<code>currentLevel</code>属性，<code>LevelTracker</code>定义了实例方法<code>advanceToLevel</code>。这个方法会在更新<code>currentLevel</code>之前检查所请求的新等级是否已经解锁。<code>advanceToLevel</code>方法返回布尔值以指示是否能够设置<code>currentLevel</code>。</p>
+
+
+<p>下面，<code>Player</code>类使用<code>LevelTracker</code>来监测和更新每个玩家的发展进度：</p>
+
+
+<pre><code>class Player {
+  var tracker = LevelTracker()
+  let playerName: String
+  func completedLevel(level: Int) {
+    LevelTracker.unlockLevel(level + 1)
+    tracker.advanceToLevel(level + 1)
+  }
+  init(name: String) {
+    playerName = name
+  }
+}
+</code></pre>
+
+
+<p><code>Player</code>类创建一个新的<code>LevelTracker</code>实例来监测这个用户的发展进度。他提供了<code>completedLevel</code>方法：一旦玩家完成某个指定等级就调用它。这个方法为所有玩家解锁下一等级，并且将当前玩家的进度更新为下一等级。（我们忽略了<code>advanceToLevel</code>返回的布尔值，因为之前调用<code>LevelTracker.unlockLevel</code>时就知道了这个等级已经被解锁了）。</p>
+
+
+<p>你还可以为一个新的玩家创建一个<code>Player</code>的实例，然后看这个玩家完成等级一时发生了什么：</p>
+
+
+<pre><code>var player = Player(name: "Argyrios")
+player.completedLevel(1)
+println("highest unlocked level is now \(LevelTracker.highestUnlockedLevel)")
+// 输出 "highest unlocked level is now 2"（最高等级现在是2
+）
+</code></pre>
+
+
+<p>如果你创建了第二个玩家，并尝试让他开始一个没有被任何玩家解锁的等级，那么这次设置玩家当前等级的尝试将会失败：</p>
+
+
+<pre><code>player = Player(name: "Beto")
+if player.tracker.advanceToLevel(6) {
+println("player is now on level 6")
+} else {
+println("level 6 has not yet been unlocked")
+}
+// 输出 "level 6 has not yet been unlocked"（等级6还没被解锁）
+</code></pre>
 
 
 		
-		<a href="/blog/ios-application-security-13.html" class="more-link">继续阅读 &rarr;</a>
+		
 	</div>
 
 </article>
@@ -324,34 +2187,974 @@ Nov 15,&nbsp 2013  </div>
 
 
 
-Nov 15,&nbsp 2013  </div>
+Nov 27,&nbsp 2014  </div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/security/'>security</a>
+	<a class='category' href='/blog/categories/swift/'>swift</a>
 
 
 </div>
 		
-			<span class="comments"><a href="/blog/ios-application-security-12.html#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="/blog/Swift%E6%8E%A7%E5%88%B6%E6%B5%81.html#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-12.html" itemprop="url">iOS应用程序安全(12)-导出Keychain数据</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/Swift%E6%8E%A7%E5%88%B6%E6%B5%81.html" itemprop="url">Swift控制流</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/">http://resources.infosecinstitute.com/ios-application-security-part-12-dumping-keychain-data/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
+		<p>Swift提供了类似 C 语言的流程控制结构，包括可以多次执行任务的<code>for</code>和<code>while</code>循环，基于特定条件选择执行不同代码分支的<code>if</code>和<code>switch</code>语句，还有控制流程跳转到其他代码的<code>break</code>和<code>continue</code>语句。</p>
 
-<p>在前面的文章中，我们查看了如何用不同的方法来分析应用的网络流量和API调用。本文我们将会从iOS设备中导出keychain的内容。</p>
 
-<h2>Keychain 基础</h2>
+<p>除了 C 语言里面传统的for条件递增（<code>for-condition-increment</code>）循环，Swift 还增加了<code>for-in</code>循环，用来更简单地遍历数组（array），字典（dictionary），区间（range），字符串（string）和其他序列类型。</p>
 
-<p>根据苹果的介绍，iOS设备中的Keychain是一个安全的存储容器，可以用来为不同应用保存敏感信息比如用户名，密码，网络密码，认证令牌。苹果自己用keychain来保存Wi-Fi网络密码，VPN凭证等等。它是一个sqlite数据库，位于/private/var/Keychains/keychain-2.db，其保存的所有数据都是加密过的。</p>
+
+<p>Swift 的<code>switch</code>语句比 C 语言中更加强大。在 C 语言中，如果某个 case 不小心漏写了<code>break</code>，这个 case 就会贯穿（fallthrough）至下一个 case，Swift 无需写<code>break</code>，所以不会发生这种贯穿（fallthrough）的情况。case 还可以匹配更多的类型模式，包括区间匹配（range matching），元组（tuple）和特定类型的描述。<code>switch</code>的 case 语句中匹配的值可以是由 case 体内部临时的常量或者变量决定，也可以由<code>where</code>分句描述更复杂的匹配条件。</p>
+
+
+<p><a name="for_loops"></a></p>
+
+
+<h2 id="for-">For 循环</h2>
+
+
+<p><code>for</code>循环用来按照指定的次数多次执行一系列语句。Swift 提供两种<code>for</code>循环形式：</p>
+
+
+<ul>
+<li><p><code>for-in</code>用来遍历一个区间（range），序列（sequence），集合（collection），系列（progression）里面所有的元素执行一系列语句。</p>
+</li>
+<li><p>for条件递增（<code>for-condition-increment</code>）语句，用来重复执行一系列语句直到达成特定条件达成，一般通过在每次循环完成后增加计数器的值来实现。</p>
+</li>
+</ul>
+
+
+<p><a name="for_in"></a></p>
+
+
+<h3 id="for-in">For-In</h3>
+
+
+<p>你可以使用<code>for-in</code>循环来遍历一个集合里面的所有元素，例如由数字表示的区间、数组中的元素、字符串中的字符。</p>
+
+
+<p>下面的例子用来输出乘 5 乘法表前面一部分内容：</p>
+
+
+<pre><code class="lang-swift">for index in 1...5 {
+    println("\(index) times 5 is \(index * 5)")
+}
+// 1 times 5 is 5
+// 2 times 5 is 10
+// 3 times 5 is 15
+// 4 times 5 is 20
+// 5 times 5 is 25
+</code></pre>
+
+
+<p>例子中用来进行遍历的元素是一组使用闭区间操作符（<code>...</code>）表示的从<code>1</code>到<code>5</code>的数字。<code>index</code>被赋值为闭区间中的第一个数字（<code>1</code>），然后循环中的语句被执行一次。在本例中，这个循环只包含一个语句，用来输出当前<code>index</code>值所对应的乘 5 乘法表结果。该语句执行后，<code>index</code>的值被更新为闭区间中的第二个数字（<code>2</code>），之后<code>println</code>方法会再执行一次。整个过程会进行到闭区间结尾为止。</p>
+
+
+<p>上面的例子中，<code>index</code>是一个每次循环遍历开始时被自动赋值的常量。这种情况下，<code>index</code>在使用前不需要声明，只需要将它包含在循环的声明中，就可以对其进行隐式声明，而无需使用<code>let</code>关键字声明。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p><code>index</code>常量只存在于循环的生命周期里。如果你想在循环完成后访问<code>index</code>的值，又或者想让<code>index</code>成为一个变量而不是常量，你必须在循环之前自己进行声明。</p>
+</blockquote>
+
+
+<p>如果你不需要知道区间内每一项的值，你可以使用下划线（<code>_</code>）替代变量名来忽略对值的访问：</p>
+
+
+<pre><code class="lang-swift">let base = 3
+let power = 10
+var answer = 1
+for _ in 1...power {
+    answer *= base
+}
+println("\(base) to the power of \(power) is \(answer)")
+// 输出 "3 to the power of 10 is 59049"
+</code></pre>
+
+
+<p>这个例子计算 base 这个数的 power 次幂（本例中，是<code>3</code>的<code>10</code>次幂），从<code>1</code>（<code>3</code>的<code>0</code>次幂）开始做<code>3</code>的乘法， 进行<code>10</code>次，使用<code>0</code>到<code>9</code>的半闭区间循环。这个计算并不需要知道每一次循环中计数器具体的值，只需要执行了正确的循环次数即可。下划线符号<code>_</code>（替代循环中的变量）能够忽略具体的值，并且不提供循环遍历时对值的访问。</p>
+
+
+<p>使用<code>for-in</code>遍历一个数组所有元素：</p>
+
+
+<pre><code class="lang-swift">let names = ["Anna", "Alex", "Brian", "Jack"]
+for name in names {
+    println("Hello, \(name)!")
+}
+// Hello, Anna!
+// Hello, Alex!
+// Hello, Brian!
+// Hello, Jack!
+</code></pre>
+
+
+<p>你也可以通过遍历一个字典来访问它的键值对（key-value pairs）。遍历字典时，字典的每项元素会以<code>(key, value)</code>元组的形式返回，你可以在<code>for-in</code>循环中使用显式的常量名称来解读<code>(key, value)</code>元组。下面的例子中，字典的键（key）解读为常量<code>animalName</code>，字典的值会被解读为常量<code>legCount</code>：</p>
+
+
+<pre><code class="lang-swift">let numberOfLegs = ["spider": 8, "ant": 6, "cat": 4]
+for (animalName, legCount) in numberOfLegs {
+    println("\(animalName)s have \(legCount) legs")
+}
+// spiders have 8 legs
+// ants have 6 legs
+// cats have 4 legs
+</code></pre>
+
+
+<p>字典元素的遍历顺序和插入顺序可能不同，字典的内容在内部是无序的，所以遍历元素时不能保证顺序。关于数组和字典，详情参见<a href="../chapter2/04_Collection_Types.html">集合类型</a>。</p>
+
+
+<p>除了数组和字典，你也可以使用<code>for-in</code>循环来遍历字符串中的字符（<code>Character</code>）：</p>
+
+
+<pre><code class="lang-swift">for character in "Hello" {
+    println(character)
+}
+// H
+// e
+// l
+// l
+// o
+</code></pre>
+
+
+<p><a name="for_condition_increment"></a></p>
+
+
+<h3 id="for-for-condition-increment-">For条件递增（for-condition-increment）</h3>
+
+
+<p>除了<code>for-in</code>循环，Swift 提供使用条件判断和递增方法的标准 C 样式<code>for</code>循环:</p>
+
+
+<pre><code class="lang-swift">for var index = 0; index &lt; 3; ++index {
+    println("index is \(index)")
+}
+// index is 0
+// index is 1
+// index is 2
+</code></pre>
+
+
+<p>下面是一般情况下这种循环方式的格式：</p>
+
+
+<pre><code class="lang-swift">for `initialization`; `condition`; `increment` {
+    `statements`
+}
+</code></pre>
+
+
+<p>和 C 语言中一样，分号将循环的定义分为 3 个部分，不同的是，Swift 不需要使用圆括号将“initialization; condition; increment”包括起来。</p>
+
+
+<p>这个循环执行流程如下：</p>
+
+
+<ol>
+<li>循环首次启动时，初始化表达式（<em>initialization expression</em>）被调用一次，用来初始化循环所需的所有常量和变量。</li>
+<li>条件表达式（<em>condition expression</em>）被调用，如果表达式调用结果为<code>false</code>，循环结束，继续执行<code>for</code>循环关闭大括号
+（<code>}</code>）之后的代码。如果表达式调用结果为<code>true</code>，则会执行大括号内部的代码（<em>statements</em>）。</li>
+<li>执行所有语句（<em>statements</em>）之后，执行递增表达式（<em>increment expression</em>）。通常会增加或减少计数器的值，或者根据语句（<em>statements</em>）输出来修改某一个初始化的变量。当递增表达式运行完成后，重复执行第 2 步，条件表达式会再次执行。</li>
+</ol>
+
+
+<p>上述描述和循环格式等同于：</p>
+
+
+<pre><code class="lang-swift">`initialization`
+while `condition` {
+    `statements`
+    `increment`
+}
+</code></pre>
+
+
+<p>在初始化表达式中声明的常量和变量（比如<code>var index = 0</code>）只在<code>for</code>循环的生命周期里有效。如果想在循环结束后访问<code>index</code>的值，你必须要在循环生命周期开始前声明<code>index</code>。</p>
+
+
+<pre><code class="lang-swift">var index: Int
+for index = 0; index &lt; 3; ++index {
+    println("index is \(index)")
+}
+// index is 0
+// index is 1
+// index is 2
+println("The loop statements were executed \(index) times")
+// 输出 "The loop statements were executed 3 times
+</code></pre>
+
+
+<p>注意<code>index</code>在循环结束后最终的值是<code>3</code>而不是<code>2</code>。最后一次调用递增表达式<code>++index</code>会将<code>index</code>设置为<code>3</code>，从而导致<code>index &lt; 3</code>条件为<code>false</code>，并终止循环。</p>
+
+
+<p><a name="while_loops"></a></p>
+
+
+<h2 id="while-">While 循环</h2>
+
+
+<p><code>while</code>循环运行一系列语句直到条件变成<code>false</code>。这类循环适合使用在第一次迭代前迭代次数未知的情况下。Swift 提供两种<code>while</code>循环形式：</p>
+
+
+<ul>
+<li><p><code>while</code>循环，每次在循环开始时计算条件是否符合；</p>
+</li>
+<li><p><code>do-while</code>循环，每次在循环结束时计算条件是否符合。</p>
+</li>
+</ul>
+
+
+<p><a name="while"></a></p>
+
+
+<h3 id="while">While</h3>
+
+
+<p><code>while</code>循环从计算单一条件开始。如果条件为<code>true</code>，会重复运行一系列语句，直到条件变为<code>false</code>。</p>
+
+
+<p>下面是一般情况下 <code>while</code> 循环格式：</p>
+
+
+<pre><code class="lang-swift">while `condition` {
+    `statements`
+}
+</code></pre>
+
+
+<p>下面的例子来玩一个叫做<em>蛇和梯子（Snakes and Ladders）</em>的小游戏，也叫做<em>滑道和梯子（Chutes and Ladders）</em>：</p>
+
+
+<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/snakesAndLadders_2x.png" alt="image"></p>
+
+
+<p>游戏的规则如下：</p>
+
+
+<ul>
+<li>游戏盘面包括 25 个方格，游戏目标是达到或者超过第 25 个方格；</li>
+<li>每一轮，你通过掷一个 6 边的骰子来确定你移动方块的步数，移动的路线由上图中横向的虚线所示；</li>
+<li>如果在某轮结束，你移动到了梯子的底部，可以顺着梯子爬上去；</li>
+<li>如果在某轮结束，你移动到了蛇的头部，你会顺着蛇的身体滑下去。</li>
+</ul>
+
+
+<p>游戏盘面可以使用一个<code>Int</code>数组来表达。数组的长度由一个<code>finalSquare</code>常量储存，用来初始化数组和检测最终胜利条件。游戏盘面由 26 个 <code>Int</code> 0 值初始化，而不是 25 个（由<code>0</code>到<code>25</code>，一共 26 个）：</p>
+
+
+<pre><code class="lang-swift">let finalSquare = 25
+var board = Int[](count: finalSquare + 1, repeatedValue: 0)
+</code></pre>
+
+
+<p>一些方块被设置成有蛇或者梯子的指定值。梯子底部的方块是一个正值，使你可以向上移动，蛇头处的方块是一个负值，会让你向下移动：</p>
+
+
+<pre><code class="lang-swift">board[03] = +08; board[06] = +11; board[09] = +09; board[10] = +02
+board[14] = -10; board[19] = -11; board[22] = -02; board[24] = -08
+</code></pre>
+
+
+<p>3 号方块是梯子的底部，会让你向上移动到 11 号方格，我们使用<code>board[03]</code>等于<code>+08</code>（来表示<code>11</code>和<code>3</code>之间的差值）。使用一元加运算符（<code>+i</code>）是为了和一元减运算符（<code>-i</code>）对称，为了让盘面代码整齐，小于 10 的数字都使用 0 补齐（这些风格上的调整都不是必须的，只是为了让代码看起来更加整洁）。</p>
+
+
+<p>玩家由左下角编号为 0 的方格开始游戏。一般来说玩家第一次掷骰子后才会进入游戏盘面：</p>
+
+
+<pre><code class="lang-swift">var square = 0
+var diceRoll = 0
+while square &lt; finalSquare {
+    // 掷骰子
+    if ++diceRoll == 7 { diceRoll = 1 }
+    // 根据点数移动
+    square += diceRoll
+    if square &lt; board.count {
+        // 如果玩家还在棋盘上，顺着梯子爬上去或者顺着蛇滑下去
+        square += board[square]
+    }
+}
+println("Game over!")
+</code></pre>
+
+
+<p>本例中使用了最简单的方法来模拟掷骰子。 <code>diceRoll</code>的值并不是一个随机数，而是以<code>0</code>为初始值，之后每一次<code>while</code>循环，<code>diceRoll</code>的值使用前置自增操作符(<code>++i</code>)来自增 1 ，然后检测是否超出了最大值。<code>++diceRoll</code>调用完成<em>后</em>，返回值等于<code>diceRoll</code>自增后的值。任何时候如果<code>diceRoll</code>的值等于7时，就超过了骰子的最大值，会被重置为<code>1</code>。所以<code>diceRoll</code>的取值顺序会一直是<code>1</code>，<code>2</code>，<code>3</code>，<code>4</code>，<code>5</code>，<code>6</code>，<code>1</code>，<code>2</code>。</p>
+
+
+<p>掷完骰子后，玩家向前移动<code>diceRoll</code>个方格，如果玩家移动超过了第 25 个方格，这个时候游戏结束，相应地，代码会在<code>square</code>增加<code>board[square]</code>的值向前或向后移动（遇到了梯子或者蛇）之前，检测<code>square</code>的值是否小于<code>board</code>的<code>count</code>属性。</p>
+
+
+<p>如果没有这个检测（<code>square &lt; board.count</code>），<code>board[square]</code>可能会越界访问<code>board</code>数组，导致错误。例如如果<code>square</code>等于<code>26</code>， 代码会去尝试访问<code>board[26]</code>，超过数组的长度。</p>
+
+
+<p>当本轮<code>while</code>循环运行完毕，会再检测循环条件是否需要再运行一次循环。如果玩家移动到或者超过第 25 个方格，循环条件结果为<code>false</code>，此时游戏结束。</p>
+
+
+<p><code>while</code> 循环比较适合本例中的这种情况，因为在 <code>while</code> 循环开始时，我们并不知道游戏的长度或者循环的次数，只有在达成指定条件时循环才会结束。</p>
+
+
+<p><a name="do_while"></a></p>
+
+
+<h3 id="do-while">Do-While</h3>
+
+
+<p><code>while</code>循环的另外一种形式是<code>do-while</code>，它和<code>while</code>的区别是在判断循环条件之前，先执行一次循环的代码块，然后重复循环直到条件为<code>false</code>。</p>
+
+
+<p>下面是一般情况下 <code>do-while</code>循环的格式：</p>
+
+
+<pre><code class="lang-swift">do {
+    `statements`
+} while `condition`
+</code></pre>
+
+
+<p>还是蛇和梯子的游戏，使用<code>do-while</code>循环来替代<code>while</code>循环。<code>finalSquare</code>、<code>board</code>、<code>square</code>和<code>diceRoll</code>的值初始化同<code>while</code>循环一样：</p>
+
+
+<pre><code class="lang-swift">let finalSquare = 25
+var board = Int[](count: finalSquare + 1, repeatedValue: 0)
+board[03] = +08; board[06] = +11; board[09] = +09; board[10] = +02
+board[14] = -10; board[19] = -11; board[22] = -02; board[24] = -08
+var square = 0
+var diceRoll = 0
+</code></pre>
+
+
+<p><code>do-while</code>的循环版本，循环中<em>第一步</em>就需要去检测是否在梯子或者蛇的方块上。没有梯子会让玩家直接上到第 25 个方格，所以玩家不会通过梯子直接赢得游戏。这样在循环开始时先检测是否踩在梯子或者蛇上是安全的。</p>
+
+
+<p>游戏开始时，玩家在第 0 个方格上，<code>board[0]</code>一直等于 0， 不会有什么影响：</p>
+
+
+<pre><code class="lang-swift">do {
+    // 顺着梯子爬上去或者顺着蛇滑下去
+    square += board[square]
+    // 掷骰子
+    if ++diceRoll == 7 { diceRoll = 1 }
+    // 根据点数移动
+    square += diceRoll
+} while square &lt; finalSquare
+println("Game over!")
+</code></pre>
+
+
+<p>检测完玩家是否踩在梯子或者蛇上之后，开始掷骰子，然后玩家向前移动<code>diceRoll</code>个方格，本轮循环结束。</p>
+
+
+<p>循环条件（<code>while square &lt; finalSquare</code>）和<code>while</code>方式相同，但是只会在循环结束后进行计算。在这个游戏中，<code>do-while</code>表现得比<code>while</code>循环更好。<code>do-while</code>方式会在条件判断<code>square</code>没有超出后直接运行<code>square += board[square]</code>，这种方式可以去掉<code>while</code>版本中的数组越界判断。</p>
+
+
+<p><a name="conditional_statement"></a></p>
+
+
+<h2 id="-">条件语句</h2>
+
+
+<p>根据特定的条件执行特定的代码通常是十分有用的，例如：当错误发生时，你可能想运行额外的代码；或者，当输入的值太大或太小时，向用户显示一条消息等。要实现这些功能，你就需要使用<em>条件语句</em>。</p>
+
+
+<p>Swift 提供两种类型的条件语句：<code>if</code>语句和<code>switch</code>语句。通常，当条件较为简单且可能的情况很少时，使用<code>if</code>语句。而<code>switch</code>语句更适用于条件较复杂、可能情况较多且需要用到模式匹配（pattern-matching）的情境。</p>
+
+
+<p><a name="if"></a></p>
+
+
+<h3 id="if">If</h3>
+
+
+<p><code>if</code>语句最简单的形式就是只包含一个条件，当且仅当该条件为<code>true</code>时，才执行相关代码：</p>
+
+
+<pre><code class="lang-swift">var temperatureInFahrenheit = 30
+if temperatureInFahrenheit &lt;= 32 {
+    println("It's very cold. Consider wearing a scarf.")
+}
+// 输出 "It's very cold. Consider wearing a scarf."
+</code></pre>
+
+
+<p>上面的例子会判断温度是否小于等于 32 华氏度（水的冰点）。如果是，则打印一条消息；否则，不打印任何消息，继续执行<code>if</code>块后面的代码。</p>
+
+
+<p>当然，<code>if</code>语句允许二选一，也就是当条件为<code>false</code>时，执行 <em>else 语句</em>：</p>
+
+
+<pre><code class="lang-swift">temperatureInFahrenheit = 40
+if temperatureInFahrenheit &lt;= 32 {
+    println("It's very cold. Consider wearing a scarf.")
+} else {
+    println("It's not that cold. Wear a t-shirt.")
+}
+// 输出 "It's not that cold. Wear a t-shirt."
+</code></pre>
+
+
+<p>显然，这两条分支中总有一条会被执行。由于温度已升至 40 华氏度，不算太冷，没必要再围围巾——因此，<code>else</code>分支就被触发了。</p>
+
+
+<p>你可以把多个<code>if</code>语句链接在一起，像下面这样：</p>
+
+
+<pre><code class="lang-swift">temperatureInFahrenheit = 90
+if temperatureInFahrenheit &lt;= 32 {
+    println("It's very cold. Consider wearing a scarf.")
+} else if temperatureInFahrenheit &gt;= 86 {
+    println("It's really warm. Don't forget to wear sunscreen.")
+} else {
+    println("It's not that cold. Wear a t-shirt.")
+}
+// 输出 "It's really warm. Don't forget to wear sunscreen."
+</code></pre>
+
+
+<p>在上面的例子中，额外的<code>if</code>语句用于判断是不是特别热。而最后的<code>else</code>语句被保留了下来，用于打印既不冷也不热时的消息。</p>
+
+
+<p>实际上，最后的<code>else</code>语句是可选的：</p>
+
+
+<pre><code class="lang-swift">temperatureInFahrenheit = 72
+if temperatureInFahrenheit &lt;= 32 {
+    println("It's very cold. Consider wearing a scarf.")
+} else if temperatureInFahrenheit &gt;= 86 {
+    println("It's really warm. Don't forget to wear sunscreen.")
+}
+</code></pre>
+
+
+<p>在这个例子中，由于既不冷也不热，所以不会触发<code>if</code>或<code>else if</code>分支，也就不会打印任何消息。</p>
+
+
+<p><a name="switch"></a></p>
+
+
+<h3 id="switch">Switch</h3>
+
+
+<p><code>switch</code>语句会尝试把某个值与若干个模式（pattern）进行匹配。根据第一个匹配成功的模式，<code>switch</code>语句会执行对应的代码。当有可能的情况较多时，通常用<code>switch</code>语句替换<code>if</code>语句。</p>
+
+
+<p><code>switch</code>语句最简单的形式就是把某个值与一个或若干个相同类型的值作比较：</p>
+
+
+<pre><code class="lang-swift">switch `some value to consider` {
+case `value 1`:
+    `respond to value 1`
+case `value 2`,
+`value 3`:
+    `respond to value 2 or 3`
+default:
+    `otherwise, do something else`
+}
+</code></pre>
+
+
+<p><code>switch</code>语句都由<em>多个 case</em> 构成。为了匹配某些更特定的值，Swift 提供了几种更复杂的匹配模式，这些模式将在本节的稍后部分提到。</p>
+
+
+<p>每一个 case 都是代码执行的一条分支，这与<code>if</code>语句类似。与之不同的是，<code>switch</code>语句会决定哪一条分支应该被执行。</p>
+
+
+<p><code>switch</code>语句必须是<em>完备的</em>。这就是说，每一个可能的值都必须至少有一个 case 分支与之对应。在某些不可能涵盖所有值的情况下，你可以使用默认（<code>default</code>）分支满足该要求，这个默认分支必须在<code>switch</code>语句的最后面。</p>
+
+
+<p>下面的例子使用<code>switch</code>语句来匹配一个名为<code>someCharacter</code>的小写字符：</p>
+
+
+<pre><code class="lang-swift">let someCharacter: Character = "e"
+switch someCharacter {
+case "a", "e", "i", "o", "u":
+    println("\(someCharacter) is a vowel")
+case "b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
+"n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z":
+    println("\(someCharacter) is a consonant")
+default:
+    println("\(someCharacter) is not a vowel or a consonant")
+}
+// 输出 "e is a vowel"
+</code></pre>
+
+
+<p>在这个例子中，第一个 case 分支用于匹配五个元音，第二个 case 分支用于匹配所有的辅音。</p>
+
+
+<p>由于为其它可能的字符写 case 分支没有实际的意义，因此在这个例子中使用了默认分支来处理剩下的既不是元音也不是辅音的字符——这就保证了<code>switch</code>语句的完备性。</p>
+
+
+<p><a name="no_implicit_fallthrough"></a></p>
+
+
+<h4 id="-no-implicit-fallthrough-">不存在隐式的贯穿（No Implicit Fallthrough）</h4>
+
+
+<p>与 C 语言和 Objective-C 中的<code>switch</code>语句不同，在 Swift 中，当匹配的 case 分支中的代码执行完毕后，程序会终止<code>switch</code>语句，而不会继续执行下一个 case 分支。这也就是说，不需要在 case 分支中显式地使用<code>break</code>语句。这使得<code>switch</code>语句更安全、更易用，也避免了因忘记写<code>break</code>语句而产生的错误。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>你依然可以在 case 分支中的代码执行完毕前跳出，详情请参考<a href="#break_in_a_switch_statement">Switch 语句中的 break</a>。</p>
+</blockquote>
+
+
+<p>每一个 case 分支都<em>必须</em>包含至少一条语句。像下面这样书写代码是无效的，因为第一个 case 分支是空的：</p>
+
+
+<pre><code class="lang-swift">let anotherCharacter: Character = "a"
+switch anotherCharacter {
+case "a":
+case "A":
+    println("The letter A")
+default:
+    println("Not the letter A")
+}
+// this will report a compile-time error
+</code></pre>
+
+
+<p>不像 C 语言里的<code>switch</code>语句，在 Swift 中，<code>switch</code>语句不会同时匹配<code>"a"</code>和<code>"A"</code>。相反的，上面的代码会引起编译期错误：<code>case "a": does not contain any executable statements</code>——这就避免了意外地从一个 case 分支贯穿到另外一个，使得代码更安全、也更直观。</p>
+
+
+<p>一个 case 也可以包含多个模式，用逗号把它们分开（如果太长了也可以分行写）：</p>
+
+
+<pre><code class="lang-swift">switch `some value to consider` {
+case `value 1`,
+`value 2`:
+    `statements`
+}
+</code></pre>
+
+
+<blockquote>
+<p>注意：
+如果想要贯穿至特定的 case 分支中，请使用<code>fallthrough</code>语句，详情请参考<a href="#fallthrough">贯穿（Fallthrough）</a>。</p>
+</blockquote>
+
+
+<p><a name="range_matching"></a></p>
+
+
+<h4 id="-range-matching-">区间匹配（Range Matching）</h4>
+
+
+<p>case 分支的模式也可以是一个值的区间。下面的例子展示了如何使用区间匹配来输出任意数字对应的自然语言格式：</p>
+
+
+<pre><code class="lang-swift">let count = 3_000_000_000_000
+let countedThings = "stars in the Milky Way"
+var naturalCount: String
+switch count {
+case 0:
+    naturalCount = "no"
+case 1...3:
+    naturalCount = "a few"
+case 4...9:
+    naturalCount = "several"
+case 10...99:
+    naturalCount = "tens of"
+case 100...999:
+    naturalCount = "hundreds of"
+case 1000...999_999:
+    naturalCount = "thousands of"
+default:
+    naturalCount = "millions and millions of"
+}
+println("There are \(naturalCount) \(countedThings).")
+// 输出 "There are millions and millions of stars in the Milky Way."
+</code></pre>
+
+
+<p><a name="tuples"></a></p>
+
+
+<h4 id="-tuple-">元组（Tuple）</h4>
+
+
+<p>你可以使用元组在同一个<code>switch</code>语句中测试多个值。元组中的元素可以是值，也可以是区间。另外，使用下划线（<code>_</code>）来匹配所有可能的值。</p>
+
+
+<p>下面的例子展示了如何使用一个<code>(Int, Int)</code>类型的元组来分类下图中的点(x, y)：</p>
+
+
+<pre><code class="lang-swift">let somePoint = (1, 1)
+switch somePoint {
+case (0, 0):
+    println("(0, 0) is at the origin")
+case (_, 0):
+    println("(\(somePoint.0), 0) is on the x-axis")
+case (0, _):
+    println("(0, \(somePoint.1)) is on the y-axis")
+case (-2...2, -2...2):
+    println("(\(somePoint.0), \(somePoint.1)) is inside the box")
+default:
+    println("(\(somePoint.0), \(somePoint.1)) is outside of the box")
+}
+// 输出 "(1, 1) is inside the box"
+</code></pre>
+
+
+<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/coordinateGraphSimple_2x.png" alt="image"></p>
+
+
+<p>在上面的例子中，<code>switch</code>语句会判断某个点是否是原点(0, 0)，是否在红色的x轴上，是否在黄色y轴上，是否在一个以原点为中心的4x4的矩形里，或者在这个矩形外面。</p>
+
+
+<p>不像 C 语言，Swift 允许多个 case 匹配同一个值。实际上，在这个例子中，点(0, 0)可以匹配所有<em>四个 case</em>。但是，如果存在多个匹配，那么只会执行第一个被匹配到的 case 分支。考虑点(0, 0)会首先匹配<code>case (0, 0)</code>，因此剩下的能够匹配(0, 0)的 case 分支都会被忽视掉。</p>
+
+
+<p><a name="value_bindings"></a></p>
+
+
+<h4 id="-value-bindings-">值绑定（Value Bindings）</h4>
+
+
+<p>case 分支的模式允许将匹配的值绑定到一个临时的常量或变量，这些常量或变量在该 case 分支里就可以被引用了——这种行为被称为<em>值绑定</em>（value binding）。</p>
+
+
+<p>下面的例子展示了如何在一个<code>(Int, Int)</code>类型的元组中使用值绑定来分类下图中的点(x, y)：</p>
+
+
+<pre><code class="lang-swift">let anotherPoint = (2, 0)
+switch anotherPoint {
+case (let x, 0):
+    println("on the x-axis with an x value of \(x)")
+case (0, let y):
+    println("on the y-axis with a y value of \(y)")
+case let (x, y):
+    println("somewhere else at (\(x), \(y))")
+}
+// 输出 "on the x-axis with an x value of 2"
+</code></pre>
+
+
+<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/coordinateGraphMedium_2x.png" alt="image"></p>
+
+
+<p>在上面的例子中，<code>switch</code>语句会判断某个点是否在红色的x轴上，是否在黄色y轴上，或者不在坐标轴上。</p>
+
+
+<p>这三个 case 都声明了常量<code>x</code>和<code>y</code>的占位符，用于临时获取元组<code>anotherPoint</code>的一个或两个值。第一个 case ——<code>case (let x, 0)</code>将匹配一个纵坐标为<code>0</code>的点，并把这个点的横坐标赋给临时的常量<code>x</code>。类似的，第二个 case ——<code>case (0, let y)</code>将匹配一个横坐标为<code>0</code>的点，并把这个点的纵坐标赋给临时的常量<code>y</code>。</p>
+
+
+<p>一旦声明了这些临时的常量，它们就可以在其对应的 case 分支里引用。在这个例子中，它们用于简化<code>println</code>的书写。</p>
+
+
+<p>请注意，这个<code>switch</code>语句不包含默认分支。这是因为最后一个 case ——<code>case let(x, y)</code>声明了一个可以匹配余下所有值的元组。这使得<code>switch</code>语句已经完备了，因此不需要再书写默认分支。</p>
+
+
+<p>在上面的例子中，<code>x</code>和<code>y</code>是常量，这是因为没有必要在其对应的 case 分支中修改它们的值。然而，它们也可以是变量——程序将会创建临时变量，并用相应的值初始化它。修改这些变量只会影响其对应的 case 分支。</p>
+
+
+<p><a name="where"></a></p>
+
+
+<h4 id="where">Where</h4>
+
+
+<p>case 分支的模式可以使用<code>where</code>语句来判断额外的条件。</p>
+
+
+<p>下面的例子把下图中的点(x, y)进行了分类：</p>
+
+
+<pre><code class="lang-swift">let yetAnotherPoint = (1, -1)
+switch yetAnotherPoint {
+case let (x, y) where x == y:
+    println("(\(x), \(y)) is on the line x == y")
+case let (x, y) where x == -y:
+    println("(\(x), \(y)) is on the line x == -y")
+case let (x, y):
+    println("(\(x), \(y)) is just some arbitrary point")
+}
+// 输出 "(1, -1) is on the line x == -y"
+</code></pre>
+
+
+<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/coordinateGraphComplex_2x.png" alt="image"></p>
+
+
+<p>在上面的例子中，<code>switch</code>语句会判断某个点是否在绿色的对角线<code>x == y</code>上，是否在紫色的对角线<code>x == -y</code>上，或者不在对角线上。</p>
+
+
+<p>这三个 case 都声明了常量<code>x</code>和<code>y</code>的占位符，用于临时获取元组<code>yetAnotherPoint</code>的两个值。这些常量被用作<code>where</code>语句的一部分，从而创建一个动态的过滤器(filter)。当且仅当<code>where</code>语句的条件为<code>true</code>时，匹配到的 case 分支才会被执行。</p>
+
+
+<p>就像是值绑定中的例子，由于最后一个 case 分支匹配了余下所有可能的值，<code>switch</code>语句就已经完备了，因此不需要再书写默认分支。</p>
+
+
+<p><a name="control_transfer_statements"></a></p>
+
+
+<h2 id="-control-transfer-statements-">控制传递语句（Control Transfer Statements）</h2>
+
+
+<p>控制转移语句改变你代码的执行顺序，通过它你可以实现代码的跳转。Swift有四种控制转移语句。</p>
+
+
+<ul>
+<li>continue</li>
+<li>break</li>
+<li>fallthrough</li>
+<li>return</li>
+</ul>
+
+
+<p>我们将会在下面讨论<code>continue</code>、<code>break</code>和<code>fallthrough</code>语句。<code>return</code>语句将会在<a href="../chapter2/06_Functions.html">函数</a>章节讨论。</p>
+
+
+<p><a name="continue"></a></p>
+
+
+<h3 id="continue">Continue</h3>
+
+
+<p><code>continue</code>语句告诉一个循环体立刻停止本次循环迭代，重新开始下次循环迭代。就好像在说“本次循环迭代我已经执行完了”，但是并不会离开整个循环体。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>在一个for条件递增（<code>for-condition-increment</code>）循环体中，在调用<code>continue</code>语句后，迭代增量仍然会被计算求值。循环体继续像往常一样工作，仅仅只是循环体中的执行代码会被跳过。</p>
+</blockquote>
+
+
+<p>下面的例子把一个小写字符串中的元音字母和空格字符移除，生成了一个含义模糊的短句：</p>
+
+
+<pre><code class="lang-swift">let puzzleInput = "great minds think alike"
+var puzzleOutput = ""
+for character in puzzleInput {
+    switch character {
+    case "a", "e", "i", "o", "u", " ":
+        continue
+    default:
+        puzzleOutput += character
+    }
+}
+println(puzzleOutput)
+    // 输出 "grtmndsthnklk"
+</code></pre>
+
+
+<p>在上面的代码中，只要匹配到元音字母或者空格字符，就调用<code>continue</code>语句，使本次循环迭代结束，从新开始下次循环迭代。这种行为使<code>switch</code>匹配到元音字母和空格字符时不做处理，而不是让每一个匹配到的字符都被打印。</p>
+
+
+<p><a name="break"></a></p>
+
+
+<h3 id="break">Break</h3>
+
+
+<p><code>break</code>语句会立刻结束整个控制流的执行。当你想要更早的结束一个<code>switch</code>代码块或者一个循环体时，你都可以使用<code>break</code>语句。</p>
+
+
+<p><a name="break_in_a_loop_statement"></a></p>
+
+
+<h4 id="-break">循环语句中的 break</h4>
+
+
+<p>当在一个循环体中使用<code>break</code>时，会立刻中断该循环体的执行，然后跳转到表示循环体结束的大括号(<code>}</code>)后的第一行代码。不会再有本次循环迭代的代码被执行，也不会再有下次的循环迭代产生。</p>
+
+
+<p><a name="break_in_a_switch_statement"></a></p>
+
+
+<h4 id="switch-break">Switch 语句中的 break</h4>
+
+
+<p>当在一个<code>switch</code>代码块中使用<code>break</code>时，会立即中断该<code>switch</code>代码块的执行，并且跳转到表示<code>switch</code>代码块结束的大括号(<code>}</code>)后的第一行代码。</p>
+
+
+<p>这种特性可以被用来匹配或者忽略一个或多个分支。因为 Swift 的<code>switch</code>需要包含所有的分支而且不允许有为空的分支，有时为了使你的意图更明显，需要特意匹配或者忽略某个分支。那么当你想忽略某个分支时，可以在该分支内写上<code>break</code>语句。当那个分支被匹配到时，分支内的<code>break</code>语句立即结束<code>switch</code>代码块。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p>当一个<code>switch</code>分支仅仅包含注释时，会被报编译时错误。注释不是代码语句而且也不能让<code>switch</code>分支达到被忽略的效果。你总是可以使用<code>break</code>来忽略某个分支。</p>
+</blockquote>
+
+
+<p>下面的例子通过<code>switch</code>来判断一个<code>Character</code>值是否代表下面四种语言之一。为了简洁，多个值被包含在了同一个分支情况中。</p>
+
+
+<pre><code class="lang-swift">let numberSymbol: Character = "三"  // 简体中文里的数字 3
+var possibleIntegerValue: Int?
+switch numberSymbol {
+case "1", "١", "一", "๑":
+    possibleIntegerValue = 1
+case "2", "٢", "二", "๒":
+    possibleIntegerValue = 2
+case "3", "٣", "三", "๓":
+    possibleIntegerValue = 3
+case "4", "٤", "四", "๔":
+    possibleIntegerValue = 4
+default:
+    break
+}
+if let integerValue = possibleIntegerValue {
+    println("The integer value of \(numberSymbol) is \(integerValue).")
+} else {
+    println("An integer value could not be found for \(numberSymbol).")
+}
+// 输出 "The integer value of 三 is 3."
+</code></pre>
+
+
+<p>这个例子检查<code>numberSymbol</code>是否是拉丁，阿拉伯，中文或者泰语中的<code>1</code>到<code>4</code>之一。如果被匹配到，该<code>switch</code>分支语句给<code>Int?</code>类型变量<code>possibleIntegerValue</code>设置一个整数值。</p>
+
+
+<p>当<code>switch</code>代码块执行完后，接下来的代码通过使用可选绑定来判断<code>possibleIntegerValue</code>是否曾经被设置过值。因为是可选类型的缘故，<code>possibleIntegerValue</code>有一个隐式的初始值<code>nil</code>，所以仅仅当<code>possibleIntegerValue</code>曾被<code>switch</code>代码块的前四个分支中的某个设置过一个值时，可选的绑定将会被判定为成功。</p>
+
+
+<p>在上面的例子中，想要把<code>Character</code>所有的的可能性都枚举出来是不现实的，所以使用<code>default</code>分支来包含所有上面没有匹配到字符的情况。由于这个<code>default</code>分支不需要执行任何动作，所以它只写了一条<code>break</code>语句。一旦落入到<code>default</code>分支中后，<code>break</code>语句就完成了该分支的所有代码操作，代码继续向下，开始执行<code>if let</code>语句。</p>
+
+
+<p><a name="fallthrough"></a></p>
+
+
+<h3 id="-fallthrough-">贯穿（Fallthrough）</h3>
+
+
+<p>Swift 中的<code>switch</code>不会从上一个 case 分支落入到下一个 case 分支中。相反，只要第一个匹配到的 case 分支完成了它需要执行的语句，整个<code>switch</code>代码块完成了它的执行。相比之下，C 语言要求你显示的插入<code>break</code>语句到每个<code>switch</code>分支的末尾来阻止自动落入到下一个 case 分支中。Swift 的这种避免默认落入到下一个分支中的特性意味着它的<code>switch</code> 功能要比 C 语言的更加清晰和可预测，可以避免无意识地执行多个 case 分支从而引发的错误。</p>
+
+
+<p>如果你确实需要 C 风格的贯穿（fallthrough）的特性，你可以在每个需要该特性的 case 分支中使用<code>fallthrough</code>关键字。下面的例子使用<code>fallthrough</code>来创建一个数字的描述语句。</p>
+
+
+<pre><code class="lang-swift">let integerToDescribe = 5
+var description = "The number \(integerToDescribe) is"
+switch integerToDescribe {
+case 2, 3, 5, 7, 11, 13, 17, 19:
+    description += " a prime number, and also"
+    fallthrough
+default:
+    description += " an integer."
+}
+println(description)
+// 输出 "The number 5 is a prime number, and also an integer."
+</code></pre>
+
+
+<p>这个例子定义了一个<code>String</code>类型的变量<code>description</code>并且给它设置了一个初始值。函数使用<code>switch</code>逻辑来判断<code>integerToDescribe</code>变量的值。当<code>integerToDescribe</code>的值属于列表中的质数之一时，该函数添加一段文字在<code>description</code>后，来表明这个是数字是一个质数。然后它使用<code>fallthrough</code>关键字来“贯穿”到<code>default</code>分支中。<code>default</code>分支添加一段额外的文字在<code>description</code>的最后，至此<code>switch</code>代码块执行完了。</p>
+
+
+<p>如果<code>integerToDescribe</code>的值不属于列表中的任何质数，那么它不会匹配到第一个<code>switch</code>分支。而这里没有其他特别的分支情况，所以<code>integerToDescribe</code>匹配到包含所有的<code>default</code>分支中。</p>
+
+
+<p>当<code>switch</code>代码块执行完后，使用<code>println</code>函数打印该数字的描述。在这个例子中，数字<code>5</code>被准确的识别为了一个质数。</p>
+
+
+<blockquote>
+<p>注意：</p>
+<p><code>fallthrough</code>关键字不会检查它下一个将会落入执行的 case 中的匹配条件。<code>fallthrough</code>简单地使代码执行继续连接到下一个 case 中的执行代码，这和 C 语言标准中的<code>switch</code>语句特性是一样的。</p>
+</blockquote>
+
+
+<p><a name="labeled_statements"></a></p>
+
+
+<h3 id="-labeled-statements-">带标签的语句（Labeled Statements）</h3>
+
+
+<p>在 Swift 中，你可以在循环体和<code>switch</code>代码块中嵌套循环体和<code>switch</code>代码块来创造复杂的控制流结构。然而，循环体和<code>switch</code>代码块两者都可以使用<code>break</code>语句来提前结束整个方法体。因此，显示地指明<code>break</code>语句想要终止的是哪个循环体或者<code>switch</code>代码块，会很有用。类似地，如果你有许多嵌套的循环体，显示指明<code>continue</code>语句想要影响哪一个循环体也会非常有用。</p>
+
+
+<p>为了实现这个目的，你可以使用标签来标记一个循环体或者<code>switch</code>代码块，当使用<code>break</code>或者<code>continue</code>时，带上这个标签，可以控制该标签代表对象的中断或者执行。</p>
+
+
+<p>产生一个带标签的语句是通过在该语句的关键词的同一行前面放置一个标签，并且该标签后面还需带着一个冒号。下面是一个<code>while</code>循环体的语法，同样的规则适用于所有的循环体和<code>switch</code>代码块。</p>
+
+
+<pre><code>`label name`: while `condition` {
+    `statements`
+}
+</code></pre>
+
+
+<p>下面的例子是在一个带有标签的<code>while</code>循环体中调用<code>break</code>和<code>continue</code>语句，该循环体是前面章节中<em>蛇和梯子</em>的改编版本。这次，游戏增加了一条额外的规则：</p>
+
+
+<ul>
+<li>为了获胜，你必须<em>刚好</em>落在第 25 个方块中。</li>
+</ul>
+
+
+<p>如果某次掷骰子使你的移动超出第 25 个方块，你必须重新掷骰子，直到你掷出的骰子数刚好使你能落在第 25 个方块中。</p>
+
+
+<p>游戏的棋盘和之前一样：</p>
+
+
+<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/snakesAndLadders_2x.png" alt="image"></p>
+
+
+<p>值<code>finalSquare</code>、<code>board</code>、<code>square</code>和<code>diceRoll</code>的初始化也和之前一样：</p>
+
+
+<pre><code class="lang-swift">let finalSquare = 25
+var board = Int[](count: finalSquare + 1, repeatedValue: 0)
+board[03] = +08; board[06] = +11; board[09] = +09; board[10] = +02
+board[14] = -10; board[19] = -11; board[22] = -02; board[24] = -08
+var square = 0
+var diceRoll = 0
+</code></pre>
+
+
+<p>这个版本的游戏使用<code>while</code>循环体和<code>switch</code>方法块来实现游戏的逻辑。<code>while</code>循环体有一个标签名<code>gameLoop</code>，来表明它是蛇与梯子的主循环。</p>
+
+
+<p>该<code>while</code>循环体的条件判断语句是<code>while square !=finalSquare</code>，这表明你必须刚好落在方格25中。</p>
+
+
+<pre><code class="lang-swift">gameLoop: while square != finalSquare {
+    if ++diceRoll == 7 { diceRoll = 1 }
+    switch square + diceRoll {
+    case finalSquare:
+        // 到达最后一个方块，游戏结束
+        break gameLoop
+    case let newSquare where newSquare &gt; finalSquare:
+        // 超出最后一个方块，再掷一次骰子
+        continue gameLoop
+    default:
+        // 本次移动有效
+        square += diceRoll
+        square += board[square]
+    }
+}
+println("Game over!")
+</code></pre>
+
+
+<p>每次循环迭代开始时掷骰子。与之前玩家掷完骰子就立即移动不同，这里使用了<code>switch</code>来考虑每次移动可能产生的结果，从而决定玩家本次是否能够移动。</p>
+
+
+<ul>
+<li><p>如果骰子数刚好使玩家移动到最终的方格里，游戏结束。<code>break gameLoop</code>语句跳转控制去执行<code>while</code>循环体后的第一行代码，游戏结束。</p>
+</li>
+<li><p>如果骰子数将会使玩家的移动超出最后的方格，那么这种移动是不合法的，玩家需要重新掷骰子。<code>continue gameLoop</code>语句结束本次<code>while</code>循环的迭代，开始下一次循环迭代。</p>
+</li>
+<li><p>在剩余的所有情况中，骰子数产生的都是合法的移动。玩家向前移动骰子数个方格，然后游戏逻辑再处理玩家当前是否处于蛇头或者梯子的底部。本次循环迭代结束，控制跳转到<code>while</code>循环体的条件判断语句处，再决定是否能够继续执行下次循环迭代。</p>
+</li>
+</ul>
+
+
+<blockquote>
+<p>注意：</p>
+<p>如果上述的<code>break</code>语句没有使用<code>gameLoop</code>标签，那么它将会中断<code>switch</code>代码块而不是<code>while</code>循环体。使用<code>gameLoop</code>标签清晰的表明了<code>break</code>想要中断的是哪个代码块。
+同时请注意，当调用<code>continue gameLoop</code>去跳转到下一次循环迭代时，这里使用<code>gameLoop</code>标签并不是严格必须的。因为在这个游戏中，只有一个循环体，所以<code>continue</code>语句会影响到哪个循环体是没有歧义的。然而，<code>continue</code>语句使用<code>gameLoop</code>标签也是没有危害的。这样做符合标签的使用规则，同时参照旁边的<code>break gameLoop</code>，能够使游戏的逻辑更加清晰和易于理解。</p>
+</blockquote>
 
 
 		
-		<a href="/blog/ios-application-security-12.html" class="more-link">继续阅读 &rarr;</a>
+		
 	</div>
 
 </article>
