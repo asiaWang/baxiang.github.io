@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | 小巴童鞋]]></title>
   <link href="http://baxiang123.com//blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-03-15T02:21:27+08:00</updated>
+  <updated>2015-03-15T02:35:28+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -36,12 +36,13 @@
 <p>这里是一个标准的，非泛型函数<code>swapTwoInts</code>,用来交换两个Int值：</p>
 
 
-<pre><code>func swapTwoInts(inout a: Int, inout b: Int)
+<pre>{% codeblock lang:objc %}
+func swapTwoInts(inout a: Int, inout b: Int)
     let temporaryA = a
     a = b
     b = temporaryA
 }
-</code></pre>
+{% endcodeblock %}</pre>
 
 
 <p>这个函数使用写入读出（in-out）参数来交换<code>a</code>和<code>b</code>的值，请参考[写入读出参数][1]。</p>
