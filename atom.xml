@@ -4,7 +4,7 @@
   <title><![CDATA[小巴童鞋]]></title>
   <link href="http://baxiang123.com//atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-03-15T04:37:46+08:00</updated>
+  <updated>2015-03-15T04:41:12+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -19,9 +19,6 @@
     <updated>2015-03-16T00:00:00+08:00</updated>
     <id>http://baxiang123.com//blog/SwiftAndObjectc</id>
     <content type="html"><![CDATA[<p>Swift 与 Objective-C 的兼容能力使你可以在同一个工程中同时使用两种语言。你可以用这种叫做 <code>mix and match</code> 的特性来开发基于混合语言的应用，可以用 Swift 的最新特性实现应用的一部分功能，并无缝地并入已有的 Objective-C 的代码中。</p>
-
-<!-- more -->
-
 
 <h2>Mix and Match 概述</h2>
 
@@ -2225,6 +2222,7 @@ alsoIncrementByTen()
     <content type="html"><![CDATA[<h2>常量和变量</h2>
 
 <p>常量和变量把一个名字（比如maximumNumberOfLoginAttempts或者welcomeMessage）和一个指定类型的值（比如数字10或者字符串&#8221;Hello&#8221;）关联起来。常量的值一旦设定就不能改变，而变量的值可以随意更改。</p>
+
 
 <p>Swift 是 iOS 和 OS X 应用开发的一门新语言。然而，如果你有 C 或者 Objective-C 开发经验的话，你会发现 Swift 的很多内容都是你熟悉的。</p>
 
