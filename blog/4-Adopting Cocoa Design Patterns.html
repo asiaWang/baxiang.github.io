@@ -1,14 +1,135 @@
-<hr />
 
-<p>layout: post<br/>
-title: 采用Cocoa设计模式</p>
+<!DOCTYPE HTML>
 
-<h2>categories: [swift]</h2>
+<html>
 
-<p>使用 Cocoa 现有的一些设计模式，是帮助开发者开发一款拥有合理设计思路、稳定的性能、良好的可扩展性应用的有效方法之一。这些模式都依赖于在 Objective-C 中定义的类。因为 Swift 与 Objective-C 的互用性，所以你依然可以在 Swift 代码中使用这些设计模式。在一些情况下，你甚至可以使用 Swift 语言的特性扩展或简化这些 Cocoa 设计模式，使这些设计模式更强大、更易于使用。<!--more-->
-<a name="Delegation"></a></p>
+<head>
+	<meta charset="utf-8">
+	<title>采用Cocoa设计模式 - 小巴童鞋</title>
+	<meta name="author" content="小巴">
 
-<h3>委托（Delegation</h3>
+	
+	<meta name="description" content="采用Cocoa设计模式 使用 Cocoa 现有的一些设计模式，是帮助开发者开发一款拥有合理设计思路、稳定的性能、良好的可扩展性应用的有效方法之一。这些模式都依赖于在 Objective-C 中定义的类。因为 Swift 与 Objective-C 的互用性，所以你依然可以在 Swift &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://baxiang123.com//blog/4-Adopting%20Cocoa%20Design%20Patterns.html">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+	<link href="/stylesheets/google-fonts.css" rel="stylesheet" type="text/css">
+	
+	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<meta name="baidu-site-verification" content="tXGpoDjJRv" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script type="text/javascript">
+ function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+ $(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+ });
+ </script>
+ 
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script async src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">BaXiang&#8217;s technology blog</p>
+<nav id="main-nav"><!--ul class="main">
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
+</ul><!-->
+<ul class="main-navigation">
+  <li><a href="/">Blog | 博客</a></li>
+  <li><a href="/blog/archives">Archives | 目录</a></li>
+  <li><a href="/blog/categories">Categories  | 分类</a></li>
+  <li><a href="/aboutme/">About Me | 关于</a></li>
+  
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<br/>
+	<div class="social">
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
+        
+		
+		
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">采用Cocoa设计模式</h1>
+	<div class="entry-content" itemprop="articleBody"><p>使用 Cocoa 现有的一些设计模式，是帮助开发者开发一款拥有合理设计思路、稳定的性能、良好的可扩展性应用的有效方法之一。这些模式都依赖于在 Objective-C 中定义的类。因为 Swift 与 Objective-C 的互用性，所以你依然可以在 Swift 代码中使用这些设计模式。在一些情况下，你甚至可以使用 Swift 语言的特性扩展或简化这些 Cocoa 设计模式，使这些设计模式更强大、更易于使用。</p>
+
+<!--more-->
+
+
+<h2>委托（Delegation）</h2>
 
 <p>在 Swift 和 Objective-C 中，委托通常由一个定义交互方法和遵循规范的委托属性的协议表示。与 Objective-C 相比，当你在 Swift 中继承一个委托时，虽然继承模式不变，但是内部的实现已经改变了。就像在 Objective-C 中，在你向委托发送消息之前，不管它是不是 <code>nil</code> 你都会去查看，如果定义的方法是非必须实现的方法，不管委托有没有实现这个方法，你也都会去查看。而在 Swift 中，通过保持类型安全的特性，可以有效的消除这些繁琐、不必要的行为问题。<br />
 下面列出的代码可以说明这个过程：<br />
@@ -37,13 +158,13 @@ title: 采用Cocoa设计模式</p>
 
 <p><a name="Lazy_Initialization"></a></p>
 
-<h3>延迟初始化（Lazy Initialization</h3>
+<h3>延迟初始化（Lazy Initialization）</h3>
 
 <p>你可以在 <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Properties.html#//apple_ref/doc/uid/TP40014097-CH14">Lazy Stored Properties</a> 中了解到更多关于延迟初始化的信息。</p>
 
 <p><a name="Error_Reporting"></a></p>
 
-<h3>错误报告（Error Reporting</h3>
+<h3>错误报告（Error Reporting）</h3>
 
 <p>Swift 中的错误报告模式沿用了 Objective-C 的模式，但 Swift 中不定值返回值的新特性给我们带来了额外的好处。举个很简单的例子，你用 <code>Bool</code> 值作为一个函数的返回值，用于标识该函数是否执行成功，当你需要输出错误信息时，你可以在函数中添加一个 <code>NSErrorPointer</code> 类型的输出参数 <code>NSError</code>。这个类型类似 Objective-C 中的 <code>NSError **</code>，并增加了内存安全性和非强制性的传参。你可以使用 <code>&amp;</code> 运算符作为前缀引用一个不定值 <code>NSError</code> 类型作为 <code>NSErrorPointer</code> 对象传递错误信息。如下面的代码所示：<br /></p>
 
@@ -93,19 +214,19 @@ title: 采用Cocoa设计模式</p>
 
 <p><a name="Key-Value_Observing"></a></p>
 
-<h3>键值观察（Key-Value Observin</h3>
+<h2>键值观察（Key-Value Observing）</h2>
 
 <p>尽请期待。</p>
 
 <p><a name="Target_Action"></a></p>
 
-<h3>Target-Action模式（Target-Action)</h3>
+<h2>Target-Action模式（Target-Action）</h2>
 
 <p>当有特定事件发生，需要一个对象向另一个对象发送消息时，我们通常采用 Cocoa 的 Target-Action 设计模式。Swift 和 Objective-C 中的 Target-Action 模型基本类似。在 Swift 中，你可以使用 <code>Selector</code> 类型达到 Objective-C 中 selectors 的效果。请在 <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html#//apple_ref/doc/uid/TP40014216-CH4-XID_37">Objective-C Selectors</a> 中查看在 Swift 中使用 Target-Action 设计模式的示例。</p>
 
 <p><a name="Introspection"></a></p>
 
-<h3>类型匹配与统一规范（Introspectio</h3>
+<h2>类型匹配与统一规范（Introspection）</h2>
 
 <p>在 Objective-C 中，你可以使用 <code>isKindOfClass:</code> 方法检查某个对象是否是指定类型，可以使用 <code>conformsToProtocol:</code> 方法检查某个对象是否遵循特定协议的规范。在 Swift 中，你可以使用 <code>is</code> 运算符完成上述的功能，或者也可以使用 <code>as?</code> 向下匹配指定类型。<br />
 你可以使用 <code>is</code> 运算符检查一个实例是否是指定的子类。如果该实例是指定的子类，那么 <code>is</code> 运算结果为 <code>true</code>，反之为 <code>false</code>。</p>
@@ -156,3 +277,40 @@ title: 采用Cocoa设计模式</p>
 
 <p>注意，当做完匹配之后，<code>dataSource</code> 会转换为  <code>UITableViewDataSource</code> 类型，所以你只能访问和调用<code>UITableViewDataSource</code> 协议定义的属性和方法。当你想进行其他操作时，必须将其转换为其他的类型。<br />
 可以在 <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Protocols.html#//apple_ref/doc/uid/TP40014097-CH25">Protocols</a> 查看更多相关信息。</p>
+</div>
+
+</article>
+
+	<div class="bdsharebuttonbox"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["qzone","bdysc","renren","douban","fx","youdao","mail","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+<!--兼容版，可保证页面完全兼容-->
+<div id="SOHUCS"></div>
+<script>
+  (function(){
+    var appid = 'cyrof0xla',
+    conf = 'prod_33cb4369c37266cd8994da8878b17b87';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+  })()
+</script>
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+</body>
+</html>

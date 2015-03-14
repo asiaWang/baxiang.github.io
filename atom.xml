@@ -4,7 +4,7 @@
   <title><![CDATA[小巴童鞋]]></title>
   <link href="http://baxiang123.com//atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-03-15T05:35:31+08:00</updated>
+  <updated>2015-03-15T05:42:28+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -867,21 +867,16 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[4 Adopting cocoa design patterns]]></title>
+    <title type="html"><![CDATA[采用Cocoa设计模式]]></title>
     <link href="http://baxiang123.com//blog/4-Adopting%20Cocoa%20Design%20Patterns.html"/>
     <updated>2015-03-16T00:00:00+08:00</updated>
     <id>http://baxiang123.com//blog/4-Adopting Cocoa Design Patterns</id>
-    <content type="html"><![CDATA[<hr />
+    <content type="html"><![CDATA[<p>使用 Cocoa 现有的一些设计模式，是帮助开发者开发一款拥有合理设计思路、稳定的性能、良好的可扩展性应用的有效方法之一。这些模式都依赖于在 Objective-C 中定义的类。因为 Swift 与 Objective-C 的互用性，所以你依然可以在 Swift 代码中使用这些设计模式。在一些情况下，你甚至可以使用 Swift 语言的特性扩展或简化这些 Cocoa 设计模式，使这些设计模式更强大、更易于使用。</p>
 
-<p>layout: post<br/>
-title: 采用Cocoa设计模式</p>
+<!--more-->
 
-<h2>categories: [swift]</h2>
 
-<p>使用 Cocoa 现有的一些设计模式，是帮助开发者开发一款拥有合理设计思路、稳定的性能、良好的可扩展性应用的有效方法之一。这些模式都依赖于在 Objective-C 中定义的类。因为 Swift 与 Objective-C 的互用性，所以你依然可以在 Swift 代码中使用这些设计模式。在一些情况下，你甚至可以使用 Swift 语言的特性扩展或简化这些 Cocoa 设计模式，使这些设计模式更强大、更易于使用。<!--more-->
-<a name="Delegation"></a></p>
-
-<h3>委托（Delegation</h3>
+<h2>委托（Delegation）</h2>
 
 <p>在 Swift 和 Objective-C 中，委托通常由一个定义交互方法和遵循规范的委托属性的协议表示。与 Objective-C 相比，当你在 Swift 中继承一个委托时，虽然继承模式不变，但是内部的实现已经改变了。就像在 Objective-C 中，在你向委托发送消息之前，不管它是不是 <code>nil</code> 你都会去查看，如果定义的方法是非必须实现的方法，不管委托有没有实现这个方法，你也都会去查看。而在 Swift 中，通过保持类型安全的特性，可以有效的消除这些繁琐、不必要的行为问题。<br />
 下面列出的代码可以说明这个过程：<br />
@@ -910,13 +905,13 @@ title: 采用Cocoa设计模式</p>
 
 <p><a name="Lazy_Initialization"></a></p>
 
-<h3>延迟初始化（Lazy Initialization</h3>
+<h3>延迟初始化（Lazy Initialization）</h3>
 
 <p>你可以在 <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Properties.html#//apple_ref/doc/uid/TP40014097-CH14">Lazy Stored Properties</a> 中了解到更多关于延迟初始化的信息。</p>
 
 <p><a name="Error_Reporting"></a></p>
 
-<h3>错误报告（Error Reporting</h3>
+<h3>错误报告（Error Reporting）</h3>
 
 <p>Swift 中的错误报告模式沿用了 Objective-C 的模式，但 Swift 中不定值返回值的新特性给我们带来了额外的好处。举个很简单的例子，你用 <code>Bool</code> 值作为一个函数的返回值，用于标识该函数是否执行成功，当你需要输出错误信息时，你可以在函数中添加一个 <code>NSErrorPointer</code> 类型的输出参数 <code>NSError</code>。这个类型类似 Objective-C 中的 <code>NSError **</code>，并增加了内存安全性和非强制性的传参。你可以使用 <code>&amp;</code> 运算符作为前缀引用一个不定值 <code>NSError</code> 类型作为 <code>NSErrorPointer</code> 对象传递错误信息。如下面的代码所示：<br /></p>
 
@@ -966,19 +961,19 @@ title: 采用Cocoa设计模式</p>
 
 <p><a name="Key-Value_Observing"></a></p>
 
-<h3>键值观察（Key-Value Observin</h3>
+<h2>键值观察（Key-Value Observing）</h2>
 
 <p>尽请期待。</p>
 
 <p><a name="Target_Action"></a></p>
 
-<h3>Target-Action模式（Target-Action)</h3>
+<h2>Target-Action模式（Target-Action）</h2>
 
 <p>当有特定事件发生，需要一个对象向另一个对象发送消息时，我们通常采用 Cocoa 的 Target-Action 设计模式。Swift 和 Objective-C 中的 Target-Action 模型基本类似。在 Swift 中，你可以使用 <code>Selector</code> 类型达到 Objective-C 中 selectors 的效果。请在 <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html#//apple_ref/doc/uid/TP40014216-CH4-XID_37">Objective-C Selectors</a> 中查看在 Swift 中使用 Target-Action 设计模式的示例。</p>
 
 <p><a name="Introspection"></a></p>
 
-<h3>类型匹配与统一规范（Introspectio</h3>
+<h2>类型匹配与统一规范（Introspection）</h2>
 
 <p>在 Objective-C 中，你可以使用 <code>isKindOfClass:</code> 方法检查某个对象是否是指定类型，可以使用 <code>conformsToProtocol:</code> 方法检查某个对象是否遵循特定协议的规范。在 Swift 中，你可以使用 <code>is</code> 运算符完成上述的功能，或者也可以使用 <code>as?</code> 向下匹配指定类型。<br />
 你可以使用 <code>is</code> 运算符检查一个实例是否是指定的子类。如果该实例是指定的子类，那么 <code>is</code> 运算结果为 <code>true</code>，反之为 <code>false</code>。</p>
