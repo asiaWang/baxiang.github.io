@@ -4,7 +4,7 @@
   <title><![CDATA[小巴童鞋]]></title>
   <link href="http://baxiang123.com//atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-03-15T03:08:57+08:00</updated>
+  <updated>2015-03-15T04:34:44+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -14,34 +14,14 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Swiftandobjectc]]></title>
+    <title type="html"><![CDATA[在同个工程中使用 Swift 和 Objective-C]]></title>
     <link href="http://baxiang123.com//blog/SwiftAndObjectc.html"/>
     <updated>2015-03-16T00:00:00+08:00</updated>
     <id>http://baxiang123.com//blog/SwiftAndObjectc</id>
-    <content type="html"><![CDATA[<blockquote><p>翻译：<a href="https://github.com/haolloyin">haolloyin</a></p>
+    <content type="html"><![CDATA[<p>Swift 与 Objective-C 的兼容能力使你可以在同一个工程中同时使用两种语言。你可以用这种叫做 <code>mix and match</code> 的特性来开发基于混合语言的应用，可以用 Swift 的最新特性实现应用的一部分功能，并无缝地并入已有的 Objective-C 的代码中。</p>
 
-<p>校对：<a href="https://github.com/dabing1022">ChildhoodAndy</a></p></blockquote>
+<!-- more -->
 
-<h1>在同个工程中使用 Swift 和 Objective-C</h1>
-
-<hr />
-
-<p>本节包含内容：</p>
-
-<ul>
-<li><a href="#mix_and_match_overview">Mix and Match 概述（Mix and Match Overview）</a></li>
-<li><a href="#importing_code_from_within_the_same_app_target">在同个应用的 target 中导入（Importing Code from Within the Same App Target）</a></li>
-<li><a href="#importing_code_from_within_the_same_framework_target">在同个 Framework 的 target 中导入（Importing Code from Within the Same Framework Target）</a></li>
-<li><a href="#importing_external_frameworks">导入外部 framework（Importing External Frameworks）</a></li>
-<li><a href="#using_swift_from_objective-c">在 Objective-C 中使用 Swift（Using Swift from Objective-C）</a></li>
-<li><a href="#naming_your_product_module">Product 模块命名（Naming Your Product Module）</a></li>
-<li><a href="#troubleshooting_tips_and_reminders">问题解决提示（Troubleshooting Tips and Reminders）</a></li>
-</ul>
-
-
-<p>Swift 与 Objective-C 的兼容能力使你可以在同一个工程中同时使用两种语言。你可以用这种叫做 <code>mix and match</code> 的特性来开发基于混合语言的应用，可以用 Swift 的最新特性实现应用的一部分功能，并无缝地并入已有的 Objective-C 的代码中。</p>
-
-<p><a name="mix_and_match_overview"></a></p>
 
 <h2>Mix and Match 概述</h2>
 
@@ -2240,7 +2220,6 @@ alsoIncrementByTen()
     <updated>2015-03-15T00:00:00+08:00</updated>
     <id>http://baxiang123.com//blog/Swift语言简介</id>
     <content type="html"><![CDATA[<h2>常量和变量</h2>
-
 
 <p>常量和变量把一个名字（比如maximumNumberOfLoginAttempts或者welcomeMessage）和一个指定类型的值（比如数字10或者字符串&#8221;Hello&#8221;）关联起来。常量的值一旦设定就不能改变，而变量的值可以随意更改。</p>
 
