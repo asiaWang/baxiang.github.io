@@ -4,7 +4,7 @@
   <title><![CDATA[小巴童鞋]]></title>
   <link href="http://baxiang123.com//atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-03-15T04:41:12+08:00</updated>
+  <updated>2015-03-15T04:49:58+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -20,7 +20,7 @@
     <id>http://baxiang123.com//blog/SwiftAndObjectc</id>
     <content type="html"><![CDATA[<p>Swift 与 Objective-C 的兼容能力使你可以在同一个工程中同时使用两种语言。你可以用这种叫做 <code>mix and match</code> 的特性来开发基于混合语言的应用，可以用 Swift 的最新特性实现应用的一部分功能，并无缝地并入已有的 Objective-C 的代码中。</p>
 
-<h2>Mix and Match 概述</h2>
+<h3>Mix and Match 概述</h3>
 
 <p>Objective-C 和 Swift 文件可以在一个工程中并存，不管这个工程原本是基于 Objective-C 还是 Swift。你可以直接往现有工程中简单地添加另一种语言的源文件。这种自然的工作流使得创建混合语言的应用或框架 target，与用单独一种语言时一样简单。</p>
 
@@ -33,11 +33,11 @@
 
 <p><a name="importing_code_from_within_the_same_app_target"></a></p>
 
-<h2>在同个应用的 target 中导入</h2>
+<h3>在同个应用的 target 中导入</h3>
 
 <p>如果你在写混合语言的应用，可能需要用 Swift 代码访问 Objective-C 代码，或者反之。下面的流程描述了在非框架 target 中的应用。</p>
 
-<h3>将 Objective-C 导入 Swift</h3>
+<h4>将 Objective-C 导入 Swift</h4>
 
 <p>在一个应用的 target 中导入一些 Objective-C 文件供 Swift 代码使用时，你需要依赖于 Objective-C 的桥接头文件（<code>bridging header</code>）来暴露给 Swift。当你添加 Swift 文件到现有的 Objective-C 应用（或反之）时，Xcode 会自动创建这些头文件。</p>
 
@@ -47,7 +47,7 @@
 
 <p>你应该编辑这个头文件来对 Swift 暴露出 Objective-C 代码。</p>
 
-<h4>在同一 target 中将 Objective-C 代码导入到 Swift 中</h4>
+<h5>在同一 target 中将 Objective-C 代码导入到 Swift 中</h5>
 
 <ol>
 <li>在 Objective-C 桥接头文件中，import 任何你想暴露给 Swift 的头文件，例如：</li>
@@ -87,7 +87,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>将 Swift 导入 Objective-C</h3>
+<h4>将 Swift 导入 Objective-C</h4>
 
 <p>向 Objective-C 中导入Swift 代码时，你依赖 Xcode 生成的头文件来向 Objective-C 暴露 Swift 代码。这是自动生成 Objective-C 头文件，它包含了你的 target 中所有 Swift 代码中定义的接口。可以把这个 Objective-C 头文件看作 Swift 代码的 <code>umbrella header</code>。它以 product 模块名加 <code>-Swift.h</code> 来命名。关于 product 的模块名，详见<a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-XID_85">Naming Your Product Module</a>。</p>
 
@@ -136,15 +136,15 @@
 
 <p><a name="importing_code_from_within_the_same_framework_target"></a></p>
 
-<h2>在同个 Framework 的 target 中导入</h2>
+<h3>在同个 Framework 的 target 中导入</h3>
 
 <p>如果你在写一个混合语言的框架，可能会从 Swift 代码访问 Objective-C 代码，或者反之。</p>
 
-<h3>将 Objective-C 导入 Swift</h3>
+<h4>将 Objective-C 导入 Swift</h4>
 
 <p>要将一些 Objective-C 文件导入到同个框架 target 的 Swift 代码中去，你需要将这些文件导入到 Objective-C 的 <code>umbrella header</code> 来供框架使用。</p>
 
-<h5>在同一 framework 中将 Objective-C 代码导入到 Swift 中</h5>
+<h6>在同一 framework 中将 Objective-C 代码导入到 Swift 中</h6>
 
 <p>确保将框架 target 的 <code>Build Settings &gt; Packaging &gt; Defines Module</code> 设置为 <code>Yes</code>。然后在你的 <code>umbrella header</code> 头文件中导入你想暴露给 Swift 访问的 Objective-C 头文件，例如：</p>
 
@@ -172,11 +172,11 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>将 Swift 导入 Objective-C</h3>
+<h4>将 Swift 导入 Objective-C</h4>
 
 <p>要将一些 Swift 文件导入到同个框架的 target 的 Objective-C 代码去，你不需要导入任何东西到 <code>umbrella header</code> 文件，而是将 Xcode 为你的 Swift 代码自动生成的头文件导入到你的 Obj .m 源文件去，以便在 Objective-C 代码中访问 Swift 代码。</p>
 
-<h5>在同一 framework 中将 Swift 代码导入到 Objective-C 中</h5>
+<h6>在同一 framework 中将 Swift 代码导入到 Objective-C 中</h6>
 
 <p>确保将框架 target 的 <code>Build Settings &gt; Packaging</code> 中的 <code>Defines Module</code> 设置为 <code>Yes</code>。用下面的语法将 Swift 代码导入到同个框架 target 下的 Objective-C .m 源文件去。</p>
 
@@ -214,7 +214,7 @@
 
 <p><a name="importing_external_frameworks"></a></p>
 
-<h2>导入外部 Framework</h2>
+<h3>导入外部 Framework</h3>
 
 <p>你可以导入外部框架，不管这个框架是纯 Objective-C，纯 Swift，还是混合语言的。import 外部框架的流程都是一样的，不管这个框架是用一种语言写的，还是包含两种语言。当你导入外部框架时，确保 <code>Build Setting &gt; Pakaging &gt; Defines Module</code> 设置为 <code>Yes</code>。</p>
 
@@ -260,7 +260,7 @@
 
 <p><a name="using_swift_from_objective-c"></a></p>
 
-<h2>在 Objective-C 中使用 Swift</h2>
+<h3>在 Objective-C 中使用 Swift</h3>
 
 <p>当你将 Swift 代码导入 Objective-C 文件之后，用普通的 Objective-C 语法使用 Swift 类。</p>
 
@@ -324,7 +324,7 @@
 
 <p><a name="naming_your_product_module"></a></p>
 
-<h2>Product 模块命名</h2>
+<h3>Product 模块命名</h3>
 
 <p>Xcode 为 Swift 代码生成的头文件的名称，以及 Xcode 创建的 Objective-C 桥接头文件名称，都是从你的 product 模块名生成的。默认你的 product 模块名和 product 名一样。然而，如果你的 product 名有特殊字符（nonalphanumeric，非数字、字母的字符），例如点号，那么它们会被下划线（<code>_</code>）替换之后作为你的 product 模块名。如果 product 名以数字开头，那么第一个数字会用下划线替换掉。</p>
 
@@ -332,7 +332,7 @@
 
 <p><a name="troubleshooting_tips_and_reminders"></a></p>
 
-<h2>问题解决提示</h2>
+<h3>问题解决提示</h3>
 
 <ul>
 <li>把 Swift 和 Objective-C 文件看作相同的代码集合，并注意命名冲突；</li>
@@ -2219,7 +2219,7 @@ alsoIncrementByTen()
     <link href="http://baxiang123.com//blog/Swift%E8%AF%AD%E8%A8%80%E7%AE%80%E4%BB%8B.html"/>
     <updated>2015-03-15T00:00:00+08:00</updated>
     <id>http://baxiang123.com//blog/Swift语言简介</id>
-    <content type="html"><![CDATA[<h2>常量和变量</h2>
+    <content type="html"><![CDATA[<h3>常量和变量</h3>
 
 <p>常量和变量把一个名字（比如maximumNumberOfLoginAttempts或者welcomeMessage）和一个指定类型的值（比如数字10或者字符串&#8221;Hello&#8221;）关联起来。常量的值一旦设定就不能改变，而变量的值可以随意更改。</p>
 
