@@ -27,63 +27,98 @@
 
 <p>在计算机的世界里面，其实并不存在绝对连续的动画，你所看到的屏幕上的动画本质上都是离散的，只是在一秒的时间里面离散的帧多到一定的数量人眼就觉得是连续的了，在iOS中，最大的帧率是60帧每秒。 iOS提供了Core Animation框架，只需要开发者提供关键帧信息，比如提供某个animatable属性终点的关键帧信息，然后中间的值则通过一定的算法进行插值计算，从而实现补间动画。 Core Aniamtion中进行插值计算所依赖的时间曲线由CAMediaTimingFunction提供。 Pop Animation在使用上和Core Animation很相似，都涉及Animation对象以及Animation的载体的概念，不同的是Core Animation的载体只能是CALayer，而Pop Animation可以是任意基于NSObject的对象。当然大多数情况Animation都是界面上显示的可视的效果，所以动画执行的载体一般都直接或者间接是UIView或者CALayer。但是如果你只是想研究Pop Animation的变化曲线，你也完全可以将其应用于一个普通的数据对象，比如下面这个对象:</p>
 
-<p>{% codeblock lang:objc %}
-@interface AnimatableModel : NSObject
-@property (nonatomic,assign) CGFloat animatableValue;
-@end</p>
-
-<h1>import &ldquo;AnimatableModel.h&rdquo;</h1>
-
-<p>@implementation AnimatableModel
-- (void)setAnimatableValue:(CGFloat)animatableValue{
-  _animatableValue = animatableValue;
-  NSLog(@&ldquo;%f&rdquo;,animatableValue);
-}</p>
-
-<p>@end
-{% endcodeblock %}
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">AnimatableModel</span> : <span class="bp">NSObject</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span><span class="k">assign</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">animatableValue</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">AnimatableModel</span><span class="p">.</span><span class="n">h</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">AnimatableModel</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setAnimatableValue:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">animatableValue</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">_animatableValue</span> <span class="o">=</span> <span class="n">animatableValue</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="n">f</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span><span class="n">animatableValue</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 此对象只有一个CGFloat类型的属性，非常简单，这里在AnimatableModel对象上运行几种Pop Animation进行测试，以便统计animatableValue的变化曲线。</p>
 
 <p>由于此对象的属性不在Pop Property的标准属性中，所以需要创建一个POPAnimatableProperty，
-{% codeblock lang:objc %}
-  POPAnimatableProperty <em>animatableProperty = [POPAnimatableProperty propertyWithName:@&ldquo;com.geeklu.animatableValue&rdquo; initializer:^(POPMutableAnimatableProperty </em>prop) {
-    prop.writeBlock = ^(id obj, const CGFloat values[]) {
-        [obj setAnimatableValue:values[0]];
-    };
-    prop.readBlock = ^(id obj, CGFloat values[]) {
-        values[0] = [obj animatableValue];
-    };
-}];
-{% endcodeblock %}
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>  <span class="n">POPAnimatableProperty</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">animatableProperty</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPAnimatableProperty</span> <span class="nl">propertyWithName</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">com</span><span class="p">.</span><span class="n">geeklu</span><span class="p">.</span><span class="n">animatableValue</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="nl">initializer</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">POPMutableAnimatableProperty</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">prop</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">prop</span><span class="p">.</span><span class="n">writeBlock</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="k">const</span> <span class="n">CGFloat</span> <span class="n">values</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">obj</span> <span class="nl">setAnimatableValue</span><span class="p">:</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]];</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="n">prop</span><span class="p">.</span><span class="n">readBlock</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="n">CGFloat</span> <span class="n">values</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span> <span class="n">animatableValue</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
 统计的数据来自上面属性变化时的Log数据，制图的时候将时间中除了秒之外的时间部分删除了，所有数据都来自真实测试的数据，并使用Number进行了曲线的绘制。图中的每个点代表一个离散的节点，为了方便观看，使用直线将这些离散的点连接起来了。</p>
 
 <p>​<img src="http://ww4.sinaimg.cn/mw1024/65cc0af7gw1ego7boez1uj20oc0icju4.jpg" alt="" /></p>
 
-<p>{% codeblock lang:objc %}
-PopBasicAniamtion With EaseOut TimingFunction
-POPBasicAnimation *animation = [POPBasicAnimation animation];
-animation.property = animatableProperty;
-animation.fromValue = [NSNumber numberWithFloat:0];
-animation.toValue = [NSNumber numberWithFloat:100];
-animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-animation.duration = 1.5;
-<em>animatableModel = [[AnimatableModel alloc] init];
-[</em>animatableModel pop_addAnimation:animation forKey:@&ldquo;easeOut&rdquo;];
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">PopBasicAniamtion</span> <span class="n">With</span> <span class="n">EaseOut</span> <span class="n">TimingFunction</span>
+</span><span class='line'><span class="n">POPBasicAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPBasicAnimation</span> <span class="n">animation</span><span class="p">];</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">property</span> <span class="o">=</span> <span class="n">animatableProperty</span><span class="p">;</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSNumber</span> <span class="nl">numberWithFloat</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSNumber</span> <span class="nl">numberWithFloat</span><span class="p">:</span><span class="mi">100</span><span class="p">];</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAMediaTimingFunction</span> <span class="nl">functionWithName</span><span class="p">:</span><span class="n">kCAMediaTimingFunctionEaseOut</span><span class="p">];</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">animatableModel</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AnimatableModel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">animatableModel</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nl">forKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">easeOut</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><img src="http://ww1.sinaimg.cn/mw1024/65cc0af7gw1egnh3razkxj20sy0kadh2.jpg" alt="" /></p>
 
 <p>从上图可以看到，动画开始的时候变化速率较快，到结束的时候就很慢了，这就是所谓的Ease Out效果。
 PopSpringAniamtion
-{% codeblock lang:objc %}
-POPSpringAnimation *animation = [POPSpringAnimation animation];
-animation.property = animatableProperty;
-animation.fromValue = [NSNumber numberWithFloat:0];
-animation.toValue = [NSNumber numberWithFloat:100];
-animation.dynamicsMass = 5;
-<em>animatableModel = [[AnimatableModel alloc] init];
-[</em>animatableModel pop_addAnimation:animation forKey:@&ldquo;spring&rdquo;];
-​{% endcodeblock %}
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">POPSpringAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPSpringAnimation</span> <span class="n">animation</span><span class="p">];</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">property</span> <span class="o">=</span> <span class="n">animatableProperty</span><span class="p">;</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSNumber</span> <span class="nl">numberWithFloat</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSNumber</span> <span class="nl">numberWithFloat</span><span class="p">:</span><span class="mi">100</span><span class="p">];</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">dynamicsMass</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">animatableModel</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AnimatableModel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">animatableModel</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nl">forKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">spring</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+</span><span class='line'><span class="err">​</span>
+</span></code></pre></td></tr></table></div></figure>
 ​<img src="http://ww1.sinaimg.cn/mw1024/65cc0af7gw1egnh3razkxj20sy0kadh2.jpg" alt="" /></p>
 
 <p>一开始快速向终点方向靠近，然后会在终点附近来回摆动，摆动幅度逐渐变弱，最后在终点停止。
@@ -106,17 +141,25 @@ kPOPViewAlpha
 <h3>1.POPBasicAnimation</h3>
 
 <p>基本动画，接口方面和CABasicAniamtion很相似，使用可以提供初始值fromValue，这个 终点值toValue，动画时长duration以及决定动画节奏的timingFunction。timingFunction直接使用的CAMediaTimingFunction,是使用一个横向纵向都为一个单位的拥有两个控制点的贝赛尔曲线来描述的，横坐标为时间，纵坐标为动画进度。 ​ 这里举一个View移动的例子：
-{% codeblock lang:objc %}
-NSInteger height = CGRectGetHeight(self.view.bounds);
-NSInteger width = CGRectGetWidth(self.view.bounds);
-CGFloat centerX = arc4random() % width;
-CGFloat centerY = arc4random() % height;
-POPBasicAnimation *anim = [POPBasicAnimation animationWithPropertyNamed:kPOPViewCenter];
-anim.toValue = [NSValue valueWithCGPoint:CGPointMake(centerX, centerY)];
-anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-anim.duration = 0.4;
-[self.testView pop_addAnimation:anim forKey:@&ldquo;centerAnimation&rdquo;];
-{% endcodeblock %}</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSInteger</span> <span class="n">height</span> <span class="o">=</span> <span class="n">CGRectGetHeight</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">);</span>
+</span><span class='line'><span class="bp">NSInteger</span> <span class="n">width</span> <span class="o">=</span> <span class="n">CGRectGetWidth</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">centerX</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">width</span><span class="p">;</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">centerY</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">height</span><span class="p">;</span>
+</span><span class='line'><span class="n">POPBasicAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPBasicAnimation</span> <span class="nl">animationWithPropertyNamed</span><span class="p">:</span><span class="n">kPOPViewCenter</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="n">centerX</span><span class="p">,</span> <span class="n">centerY</span><span class="p">)];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAMediaTimingFunction</span> <span class="nl">functionWithName</span><span class="p">:</span><span class="n">kCAMediaTimingFunctionEaseInEaseOut</span><span class="p">];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">testView</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">centerAnimation</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><img src="http://ww2.sinaimg.cn/mw1024/65cc0af7gw1egpvtrn8qmj209307qdhf.jpg" alt="" /></p>
 
@@ -126,17 +169,27 @@ anim.duration = 0.4;
 
 <p>弹簧动画是Bezier曲线无法表述的，所以无法使用PopBasicAniamtion来实现。PopSpringAnimation便是专门用来实现弹簧动画的。</p>
 
-<p>{% codeblock lang:objc %}
-POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
-NSInteger height = CGRectGetHeight(self.view.bounds);
-NSInteger width = CGRectGetWidth(self.view.bounds);
-CGFloat centerX = arc4random() % width;
-CGFloat centerY = arc4random() % height;
-anim.toValue = [NSValue valueWithCGPoint:CGPointMake(centerX, centerY)];
-anim.springBounciness = 16;
-anim.springSpeed = 6;
-[self.testView pop_addAnimation:anim forKey:@&ldquo;center&rdquo;];
-​{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">POPSpringAnimation</span> <span class="o">*</span><span class="n">anim</span> <span class="o">=</span> <span class="p">[</span><span class="n">POPSpringAnimation</span> <span class="nl">animationWithPropertyNamed</span><span class="p">:</span><span class="n">kPOPViewCenter</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSInteger</span> <span class="n">height</span> <span class="o">=</span> <span class="n">CGRectGetHeight</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">);</span>
+</span><span class='line'><span class="bp">NSInteger</span> <span class="n">width</span> <span class="o">=</span> <span class="n">CGRectGetWidth</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">centerX</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">width</span><span class="p">;</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">centerY</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">height</span><span class="p">;</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="n">centerX</span><span class="p">,</span> <span class="n">centerY</span><span class="p">)];</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">springBounciness</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>
+</span><span class='line'><span class="n">anim</span><span class="p">.</span><span class="n">springSpeed</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">testView</span> <span class="nl">pop_addAnimation</span><span class="p">:</span><span class="n">anim</span> <span class="nl">forKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">center</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+</span><span class='line'><span class="err">​</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><img src="http://ww1.sinaimg.cn/mw1024/65cc0af7gw1egqpgva69rg208u0fpjtx.gif" alt="" /></p>
 
@@ -159,9 +212,9 @@ dynamicsMass 质量 。张力，摩擦，质量这三者可以从更细的粒度
 
 <p>POPCustomAnimation 并不是基于POPPropertyAnimation的，它直接继承自PopAnimation用于创建自定义动画用的，通过POPCustomAnimationBlock类型的block进行初始化，</p>
 
-<p>{% codeblock lang:objc%}
-typedef BOOL (^POPCustomAnimationBlock)(id target, POPCustomAnimation *animation);
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">typedef</span> <span class="nf">BOOL</span> <span class="p">(</span><span class="o">^</span><span class="n">POPCustomAnimationBlock</span><span class="p">)(</span><span class="kt">id</span> <span class="n">target</span><span class="p">,</span> <span class="n">POPCustomAnimation</span> <span class="o">*</span><span class="n">animation</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>此block会在界面的每一帧更新的时候被调用，创建者需要在block中根据当前currentTime和elapsedTime来决定如何更新target的相关属性，以实现特定的动画。当你需要结束动画的时候就在block中返回NO，否则返回YES。</p>
 
@@ -203,10 +256,11 @@ keychain中找出这些数据。因为超过70%的人都已经把他们的设备
 </ul>
 
 
-<p>{% codeblock lang:objc %}
-  PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
- [[[Model sharedModel] currentUser] setAuthToken:[bindings objectForKey:@&ldquo;authToken&rdquo;]];
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>  <span class="n">PDKeychainBindings</span> <span class="o">*</span><span class="n">bindings</span> <span class="o">=</span> <span class="p">[</span><span class="n">PDKeychainBindings</span> <span class="n">sharedKeychainBindings</span><span class="p">];</span>
+</span><span class='line'> <span class="p">[[[</span><span class="n">Model</span> <span class="n">sharedModel</span><span class="p">]</span> <span class="n">currentUser</span><span class="p">]</span> <span class="nl">setAuthToken</span><span class="p">:[</span><span class="n">bindings</span> <span class="nl">objectForKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">authToken</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;]];</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>不过，请注意在越狱设备上，keychain中的信息并不安全。一个可取的方法就是在把字符串保存到keychain之前，先用你自己的加密方法加密一下。这样就有更高的安全性，
 因为即使攻击者从keychain中拿到这个加密字符串，他也不得不解密这个加密后的字符串。</p>
@@ -240,14 +294,21 @@ bundle的Library -> Preferences -> $AppBundleId.plist。任何人都能够使用
 </ul>
 
 
-<p>{% codeblock lang:objc %}
-     UIImage <em>imageToEncrypt = [UIImage imageNamed:@&ldquo;SomeImage&rdquo;];
-     NSString </em>imagePath = [NSHomeDirectory() stringByAppendingPathComponent:@&ldquo;Documents/encryptedImage.png&rdquo;];
-    NSData <em>data = UIImagePNGRepresentation(fetchedImage);
-    NSError </em>error;
-    NSData *encryptedData = [RNEncryptor encryptData:data withSettings:kRNCryptorAES256Settings password:@&ldquo;ABC123&rdquo; error:&amp;error];     [encryptedData writeToFile:imagePath atomically:YES];</p>
-
-<p>{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>     <span class="bp">UIImage</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">imageToEncrypt</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">SomeImage</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+</span><span class='line'>     <span class="bp">NSString</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">imagePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHomeDirectory</span><span class="p">()</span> <span class="nl">stringByAppendingPathComponent</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Documents</span><span class="o">/</span><span class="n">encryptedImage</span><span class="p">.</span><span class="n">png</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+</span><span class='line'>    <span class="bp">NSData</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">UIImagePNGRepresentation</span><span class="p">(</span><span class="n">fetchedImage</span><span class="p">);</span>
+</span><span class='line'>    <span class="bp">NSError</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">error</span><span class="p">;</span>
+</span><span class='line'>    <span class="bp">NSData</span> <span class="o">*</span><span class="n">encryptedData</span> <span class="o">=</span> <span class="p">[</span><span class="n">RNEncryptor</span> <span class="nl">encryptData</span><span class="p">:</span><span class="n">data</span> <span class="nl">withSettings</span><span class="p">:</span><span class="n">kRNCryptorAES256Settings</span> <span class="nl">password</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">ABC123</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">error</span><span class="p">];</span>     <span class="p">[</span><span class="n">encryptedData</span> <span class="nl">writeToFile</span><span class="p">:</span><span class="n">imagePath</span> <span class="nl">atomically</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>  要加密SQLite文件，你应当考虑<a href="http://sqlcipher.net/">SQLCipher</a></p>
 
@@ -288,24 +349,32 @@ bundle的Library -> Preferences -> $AppBundleId.plist。任何人都能够使用
 </ul>
 
 
-<p>{% codeblock lang:objc %}
-    - (void)applicationDidEnterBackground:(UIApplication <em>)application
-     {
-     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-     [UIPasteboard generalPasteboard].items = nil;
-     }
-{% endcodeblock %}
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>    <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">applicationDidEnterBackground</span><span class="p">:(</span><span class="bp">UIApplication</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">application</span>
+</span><span class='line'>     <span class="p">{</span>
+</span><span class='line'>     <span class="c1">// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.</span>
+</span><span class='line'>     <span class="c1">// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.</span>
+</span><span class='line'>     <span class="p">[</span><span class="bp">UIPasteboard</span> <span class="n">generalPasteboard</span><span class="p">].</span><span class="n">items</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>     <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 * 使用URL schemes做些重要事情的时候要增加提示或者验证。我们知道任意应用都能注册一个URL Scheme。例如Skype应用能够注册URL Scheme skype://并且任意应用都能用参数调用这个url。
 这就使得应用之间能够通信。在之前，Skype有一个漏洞，使得任意用户都能使用如下的url， skype://123123123?call，呼叫任何人。因为Skype呼叫之前并没有提示用户，这些就被直接发送出去了。
 在真正发出呼叫之前，提示一下用户会更好一些。URL shceme的输入也同样需要被验证。你可以把验证放在AppDelegate的- (BOOL)application:(UIApplication </em>)application handleOpenURL:(NSURL *)url 中。</p>
 
-<p>{% codeblock lang:objc %}
-     – (BOOL)application:(UIApplication <em>)application handleOpenURL:(NSURL </em>)url {
-     //Validate input from the url
-     return YES;
-     }
-{% endcodeblock %}
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'>     <span class="err">–</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nl">application</span><span class="p">:(</span><span class="bp">UIApplication</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">application</span> <span class="nl">handleOpenURL</span><span class="p">:(</span><span class="bp">NSURL</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">url</span> <span class="p">{</span>
+</span><span class='line'>     <span class="c1">//Validate input from the url</span>
+</span><span class='line'>     <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'>     <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 * 有些应用使用UIWebView来展示来自URL的内容。在一些流行应用中已经发现了UIWebViews的<a href="https://superevr.com/blog/2011/xss-in-skype-for-ios/">漏洞</a>。UIWebViews也支持javascript，而且目前没有公开的API来禁用UIWebView中的javascript。因此，如果用户控制的任何输入被用作UIWebView的内容，它就可能被操纵在运行时在UIWebView中执行javascript代码。即使这个输入不受用户控制，攻击者也能够在运行时操纵添加到UIWebView的内容，因此执行他想执行的任意javascript代码。因为苹果所加的限制，开发者对此能做的也不多，开发者应该要通过如下方法来确保加载进UIWebView的内容不是恶意的，a）通过HTTPs加载数据。b)确保UIWebView的内容不依赖于用户的输入。c）通过NSData类提供的dataWithContentsOfURL函数来验证URL的内容。</p>
 ]]></content>
   </entry>

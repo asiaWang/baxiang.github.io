@@ -4,7 +4,7 @@
   <title><![CDATA[小巴童鞋]]></title>
   <link href="http://baxiang123.com//atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-03-15T02:21:27+08:00</updated>
+  <updated>2015-03-15T02:35:28+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -36,12 +36,17 @@
 <p>这里是一个标准的，非泛型函数<code>swapTwoInts</code>,用来交换两个Int值：</p>
 
 
-<pre><code>func swapTwoInts(inout a: Int, inout b: Int)
-    let temporaryA = a
-    a = b
-    b = temporaryA
-}
-</code></pre>
+<pre><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">func</span> <span class="n">swapTwoInts</span><span class="p">(</span><span class="k">inout</span> <span class="nl">a</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="k">inout</span> <span class="nl">b</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">let</span> <span class="n">temporaryA</span> <span class="o">=</span> <span class="n">a</span>
+</span><span class='line'>    <span class="n">a</span> <span class="o">=</span> <span class="n">b</span>
+</span><span class='line'>    <span class="n">b</span> <span class="o">=</span> <span class="n">temporaryA</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></pre>
 
 
 <p>这个函数使用写入读出（in-out）参数来交换<code>a</code>和<code>b</code>的值，请参考[写入读出参数][1]。</p>
