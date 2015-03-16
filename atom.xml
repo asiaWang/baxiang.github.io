@@ -4,7 +4,7 @@
   <title><![CDATA[小巴童鞋]]></title>
   <link href="http://baxiang123.com//atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-03-16T10:55:25+08:00</updated>
+  <updated>2015-03-16T11:00:54+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -6467,176 +6467,22 @@ alsoTenEighty.frameRate = 30.0
 <p>下面的示例定义了一个名为<code>ages</code>的字典，其中储存了四个人的名字和年龄。<code>ages</code>字典被赋予了一个名为<code>copiedAges</code>的新变量，同时<code>ages</code>在赋值的过程中被拷贝。赋值结束后，<code>ages</code>和<code>copiedAges</code>成为两个相互独立的字典。</p>
 
 
-<pre><code>var ages = ["Peter": 23, "Wei": 35, "Anish": 65, "Katya": 19]
-var copiedAges = ages
-</code></pre>
+<figure class='code'><figcaption><span>var ages = [&#8220;Peter&#8221;: 23, &#8220;Wei&#8221;: 35, &#8220;Anish&#8221;: 65, &#8220;Katya&#8221;: 19]</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">var</span> <span class="n">copiedAges</span> <span class="o">=</span> <span class="n">ages</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>这个字典的键(keys)是<code>字符串(String)</code>类型，值(values)是<code>整(Int)</code>类型。这两种类型在Swift 中都是值类型(value types)，所以当字典被拷贝时，两者都会被拷贝。</p>
-
+<p> <p>这个字典的键(keys)是<code>字符串(String)</code>类型，值(values)是<code>整(Int)</code>类型。这两种类型在Swift 中都是值类型(value types)，所以当字典被拷贝时，两者都会被拷贝。</p></p>
 
 <p>我们可以通过改变一个字典中的年龄值(age value)，检查另一个字典中所对应的值，来证明<code>ages</code>字典确实是被拷贝了。如果在<code>copiedAges</code>字典中将<code>Peter</code>的值设为<code>24</code>，那么<code>ages</code>字典仍然会返回修改前的值<code>23</code>：</p>
 
 
-<pre><code>copiedAges["Peter"] = 24
-println(ages["Peter"])
-// 输出 "23"
-</code></pre>
+<figure class='code'><figcaption><span>copiedAges[&#8220;Peter&#8221;] = 24</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">ages</span><span class="p">[</span><span class="s">&quot;Peter&quot;</span><span class="p">])</span>
+</span><span class='line'><span class="c1">// 输出 &quot;23&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-
-<p>~~<h3 id="-">数组的赋值和拷贝行为</h3></p>
-
-<p>在Swift 中，<code>数组(Arrays)</code>类型的赋值和拷贝行为要比<code>字典(Dictionary)</code>类型的复杂的多。当操作数组内容时，<code>数组(Array)</code>能提供接近C语言的的性能，并且拷贝行为只有在必要时才会发生。</p>
-
-
-<p>如果你将一个<code>数组(Array)</code>实例赋给一个变量或常量，或者将其作为参数传递给函数或方法调用，在事件发生时数组的内容<code>不</code>会被拷贝。相反，数组公用相同的元素序列。当你在一个数组内修改某一元素，修改结果也会在另一数组显示。</p>
-
-
-<p>对数组来说，拷贝行为仅仅当操作有可能修改数组<code>长度</code>时才会发生。这种行为包括了附加(appending),插入(inserting),删除(removing)或者使用范围下标(ranged subscript)去替换这一范围内的元素。只有当数组拷贝确要发生时，数组内容的行为规则与字典中键值的相同，参见章节[集合（collection）类型的赋值与复制行为](#assignment_and_copy_behavior_for_collection_types。</p>
-
-
-<p>下面的示例将一个<code>整数(Int)</code>数组赋给了一个名为<code>a</code>的变量，继而又被赋给了变量<code>b</code>和<code>c</code>：</p>
-
-
-<pre><code>var a = [1, 2, 3]
-var b = a
-var c = a
-</code></pre>
-
-
-<p>我们可以在<code>a</code>,<code>b</code>,<code>c</code>上使用下标语法以得到数组的第一个元素：</p>
-
-
-<pre><code>println(a[0])
-// 1
-println(b[0])
-// 1
-println(c[0])
-// 1
-</code></pre>
-
-
-<p>如果通过下标语法修改数组中某一元素的值，那么<code>a</code>,<code>b</code>,<code>c</code>中的相应值都会发生改变。请注意当你用下标语法修改某一值时，并没有拷贝行为伴随发生，因为下表语法修改值时没有改变数组长度的可能：</p>
-
-
-<pre><code>a[0] = 42
-println(a[0])
-// 42
-println(b[0])
-// 42
-println(c[0])
-// 42
-</code></pre>
-
-
-<p>然而，当你给<code>a</code>附加新元素时，数组的长度<code>会</code>改变。
-当附加元素这一事件发生时，Swift 会创建这个数组的一个拷贝。从此以后，<code>a</code>将会是原数组的一个独立拷贝。</p>
-
-
-<p>拷贝发生后，如果再修改<code>a</code>中元素值的话，<code>a</code>将会返回与<code>b</code>，<code>c</code>不同的结果，因为后两者引用的是原来的数组：</p>
-
-
-<pre><code>a.append(4)
-a[0] = 777
-println(a[0])
-// 777
-println(b[0])
-// 42
-println(c[0])
-// 42
-</code></pre>
-
-
-<h3 id="-">确保数组的唯一性</h3>
-
-
-<p>在操作一个数组，或将其传递给函数以及方法调用之前是很有必要先确定这个数组是有一个唯一拷贝的。通过在数组变量上调用<code>unshare</code>方法来确定数组引用的唯一性。(当数组赋给常量时，不能调用<code>unshare</code>方法)</p>
-
-
-<p>如果一个数组被多个变量引用，在其中的一个变量上调用<code>unshare</code>方法，则会拷贝此数组，此时这个变量将会有属于它自己的独立数组拷贝。当数组仅被一个变量引用时，则不会有拷贝发生。</p>
-
-
-<p>在上一个示例的最后，<code>b</code>和<code>c</code>都引用了同一个数组。此时在<code>b</code>上调用<code>unshare</code>方法则会将<code>b</code>变成一个唯一个拷贝：</p>
-
-
-<pre><code>b.unshare()
-</code></pre>
-
-
-<p>在<code>unshare</code>方法调用后再修改<code>b</code>中第一个元素的值，这三个数组(<code>a</code>,<code>b</code>,<code>c</code>)会返回不同的三个值：</p>
-
-
-<pre><code>b[0] = -105
-println(a[0])
-// 77
-println(b[0])
-// -105
-println(c[0])
-// 42
-</code></pre>
-
-
-<h3 id="-">判定两个数组是否共用相同元素</h3>
-
-
-<p>我们通过使用恒等运算符(identity operators)( === and !==)来判定两个数组或子数组共用相同的储存空间或元素。</p>
-
-
-<p>下面这个示例使用了“恒等于(identical to)” 运算符(===) 来判定<code>b</code>和<code>c</code>是否共用相同的数组元素：</p>
-
-
-<pre><code>if b === c {
-    println("b and c still share the same array elements.")
-} else {
-    println("b and c now refer to two independent sets of array elements.")
-}
-
-// 输出 "b and c now refer totwo independent sets of array elements."
-</code></pre>
-
-
-<p>此外，我们还可以使用恒等运算符来判定两个子数组是否共用相同的元素。下面这个示例中，比较了<code>b</code>的两个相等的子数组，并且确定了这两个子数组都引用相同的元素：</p>
-
-
-<pre><code>if b[0...1] === b[0...1] {
-    println("These two subarrays share the same elements.")
-} else {
-    println("These two subarrays do not share the same elements.")
-}
-// 输出 "These two subarrays share the same elements."
-</code></pre>
-
-
-<h3 id="-">强制复制数组</h3>
-
-
-<p>我们通过调用数组的<code>copy</code>方法进行强制显性复制。这个方法对数组进行了浅拷贝(shallow copy),并且返回一个包含此拷贝的新数组。</p>
-
-
-<p>下面这个示例中定义了一个<code>names</code>数组，其包含了七个人名。还定义了一个<code>copiedNames</code>变量，用以储存在<code>names</code>上调用<code>copy</code>方法所返回的结果：</p>
-
-
-<pre><code>var names = ["Mohsen", "Hilary", "Justyn", "Amy", "Rich", "Graham", "Vic"]
-var copiedNames = names.copy
-</code></pre>
-
-
-<p>我们可以通过修改一个数组中某元素，并且检查另一个数组中对应元素的方法来判定<code>names</code>数组确已被复制。如果你将<code>copiedNames</code>中第一个元素从&#8221;<code>Mohsen</code>&#8220;修改为&#8221;<code>Mo</code>&#8220;,则<code>names</code>数组返回的仍是拷贝发生前的&#8221;<code>Mohsen</code>&#8220;：</p>
-
-
-<pre><code>copiedName[0] = "Mo"
-println(name[0])
-// 输出 "Mohsen"
-</code></pre>
-
-
-<blockquote>
-<p>注意：</p>
-<p>如果你仅需要确保你对数组的引用是唯一引用，请调用<code>unshare</code>方法，而不是<code>copy</code>方法。<code>unshare</code>方法仅会在确有必要时才会创建数组拷贝。<code>copy</code>方法会在任何时候都创建一个新的拷贝，即使引用已经是唯一引用。</p>
-</blockquote>
-
-
-<p>~~</p>
 ]]></content>
   </entry>
   
