@@ -187,35 +187,53 @@ var _hmt = _hmt || [];
 <p>类和结构体有着类似的定义方式。我们通过关键字<code>class</code>和<code>struct</code>来分别表示类和结构体，并在一对大括号中定义它们的具体内容：</p>
 
 
-<pre><code>class SomeClass {
-    // class definition goes here
-}
-struct SomeStructure {
-    // structure definition goes here
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">SomeClass</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// class definition goes here</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">SomeStructure</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// structure definition goes here</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<blockquote>
 <p> 注意：</p>
-<p>在你每次定义一个新类或者结构体的时候，实际上你是有效地定义了一个新的 Swift 类型。因此请使用 <code>UpperCamelCase</code> 这种方式来命名（如 <code>SomeClass</code> 和<code>SomeStructure</code>等），以便符合标准Swift 类型的大写命名风格（如<code>String</code>，<code>Int</code>和<code>Bool</code>）。相反的，请使用<code>lowerCamelCase</code>这种方式为属性和方法命名（如<code>framerate</code>和<code>incrementCount</code>），以便和类区分。</p>
-</blockquote>
 
+
+<p>在你每次定义一个新类或者结构体的时候，实际上你是有效地定义了一个新的 Swift 类型。因此请使用 <code>UpperCamelCase</code> 这种方式来命名（如 <code>SomeClass</code> 和<code>SomeStructure</code>等），以便符合标准Swift 类型的大写命名风格（如<code>String</code>，<code>Int</code>和<code>Bool</code>）。相反的，请使用<code>lowerCamelCase</code>这种方式为属性和方法命名（如<code>framerate</code>和<code>incrementCount</code>），以便和类区分。</p>
+
+
+<p></blockquote></p>
 
 <p>以下是定义结构体和定义类的示例：</p>
 
 
-<pre><code>struct Resolution {
-    var width = 0
-    var heigth = 0
-}
-class VideoMode {
-    var resolution = Resolution()
-    var interlaced = false
-    var frameRate = 0.0
-    var name: String?
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">struct</span> <span class="n">Resolution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">var</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">var</span> <span class="n">heigth</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">class</span> <span class="n">VideoMode</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">var</span> <span class="n">resolution</span> <span class="o">=</span> <span class="n">Resolution</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">var</span> <span class="n">interlaced</span> <span class="o">=</span> <span class="nb">false</span>
+</span><span class='line'>    <span class="k">var</span> <span class="n">frameRate</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'>    <span class="k">var</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>在上面的示例中我们定义了一个名为<code>Resolution</code>的结构体，用来描述一个显示器的像素分辨率。这个结构体包含了两个名为<code>width</code>和<code>height</code>的储存属性。储存属性是捆绑和储存在类或结构体中的常量或变量。当这两个属性被初始化为整数<code>0</code>的时候，它们会被推断为<code>Int</code>类型。</p>
@@ -352,17 +370,27 @@ var cinema = hd
 <p>枚举也遵循相同的行为准则：</p>
 
 
-<pre><code>enum CompassPoint {
-    case North, South, East, West
-}
-var currentDirection = CompassPoint.West
-let rememberedDirection = currentDirection
-currentDirection = .East
-if rememberDirection == .West {
-    println("The remembered direction is still .West")
-}
-// 输出 "The remembered direction is still .West"
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">enum</span> <span class="n">CompassPoint</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">North</span><span class="p">,</span> <span class="n">South</span><span class="p">,</span> <span class="n">East</span><span class="p">,</span> <span class="n">West</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">var</span> <span class="n">currentDirection</span> <span class="o">=</span> <span class="n">CompassPoint</span><span class="p">.</span><span class="n">West</span>
+</span><span class='line'><span class="k">let</span> <span class="n">rememberedDirection</span> <span class="o">=</span> <span class="n">currentDirection</span>
+</span><span class='line'><span class="n">currentDirection</span> <span class="o">=</span> <span class="p">.</span><span class="n">East</span>
+</span><span class='line'><span class="k">if</span> <span class="n">rememberDirection</span> <span class="o">==</span> <span class="p">.</span><span class="n">West</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;The remembered direction is still .West&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// 输出 &quot;The remembered direction is still .West&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>上例中<code>rememberedDirection</code>被赋予了<code>currentDirection</code>的值(value)，实际上它被赋予的是值(value)的一个拷贝。赋值过程结束后再修改<code>currentDirection</code>的值并不影响<code>rememberedDirection</code>所储存的原始值(value)的拷贝。</p>
@@ -380,12 +408,17 @@ if rememberDirection == .West {
 <p>请看下面这个示例，其使用了之前定义的<code>VideoMode</code>类：</p>
 
 
-<pre><code>let tenEighty = VideoMode()
-tenEighty.resolution = hd
-tenEighty.interlaced = true
-tenEighty.name = "1080i"
-tenEighty.frameRate = 25.0
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">tenEighty</span> <span class="o">=</span> <span class="n">VideoMode</span><span class="p">()</span>
+</span><span class='line'><span class="n">tenEighty</span><span class="p">.</span><span class="n">resolution</span> <span class="o">=</span> <span class="n">hd</span>
+</span><span class='line'><span class="n">tenEighty</span><span class="p">.</span><span class="n">interlaced</span> <span class="o">=</span> <span class="nb">true</span>
+</span><span class='line'><span class="n">tenEighty</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;1080i&quot;</span>
+</span><span class='line'><span class="n">tenEighty</span><span class="p">.</span><span class="n">frameRate</span> <span class="o">=</span> <span class="mf">25.0</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>以上示例中，声明了一个名为<code>tenEighty</code>的常量，其引用了一个<code>VideoMode</code>类的新实例。在之前的示例中，这个视频模式(video mode)被赋予了HD分辨率(1920*1080)的一个拷贝(<code>hd</code>)。同时设置为交错(interlaced),命名为<code>“1080i”</code>。最后，其帧率是<code>25.0</code>帧每秒。</p>
@@ -523,8 +556,10 @@ alsoTenEighty.frameRate = 30.0
 <p>下面的示例定义了一个名为<code>ages</code>的字典，其中储存了四个人的名字和年龄。<code>ages</code>字典被赋予了一个名为<code>copiedAges</code>的新变量，同时<code>ages</code>在赋值的过程中被拷贝。赋值结束后，<code>ages</code>和<code>copiedAges</code>成为两个相互独立的字典。</p>
 
 
-<figure class='code'><figcaption><span>var ages = [&#8220;Peter&#8221;: 23, &#8220;Wei&#8221;: 35, &#8220;Anish&#8221;: 65, &#8220;Katya&#8221;: 19]</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">var</span> <span class="n">copiedAges</span> <span class="o">=</span> <span class="n">ages</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">var</span> <span class="n">ages</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Peter&quot;</span><span class="o">:</span> <span class="mi">23</span><span class="p">,</span> <span class="s">&quot;Wei&quot;</span><span class="o">:</span> <span class="mi">35</span><span class="p">,</span> <span class="s">&quot;Anish&quot;</span><span class="o">:</span> <span class="mi">65</span><span class="p">,</span> <span class="s">&quot;Katya&quot;</span><span class="o">:</span> <span class="mi">19</span><span class="p">]</span>
+</span><span class='line'><span class="k">var</span> <span class="n">copiedAges</span> <span class="o">=</span> <span class="n">ages</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -533,9 +568,11 @@ alsoTenEighty.frameRate = 30.0
 <p>我们可以通过改变一个字典中的年龄值(age value)，检查另一个字典中所对应的值，来证明<code>ages</code>字典确实是被拷贝了。如果在<code>copiedAges</code>字典中将<code>Peter</code>的值设为<code>24</code>，那么<code>ages</code>字典仍然会返回修改前的值<code>23</code>：</p>
 
 
-<figure class='code'><figcaption><span>copiedAges[&#8220;Peter&#8221;] = 24</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">ages</span><span class="p">[</span><span class="s">&quot;Peter&quot;</span><span class="p">])</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">copiedAges</span><span class="p">[</span><span class="s">&quot;Peter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">24</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">ages</span><span class="p">[</span><span class="s">&quot;Peter&quot;</span><span class="p">])</span>
 </span><span class='line'><span class="c1">// 输出 &quot;23&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
