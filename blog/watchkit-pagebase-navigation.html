@@ -1,0 +1,204 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>使用WatchKit实现Page-Based Navigation - 小巴童鞋</title>
+	<meta name="author" content="小巴">
+
+	
+	<meta name="description" content="">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://baxiang123.com//blog/watchkit-pagebase-navigation.html">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+	<link href="/stylesheets/google-fonts.css" rel="stylesheet" type="text/css">
+	
+	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<meta name="baidu-site-verification" content="tXGpoDjJRv" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script type="text/javascript">
+ function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+ $(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+ });
+ </script>
+ 
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script async src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">BaXiang&#8217;s technology blog</p>
+<nav id="main-nav"><!--ul class="main">
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
+</ul><!-->
+<ul class="main-navigation">
+  <li><a href="/">Blog | 博客</a></li>
+  <li><a href="/blog/archives">Archives | 目录</a></li>
+  <li><a href="/blog/categories">Categories  | 分类</a></li>
+  <li><a href="/aboutme/">About Me | 关于</a></li>
+  
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<br/>
+	<div class="social">
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
+        
+		
+		
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">使用WatchKit实现Page-Based Navigation</h1>
+	<div class="entry-content" itemprop="articleBody"><p>这篇文章向大家展示如何使用WatchKit创建Page-Based Navigation，我们还是在Helloworld项目的基础上进行改善。</p>
+
+<h2>创建Controller</h2>
+
+<p>打开<code>Interface.storyboard</code>，再添加两个Interface Controller，然后给它们添加不同的背景色。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-pagebase-navigation-1.png" alt="pic" /></p>
+
+<p>现在给每个Controller之间添加Segue，选中第一个Controller，按着control+鼠标左键拖拽至第二个Controller，然后选择next page。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-pagebase-navigation-2.png" alt="pic" /></p>
+
+<p>编译运行，看看它是如何工作的：</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-pagebase-navigation-3.gif" alt="pic" /></p>
+
+<h2>Interface Controller生命周期</h2>
+
+<p>接下来我们自定义两个<code>WKInterfaceController</code>，分别设置给新添加的两个Interface Controller。然后我们来看看InterfaceController的生命周期。首先在<code>GreenInterfaceController</code>和<code>RedInterfaceController</code>中添加如下三个方法：</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-pagebase-navigation-4.png" alt="pic" /></p>
+
+<p>编译运行，当Watch模拟器显示出内容时，在控制台中我们可以看到<code>GreenInterfaceController</code>和<code>RedInterfaceController</code>执行了<code>init</code>方法：</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-pagebase-navigation-5.png" alt="pic" /></p>
+
+<p>当切换到绿色InterfaceController时，在控制台中可以看到<code>GreenInterfaceController</code>执行了<code>willActivate</code>方法：</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-pagebase-navigation-6.png" alt="pic" />
+当切换到粉红色InterfaceController时，在控制台中可以看到<code>RedInterfaceController</code>执行了<code>willActivate</code>方法，而<code>GreenInterfaceController</code>执行了<code>didDeactivate</code>方法：</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-pagebase-navigation-7.png" alt="pic" /></p>
+
+<p>所以由此可见InterfaceController的生命周期主要由三个方法组成：</p>
+
+<ul>
+<li><strong>initWithContext</strong>：当Watch App第一次启动，把三个InterfaceController压入栈的时候调用该方法。</li>
+<li><strong>willActivate</strong>：当进入InterfaceController时，调用该方法。类似<code>UIViewController</code>中的<code>viewDidAppear</code>方法。</li>
+<li><strong>didDeactivate</strong>：当InterfaceController不在当前屏幕显示时调用该方法。类似<code>UIViewController</code>中的<code>viewDidDisappear</code>方法。</li>
+</ul>
+
+</div>
+
+</article>
+
+	<div class="bdsharebuttonbox"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["qzone","bdysc","renren","douban","fx","youdao","mail","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+<!--兼容版，可保证页面完全兼容-->
+<div id="SOHUCS"></div>
+<script>
+  (function(){
+    var appid = 'cyrof0xla',
+    conf = 'prod_33cb4369c37266cd8994da8878b17b87';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+  })()
+</script>
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+</body>
+</html>

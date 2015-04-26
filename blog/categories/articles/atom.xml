@@ -1,161 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE HTML>
-
-<html>
-
-<head>
-	<meta charset="utf-8">
-	<title>小巴童鞋</title>
-	<meta name="author" content="小巴">
-
-	
-	<meta name="description" content="Apr 25,&nbsp 2015 articles Comments 使用WatchKit实现Page-Based Navigation 这篇文章向大家展示如何使用WatchKit创建Page-Based Navigation，我们还是在Helloworld项目的基础上进行改善。 &hellip;">
-	
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
-	
-	<link rel="canonical" href="http://baxiang123.com//index.html">
-	<link href="/favicon.png" rel="shortcut icon">
-	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script async src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
-	<link href="/stylesheets/google-fonts.css" rel="stylesheet" type="text/css">
-	
-	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
-<meta name="baidu-site-verification" content="tXGpoDjJRv" />
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-<script type="text/javascript">
- function addBlankTargetForLinks () {
-  $('a[href^="http"]').each(function(){
-      $(this).attr('target', '_blank');
-  });
-}
- $(document).bind('DOMNodeInserted', function(event) {
-  addBlankTargetForLinks();
- });
- </script>
- 
-</head>
-
-
-<body>
-	<div class="container">
-		<div class="left-col">
-			<div class="intrude-less">
-			<header id="header" class="inner"><div class="profilepic">	
-	<script async src="/javascripts/md5.js"></script>
-	<script type="text/javascript">
-		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
-	</script>
-</div>
-<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
-<p class="subtitle">BaXiang&#8217;s technology blog</p>
-<nav id="main-nav"><!--ul class="main">
-    <nav id="main-nav">
-		<li><a href="/">Home</a></li>
-		<li><a href="/blog/archives">Blogs</a></li>
-		<li><a href="#">About</a></li>
-    </nav> 
-</ul><!-->
-<ul class="main-navigation">
-  <li><a href="/">Blog | 博客</a></li>
-  <li><a href="/blog/archives">Archives | 目录</a></li>
-  <li><a href="/blog/categories">Categories  | 分类</a></li>
-  <li><a href="/aboutme/">About Me | 关于</a></li>
-  
-</ul>
-
-</nav>
-<nav id="sub-nav">
-	<br/>
-	<div class="social">
-        
-            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
-        
-		
-		
-			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
-		
-		
-		
-			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
-		
-		
-			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-    	
-    	
-			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
-		
-	</div>
-</nav>
-
-</header>				
-			</div>
-		</div>	
-		<div class="mid-col">
-			
-				
-			
-			<div class="mid-col-container">
-				<div id="content" class="inner">
-<div itemscope itemtype="http://schema.org/Blog">
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
+  <title><![CDATA[Category: articles | 小巴童鞋]]></title>
+  <link href="http://baxiang123.com//blog/categories/articles/atom.xml" rel="self"/>
+  <link href="http://baxiang123.com//"/>
+  <updated>2015-04-27T02:07:10+08:00</updated>
+  <id>http://baxiang123.com//</id>
+  <author>
+    <name><![CDATA[小巴]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-
-Apr 25,&nbsp 2015  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/articles/'>articles</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/watchkit-pagebase-navigation.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/watchkit-pagebase-navigation.html" itemprop="url">使用WatchKit实现Page-Based Navigation</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>这篇文章向大家展示如何使用WatchKit创建Page-Based Navigation，我们还是在Helloworld项目的基础上进行改善。</p>
+  <entry>
+    <title type="html"><![CDATA[使用WatchKit实现Page-Based Navigation]]></title>
+    <link href="http://baxiang123.com//blog/watchkit-pagebase-navigation.html"/>
+    <updated>2015-04-25T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/watchkit-pagebase-navigation</id>
+    <content type="html"><![CDATA[<p>这篇文章向大家展示如何使用WatchKit创建Page-Based Navigation，我们还是在Helloworld项目的基础上进行改善。</p>
 
 <h2>创建Controller</h2>
 
@@ -196,44 +59,15 @@ Apr 25,&nbsp 2015  </div>
 <li><strong>didDeactivate</strong>：当InterfaceController不在当前屏幕显示时调用该方法。类似<code>UIViewController</code>中的<code>viewDidDisappear</code>方法。</li>
 </ul>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-
-Apr 23,&nbsp 2015  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/articles/'>articles</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/watchkit-create-table.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/watchkit-create-table.html" itemprop="url">如何使用WatchKit创建Table</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>上篇文章向大家演示了如何创建一个Helloworld Apple Watch App。这篇文章向大家演示如何使用WatchKit给你的Watch App创建Table。我们在Helloworld项目的基础上进行完善。</p>
+  <entry>
+    <title type="html"><![CDATA[如何使用WatchKit创建Table]]></title>
+    <link href="http://baxiang123.com//blog/watchkit-create-table.html"/>
+    <updated>2015-04-23T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/watchkit-create-table</id>
+    <content type="html"><![CDATA[<p>上篇文章向大家演示了如何创建一个Helloworld Apple Watch App。这篇文章向大家演示如何使用WatchKit给你的Watch App创建Table。我们在Helloworld项目的基础上进行完善。</p>
 
 <h2>创建一个Table</h2>
 
@@ -284,44 +118,15 @@ Apr 23,&nbsp 2015  </div>
 <p><img src="http://www.devtalking.com/postImages/watchkit-create-table-10.png" alt="pic" /></p>
 
 <p><img src="http://www.devtalking.com/postImages/watchkit-create-table-11.png" alt="pic" /></p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-
-Apr 22,&nbsp 2015  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/articles/'>articles</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/helloworld-watchkit-app.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/helloworld-watchkit-app.html" itemprop="url">Helloworld Apple Watch App</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>下载Xcode 6.2 Beta</h2>
+  <entry>
+    <title type="html"><![CDATA[Helloworld Apple Watch App]]></title>
+    <link href="http://baxiang123.com//blog/helloworld-watchkit-app.html"/>
+    <updated>2015-04-22T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/helloworld-watchkit-app</id>
+    <content type="html"><![CDATA[<h2>下载Xcode 6.2 Beta</h2>
 
 <p>首先我们需要下载最新的<a href="https://developer.apple.com/xcode/downloads/">Xcode 6.2 Beta</a>。</p>
 
@@ -368,44 +173,15 @@ Apr 22,&nbsp 2015  </div>
 <p>然后重新运行应用，你就会看到你的第一个Apple Watch App了！</p>
 
 <p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app10.png" alt="PIC" /></p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-
-Apr 20,&nbsp 2015  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/articles/'>articles</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/watchkit-initial-impressions.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/watchkit-initial-impressions.html" itemprop="url">WatchKit初探</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>整体功能预览</h2>
+  <entry>
+    <title type="html"><![CDATA[WatchKit初探]]></title>
+    <link href="http://baxiang123.com//blog/watchkit-initial-impressions.html"/>
+    <updated>2015-04-20T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/watchkit-initial-impressions</id>
+    <content type="html"><![CDATA[<h2>整体功能预览</h2>
 
 <p>总体而言，WatchKit第一版SDK提供的功能远远超出了我的期望。因为我原本以为第一版WatchKit可能侧重于对iOS Today Extension功能的延伸，而不是真正开发Watch App。所以当知道真相后，我即惊讶又感到高兴，第一版WatchKit并不是我所想的那样，它可以为Watch App创建全新的交互界面，而且可以通过iOS App Extension去控制他们。</p>
 
@@ -476,72 +252,7 @@ Apr 20,&nbsp 2015  </div>
 
 
 <p>原文地址：<a href="http://www.raywenderlich.com/89473/watchkit-initial-impressions">WatchKit: Initial Impressions</a></p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-
-Mar 16,&nbsp 2015  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/swift/'>swift</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/6-Swift%20and%20Objective-C%20in%20the%20Same%20Project.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/6-Swift%20and%20Objective-C%20in%20the%20Same%20Project.html" itemprop="url">在同个工程中使用 Swift 和 Objective-C</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Swift 与 Objective-C 的兼容能力使你可以在同一个工程中同时使用两种语言。你可以用这种叫做 <code>mix and match</code> 的特性来开发基于混合语言的应用，可以用 Swift 的最新特性实现应用的一部分功能，并无缝地并入已有的 Objective-C 的代码中。</p>
-
-
-		
-		<a href="/blog/6-Swift%20and%20Objective-C%20in%20the%20Same%20Project.html" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-</article>
-
-</div>
-<nav id="pagenavi">
-
-    
-    
-    
-    
-        <a href="/pages/2" class="next">下一页</a>
-    
-    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
-</nav></div>
-			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2015
-
-    小巴
-
-
-Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
-		</div>
-	</div>
-	
-</body>
-</html>
+</feed>

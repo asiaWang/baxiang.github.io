@@ -1,0 +1,210 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Helloworld Apple Watch App - 小巴童鞋</title>
+	<meta name="author" content="小巴">
+
+	
+	<meta name="description" content="">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://baxiang123.com//blog/helloworld-watchkit-app.html">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+	<link href="/stylesheets/google-fonts.css" rel="stylesheet" type="text/css">
+	
+	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<meta name="baidu-site-verification" content="tXGpoDjJRv" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script type="text/javascript">
+ function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+ $(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+ });
+ </script>
+ 
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script async src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">BaXiang&#8217;s technology blog</p>
+<nav id="main-nav"><!--ul class="main">
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
+</ul><!-->
+<ul class="main-navigation">
+  <li><a href="/">Blog | 博客</a></li>
+  <li><a href="/blog/archives">Archives | 目录</a></li>
+  <li><a href="/blog/categories">Categories  | 分类</a></li>
+  <li><a href="/aboutme/">About Me | 关于</a></li>
+  
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<br/>
+	<div class="social">
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
+        
+		
+		
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Helloworld Apple Watch App</h1>
+	<div class="entry-content" itemprop="articleBody"><h2>下载Xcode 6.2 Beta</h2>
+
+<p>首先我们需要下载最新的<a href="https://developer.apple.com/xcode/downloads/">Xcode 6.2 Beta</a>。</p>
+
+<h2>创建一个新项目</h2>
+
+<p>启动Xcode，选择<strong>Create a new Xcode project</strong>， 然后选择<strong>Single View Application</strong>创建一个单视图应用。</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app1.png" alt="PIC" /></p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app2.png" alt="PIC" /></p>
+
+<h2>创建Watch App Target</h2>
+
+<p>选择菜单中的<strong>File -> New -> Target</strong>， 然后选择<strong>Apple Watch -> Watch App</strong>， 点击<strong>Next</strong>。</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app3.png" alt="PIC" /></p>
+
+<p>在Target的基本属性设置界面中不要勾选<strong>Include Notification Scene</strong> 和<strong>Include Glance Scene</strong>这两个选项，因为我们是在做一个<strong>Hello World</strong>， 最后点击<strong>Finish</strong>完成 <strong>Watch App Target</strong>的创建。</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app4.png" alt="PIC" /></p>
+
+<h2>添加Label</h2>
+
+<p>打开<strong>HelloworldWatchKit Watch App</strong>目录下的 <strong>Interface.storyboard</strong>。</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app5.png" alt="PIC" /></p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app6.png" alt="PIC" /></p>
+
+<p>然后将一个Label拖拽到<code>InterfaceController</code>中，在Label中输入文字“Hello，World!”，并将Label的<strong>Position</strong>属性设置为 <strong>Horizontal:Center，Vertical:Center</strong>，让Label居中。这里不再需要AutoLayout。</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app7.png" alt="PIC" /></p>
+
+<h2>运行App</h2>
+
+<p>首先选择Active Scheme为<strong>HelloworldWatchKit Watch App</strong>， 然后选择任意型号的iPhone模拟器。</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app8.png" alt="PIC" /></p>
+
+<p>运行应用，这时你可能还看不到Apple Watch模拟器，别着急，这里还需要一个设置。选择iPhone模拟器，在菜单中选择<strong>Hardware -> External Displays -> Apple Watch - 38mm | Apple Watch - 42mm</strong>。</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app9.png" alt="PIC" /></p>
+
+<p>然后重新运行应用，你就会看到你的第一个Apple Watch App了！</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app10.png" alt="PIC" /></p>
+</div>
+
+</article>
+
+	<div class="bdsharebuttonbox"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["qzone","bdysc","renren","douban","fx","youdao","mail","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+<!--兼容版，可保证页面完全兼容-->
+<div id="SOHUCS"></div>
+<script>
+  (function(){
+    var appid = 'cyrof0xla',
+    conf = 'prod_33cb4369c37266cd8994da8878b17b87';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+  })()
+</script>
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+</body>
+</html>

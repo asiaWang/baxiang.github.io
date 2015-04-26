@@ -4,7 +4,7 @@
   <title><![CDATA[小巴童鞋]]></title>
   <link href="http://baxiang123.com//atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-03-16T11:31:44+08:00</updated>
+  <updated>2015-04-27T02:07:10+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -12,6 +12,248 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用WatchKit实现Page-Based Navigation]]></title>
+    <link href="http://baxiang123.com//blog/watchkit-pagebase-navigation.html"/>
+    <updated>2015-04-25T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/watchkit-pagebase-navigation</id>
+    <content type="html"><![CDATA[<p>这篇文章向大家展示如何使用WatchKit创建Page-Based Navigation，我们还是在Helloworld项目的基础上进行改善。</p>
+
+<h2>创建Controller</h2>
+
+<p>打开<code>Interface.storyboard</code>，再添加两个Interface Controller，然后给它们添加不同的背景色。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-pagebase-navigation-1.png" alt="pic" /></p>
+
+<p>现在给每个Controller之间添加Segue，选中第一个Controller，按着control+鼠标左键拖拽至第二个Controller，然后选择next page。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-pagebase-navigation-2.png" alt="pic" /></p>
+
+<p>编译运行，看看它是如何工作的：</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-pagebase-navigation-3.gif" alt="pic" /></p>
+
+<h2>Interface Controller生命周期</h2>
+
+<p>接下来我们自定义两个<code>WKInterfaceController</code>，分别设置给新添加的两个Interface Controller。然后我们来看看InterfaceController的生命周期。首先在<code>GreenInterfaceController</code>和<code>RedInterfaceController</code>中添加如下三个方法：</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-pagebase-navigation-4.png" alt="pic" /></p>
+
+<p>编译运行，当Watch模拟器显示出内容时，在控制台中我们可以看到<code>GreenInterfaceController</code>和<code>RedInterfaceController</code>执行了<code>init</code>方法：</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-pagebase-navigation-5.png" alt="pic" /></p>
+
+<p>当切换到绿色InterfaceController时，在控制台中可以看到<code>GreenInterfaceController</code>执行了<code>willActivate</code>方法：</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-pagebase-navigation-6.png" alt="pic" />
+当切换到粉红色InterfaceController时，在控制台中可以看到<code>RedInterfaceController</code>执行了<code>willActivate</code>方法，而<code>GreenInterfaceController</code>执行了<code>didDeactivate</code>方法：</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-pagebase-navigation-7.png" alt="pic" /></p>
+
+<p>所以由此可见InterfaceController的生命周期主要由三个方法组成：</p>
+
+<ul>
+<li><strong>initWithContext</strong>：当Watch App第一次启动，把三个InterfaceController压入栈的时候调用该方法。</li>
+<li><strong>willActivate</strong>：当进入InterfaceController时，调用该方法。类似<code>UIViewController</code>中的<code>viewDidAppear</code>方法。</li>
+<li><strong>didDeactivate</strong>：当InterfaceController不在当前屏幕显示时调用该方法。类似<code>UIViewController</code>中的<code>viewDidDisappear</code>方法。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何使用WatchKit创建Table]]></title>
+    <link href="http://baxiang123.com//blog/watchkit-create-table.html"/>
+    <updated>2015-04-23T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/watchkit-create-table</id>
+    <content type="html"><![CDATA[<p>上篇文章向大家演示了如何创建一个Helloworld Apple Watch App。这篇文章向大家演示如何使用WatchKit给你的Watch App创建Table。我们在Helloworld项目的基础上进行完善。</p>
+
+<h2>创建一个Table</h2>
+
+<p>打开<strong>Interface.storyboard</strong>文件，删除我们之前添加的Label，然后将一个Table组件拖拽到你的Watch屏幕中。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-1.png" alt="pic" /></p>
+
+<p>这里要注意一下，WatchKit中每一个WKInterfaceTableRow都是一个<strong>Table Row Controller</strong>，如果你展开它，你会发现它里面有一个<strong>Group</strong>，我们分别将一个Label和Image组件拖拽至Group中。调整Label和Image的大小，调整到你觉得合适就可以。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-2.png" alt="pic" /></p>
+
+<h2>创建自定义的Table Row Controller</h2>
+
+<p>我们选中TableRowController，然后选择右侧工具栏的Identify inspector，我们可以在<strong>Custom Class</strong>一栏中看到，其实TableRowController是一个<strong>NSObject</strong>。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-3.png" alt="pic" /></p>
+
+<p>我们可以创建一个自己的NSObject，然后将TableRowController的class设置为我们创建的NSObject，这样就达到了自定义的目的。我们在<strong>HelloworldWatchKit WatchKit Extension</strong>目录中创建一个Swfit文件，让它继承NSObject，然后导入WatchKit框架。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-4.png" alt="pic" /></p>
+
+<p>将TableRowController的class设置为<code>MyTableRowController</code>，并给它设置一个Identifier。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-5.png" alt="pic" /></p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-6.png" alt="pic" /></p>
+
+<p>现在你就可以在<code>MyTableRowController</code>中添加Label和Image的<strong>IBOutlet</strong>了。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-7.png" alt="pic" /></p>
+
+<h2>创建数据源</h2>
+
+<p>我们知道，在UIKit的<code>UITableView</code>或者<code>UITableViewController</code>中都有DataSource，负责Table Row中的数据，但是在WatchKit中的TableRowController并没有DataSource，但是这个概念是有的，也就是说我们要为TableRowController创建一个数据源，不论是数组还是字典。在这里，我们创建一个数组，作为TableRowController的数据源，数组中的元素都是<code>String</code>。因为我们的TableRowController中有一个Image组件、一个Label组件，所以我们将图片的名字作为数组的元素。</p>
+
+<p>我们在<code>InterfaceController</code>中创建一个数据源<code>weather</code>数组，数组元素是图片名称，然后创建Table的IBOutlet。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-8.png" alt="pic" /></p>
+
+<h2>加载数据源</h2>
+
+<p>我们在<code>InterfaceController</code>中添加<code>loadTableData()</code>方法，然后在<code>init()</code>方法中调用。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-9.png" alt="pic" /></p>
+
+<p>现在编译运行一下，你就会看到Watch中显示出了Table，是不是很酷呢！</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-10.png" alt="pic" /></p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-11.png" alt="pic" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Helloworld Apple Watch App]]></title>
+    <link href="http://baxiang123.com//blog/helloworld-watchkit-app.html"/>
+    <updated>2015-04-22T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/helloworld-watchkit-app</id>
+    <content type="html"><![CDATA[<h2>下载Xcode 6.2 Beta</h2>
+
+<p>首先我们需要下载最新的<a href="https://developer.apple.com/xcode/downloads/">Xcode 6.2 Beta</a>。</p>
+
+<h2>创建一个新项目</h2>
+
+<p>启动Xcode，选择<strong>Create a new Xcode project</strong>， 然后选择<strong>Single View Application</strong>创建一个单视图应用。</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app1.png" alt="PIC" /></p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app2.png" alt="PIC" /></p>
+
+<h2>创建Watch App Target</h2>
+
+<p>选择菜单中的<strong>File -> New -> Target</strong>， 然后选择<strong>Apple Watch -> Watch App</strong>， 点击<strong>Next</strong>。</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app3.png" alt="PIC" /></p>
+
+<p>在Target的基本属性设置界面中不要勾选<strong>Include Notification Scene</strong> 和<strong>Include Glance Scene</strong>这两个选项，因为我们是在做一个<strong>Hello World</strong>， 最后点击<strong>Finish</strong>完成 <strong>Watch App Target</strong>的创建。</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app4.png" alt="PIC" /></p>
+
+<h2>添加Label</h2>
+
+<p>打开<strong>HelloworldWatchKit Watch App</strong>目录下的 <strong>Interface.storyboard</strong>。</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app5.png" alt="PIC" /></p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app6.png" alt="PIC" /></p>
+
+<p>然后将一个Label拖拽到<code>InterfaceController</code>中，在Label中输入文字“Hello，World!”，并将Label的<strong>Position</strong>属性设置为 <strong>Horizontal:Center，Vertical:Center</strong>，让Label居中。这里不再需要AutoLayout。</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app7.png" alt="PIC" /></p>
+
+<h2>运行App</h2>
+
+<p>首先选择Active Scheme为<strong>HelloworldWatchKit Watch App</strong>， 然后选择任意型号的iPhone模拟器。</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app8.png" alt="PIC" /></p>
+
+<p>运行应用，这时你可能还看不到Apple Watch模拟器，别着急，这里还需要一个设置。选择iPhone模拟器，在菜单中选择<strong>Hardware -> External Displays -> Apple Watch - 38mm | Apple Watch - 42mm</strong>。</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app9.png" alt="PIC" /></p>
+
+<p>然后重新运行应用，你就会看到你的第一个Apple Watch App了！</p>
+
+<p><img src="http://www.devtalking.com/postImages/helloworld-watchkit-app10.png" alt="PIC" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[WatchKit初探]]></title>
+    <link href="http://baxiang123.com//blog/watchkit-initial-impressions.html"/>
+    <updated>2015-04-20T00:00:00+08:00</updated>
+    <id>http://baxiang123.com//blog/watchkit-initial-impressions</id>
+    <content type="html"><![CDATA[<h2>整体功能预览</h2>
+
+<p>总体而言，WatchKit第一版SDK提供的功能远远超出了我的期望。因为我原本以为第一版WatchKit可能侧重于对iOS Today Extension功能的延伸，而不是真正开发Watch App。所以当知道真相后，我即惊讶又感到高兴，第一版WatchKit并不是我所想的那样，它可以为Watch App创建全新的交互界面，而且可以通过iOS App Extension去控制他们。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-initial-impressions-1.jpg" alt="pic" /></p>
+
+<p>所以我们能做的并不只是一个简单的所谓iOS Apple Watch Extension的玩意，而是有很多新的功能需要我们去挖掘。目前提供的比如特定的UI控制方式  、Glance、可自定义的Notification、和Handoff的深度结合、图片缓存等等，作为开发者，这些功能已经让我为之兴奋了。</p>
+
+<h2>Apple Watch的架构</h2>
+
+<p>WatchKit带给我的惊讶之一是它的架构。目前Watch App的运行是由两部分相互结合进行工作的:</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-initial-impressions-2.jpg" alt="pic" /></p>
+
+<ul>
+<li><strong>你的Apple Watch</strong>主要包含用户界面元素文件（Storyboard文件和静态的图片文件）和处理用户的输入行为。并不会真正在Apple Watch中运行代码。换句话说，Apple Watch仅是一个“视图”容器。</li>
+<li><strong>你的iPhone</strong>包含所有的逻辑代码用于响应用户在Apple Watch上产生的诸如应用启动、点击按钮、滑动滑杆等行为。换言之，iPhone包含了控制器和模型。</li>
+</ul>
+
+
+<p>有趣的是Apple Watch和iPhone的这种交互是在幕后自动完成的。你要做的工作只是在Storyboard中设置好UI的Outlet，然后其他的事都由WatchKit SDK在幕后通过蓝牙技术自动进行交互。即使iPhone和Apple Watch是两个独立的设备，你也只需要关注你本地的代码以及Outlet的连接情况，这真是一件很酷的事情。</p>
+
+<h2>WatchKit布局</h2>
+
+<p>一个令我惊讶的是Watch App的UI布局方式，我们不能再用AutoLayout进行布局了。取而代之的是一种新的布局方式<strong>Group</strong>，你需要将界面元素比如按钮、Label添加到Group中，然后Group会自动为你添加的界面元素在其内部进行布局。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-initial-impressions-3.jpg" alt="pic" /></p>
+
+<p>你可以将一个Group嵌入到另一个Group中，用于实现较为复杂一点的界面布局，并在Group中还可以设置背景色、边距、圆角半径等属性。</p>
+
+<p>这让我想起了Java中的<a href="https://docs.oracle.com/javase/tutorial/uiswing/layout/visual.html">BoxLayout</a>或者XAML中的<a href="http://msdn.microsoft.com/en-us/library/ms754152.aspx">StackPanel</a>。</p>
+
+<h2>Glances和Notifications</h2>
+
+<p>Watch App中最酷的功能我觉得就是Glances和Notifications了。我个人认为，Apple Watch的应用中最有用的功能之一就是能让用户很方便的（比如一抬手）就能看到自己感兴趣的事物的提醒通知，比如有人在Twitter中提及到了你或者比特币现在的价位等等。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-initial-impressions-4.jpg" alt="pic" /></p>
+
+<p>Glances和Notifications能为你带来什么呢？</p>
+
+<ul>
+<li><strong>Glances</strong>能让你在应用中快速预览信息，有点像iOS8中的Today Extension。</li>
+<li><strong>Notifications</strong>能让你在Apple Watch中接收到各类通知。Apple Watch中的通知分为两种级别。第一种是提示，只显示应用图标和简单的文本信息。当你抬起手腕或者点击屏幕时就会进入到第二种级别，你就可以看到该通知更多详细的信息，甚至有交互按钮。</li>
+</ul>
+
+
+<p>在Glance和Notification这两种情形下，你都可以点击屏幕进入到对应的Watch App中，并且使用Handoff。你甚至可以将特定的View Controller作为Glance或Notification的内容发送给用户。</p>
+
+<p>我预期在未来几个月我们会在Glance和Notification上面投入较大的时间。</p>
+
+<h2>动画</h2>
+
+<p>Apple Watch中不支持动画，这多少让人觉得有点奇怪。如果你希望某个UI元素具有动画效果，你必须要生成一堆图片，这些图片的内容是连续动画每一帧的内容，然后循环显示这些图片，感觉又回到了GIF动画时代。所以在Apple Watch中不支持iOS中UIView或CALayer这种动画，只支持帧动画。</p>
+
+<p>举个例子，你们可以看看Apple的<a href="https://developer.apple.com/library/prerelease/ios/samplecode/Lister/Introduction/Intro.html">Lister example</a>示例，你会发现Apple通过360张图片来实现一个画圆的动画效果。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-initial-impressions-5.jpg" alt="pic" /></p>
+
+<p>这显然是一个灾难性的工作量，不过如果需要，也可以借助某些工具去生成一个动画需要的所有图片。不过，因为Apple Watch的容量很悠闲，所以你要谨慎加入帧动画，因为需要大量图片占用内存，除非有画龙点睛的动画，否则还是尽量少使用动画。</p>
+
+<h2>设计资源</h2>
+
+<p>如果你是一名设计者（或者对设计有浓厚的兴趣爱好），一下两点建议对你有很好的帮助：</p>
+
+<ol>
+<li>放下你手中所有的事情，阅读Apple提供的针对Apple Watch的<a href="https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/WatchHumanInterfaceGuidelines/index.html">Human Interface Guidelines (HIG)</a>。里面有非常不错的指导和参考能帮助你理解Apple Watch UI设计中你有疑惑的地方，因为设计Apple Watch App是一个全新的世界。</li>
+<li>你一定要下载<a href="https://developer.apple.com/watchkit/#agreement">Apple Watch Design Resources</a>。这里有大量关于设计Apple Watch App的PSD素材，比如UI控制模型、颜色、元素间距的指导、笔画粗细的指导等等，有很多有用的东西，给我留下了非常深刻的印象，这里强烈推荐。</li>
+</ol>
+
+
+<p>原文地址：<a href="http://www.raywenderlich.com/89473/watchkit-initial-impressions">WatchKit: Initial Impressions</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在同个工程中使用 Swift 和 Objective-C]]></title>
@@ -6519,1682 +6761,6 @@ alsoTenEighty.frameRate = 30.0
 </span><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">ages</span><span class="p">[</span><span class="s">&quot;Peter&quot;</span><span class="p">])</span>
 </span><span class='line'><span class="c1">// 输出 &quot;23&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[swift枚举]]></title>
-    <link href="http://baxiang123.com//blog/Swift%E6%9E%9A%E4%B8%BE.html"/>
-    <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swift枚举</id>
-    <content type="html"><![CDATA[<p>枚举定义了一个通用类型的一组相关的值，使你可以在你的代码中以一个安全的方式来使用这些值。</p>
-
-
-<p>如果你熟悉 C 语言，你就会知道，在 C 语言中枚举指定相关名称为一组整型值。Swift 中的枚举更加灵活，不必给每一个枚举成员提供一个值。如果一个值（被认为是“原始”值）被提供给每个枚举成员，则该值可以是一个字符串，一个字符，或是一个整型值或浮点值。</p>
-
-
-<!-- more -->
-
-
-<p>此外，枚举成员可以指定任何类型的实例值存储到枚举成员值中，就像其他语言中的联合体（unions）和变体（variants）。你可以定义一组通用的相关成员作为枚举的一部分，每一组都有不同的一组与它相关的适当类型的数值。</p>
-
-
-<p>在 Swift 中，枚举类型是一等（first-class）类型。它们采用了很多传统上只被类（class)所支持的特征，例如计算型属性（computed properties)，用于提供关于枚举当前值的附加信息， 实例方法（instance methods），用于提供和枚举所代表的值相关联的功能。枚举也可以定义构造函数（initializers）来提供一个初始成员值；可以在原始的实现基础上扩展它们的功能；可以遵守协议（protocols）来提供标准的功能。</p>
-
-
-<p>欲了解更多相关功能，请参见<a href="10_Properties.html">属性（Properties）</a>，<a href="11_Methods.html">方法（Methods）</a>，<a href="14_Initialization.html">构造过程（Initialization）</a>，<a href="20_Extensions.html">扩展（Extensions）</a>和<a href="21_Protocols.html">协议（Protocols）</a>。</p>
-
-
-<p><a name="enumeration_syntax"></a></p>
-
-
-<h2 id="-">枚举语法</h2>
-
-
-<p>使用<code>enum</code>关键词并且把它们的整个定义放在一对大括号内：</p>
-
-
-<pre><code>enum SomeEumeration {
-    // enumeration definition goes here
-}
-</code></pre>
-
-
-<p>以下是指南针四个方向的一个例子：</p>
-
-
-<pre><code>enum CompassPoint {
-    case North
-    case South
-    case East
-    case West
-}
-</code></pre>
-
-
-<p>一个枚举中被定义的值（例如 <code>North</code>，<code>South</code>，<code>East</code>和<code>West</code>）是枚举的<strong><em>成员值</em></strong>（或者<strong><em>成员</em></strong>）。<code>case</code>关键词表明新的一行成员值将被定义。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>不像 C 和 Objective-C 一样，Swift 的枚举成员在被创建时不会被赋予一个默认的整数值。在上面的<code>CompassPoints</code>例子中，<code>North</code>，<code>South</code>，<code>East</code>和<code>West</code>不是隐式的等于<code>0</code>，<code>1</code>，<code>2</code>和<code>3</code>。相反的，这些不同的枚举成员在<code>CompassPoint</code>的一种显示定义中拥有各自不同的值。</p>
-</blockquote>
-
-
-<p>多个成员值可以出现在同一行上，用逗号隔开：</p>
-
-
-<pre><code>enum Planet {
-    case Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Nepturn
-}
-</code></pre>
-
-
-<p>每个枚举定义了一个全新的类型。像 Swift 中其他类型一样，它们的名字（例如<code>CompassPoint</code>和<code>Planet</code>）必须以一个大写字母开头。给枚举类型起一个单数名字而不是复数名字，以便于读起来更加容易理解：</p>
-
-
-<pre><code>var directionToHead = CompassPoint.West
-</code></pre>
-
-
-<p><code>directionToHead</code>的类型被推断当它被<code>CompassPoint</code>的一个可能值初始化。一旦<code>directionToHead</code>被声明为一个<code>CompassPoint</code>，你可以使用更短的点（.）语法将其设置为另一个<code>CompassPoint</code>的值：</p>
-
-
-<pre><code>directionToHead = .East
-</code></pre>
-
-
-<p><code>directionToHead</code>的类型已知时，当设定它的值时，你可以不再写类型名。使用显示类型的枚举值可以让代码具有更好的可读性。</p>
-
-
-<p><a name="matching_enumeration_values_with_a_switch_statement"></a></p>
-
-
-<h2 id="-switch-">匹配枚举值和<code>Switch</code>语句</h2>
-
-
-<p>你可以匹配单个枚举值和<code>switch</code>语句：</p>
-
-
-<pre><code>directionToHead = .South
-switch directionToHead {
-case .North:
-    println("Lots of planets have a north")
-case .South:
-    println("Watch out for penguins")
-case .East:
-    println("Where the sun rises")
-case .West:
-    println("Where the skies are blue")
-}
-// 输出 "Watch out for penguins”
-</code></pre>
-
-
-<p>你可以如此理解这段代码：</p>
-
-
-<p>“考虑<code>directionToHead</code>的值。当它等于<code>.North</code>，打印<code>“Lots of planets have a north”</code>。当它等于<code>.South</code>，打印<code>“Watch out for penguins”</code>。”</p>
-
-
-<p>等等依次类推。</p>
-
-
-<p>正如在<a href="05_Control_Flow.html">控制流（Control Flow）</a>中介绍，当考虑一个枚举的成员们时，一个<code>switch</code>语句必须全面。如果忽略了<code>.West</code>这种情况，上面那段代码将无法通过编译，因为它没有考虑到<code>CompassPoint</code>的全部成员。全面性的要求确保了枚举成员不会被意外遗漏。</p>
-
-
-<p>当不需要匹配每个枚举成员的时候，你可以提供一个默认<code>default</code>分支来涵盖所有未明确被提出的任何成员：</p>
-
-
-<pre><code>let somePlanet = Planet.Earth
-switch somePlanet {
-case .Earth:
-    println("Mostly harmless")
-default:
-    println("Not a safe place for humans")
-}
-// 输出 "Mostly harmless”
-</code></pre>
-
-
-<p><a name="associated_values"></a></p>
-
-
-<h2 id="-associated-values-">实例值（Associated Values）</h2>
-
-
-<p>上一小节的例子演示了一个枚举的成员是如何被定义（分类）的。你可以为<code>Planet.Earth</code>设置一个常量或则变量，并且在之后查看这个值。然而，有时候会很有用如果能够把其他类型的实例值和成员值一起存储起来。这能让你随着成员值存储额外的自定义信息，并且当每次你在代码中利用该成员时允许这个信息产生变化。</p>
-
-
-<p>你可以定义 Swift 的枚举存储任何类型的实例值，如果需要的话，每个成员的数据类型可以是各不相同的。枚举的这种特性跟其他语言中的可辨识联合（discriminated unions），标签联合（tagged unions），或者变体（variants）相似。</p>
-
-
-<p>例如，假设一个库存跟踪系统需要利用两种不同类型的条形码来跟踪商品。有些商品上标有 UPC-A 格式的一维码，它使用数字 0 到 9。每一个条形码都有一个代表“数字系统”的数字，该数字后接 10 个代表“标识符”的数字。最后一个数字是“检查”位，用来验证代码是否被正确扫描：</p>
-
-
-<p><img width="252" height="120" alt="" src="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/barcode_UPC_2x.png"></p>
-
-
-<p>其他商品上标有 QR 码格式的二维码，它可以使用任何 ISO8859-1 字符，并且可以编码一个最多拥有 2,953 字符的字符串:</p>
-
-
-<p><img width="169" height="169" alt="" src="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Art/barcode_QR_2x.png"></p>
-
-
-<p>对于库存跟踪系统来说，能够把 UPC-A 码作为三个整型值的元组，和把 QR 码作为一个任何长度的字符串存储起来是方便的。</p>
-
-
-<p>在 Swift 中，用来定义两种商品条码的枚举是这样子的：</p>
-
-
-<pre><code>enum Barcode {
-    case UPCA(Int, Int, Int)
-    case QRCode(String)
-}
-</code></pre>
-
-
-<p>以上代码可以这么理解：</p>
-
-
-<p>“定义一个名为<code>Barcode</code>的枚举类型，它可以是<code>UPCA</code>的一个实例值（<code>Int</code>，<code>Int</code>，<code>Int</code>），或者<code>QRCode</code>的一个字符串类型（<code>String</code>）实例值。”</p>
-
-
-<p>这个定义不提供任何<code>Int</code>或<code>String</code>的实际值，它只是定义了，当<code>Barcode</code>常量和变量等于<code>Barcode.UPCA</code>或<code>Barcode.QRCode</code>时，实例值的类型。</p>
-
-
-<p>然后可以使用任何一种条码类型创建新的条码，如：</p>
-
-
-<pre><code>var productBarcode = Barcode.UPCA(8, 85909_51226, 3)
-</code></pre>
-
-
-<p>以上例子创建了一个名为<code>productBarcode</code>的新变量，并且赋给它一个<code>Barcode.UPCA</code>的实例元组值<code>(8, 8590951226, 3)</code>。提供的“标识符”值在整数字中有一个下划线，使其便于阅读条形码。</p>
-
-
-<p>同一个商品可以被分配给一个不同类型的条形码，如：</p>
-
-
-<pre><code>productBarcode = .QRCode("ABCDEFGHIJKLMNOP")
-</code></pre>
-
-
-<p>这时，原始的<code>Barcode.UPCA</code>和其整数值被新的<code>Barcode.QRCode</code>和其字符串值所替代。条形码的常量和变量可以存储一个<code>.UPCA</code>或者一个<code>.QRCode</code>（连同它的实例值），但是在任何指定时间只能存储其中之一。</p>
-
-
-<p>像以前那样，不同的条形码类型可以使用一个 switch 语句来检查，然而这次实例值可以被提取作为 switch 语句的一部分。你可以在<code>switch</code>的 case 分支代码中提取每个实例值作为一个常量（用<code>let</code>前缀）或者作为一个变量（用<code>var</code>前缀）来使用：</p>
-
-
-<pre><code>switch productBarcode {
-case .UPCA(let numberSystem, let identifier, let check):
-    println("UPC-A with value of \(numberSystem), \(identifier), \(check).")
-case .QRCode(let productCode):
-    println("QR code with value of \(productCode).")
-}
-// 输出 "QR code with value of ABCDEFGHIJKLMNOP.”
-</code></pre>
-
-
-<p>如果一个枚举成员的所有实例值被提取为常量，或者它们全部被提取为变量，为了简洁，你可以只放置一个<code>var</code>或者<code>let</code>标注在成员名称前：</p>
-
-
-<pre><code>switch productBarcode {
-case let .UPCA(numberSystem, identifier, check):
-    println("UPC-A with value of \(numberSystem), \(identifier), \(check).")
-case let .QRCode(productCode):
-    println("QR code with value of \(productCode).")
-}
-// 输出 "QR code with value of ABCDEFGHIJKLMNOP."
-</code></pre>
-
-
-<p><a name="raw_values"></a></p>
-
-
-<h2 id="-raw-values-">原始值（Raw Values）</h2>
-
-
-<p>在实例值小节的条形码例子中演示了一个枚举的成员如何声明它们存储不同类型的实例值。作为实例值的替代，枚举成员可以被默认值（称为原始值）预先填充，其中这些原始值具有相同的类型。</p>
-
-
-<p>这里是一个枚举成员存储原始 ASCII 值的例子：</p>
-
-
-<pre><code>enum ASCIIControlCharacter: Character {
-    case Tab = "\t"
-    case LineFeed = "\n"
-    case CarriageReturn = "\r"
-}
-</code></pre>
-
-
-<p>在这里，称为<code>ASCIIControlCharacter</code>的枚举的原始值类型被定义为字符型<code>Character</code>，并被设置了一些比较常见的 ASCII 控制字符。字符值的描述请详见字符串和字符<code>Strings and Characters</code>部分。</p>
-
-
-<p>注意，原始值和实例值是不相同的。当你开始在你的代码中定义枚举的时候原始值是被预先填充的值，像上述三个 ASCII 码。对于一个特定的枚举成员，它的原始值始终是相同的。实例值是当你在创建一个基于枚举成员的新常量或变量时才会被设置，并且每次当你这么做得时候，它的值可以是不同的。</p>
-
-
-<p>原始值可以是字符串，字符，或者任何整型值或浮点型值。每个原始值在它的枚举声明中必须是唯一的。当整型值被用于原始值，如果其他枚举成员没有值时，它们会自动递增。</p>
-
-
-<p>下面的枚举是对之前<code>Planet</code>这个枚举的一个细化，利用原始整型值来表示每个 planet 在太阳系中的顺序：</p>
-
-
-<pre><code>enum Planet: Int {
-    case Mercury = 1, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune
-}
-</code></pre>
-
-
-<p>自动递增意味着<code>Planet.Venus</code>的原始值是<code>2</code>，依次类推。</p>
-
-
-<p>使用枚举成员的<code>toRaw</code>方法可以访问该枚举成员的原始值：</p>
-
-
-<pre><code>let earthsOrder = Planet.Earth.toRaw()
-// earthsOrder is 3
-</code></pre>
-
-
-<p>使用枚举的<code>fromRaw</code>方法来试图找到具有特定原始值的枚举成员。这个例子通过原始值<code>7</code>识别<code>Uranus</code>：</p>
-
-
-<pre><code>let possiblePlanet = Planet.fromRaw(7)
-// possiblePlanet is of type Planet? and equals Planet.Uranus
-</code></pre>
-
-
-<p>然而，并非所有可能的<code>Int</code>值都可以找到一个匹配的行星。正因为如此，<code>fromRaw</code>方法可以返回一个<strong><em>可选</em></strong>的枚举成员。在上面的例子中，<code>possiblePlanet</code>是<code>Planet?</code>类型，或“可选的<code>Planet</code>”。</p>
-
-
-<p>如果你试图寻找一个位置为9的行星，通过<code>fromRaw</code>返回的可选<code>Planet</code>值将是<code>nil</code>：</p>
-
-
-<pre><code>let positionToFind = 9
-if let somePlanet = Planet.fromRaw(positionToFind) {
-    switch somePlanet {
-    case .Earth:
-        println("Mostly harmless")
-    default:
-        println("Not a safe place for humans")
-    }
-} else {
-    println("There isn't a planet at position \(positionToFind)")
-}
-// 输出 "There isn't a planet at position 9
-</code></pre>
-
-
-<p>这个范例使用可选绑定（optional binding），通过原始值<code>9</code>试图访问一个行星。<code>if let somePlanet = Planet.fromRaw(9)</code>语句获得一个可选<code>Planet</code>，如果可选<code>Planet</code>可以被获得，把<code>somePlanet</code>设置成该可选<code>Planet</code>的内容。在这个范例中，无法检索到位置为<code>9</code>的行星，所以<code>else</code>分支被执行。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[swif析构过程]]></title>
-    <link href="http://baxiang123.com//blog/Swift%E6%9E%90%E6%9E%84%E8%BF%87%E7%A8%8B.html"/>
-    <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swift析构过程</id>
-    <content type="html"><![CDATA[<p>在一个类的实例被释放之前，析构函数被立即调用。用关键字<code>deinit</code>来标示析构函数，类似于初始化函数用<code>init</code>来标示。析构函数只适用于类类型。</p>
-
-
-<!-- more -->
-
-
-<p><a name="how_deinitialization_works"></a></p>
-
-
-<h2 id="-">析构过程原理</h2>
-
-
-<p>Swift 会自动释放不再需要的实例以释放资源。如<a href="16_Automatic_Reference_Counting.html">自动引用计数</a>那一章描述，Swift 通过<em>自动引用计数</em>（ARC）处理实例的内存管理。通常当你的实例被释放时不需要手动地去清理。但是，当使用自己的资源时，你可能需要进行一些额外的清理。例如，如果创建了一个自定义的类来打开一个文件，并写入一些数据，你可能需要在类实例被释放之前关闭该文件。</p>
-
-
-<p>在类的定义中，每个类最多只能有一个析构函数。析构函数不带任何参数，在写法上不带括号：</p>
-
-
-<pre><code>deinit {
-    // 执行析构过程
-}
-</code></pre>
-
-
-<p>析构函数是在实例释放发生前一步被自动调用。不允许主动调用自己的析构函数。子类继承了父类的析构函数，并且在子类析构函数实现的最后，父类的析构函数被自动调用。即使子类没有提供自己的析构函数，父类的析构函数也总是被调用。</p>
-
-
-<p>因为直到实例的析构函数被调用时，实例才会被释放，所以析构函数可以访问所有请求实例的属性，并且根据那些属性可以修改它的行为（比如查找一个需要被关闭的文件的名称）。</p>
-
-
-<p><a name="deinitializers_in_action"></a></p>
-
-
-<h2 id="-">析构函数操作</h2>
-
-
-<p>这里是一个析构函数操作的例子。这个例子是一个简单的游戏，定义了两种新类型，<code>Bank</code>和<code>Player</code>。<code>Bank</code>结构体管理一个虚拟货币的流通，在这个流通中<code>Bank</code>永远不可能拥有超过 10,000 的硬币。在这个游戏中有且只能有一个<code>Bank</code>存在，因此<code>Bank</code>由带有静态属性和静态方法的结构体实现，从而存储和管理其当前的状态。</p>
-
-
-<pre><code>struct Bank {
-    static var coinsInBank = 10_000
-    static func vendCoins(var numberOfCoinsToVend: Int) -&gt; Int {
-          numberOfCoinsToVend = min(numberOfCoinsToVend, coinsInBank)
-          coinsInBank -= numberOfCoinsToVend
-         return numberOfCoinsToVend
-    }
-    static func receiveCoins(coins: Int) {
-    coinsInBank += coins
-    }
-}
-</code></pre>
-
-
-<p><code>Bank</code>根据它的<code>coinsInBank</code>属性来跟踪当前它拥有的硬币数量。银行还提供两个方法——<code>vendCoins</code>和<code>receiveCoins</code>——用来处理硬币的分发和收集。</p>
-
-
-<p><code>vendCoins</code>方法在 bank 分发硬币之前检查是否有足够的硬币。如果没有足够多的硬币，<code>Bank</code>返回一个比请求时小的数字(如果没有硬币留在 bank 中就返回 0)。<code>vendCoins</code>方法声明<code>numberOfCoinsToVend</code>为一个变量参数，这样就可以在方法体的内部修改数字，而不需要定义一个新的变量。<code>vendCoins</code>方法返回一个整型值，表明了提供的硬币的实际数目。</p>
-
-
-<p><code>receiveCoins</code>方法只是将 bank 的硬币存储和接收到的硬币数目相加，再保存回 bank。</p>
-
-
-<p><code>Player</code>类描述了游戏中的一个玩家。每一个 player 在任何时刻都有一定数量的硬币存储在他们的钱包中。这通过 player 的<code>coinsInPurse</code>属性来体现：</p>
-
-
-<pre><code>    class Player {
-      var coinsInPurse: Int
-      init(coins: Int) {
-          coinsInPurse = Bank.vendCoins(coins)
-    }
-    func winCoins(coins: Int) {
-          coinsInPurse += Bank.vendCoins(coins)
-    }
-    deinit {
-          Bank.receiveCoins(coinsInPurse)
-    }
-    }
-</code></pre>
-
-
-<p>每个<code>Player</code>实例都由一个指定数目硬币组成的启动额度初始化，这些硬币在 bank 初始化的过程中得到。如果没有足够的硬币可用，<code>Player</code>实例可能收到比指定数目少的硬币。</p>
-
-
-<p><code>Player</code>类定义了一个<code>winCoins</code>方法，该方法从银行获取一定数量的硬币，并把它们添加到玩家的钱包。<code>Player</code>类还实现了一个析构函数，这个析构函数在<code>Player</code>实例释放前一步被调用。这里析构函数只是将玩家的所有硬币都返回给银行：</p>
-
-
-<pre><code>var playerOne: Player? = Player(coins: 100)
-println("A new player has joined the game with \(playerOne!.coinsInPurse) coins")
-// 输出 "A new player has joined the game with 100     coins"
-println("There are now \(Bank.coinsInBank) coins left     in the bank")
-// 输出 "There are now 9900 coins left in the bank"
-</code></pre>
-
-
-<p>一个新的<code>Player</code>实例随着一个 100 个硬币（如果有）的请求而被创建。这<code>个Player</code>实例存储在一个名为<code>playerOne</code>的可选<code>Player</code>变量中。这里使用一个可选变量，是因为玩家可以随时离开游戏。设置为可选使得你可以跟踪当前是否有玩家在游戏中。</p>
-
-
-<p>因为<code>playerOne</code>是可选的，所以由一个感叹号（<code>!</code>）来修饰，每当其<code>winCoins</code>方法被调用时，<code>coinsInPurse</code>属性被访问并打印出它的默认硬币数目。</p>
-
-
-<pre><code>playerOne!.winCoins(2_000)
-println("PlayerOne won 2000 coins &amp; now has \    (playerOne!.coinsInPurse) coins")
-// 输出 "PlayerOne won 2000 coins &amp; now has 2100 coins"
-println("The bank now only has \(Bank.coinsInBank) coins left")
-// 输出 "The bank now only has 7900 coins left"
-</code></pre>
-
-
-<p>这里，player 已经赢得了 2,000 硬币。player 的钱包现在有 2,100 硬币，bank 只剩余 7,900 硬币。</p>
-
-
-<pre><code>playerOne = nil
-println("PlayerOne has left the game")
-// 输出 "PlayerOne has left the game"
-println("The bank now has \(Bank.coinsInBank) coins")
-// 输出 "The bank now has 10000 coins"
-</code></pre>
-
-
-<p>玩家现在已经离开了游戏。这表明是要将可选的<code>playerOne</code>变量设置为<code>nil</code>，意思是“没有<code>Player</code>实例”。当这种情况发生的时候，<code>playerOne</code>变量对<code>Player</code>实例的引用被破坏了。没有其它属性或者变量引用<code>Player</code>实例，因此为了清空它占用的内存从而释放它。在这发生前一步，其析构函数被自动调用，其硬币被返回到银行。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[swift构造过程]]></title>
-    <link href="http://baxiang123.com//blog/Swift%E6%9E%84%E9%80%A0%E8%BF%87%E7%A8%8B.html"/>
-    <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swift构造过程</id>
-    <content type="html"><![CDATA[<p>构造过程是为了使用某个类、结构体或枚举类型的实例而进行的准备过程。这个过程包含了为实例中的每个属性设置初始值和为其执行必要的准备和初始化任务。</p>
-
-
-<p>构造过程是通过定义构造器（<code>Initializers</code>）来实现的，这些构造器可以看做是用来创建特定类型实例的特殊方法。与 Objective-C 中的构造器不同，Swift 的构造器无需返回值，它们的主要任务是保证新实例在第一次使用前完成正确的初始化。</p>
-
-
-<!-- more -->
-
-
-<p>类实例也可以通过定义析构器（<code>deinitializer</code>）在类实例释放之前执行特定的清除工作。想了解更多关于析构器的内容，请参考<a href="../chapter2/15_Deinitialization.html">析构过程</a>。</p>
-
-
-<p><a name="setting_initial_values_for_stored_properties"></a></p>
-
-
-<h2 id="-">存储型属性的初始赋值</h2>
-
-
-<p>类和结构体在实例创建时，必须为所有存储型属性设置合适的初始值。存储型属性的值不能处于一个未知的状态。</p>
-
-
-<p>你可以在构造器中为存储型属性赋初值，也可以在定义属性时为其设置默认值。以下章节将详细介绍这两种方法。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>当你为存储型属性设置默认值或者在构造器中为其赋值时，它们的值是被直接设置的，不会触发任何属性观测器（<code>property observers</code>）。</p>
-</blockquote>
-
-
-<h3 id="-">构造器</h3>
-
-
-<p>构造器在创建某特定类型的新实例时调用。它的最简形式类似于一个不带任何参数的实例方法，以关键字<code>init</code>命名。</p>
-
-
-<p>下面例子中定义了一个用来保存华氏温度的结构体<code>Fahrenheit</code>，它拥有一个<code>Double</code>类型的存储型属性<code>temperature</code>：</p>
-
-
-<pre><code>struct Fahrenheit {
-    var temperature: Double
-    init() {
-        temperature = 32.0
-    }
-}
-
-var f = Fahrenheit()
-println("The default temperature is \(f.temperature)° Fahrenheit")
-// 输出 "The default temperature is 32.0° Fahrenheit”
-</code></pre>
-
-
-<p>这个结构体定义了一个不带参数的构造器<code>init</code>，并在里面将存储型属性<code>temperature</code>的值初始化为<code>32.0</code>（华摄氏度下水的冰点）。</p>
-
-
-<h3 id="-">默认属性值</h3>
-
-
-<p>如前所述，你可以在构造器中为存储型属性设置初始值；同样，你也可以在属性声明时为其设置默认值。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>如果一个属性总是使用同一个初始值，可以为其设置一个默认值。无论定义默认值还是在构造器中赋值，最终它们实现的效果是一样的，只不过默认值跟属性构造过程结合的更紧密。使用默认值能让你的构造器更简洁、更清晰，且能通过默认值自动推导出属性的类型；同时，它也能让你充分利用默认构造器、构造器继承（后续章节将讲到）等特性。</p>
-</blockquote>
-
-
-<p>你可以使用更简单的方式在定义结构体<code>Fahrenheit</code>时为属性<code>temperature</code>设置默认值：</p>
-
-
-<pre><code>struct Fahrenheit {
-    var temperature = 32.0
-}
-</code></pre>
-
-
-<p><a name="customizing_initialization"></a></p>
-
-
-<h2 id="-">定制化构造过程</h2>
-
-
-<p>你可以通过输入参数和可选属性类型来定制构造过程，也可以在构造过程中修改常量属性。这些都将在后面章节中提到。</p>
-
-
-<h3 id="-">构造参数</h3>
-
-
-<p>你可以在定义构造器时提供构造参数，为其提供定制化构造所需值的类型和名字。构造器参数的功能和语法跟函数和方法参数相同。</p>
-
-
-<p>下面例子中定义了一个包含摄氏度温度的结构体<code>Celsius</code>。它定义了两个不同的构造器：<code>init(fromFahrenheit:)</code>和<code>init(fromKelvin:)</code>，二者分别通过接受不同刻度表示的温度值来创建新的实例：</p>
-
-
-<pre><code>struct Celsius {
-    var temperatureInCelsius: Double = 0.0
-    init(fromFahrenheit fahrenheit: Double) {
-        temperatureInCelsius = (fahrenheit - 32.0) / 1.8
-    }
-    init(fromKelvin kelvin: Double) {
-        temperatureInCelsius = kelvin - 273.15
-    }
-}
-
-let boilingPointOfWater = Celsius(fromFahrenheit: 212.0)
-// boilingPointOfWater.temperatureInCelsius 是 100.0
-let freezingPointOfWater = Celsius(fromKelvin: 273.15)
-// freezingPointOfWater.temperatureInCelsius 是 0.0”
-</code></pre>
-
-
-<p>第一个构造器拥有一个构造参数，其外部名字为<code>fromFahrenheit</code>，内部名字为<code>fahrenheit</code>；第二个构造器也拥有一个构造参数，其外部名字为<code>fromKelvin</code>，内部名字为<code>kelvin</code>。这两个构造器都将唯一的参数值转换成摄氏温度值，并保存在属性<code>temperatureInCelsius</code>中。</p>
-
-
-<h3 id="-">内部和外部参数名</h3>
-
-
-<p>跟函数和方法参数相同，构造参数也存在一个在构造器内部使用的参数名字和一个在调用构造器时使用的外部参数名字。</p>
-
-
-<p>然而，构造器并不像函数和方法那样在括号前有一个可辨别的名字。所以在调用构造器时，主要通过构造器中的参数名和类型来确定需要调用的构造器。正因为参数如此重要，如果你在定义构造器时没有提供参数的外部名字，Swift 会为每个构造器的参数自动生成一个跟内部名字相同的外部名，就相当于在每个构造参数之前加了一个哈希符号。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>如果你不希望为构造器的某个参数提供外部名字，你可以使用下划线<code>_</code>来显示描述它的外部名，以此覆盖上面所说的默认行为。</p>
-</blockquote>
-
-
-<p>以下例子中定义了一个结构体<code>Color</code>，它包含了三个常量：<code>red</code>、<code>green</code>和<code>blue</code>。这些属性可以存储0.0到1.0之间的值，用来指示颜色中红、绿、蓝成分的含量。</p>
-
-
-<p><code>Color</code>提供了一个构造器，其中包含三个<code>Double</code>类型的构造参数：</p>
-
-
-<pre><code>struct Color {
-    let red = 0.0, green = 0.0, blue = 0.0
-    init(red: Double, green: Double, blue: Double) {
-        self.red   = red
-        self.green = green
-        self.blue  = blue
-    }
-}
-</code></pre>
-
-
-<p>每当你创建一个新的<code>Color</code>实例，你都需要通过三种颜色的外部参数名来传值，并调用构造器。</p>
-
-
-<pre><code>let magenta = Color(red: 1.0, green: 0.0, blue: 1.0)
-</code></pre>
-
-
-<p>注意，如果不通过外部参数名字传值，你是没法调用这个构造器的。只要构造器定义了某个外部参数名，你就必须使用它，忽略它将导致编译错误：</p>
-
-
-<pre><code>let veryGreen = Color(0.0, 1.0, 0.0)
-// 报编译时错误，需要外部名称
-</code></pre>
-
-
-<h3 id="-">可选属性类型</h3>
-
-
-<p>如果你定制的类型包含一个逻辑上允许取值为空的存储型属性&#8211;不管是因为它无法在初始化时赋值，还是因为它可以在之后某个时间点可以赋值为空&#8211;你都需要将它定义为可选类型<code>optional type</code>。可选类型的属性将自动初始化为空<code>nil</code>，表示这个属性是故意在初始化时设置为空的。</p>
-
-
-<p>下面例子中定义了类<code>SurveyQuestion</code>，它包含一个可选字符串属性<code>response</code>：</p>
-
-
-<pre><code>class SurveyQuestion {
-    var text: String
-    var response: String?
-    init(text: String) {
-        self.text = text
-    }
-    func ask() {
-        println(text)
-    }
-}
-let cheeseQuestion = SurveyQuestion(text: "Do you like cheese?")
-cheeseQuestion.ask()
-// 输出 "Do you like cheese?"
-cheeseQuestion.response = "Yes, I do like cheese.
-</code></pre>
-
-
-<p>调查问题在问题提出之后，我们才能得到回答。所以我们将属性回答<code>response</code>声明为<code>String?</code>类型，或者说是可选字符串类型<code>optional String</code>。当<code>SurveyQuestion</code>实例化时，它将自动赋值为空<code>nil</code>，表明暂时还不存在此字符串。</p>
-
-
-<h3 id="-">构造过程中常量属性的修改</h3>
-
-
-<p>只要在构造过程结束前常量的值能确定，你可以在构造过程中的任意时间点修改常量属性的值。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>对某个类实例来说，它的常量属性只能在定义它的类的构造过程中修改；不能在子类中修改。</p>
-</blockquote>
-
-
-<p>你可以修改上面的<code>SurveyQuestion</code>示例，用常量属性替代变量属性<code>text</code>，指明问题内容<code>text</code>在其创建之后不会再被修改。尽管<code>text</code>属性现在是常量，我们仍然可以在其类的构造器中修改它的值：</p>
-
-
-<pre><code>class SurveyQuestion {
-    let text: String
-    var response: String?
-    init(text: String) {
-        self.text = text
-    }
-    func ask() {
-        println(text)
-    }
-}
-let beetsQuestion = SurveyQuestion(text: "How about beets?")
-beetsQuestion.ask()
-// 输出 "How about beets?"
-beetsQuestion.response = "I also like beets. (But not with cheese.)
-</code></pre>
-
-
-<p><a name="default_initializers"></a></p>
-
-
-<h2 id="-">默认构造器</h2>
-
-
-<p>Swift 将为所有属性已提供默认值的且自身没有定义任何构造器的结构体或基类，提供一个默认的构造器。这个默认构造器将简单的创建一个所有属性值都设置为默认值的实例。</p>
-
-
-<p>下面例子中创建了一个类<code>ShoppingListItem</code>，它封装了购物清单中的某一项的属性：名字（<code>name</code>）、数量（<code>quantity</code>）和购买状态 <code>purchase state</code>。</p>
-
-
-<pre><code>class ShoppingListItem {
-    var name: String?
-    var quantity = 1
-    var purchased = false
-}
-var item = ShoppingListItem()
-</code></pre>
-
-
-<p>由于<code>ShoppingListItem</code>类中的所有属性都有默认值，且它是没有父类的基类，它将自动获得一个可以为所有属性设置默认值的默认构造器（尽管代码中没有显式为<code>name</code>属性设置默认值，但由于<code>name</code>是可选字符串类型，它将默认设置为<code>nil</code>）。上面例子中使用默认构造器创造了一个<code>ShoppingListItem</code>类的实例（使用<code>ShoppingListItem()</code>形式的构造器语法），并将其赋值给变量<code>item</code>。</p>
-
-
-<h3 id="-">结构体的逐一成员构造器</h3>
-
-
-<p>除上面提到的默认构造器，如果结构体对所有存储型属性提供了默认值且自身没有提供定制的构造器，它们能自动获得一个逐一成员构造器。</p>
-
-
-<p>逐一成员构造器是用来初始化结构体新实例里成员属性的快捷方法。我们在调用逐一成员构造器时，通过与成员属性名相同的参数名进行传值来完成对成员属性的初始赋值。</p>
-
-
-<p>下面例子中定义了一个结构体<code>Size</code>，它包含两个属性<code>width</code>和<code>height</code>。Swift 可以根据这两个属性的初始赋值<code>0.0</code>自动推导出它们的类型<code>Double</code>。</p>
-
-
-<p>由于这两个存储型属性都有默认值，结构体<code>Size</code>自动获得了一个逐一成员构造器 <code>init(width:height:)</code>。 你可以用它来为<code>Size</code>创建新的实例：</p>
-
-
-<pre><code>struct Size {
-    var width = 0.0, height = 0.0
-}
-let twoByTwo = Size(width: 2.0, height: 2.0)
-</code></pre>
-
-
-<p><a name="initializer_delegation_for_value_types"></a></p>
-
-
-<h2 id="-">值类型的构造器代理</h2>
-
-
-<p>构造器可以通过调用其它构造器来完成实例的部分构造过程。这一过程称为构造器代理，它能减少多个构造器间的代码重复。</p>
-
-
-<p>构造器代理的实现规则和形式在值类型和类类型中有所不同。值类型（结构体和枚举类型）不支持继承，所以构造器代理的过程相对简单，因为它们只能代理任务给本身提供的其它构造器。类则不同，它可以继承自其它类（请参考<a href="../chapter2/13_Inheritance.html">继承</a>），这意味着类有责任保证其所有继承的存储型属性在构造时也能正确的初始化。这些责任将在后续章节<a href="#class_inheritance_and_initialization">类的继承和构造过程</a>中介绍。</p>
-
-
-<p>对于值类型，你可以使用<code>self.init</code>在自定义的构造器中引用其它的属于相同值类型的构造器。并且你只能在构造器内部调用<code>self.init</code>。</p>
-
-
-<p>注意，如果你为某个值类型定义了一个定制的构造器，你将无法访问到默认构造器（如果是结构体，则无法访问逐一对象构造器）。这个限制可以防止你在为值类型定义了一个更复杂的，完成了重要准备构造器之后，别人还是错误的使用了那个自动生成的构造器。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>假如你想通过默认构造器、逐一对象构造器以及你自己定制的构造器为值类型创建实例，我们建议你将自己定制的构造器写到扩展（<code>extension</code>）中，而不是跟值类型定义混在一起。想查看更多内容，请查看<a href="../chapter2/20_Extensions.html">扩展</a>章节。</p>
-</blockquote>
-
-
-<p>下面例子将定义一个结构体<code>Rect</code>，用来展现几何矩形。这个例子需要两个辅助的结构体<code>Size</code>和<code>Point</code>，它们各自为其所有的属性提供了初始值<code>0.0</code>。</p>
-
-
-<pre><code>struct Size {
-    var width = 0.0, height = 0.0
-}
-struct Point {
-    var x = 0.0, y = 0.0
-}
-</code></pre>
-
-
-<p>你可以通过以下三种方式为<code>Rect</code>创建实例&#8211;使用默认的0值来初始化<code>origin</code>和<code>size</code>属性；使用特定的<code>origin</code>和<code>size</code>实例来初始化；使用特定的<code>center</code>和<code>size</code>来初始化。在下面<code>Rect</code>结构体定义中，我们为着三种方式提供了三个自定义的构造器：</p>
-
-
-<pre><code>struct Rect {
-    var origin = Point()
-    var size = Size()
-    init() {}
-    init(origin: Point, size: Size) {
-        self.origin = origin
-        self.size = size
-    }
-    init(center: Point, size: Size) {
-        let originX = center.x - (size.width / 2)
-        let originY = center.y - (size.height / 2)
-        self.init(origin: Point(x: originX, y: originY), size: size)
-    }
-}
-</code></pre>
-
-
-<p>第一个<code>Rect</code>构造器<code>init()</code>，在功能上跟没有自定义构造器时自动获得的默认构造器是一样的。这个构造器是一个空函数，使用一对大括号<code>{}</code>来描述，它没有执行任何定制的构造过程。调用这个构造器将返回一个<code>Rect</code>实例，它的<code>origin</code>和<code>size</code>属性都使用定义时的默认值<code>Point(x: 0.0, y: 0.0)</code>和<code>Size(width: 0.0, height: 0.0)</code>：</p>
-
-
-<pre><code>let basicRect = Rect()
-// basicRect 的原点是 (0.0, 0.0)，尺寸是 (0.0, 0.0)
-</code></pre>
-
-
-<p>第二个<code>Rect</code>构造器<code>init(origin:size:)</code>，在功能上跟结构体在没有自定义构造器时获得的逐一成员构造器是一样的。这个构造器只是简单的将<code>origin</code>和<code>size</code>的参数值赋给对应的存储型属性：</p>
-
-
-<pre><code>let originRect = Rect(origin: Point(x: 2.0, y: 2.0),
-    size: Size(width: 5.0, height: 5.0))
-// originRect 的原点是 (2.0, 2.0)，尺寸是 (5.0, 5.0)
-</code></pre>
-
-
-<p>第三个<code>Rect</code>构造器<code>init(center:size:)</code>稍微复杂一点。它先通过<code>center</code>和<code>size</code>的值计算出<code>origin</code>的坐标。然后再调用（或代理给）<code>init(origin:size:)</code>构造器来将新的<code>origin</code>和<code>size</code>值赋值到对应的属性中：</p>
-
-
-<p>let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
-    size: Size(width: 3.0, height: 3.0))
-// centerRect 的原点是 (2.5, 2.5)，尺寸是 (3.0, 3.0)</p>
-
-
-<p>构造器<code>init(center:size:)</code>可以自己将<code>origin</code>和<code>size</code>的新值赋值到对应的属性中。然而尽量利用现有的构造器和它所提供的功能来实现<code>init(center:size:)</code>的功能，是更方便、更清晰和更直观的方法。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>如果你想用另外一种不需要自己定义<code>init()</code>和<code>init(origin:size:)</code>的方式来实现这个例子，请参考<a href="../chapter2/20_Extensions.html">扩展</a>。</p>
-</blockquote>
-
-
-<p><a name="class_inheritance_and_initialization"></a></p>
-
-
-<h2 id="-">类的继承和构造过程</h2>
-
-
-<p>类里面的所有存储型属性&#8211;包括所有继承自父类的属性&#8211;都必须在构造过程中设置初始值。</p>
-
-
-<p>Swift 提供了两种类型的类构造器来确保所有类实例中存储型属性都能获得初始值，它们分别是指定构造器和便利构造器。</p>
-
-
-<h3 id="-">指定构造器和便利构造器</h3>
-
-
-<p>指定构造器是类中最主要的构造器。一个指定构造器将初始化类中提供的所有属性，并根据父类链往上调用父类的构造器来实现父类的初始化。</p>
-
-
-<p>每一个类都必须拥有至少一个指定构造器。在某些情况下，许多类通过继承了父类中的指定构造器而满足了这个条件。具体内容请参考后续章节<a href="#automatic_initializer_inheritance">自动构造器的继承</a>。</p>
-
-
-<p>便利构造器是类中比较次要的、辅助型的构造器。你可以定义便利构造器来调用同一个类中的指定构造器，并为其参数提供默认值。你也可以定义便利构造器来创建一个特殊用途或特定输入的实例。</p>
-
-
-<p>你应当只在必要的时候为类提供便利构造器，比方说某种情况下通过使用便利构造器来快捷调用某个指定构造器，能够节省更多开发时间并让类的构造过程更清、晰明。</p>
-
-
-<p><a name="initialization_chain"></a></p>
-
-
-<h3 id="-">构造器链</h3>
-
-
-<p>为了简化指定构造器和便利构造器之间的调用关系，Swift 采用以下三条规则来限制构造器之间的代理调用：</p>
-
-
-<h4 id="-1">规则 1</h4>
-
-
-<p>指定构造器必须调用其直接父类的的指定构造器。</p>
-
-
-<h4 id="-2">规则 2</h4>
-
-
-<p>便利构造器必须调用同一类中定义的其它构造器。</p>
-
-
-<h4 id="-3">规则 3</h4>
-
-
-<p>便利构造器必须最终以调用一个指定构造器结束。</p>
-
-
-<p>一个更方便记忆的方法是：</p>
-
-
-<ul>
-<li>指定构造器必须总是向上代理</li>
-<li>便利构造器必须总是横向代理</li>
-</ul>
-
-
-<p>这些规则可以通过下面图例来说明：</p>
-
-
-<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/initializerDelegation01_2x.png" alt="构造器代理图"></p>
-
-
-<p>如图所示，父类中包含一个指定构造器和两个便利构造器。其中一个便利构造器调用了另外一个便利构造器，而后者又调用了唯一的指定构造器。这满足了上面提到的规则2和3。这个父类没有自己的父类，所以规则1没有用到。</p>
-
-
-<p>子类中包含两个指定构造器和一个便利构造器。便利构造器必须调用两个指定构造器中的任意一个，因为它只能调用同一个类里的其他构造器。这满足了上面提到的规则2和3。而两个指定构造器必须调用父类中唯一的指定构造器，这满足了规则1。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>这些规则不会影响使用时，如何用类去创建实例。任何上图中展示的构造器都可以用来完整创建对应类的实例。这些规则只在实现类的定义时有影响。</p>
-</blockquote>
-
-
-<p>下面图例中展示了一种更复杂的类层级结构。它演示了指定构造器是如果在类层级中充当“管道”的作用，在类的构造器链上简化了类之间的内部关系。</p>
-
-
-<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/initializerDelegation02_2x.png" alt="复杂构造器代理图"></p>
-
-
-<p><a name="two_phase_initialization"></a></p>
-
-
-<h3 id="-">两段式构造过程</h3>
-
-
-<p>Swift 中类的构造过程包含两个阶段。第一个阶段，每个存储型属性通过引入它们的类的构造器来设置初始值。当每一个存储型属性值被确定后，第二阶段开始，它给每个类一次机会在新实例准备使用之前进一步定制它们的存储型属性。</p>
-
-
-<p>两段式构造过程的使用让构造过程更安全，同时在整个类层级结构中给予了每个类完全的灵活性。两段式构造过程可以防止属性值在初始化之前被访问；也可以防止属性被另外一个构造器意外地赋予不同的值。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>Swift的两段式构造过程跟 Objective-C 中的构造过程类似。最主要的区别在于阶段 1，Objective-C 给每一个属性赋值<code>0</code>或空值（比如说<code>0</code>或<code>nil</code>）。Swift  的构造流程则更加灵活，它允许你设置定制的初始值，并自如应对某些属性不能以<code>0</code>或<code>nil</code>作为合法默认值的情况。</p>
-</blockquote>
-
-
-<p>Swift 编译器将执行 4 种有效的安全检查，以确保两段式构造过程能顺利完成：</p>
-
-
-<h4 id="-1">安全检查 1</h4>
-
-
-<p>指定构造器必须保证它所在类引入的所有属性都必须先初始化完成，之后才能将其它构造任务向上代理给父类中的构造器。</p>
-
-
-<p>如上所述，一个对象的内存只有在其所有存储型属性确定之后才能完全初始化。为了满足这一规则，指定构造器必须保证它所在类引入的属性在它往上代理之前先完成初始化。</p>
-
-
-<h4 id="-2">安全检查 2</h4>
-
-
-<p>指定构造器必须先向上代理调用父类构造器，然后再为继承的属性设置新值。如果没这么做，指定构造器赋予的新值将被父类中的构造器所覆盖。</p>
-
-
-<h4 id="-3">安全检查 3</h4>
-
-
-<p>便利构造器必须先代理调用同一类中的其它构造器，然后再为任意属性赋新值。如果没这么做，便利构造器赋予的新值将被同一类中其它指定构造器所覆盖。</p>
-
-
-<h4 id="-4">安全检查 4</h4>
-
-
-<p>构造器在第一阶段构造完成之前，不能调用任何实例方法、不能读取任何实例属性的值，也不能引用<code>self</code>的值。</p>
-
-
-<p>以下是两段式构造过程中基于上述安全检查的构造流程展示：</p>
-
-
-<h4 id="-1">阶段 1</h4>
-
-
-<ul>
-<li>某个指定构造器或便利构造器被调用；</li>
-<li>完成新实例内存的分配，但此时内存还没有被初始化；</li>
-<li>指定构造器确保其所在类引入的所有存储型属性都已赋初值。存储型属性所属的内存完成初始化；</li>
-<li>指定构造器将调用父类的构造器，完成父类属性的初始化；</li>
-<li>这个调用父类构造器的过程沿着构造器链一直往上执行，直到到达构造器链的最顶部；</li>
-<li>当到达了构造器链最顶部，且已确保所有实例包含的存储型属性都已经赋值，这个实例的内存被认为已经完全初始化。此时阶段1完成。</li>
-</ul>
-
-
-<h4 id="-2">阶段 2</h4>
-
-
-<ul>
-<li>从顶部构造器链一直往下，每个构造器链中类的指定构造器都有机会进一步定制实例。构造器此时可以访问<code>self</code>、修改它的属性并调用实例方法等等。</li>
-<li>最终，任意构造器链中的便利构造器可以有机会定制实例和使用<code>self</code>。</li>
-</ul>
-
-
-<p>下图展示了在假定的子类和父类之间构造的阶段1：
-·
-<img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/twoPhaseInitialization01_2x.png" alt="构造过程阶段1"></p>
-
-
-<p>在这个例子中，构造过程从对子类中一个便利构造器的调用开始。这个便利构造器此时没法修改任何属性，它把构造任务代理给同一类中的指定构造器。</p>
-
-
-<p>如安全检查1所示，指定构造器将确保所有子类的属性都有值。然后它将调用父类的指定构造器，并沿着造器链一直往上完成父类的构建过程。</p>
-
-
-<p>父类中的指定构造器确保所有父类的属性都有值。由于没有更多的父类需要构建，也就无需继续向上做构建代理。</p>
-
-
-<p>一旦父类中所有属性都有了初始值，实例的内存被认为是完全初始化，而阶段1也已完成。</p>
-
-
-<p>以下展示了相同构造过程的阶段2：</p>
-
-
-<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/twoPhaseInitialization02_2x.png" alt="构建过程阶段2"></p>
-
-
-<p>父类中的指定构造器现在有机会进一步来定制实例（尽管它没有这种必要）。</p>
-
-
-<p>一旦父类中的指定构造器完成调用，子类的构指定构造器可以执行更多的定制操作（同样，它也没有这种必要）。</p>
-
-
-<p>最终，一旦子类的指定构造器完成调用，最开始被调用的便利构造器可以执行更多的定制操作。</p>
-
-
-<h3 id="-">构造器的继承和重载</h3>
-
-
-<p>跟 Objective-C 中的子类不同，Swift 中的子类不会默认继承父类的构造器。Swift 的这种机制可以防止一个父类的简单构造器被一个更专业的子类继承，并被错误的用来创建子类的实例。</p>
-
-
-<p>假如你希望自定义的子类中能实现一个或多个跟父类相同的构造器&#8211;也许是为了完成一些定制的构造过程&#8211;你可以在你定制的子类中提供和重载与父类相同的构造器。</p>
-
-
-<p>如果你重载的构造器是一个指定构造器，你可以在子类里重载它的实现，并在自定义版本的构造器中调用父类版本的构造器。</p>
-
-
-<p>如果你重载的构造器是一个便利构造器，你的重载过程必须通过调用同一类中提供的其它指定构造器来实现。这一规则的详细内容请参考<a href="#initialization_chain">构造器链</a>。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>与方法、属性和下标不同，在重载构造器时你没有必要使用关键字<code>override</code>。</p>
-</blockquote>
-
-
-<p><a name="automatic_initializer_inheritance"></a></p>
-
-
-<h3 id="-">自动构造器的继承</h3>
-
-
-<p>如上所述，子类不会默认继承父类的构造器。但是如果特定条件可以满足，父类构造器是可以被自动继承的。在实践中，这意味着对于许多常见场景你不必重载父类的构造器，并且在尽可能安全的情况下以最小的代价来继承父类的构造器。</p>
-
-
-<p>假设要为子类中引入的任意新属性提供默认值，请遵守以下2个规则：</p>
-
-
-<h4 id="-1">规则 1</h4>
-
-
-<p>如果子类没有定义任何指定构造器，它将自动继承所有父类的指定构造器。</p>
-
-
-<h4 id="-2">规则 2</h4>
-
-
-<p>如果子类提供了所有父类指定构造器的实现&#8211;不管是通过规则1继承过来的，还是通过自定义实现的&#8211;它将自动继承所有父类的便利构造器。</p>
-
-
-<p>即使你在子类中添加了更多的便利构造器，这两条规则仍然适用。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>子类可以通过部分满足规则2的方式，使用子类便利构造器来实现父类的指定构造器。</p>
-</blockquote>
-
-
-<h3 id="-">指定构造器和便利构造器的语法</h3>
-
-
-<p>类的指定构造器的写法跟值类型简单构造器一样：</p>
-
-
-<pre><code>init(parameters) {
-    statements
-}
-</code></pre>
-
-
-<p>便利构造器也采用相同样式的写法，但需要在<code>init</code>关键字之前放置<code>convenience</code>关键字，并使用空格将它们俩分开：</p>
-
-
-<pre><code>convenience init(parameters) {
-    statements
-}
-</code></pre>
-
-
-<h3 id="-">指定构造器和便利构造器实战</h3>
-
-
-<p>接下来的例子将在实战中展示指定构造器、便利构造器和自动构造器的继承。它定义了包含三个类<code>Food</code>、<code>RecipeIngredient</code>以及<code>ShoppingListItem</code>的类层次结构，并将演示它们的构造器是如何相互作用的。</p>
-
-
-<p>类层次中的基类是<code>Food</code>，它是一个简单的用来封装食物名字的类。<code>Food</code>类引入了一个叫做<code>name</code>的<code>String</code>类型属性，并且提供了两个构造器来创建<code>Food</code>实例：</p>
-
-
-<pre><code>class Food {
-    var name: String
-    init(name: String) {
-        self.name = name
-    }
-    convenience init() {
-        self.init(name: "[Unnamed]")
-    }
-}
-</code></pre>
-
-
-<p>下图中展示了<code>Food</code>的构造器链：</p>
-
-
-<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/initializersExample01_2x.png" alt="Food构造器链"></p>
-
-
-<p>类没有提供一个默认的逐一成员构造器，所以<code>Food</code>类提供了一个接受单一参数<code>name</code>的指定构造器。这个构造器可以使用一个特定的名字来创建新的<code>Food</code>实例：</p>
-
-
-<pre><code>let namedMeat = Food(name: "Bacon")
-// namedMeat 的名字是 "Bacon”
-</code></pre>
-
-
-<p><code>Food</code>类中的构造器<code>init(name: String)</code>被定义为一个指定构造器，因为它能确保所有新<code>Food</code>实例的中存储型属性都被初始化。<code>Food</code>类没有父类，所以<code>init(name: String)</code>构造器不需要调用<code>super.init()</code>来完成构造。</p>
-
-
-<p><code>Food</code>类同样提供了一个没有参数的便利构造器 <code>init()</code>。这个<code>init()</code>构造器为新食物提供了一个默认的占位名字，通过代理调用同一类中定义的指定构造器<code>init(name: String)</code>并给参数<code>name</code>传值<code>[Unnamed]</code>来实现：</p>
-
-
-<pre><code>let mysteryMeat = Food()
-// mysteryMeat 的名字是 [Unnamed]
-</code></pre>
-
-
-<p>类层级中的第二个类是<code>Food</code>的子类<code>RecipeIngredient</code>。<code>RecipeIngredient</code>类构建了食谱中的一味调味剂。它引入了<code>Int</code>类型的数量属性<code>quantity</code>（以及从<code>Food</code>继承过来的<code>name</code>属性），并且定义了两个构造器来创建<code>RecipeIngredient</code>实例：</p>
-
-
-<pre><code>class RecipeIngredient: Food {
-    var quantity: Int
-    init(name: String, quantity: Int) {
-        self.quantity = quantity
-        super.init(name: name)
-    }
-    convenience init(name: String) {
-        self.init(name: name, quantity: 1)
-    }
-}
-</code></pre>
-
-
-<p>下图中展示了<code>RecipeIngredient</code>类的构造器链：</p>
-
-
-<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/initializersExample02_2x.png" alt="RecipeIngredient构造器"></p>
-
-
-<p><code>RecipeIngredient</code>类拥有一个指定构造器<code>init(name: String, quantity: Int)</code>，它可以用来产生新<code>RecipeIngredient</code>实例的所有属性值。这个构造器一开始先将传入的<code>quantity</code>参数赋值给<code>quantity</code>属性，这个属性也是唯一在<code>RecipeIngredient</code>中新引入的属性。随后，构造器将任务向上代理给父类<code>Food</code>的<code>init(name: String)</code>。这个过程满足<a href="#two_phase_initialization">两段式构造过程</a>中的安全检查1。</p>
-
-
-<p><code>RecipeIngredient</code>也定义了一个便利构造器<code>init(name: String)</code>，它只通过<code>name</code>来创建<code>RecipeIngredient</code>的实例。这个便利构造器假设任意<code>RecipeIngredient</code>实例的<code>quantity</code>为1，所以不需要显示指明数量即可创建出实例。这个便利构造器的定义可以让创建实例更加方便和快捷，并且避免了使用重复的代码来创建多个<code>quantity</code>为 1 的<code>RecipeIngredient</code>实例。这个便利构造器只是简单的将任务代理给了同一类里提供的指定构造器。</p>
-
-
-<p>注意，<code>RecipeIngredient</code>的便利构造器<code>init(name: String)</code>使用了跟<code>Food</code>中指定构造器<code>init(name: String)</code>相同的参数。尽管<code>RecipeIngredient</code>这个构造器是便利构造器，<code>RecipeIngredient</code>依然提供了对所有父类指定构造器的实现。因此，<code>RecipeIngredient</code>也能自动继承了所有父类的便利构造器。</p>
-
-
-<p>在这个例子中，<code>RecipeIngredient</code>的父类是<code>Food</code>，它有一个便利构造器<code>init()</code>。这个构造器因此也被<code>RecipeIngredient</code>继承。这个继承的<code>init()</code>函数版本跟<code>Food</code>提供的版本是一样的，除了它是将任务代理给<code>RecipeIngredient</code>版本的<code>init(name: String)</code>而不是<code>Food</code>提供的版本。</p>
-
-
-<p>所有的这三种构造器都可以用来创建新的<code>RecipeIngredient</code>实例：</p>
-
-
-<pre><code>let oneMysteryItem = RecipeIngredient()
-let oneBacon = RecipeIngredient(name: "Bacon")
-let sixEggs = RecipeIngredient(name: "Eggs", quantity: 6)
-</code></pre>
-
-
-<p>类层级中第三个也是最后一个类是<code>RecipeIngredient</code>的子类，叫做<code>ShoppingListItem</code>。这个类构建了购物单中出现的某一种调味料。</p>
-
-
-<p>购物单中的每一项总是从<code>unpurchased</code>未购买状态开始的。为了展现这一事实，<code>ShoppingListItem</code>引入了一个布尔类型的属性<code>purchased</code>，它的默认值是<code>false</code>。<code>ShoppingListItem</code>还添加了一个计算型属性<code>description</code>，它提供了关于<code>ShoppingListItem</code>实例的一些文字描述：</p>
-
-
-<pre><code>class ShoppingListItem: RecipeIngredient {
-    var purchased = false
-    var description: String {
-    var output = "\(quantity) x \(name.lowercaseString)"
-        output += purchased ? " ✔" : " ✘"
-        return output
-    }
-}
-</code></pre>
-
-
-<blockquote>
-<p>注意：</p>
-<p><code>ShoppingListItem</code>没有定义构造器来为<code>purchased</code>提供初始化值，这是因为任何添加到购物单的项的初始状态总是未购买。</p>
-</blockquote>
-
-
-<p>由于它为自己引入的所有属性都提供了默认值，并且自己没有定义任何构造器，<code>ShoppingListItem</code>将自动继承所有父类中的指定构造器和便利构造器。</p>
-
-
-<p>下图种展示了所有三个类的构造器链：</p>
-
-
-<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/initializersExample03_2x.png" alt="三类构造器图"></p>
-
-
-<p>你可以使用全部三个继承来的构造器来创建<code>ShoppingListItem</code>的新实例：</p>
-
-
-<pre><code>var breakfastList = [
-    ShoppingListItem(),
-    ShoppingListItem(name: "Bacon"),
-    ShoppingListItem(name: "Eggs", quantity: 6),
-]
-breakfastList[0].name = "Orange juice"
-breakfastList[0].purchased = true
-for item in breakfastList {
-    println(item.description)
-}
-// 1 x orange juice ✔
-// 1 x bacon ✘
-// 6 x eggs ✘
-</code></pre>
-
-
-<p>如上所述，例子中通过字面量方式创建了一个新数组<code>breakfastList</code>，它包含了三个新的<code>ShoppingListItem</code>实例，因此数组的类型也能自动推导为<code>ShoppingListItem[]</code>。在数组创建完之后，数组中第一个<code>ShoppingListItem</code>实例的名字从<code>[Unnamed]</code>修改为<code>Orange juice</code>，并标记为已购买。接下来通过遍历数组每个元素并打印它们的描述值，展示了所有项当前的默认状态都已按照预期完成了赋值。</p>
-
-
-<p><a name="setting_a_default_property_value_with_a_closure_or_function"></a></p>
-
-
-<h2 id="-">通过闭包和函数来设置属性的默认值</h2>
-
-
-<p>如果某个存储型属性的默认值需要特别的定制或准备，你就可以使用闭包或全局函数来为其属性提供定制的默认值。每当某个属性所属的新类型实例创建时，对应的闭包或函数会被调用，而它们的返回值会当做默认值赋值给这个属性。</p>
-
-
-<p>这种类型的闭包或函数一般会创建一个跟属性类型相同的临时变量，然后修改它的值以满足预期的初始状态，最后将这个临时变量的值作为属性的默认值进行返回。</p>
-
-
-<p>下面列举了闭包如何提供默认值的代码概要：</p>
-
-
-<pre><code>class SomeClass {
-    let someProperty: SomeType = {
-        // 在这个闭包中给 someProperty 创建一个默认值
-        // someValue 必须和 SomeType 类型相同
-        return someValue
-        }()
-}
-</code></pre>
-
-
-<p>注意闭包结尾的大括号后面接了一对空的小括号。这是用来告诉 Swift 需要立刻执行此闭包。如果你忽略了这对括号，相当于是将闭包本身作为值赋值给了属性，而不是将闭包的返回值赋值给属性。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>如果你使用闭包来初始化属性的值，请记住在闭包执行时，实例的其它部分都还没有初始化。这意味着你不能够在闭包里访问其它的属性，就算这个属性有默认值也不允许。同样，你也不能使用隐式的<code>self</code>属性，或者调用其它的实例方法。</p>
-</blockquote>
-
-
-<p>下面例子中定义了一个结构体<code>Checkerboard</code>，它构建了西洋跳棋游戏的棋盘：</p>
-
-
-<p><img src="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Art/checkersBoard_2x.png" alt="西洋跳棋棋盘"></p>
-
-
-<p>西洋跳棋游戏在一副黑白格交替的 10x10 的棋盘中进行。为了呈现这副游戏棋盘，<code>Checkerboard</code>结构体定义了一个属性<code>boardColors</code>，它是一个包含 100 个布尔值的数组。数组中的某元素布尔值为<code>true</code>表示对应的是一个黑格，布尔值为<code>false</code>表示对应的是一个白格。数组中第一个元素代表棋盘上左上角的格子，最后一个元素代表棋盘上右下角的格子。</p>
-
-
-<p><code>boardColor</code>数组是通过一个闭包来初始化和组装颜色值的：</p>
-
-
-<pre><code>struct Checkerboard {
-    let boardColors: Bool[] = {
-        var temporaryBoard = Bool[]()
-        var isBlack = false
-        for i in 1...10 {
-            for j in 1...10 {
-                temporaryBoard.append(isBlack)
-                isBlack = !isBlack
-            }
-            isBlack = !isBlack
-        }
-        return temporaryBoard
-        }()
-    func squareIsBlackAtRow(row: Int, column: Int) -&gt; Bool {
-        return boardColors[(row * 10) + column]
-    }
-}
-</code></pre>
-
-
-<p>每当一个新的<code>Checkerboard</code>实例创建时，对应的赋值闭包会执行，一系列颜色值会被计算出来作为默认值赋值给<code>boardColors</code>。上面例子中描述的闭包将计算出棋盘中每个格子合适的颜色，将这些颜色值保存到一个临时数组<code>temporaryBoard</code>中，并在构建完成时将此数组作为闭包返回值返回。这个返回的值将保存到<code>boardColors</code>中，并可以通<code>squareIsBlackAtRow</code>这个工具函数来查询。</p>
-
-
-<pre><code>let board = Checkerboard()
-println(board.squareIsBlackAtRow(0, column: 1))
-// 输出 "true"
-println(board.squareIsBlackAtRow(9, column: 9))
-// 输出 "false"
-</code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[swift方法]]></title>
-    <link href="http://baxiang123.com//blog/Swift%E6%96%B9%E6%B3%95.html"/>
-    <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swift方法</id>
-    <content type="html"><![CDATA[<p><strong>方法</strong>是与某些特定类型相关联的函数。类、结构体、枚举都可以定义实例方法；实例方法为给定类型的实例封装了具体的任务与功能。类、结构体、枚举也可以定义类型方法；类型方法与类型本身相关联。类型方法与 Objective-C 中的类方法（class methods）相似。</p>
-
-
-<p>结构体和枚举能够定义方法是 Swift 与 C/Objective-C 的主要区别之一。在 Objective-C 中，类是唯一能定义方法的类型。但在 Swift 中，你不仅能选择是否要定义一个类/结构体/枚举，还能灵活的在你创建的类型（类/结构体/枚举）上定义方法。</p>
-
-
-<!-- more -->
-
-
-<p><a name="instance_methods"></a></p>
-
-
-<h2 id="-instance-methods-">实例方法(Instance Methods)</h2>
-
-
-<p><strong>实例方法</strong>是属于某个特定类、结构体或者枚举类型实例的方法。实例方法提供访问和修改实例属性的方法或提供与实例目的相关的功能，并以此来支撑实例的功能。实例方法的语法与函数完全一致，详情参见<a href="../charpter2/06_Functions.html">函数</a>。</p>
-
-
-<p>实例方法要写在它所属的类型的前后大括号之间。实例方法能够隐式访问它所属类型的所有的其他实例方法和属性。实例方法只能被它所属的类的某个特定实例调用。实例方法不能脱离于现存的实例而被调用。</p>
-
-
-<p>下面的例子，定义一个很简单的类<code>Counter</code>，<code>Counter</code>能被用来对一个动作发生的次数进行计数：</p>
-
-
-<pre><code>class Counter {
-  var count = 0
-  func increment() {
-    count++
-  }
-  func incrementBy(amount: Int) {
-    count += amount
-  }
-  func reset() {
-    count = 0
-  }
-}
-</code></pre>
-
-
-<p><code>Counter</code>类定义了三个实例方法：</p>
-
-
-<ul>
-<li><code>increment</code>让计数器按一递增；</li>
-<li><code>incrementBy(amount: Int)</code>让计数器按一个指定的整数值递增；</li>
-<li><code>reset</code>将计数器重置为0。</li>
-</ul>
-
-
-<p><code>Counter</code>这个类还声明了一个可变属性<code>count</code>，用它来保持对当前计数器值的追踪。</p>
-
-
-<p>和调用属性一样，用点语法（dot syntax）调用实例方法：</p>
-
-
-<pre><code> let counter = Counter()
- // 初始计数值是0
- counter.increment()
- // 计数值现在是1
- counter.incrementBy(5)
- // 计数值现在是6
- counter.reset()
- // 计数值现在是0
-</code></pre>
-
-
-<p><a name="local_and_external_parameter"></a></p>
-
-
-<h3 id="-local-and-external-parameter-names-for-methods-">方法的局部参数名称和外部参数名称(Local and External Parameter Names for Methods)</h3>
-
-
-<p>函数参数可以同时有一个局部名称（在函数体内部使用）和一个外部名称（在调用函数时使用），详情参见<a href="06_Functions.html">函数的外部参数名</a>。方法参数也一样（因为方法就是函数，只是这个函数与某个类型相关联了）。但是，方法和函数的局部名称和外部名称的默认行为是不一样的。</p>
-
-
-<p>Swift 中的方法和 Objective-C 中的方法极其相似。像在 Objective-C 中一样，Swift 中方法的名称通常用一个介词指向方法的第一个参数，比如：<code>with</code>，<code>for</code>，<code>by</code>等等。前面的<code>Counter</code>类的例子中<code>incrementBy</code>方法就是这样的。介词的使用让方法在被调用时能像一个句子一样被解读。和函数参数不同，对于方法的参数，Swift 使用不同的默认处理方式，这可以让方法命名规范更容易写。</p>
-
-
-<p>具体来说，Swift  默认仅给方法的第一个参数名称一个局部参数名称;默认同时给第二个和后续的参数名称局部参数名称和外部参数名称。这个约定与典型的命名和调用约定相适应，与你在写 Objective-C 的方法时很相似。这个约定还让表达式方法在调用时不需要再限定参数名称。</p>
-
-
-<p>看看下面这个<code>Counter</code>的另一个版本（它定义了一个更复杂的<code>incrementBy</code>方法）：</p>
-
-
-<pre><code>class Counter {
-  var count: Int = 0
-  func incrementBy(amount: Int, numberOfTimes: Int) {
-    count += amount * numberOfTimes
-  }
-}
-</code></pre>
-
-
-<p><code>incrementBy</code>方法有两个参数： <code>amount</code>和<code>numberOfTimes</code>。默认情况下，Swift 只把<code>amount</code>当作一个局部名称，但是把<code>numberOfTimes</code>即看作局部名称又看作外部名称。下面调用这个方法：</p>
-
-
-<pre><code>let counter = Counter()
-counter.incrementBy(5, numberOfTimes: 3)
-// counter value is now 15
-</code></pre>
-
-
-<p>你不必为第一个参数值再定义一个外部变量名：因为从函数名<code>incrementBy</code>已经能很清楚地看出它的作用。但是第二个参数，就要被一个外部参数名称所限定，以便在方法被调用时明确它的作用。</p>
-
-
-<p>这种默认的行为能够有效的处理方法（method）,类似于在参数<code>numberOfTimes</code>前写一个井号（<code>#</code>）：</p>
-
-
-<pre><code>func incrementBy(amount: Int, #numberOfTimes: Int) {
- count += amount * numberOfTimes
-}
-</code></pre>
-
-
-<p>这种默认行为使上面代码意味着：在 Swift 中定义方法使用了与 Objective-C 同样的语法风格，并且方法将以自然表达式的方式被调用。</p>
-
-
-<p><a name="modifying_external_parameter"></a></p>
-
-
-<h3 id="-modifying-external-parameter-name-behavior-for-methods-">修改方法的外部参数名称(Modifying External Parameter Name Behavior for Methods)</h3>
-
-
-<p>有时为方法的第一个参数提供一个外部参数名称是非常有用的，尽管这不是默认的行为。你可以自己添加一个显式的外部名称或者用一个井号（<code>#</code>）作为第一个参数的前缀来把这个局部名称当作外部名称使用。</p>
-
-
-<p>相反，如果你不想为方法的第二个及后续的参数提供一个外部名称，可以通过使用下划线（<code>_</code>）作为该参数的显式外部名称，这样做将覆盖默认行为。</p>
-
-
-<p><a name="self_property"></a></p>
-
-
-<h2 id="-self-the-self-property-"><code>self</code>属性(The self Property)</h2>
-
-
-<p>类型的每一个实例都有一个隐含属性叫做<code>self</code>，<code>self</code>完全等同于该实例本身。你可以在一个实例的实例方法中使用这个隐含的<code>self</code>属性来引用当前实例。</p>
-
-
-<p>上面例子中的<code>increment</code>方法还可以这样写：</p>
-
-
-<pre><code>func increment() {
-  self.count++
-}
-</code></pre>
-
-
-<p>实际上，你不必在你的代码里面经常写<code>self</code>。不论何时，只要在一个方法中使用一个已知的属性或者方法名称，如果你没有明确的写<code>self</code>，Swift 假定你是指当前实例的属性或者方法。这种假定在上面的<code>Counter</code>中已经示范了：<code>Counter</code>中的三个实例方法中都使用的是<code>count</code>（而不是<code>self.count</code>）。</p>
-
-
-<p>使用这条规则的主要场景是实例方法的某个参数名称与实例的某个属性名称相同的时候。在这种情况下，参数名称享有优先权，并且在引用属性时必须使用一种更严格的方式。这时你可以使用<code>self</code>属性来区分参数名称和属性名称。</p>
-
-
-<p>下面的例子中，<code>self</code>消除方法参数<code>x</code>和实例属性<code>x</code>之间的歧义：</p>
-
-
-<pre><code>struct Point {
-  var x = 0.0, y = 0.0
-  func isToTheRightOfX(x: Double) -&gt; Bool {
-    return self.x &gt; x
-  }
-}
-let somePoint = Point(x: 4.0, y: 5.0)
-if somePoint.isToTheRightOfX(1.0) {
-  println("This point is to the right of the line where x == 1.0")
-}
-// 输出 "This point is to the right of the line where x == 1.0"（这个点在x等于1.0这条线的右边）
-</code></pre>
-
-
-<p>如果不使用<code>self</code>前缀，Swift 就认为两次使用的<code>x</code>都指的是名称为<code>x</code>的函数参数。</p>
-
-
-<p><a name="modifying_value_types"></a></p>
-
-
-<h3 id="-modifying-value-types-from-within-instance-methods-">在实例方法中修改值类型(Modifying Value Types from Within Instance Methods)</h3>
-
-
-<p>结构体和枚举是<strong>值类型</strong>。一般情况下，值类型的属性不能在它的实例方法中被修改。</p>
-
-
-<p>但是，如果你确实需要在某个具体的方法中修改结构体或者枚举的属性，你可以选择<code>变异(mutating)</code>这个方法，然后方法就可以从方法内部改变它的属性；并且它做的任何改变在方法结束时还会保留在原始结构中。方法还可以给它隐含的<code>self</code>属性赋值一个全新的实例，这个新实例在方法结束后将替换原来的实例。</p>
-
-
-<p>要使用<code>变异</code>方法， 将关键字<code>mutating</code> 放到方法的<code>func</code>关键字之前就可以了：</p>
-
-
-<pre><code>struct Point {
-  var x = 0.0, y = 0.0
-  mutating func moveByX(deltaX: Double, y deltaY: Double) {
-    x += deltaX
-    y += deltaY
-  }
-}
-var somePoint = Point(x: 1.0, y: 1.0)
-somePoint.moveByX(2.0, y: 3.0)
-println("The point is now at (\(somePoint.x), \(somePoint.y))")
-// 输出 "The point is now at (3.0, 4.0)"
-</code></pre>
-
-
-<p>上面的<code>Point</code>结构体定义了一个变异方法（mutating method）<code>moveByX</code>，<code>moveByX</code>用来移动点。<code>moveByX</code>方法在被调用时修改了这个点，而不是返回一个新的点。方法定义时加上<code>mutating</code>关键字,这才让方法可以修改值类型的属性。</p>
-
-
-<p>注意：不能在结构体类型常量上调用变异方法，因为常量的属性不能被改变，即使想改变的是常量的变量属性也不行，详情参见<a href="&quot;10_Properties.html&quot;">存储属性和实例变量</a></p>
-
-
-<pre><code>let fixedPoint = Point(x: 3.0, y: 3.0)
-fixedPoint.moveByX(2.0, y: 3.0)
-// this will report an error
-</code></pre>
-
-
-<p><a name="mutating_method_self"></a></p>
-
-
-<h3 id="-self-assigning-to-self-within-a-mutating-method-">在变异方法中给self赋值(Assigning to self Within a Mutating Method)</h3>
-
-
-<p>变异方法能够赋给隐含属性<code>self</code>一个全新的实例。上面<code>Point</code>的例子可以用下面的方式改写：</p>
-
-
-<pre><code>struct Point {
-  var x = 0.0, y = 0.0
-  mutating func moveByX(deltaX: Double, y deltaY: Double) {
-    self = Point(x: x + deltaX, y: y + deltaY)
-  }
-}
-</code></pre>
-
-
-<p>新版的变异方法<code>moveByX</code>创建了一个新的结构（它的 x 和 y 的值都被设定为目标值）。调用这个版本的方法和调用上个版本的最终结果是一样的。</p>
-
-
-<p>枚举的变异方法可以把<code>self</code>设置为相同的枚举类型中不同的成员：</p>
-
-
-<pre><code>enum TriStateSwitch {
-  case Off, Low, High
-  mutating func next() {
-    switch self {
-    case Off:
-      self = Low
-    case Low:
-      self = High
-    case High:
-      self = Off
-    }
-  }
-}
-var ovenLight = TriStateSwitch.Low
-ovenLight.next()
-// ovenLight 现在等于 .High
-ovenLight.next()
-// ovenLight 现在等于 .Off
-</code></pre>
-
-
-<p>上面的例子中定义了一个三态开关的枚举。每次调用<code>next</code>方法时，开关在不同的电源状态（<code>Off</code>，<code>Low</code>，<code>High</code>）之前循环切换。</p>
-
-
-<p><a name="type_methods"></a></p>
-
-
-<h2 id="-type-methods-">类型方法(Type Methods)</h2>
-
-
-<p>实例方法是被类型的某个实例调用的方法。你也可以定义类型本身调用的方法，这种方法就叫做<strong>类型方法</strong>。声明类的类型方法，在方法的<code>func</code>关键字之前加上关键字<code>class</code>；声明结构体和枚举的类型方法，在方法的<code>func</code>关键字之前加上关键字<code>static</code>。</p>
-
-
-<blockquote>
-<p>注意：</p>
-<p>在 Objective-C 里面，你只能为 Objective-C 的类定义类型方法（type-level methods）。在 Swift 中，你可以为所有的类、结构体和枚举定义类型方法：每一个类型方法都被它所支持的类型显式包含。</p>
-</blockquote>
-
-
-<p>类型方法和实例方法一样用点语法调用。但是，你是在类型层面上调用这个方法，而不是在实例层面上调用。下面是如何在<code>SomeClass</code>类上调用类型方法的例子：</p>
-
-
-<pre><code>class SomeClass {
-  class func someTypeMethod() {
-    // type method implementation goes here
-  }
-}
-SomeClass.someTypeMethod()
-</code></pre>
-
-
-<p>在类型方法的方法体（body）中，<code>self</code>指向这个类型本身，而不是类型的某个实例。对于结构体和枚举来说，这意味着你可以用<code>self</code>来消除静态属性和静态方法参数之间的歧义（类似于我们在前面处理实例属性和实例方法参数时做的那样）。</p>
-
-
-<p>一般来说，任何未限定的方法和属性名称，将会来自于本类中另外的类型级别的方法和属性。一个类型方法可以调用本类中另一个类型方法的名称，而无需在方法名称前面加上类型名称的前缀。同样，结构体和枚举的类型方法也能够直接通过静态属性的名称访问静态属性，而不需要类型名称前缀。</p>
-
-
-<p>下面的例子定义了一个名为<code>LevelTracker</code>结构体。它监测玩家的游戏发展情况（游戏的不同层次或阶段）。这是一个单人游戏，但也可以存储多个玩家在同一设备上的游戏信息。</p>
-
-
-<p>游戏初始时，所有的游戏等级（除了等级 1）都被锁定。每次有玩家完成一个等级，这个等级就对这个设备上的所有玩家解锁。<code>LevelTracker</code>结构体用静态属性和方法监测游戏的哪个等级已经被解锁。它还监测每个玩家的当前等级。</p>
-
-
-<pre><code>struct LevelTracker {
-  static var highestUnlockedLevel = 1
-  static func unlockLevel(level: Int) {
-    if level &gt; highestUnlockedLevel { highestUnlockedLevel = level }
-  }
-  static func levelIsUnlocked(level: Int) -&gt; Bool {
-    return level &lt;= highestUnlockedLevel
-  }
-  var currentLevel = 1
-  mutating func advanceToLevel(level: Int) -&gt; Bool {
-    if LevelTracker.levelIsUnlocked(level) {
-      currentLevel = level
-      return true
-    } else {
-      return false
-    }
-  }
-}
-</code></pre>
-
-
-<p><code>LevelTracker</code>监测玩家的已解锁的最高等级。这个值被存储在静态属性<code>highestUnlockedLevel</code>中。</p>
-
-
-<p><code>LevelTracker</code>还定义了两个类型方法与<code>highestUnlockedLevel</code>配合工作。第一个类型方法是<code>unlockLevel</code>：一旦新等级被解锁，它会更新<code>highestUnlockedLevel</code>的值。第二个类型方法是<code>levelIsUnlocked</code>：如果某个给定的等级已经被解锁，它将返回<code>true</code>。（注意：尽管我们没有使用类似<code>LevelTracker.highestUnlockedLevel</code>的写法，这个类型方法还是能够访问静态属性<code>highestUnlockedLevel</code>）</p>
-
-
-<p>除了静态属性和类型方法，<code>LevelTracker</code>还监测每个玩家的进度。它用实例属性<code>currentLevel</code>来监测玩家当前的等级。</p>
-
-
-<p>为了便于管理<code>currentLevel</code>属性，<code>LevelTracker</code>定义了实例方法<code>advanceToLevel</code>。这个方法会在更新<code>currentLevel</code>之前检查所请求的新等级是否已经解锁。<code>advanceToLevel</code>方法返回布尔值以指示是否能够设置<code>currentLevel</code>。</p>
-
-
-<p>下面，<code>Player</code>类使用<code>LevelTracker</code>来监测和更新每个玩家的发展进度：</p>
-
-
-<pre><code>class Player {
-  var tracker = LevelTracker()
-  let playerName: String
-  func completedLevel(level: Int) {
-    LevelTracker.unlockLevel(level + 1)
-    tracker.advanceToLevel(level + 1)
-  }
-  init(name: String) {
-    playerName = name
-  }
-}
-</code></pre>
-
-
-<p><code>Player</code>类创建一个新的<code>LevelTracker</code>实例来监测这个用户的发展进度。他提供了<code>completedLevel</code>方法：一旦玩家完成某个指定等级就调用它。这个方法为所有玩家解锁下一等级，并且将当前玩家的进度更新为下一等级。（我们忽略了<code>advanceToLevel</code>返回的布尔值，因为之前调用<code>LevelTracker.unlockLevel</code>时就知道了这个等级已经被解锁了）。</p>
-
-
-<p>你还可以为一个新的玩家创建一个<code>Player</code>的实例，然后看这个玩家完成等级一时发生了什么：</p>
-
-
-<pre><code>var player = Player(name: "Argyrios")
-player.completedLevel(1)
-println("highest unlocked level is now \(LevelTracker.highestUnlockedLevel)")
-// 输出 "highest unlocked level is now 2"（最高等级现在是2
-）
-</code></pre>
-
-
-<p>如果你创建了第二个玩家，并尝试让他开始一个没有被任何玩家解锁的等级，那么这次设置玩家当前等级的尝试将会失败：</p>
-
-
-<pre><code>player = Player(name: "Beto")
-if player.tracker.advanceToLevel(6) {
-println("player is now on level 6")
-} else {
-println("level 6 has not yet been unlocked")
-}
-// 输出 "level 6 has not yet been unlocked"（等级6还没被解锁）
-</code></pre>
 
 ]]></content>
   </entry>

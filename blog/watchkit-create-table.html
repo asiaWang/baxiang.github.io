@@ -1,0 +1,214 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>如何使用WatchKit创建Table - 小巴童鞋</title>
+	<meta name="author" content="小巴">
+
+	
+	<meta name="description" content="">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://baxiang123.com//blog/watchkit-create-table.html">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+	<link href="/stylesheets/google-fonts.css" rel="stylesheet" type="text/css">
+	
+	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<meta name="baidu-site-verification" content="tXGpoDjJRv" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script type="text/javascript">
+ function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+ $(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+ });
+ </script>
+ 
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script async src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">BaXiang&#8217;s technology blog</p>
+<nav id="main-nav"><!--ul class="main">
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
+</ul><!-->
+<ul class="main-navigation">
+  <li><a href="/">Blog | 博客</a></li>
+  <li><a href="/blog/archives">Archives | 目录</a></li>
+  <li><a href="/blog/categories">Categories  | 分类</a></li>
+  <li><a href="/aboutme/">About Me | 关于</a></li>
+  
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<br/>
+	<div class="social">
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
+        
+		
+		
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">如何使用WatchKit创建Table</h1>
+	<div class="entry-content" itemprop="articleBody"><p>上篇文章向大家演示了如何创建一个Helloworld Apple Watch App。这篇文章向大家演示如何使用WatchKit给你的Watch App创建Table。我们在Helloworld项目的基础上进行完善。</p>
+
+<h2>创建一个Table</h2>
+
+<p>打开<strong>Interface.storyboard</strong>文件，删除我们之前添加的Label，然后将一个Table组件拖拽到你的Watch屏幕中。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-1.png" alt="pic" /></p>
+
+<p>这里要注意一下，WatchKit中每一个WKInterfaceTableRow都是一个<strong>Table Row Controller</strong>，如果你展开它，你会发现它里面有一个<strong>Group</strong>，我们分别将一个Label和Image组件拖拽至Group中。调整Label和Image的大小，调整到你觉得合适就可以。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-2.png" alt="pic" /></p>
+
+<h2>创建自定义的Table Row Controller</h2>
+
+<p>我们选中TableRowController，然后选择右侧工具栏的Identify inspector，我们可以在<strong>Custom Class</strong>一栏中看到，其实TableRowController是一个<strong>NSObject</strong>。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-3.png" alt="pic" /></p>
+
+<p>我们可以创建一个自己的NSObject，然后将TableRowController的class设置为我们创建的NSObject，这样就达到了自定义的目的。我们在<strong>HelloworldWatchKit WatchKit Extension</strong>目录中创建一个Swfit文件，让它继承NSObject，然后导入WatchKit框架。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-4.png" alt="pic" /></p>
+
+<p>将TableRowController的class设置为<code>MyTableRowController</code>，并给它设置一个Identifier。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-5.png" alt="pic" /></p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-6.png" alt="pic" /></p>
+
+<p>现在你就可以在<code>MyTableRowController</code>中添加Label和Image的<strong>IBOutlet</strong>了。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-7.png" alt="pic" /></p>
+
+<h2>创建数据源</h2>
+
+<p>我们知道，在UIKit的<code>UITableView</code>或者<code>UITableViewController</code>中都有DataSource，负责Table Row中的数据，但是在WatchKit中的TableRowController并没有DataSource，但是这个概念是有的，也就是说我们要为TableRowController创建一个数据源，不论是数组还是字典。在这里，我们创建一个数组，作为TableRowController的数据源，数组中的元素都是<code>String</code>。因为我们的TableRowController中有一个Image组件、一个Label组件，所以我们将图片的名字作为数组的元素。</p>
+
+<p>我们在<code>InterfaceController</code>中创建一个数据源<code>weather</code>数组，数组元素是图片名称，然后创建Table的IBOutlet。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-8.png" alt="pic" /></p>
+
+<h2>加载数据源</h2>
+
+<p>我们在<code>InterfaceController</code>中添加<code>loadTableData()</code>方法，然后在<code>init()</code>方法中调用。</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-9.png" alt="pic" /></p>
+
+<p>现在编译运行一下，你就会看到Watch中显示出了Table，是不是很酷呢！</p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-10.png" alt="pic" /></p>
+
+<p><img src="http://www.devtalking.com/postImages/watchkit-create-table-11.png" alt="pic" /></p>
+</div>
+
+</article>
+
+	<div class="bdsharebuttonbox"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["qzone","bdysc","renren","douban","fx","youdao","mail","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+<!--兼容版，可保证页面完全兼容-->
+<div id="SOHUCS"></div>
+<script>
+  (function(){
+    var appid = 'cyrof0xla',
+    conf = 'prod_33cb4369c37266cd8994da8878b17b87';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+  })()
+</script>
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+</body>
+</html>
