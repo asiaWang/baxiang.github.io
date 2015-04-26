@@ -4,7 +4,7 @@
   <title><![CDATA[小巴童鞋]]></title>
   <link href="http://baxiang123.com//atom.xml" rel="self"/>
   <link href="http://baxiang123.com//"/>
-  <updated>2015-04-27T02:15:40+08:00</updated>
+  <updated>2015-04-27T02:19:41+08:00</updated>
   <id>http://baxiang123.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -132,13 +132,8 @@
     <link href="http://baxiang123.com//blog/helloworld-watchkit-app.html"/>
     <updated>2015-04-22T00:00:00+08:00</updated>
     <id>http://baxiang123.com//blog/helloworld-watchkit-app</id>
-    <content type="html"><![CDATA[<h2>下载Xcode 6.2 Beta</h2>
-
-<p>首先我们需要下载最新的<a href="https://developer.apple.com/xcode/downloads/">Xcode 6.2</a>。</p>
-
-<h2>创建一个新项目</h2>
-
-<p>启动Xcode，选择<strong>Create a new Xcode project</strong>， 然后选择<strong>Single View Application</strong>创建一个单视图应用。</p>
+    <content type="html"><![CDATA[<p>首先我们需要下载最新的<a href="https://developer.apple.com/xcode/downloads/">Xcode 6.2</a>。
+启动Xcode，选择<strong>Create a new Xcode project</strong>， 然后选择<strong>Single View Application</strong>创建一个单视图应用。</p>
 
 <!-- more -->
 
@@ -190,9 +185,7 @@
     <link href="http://baxiang123.com//blog/watchkit-initial-impressions.html"/>
     <updated>2015-04-20T00:00:00+08:00</updated>
     <id>http://baxiang123.com//blog/watchkit-initial-impressions</id>
-    <content type="html"><![CDATA[<h2>整体功能预览</h2>
-
-<p>总体而言，WatchKit第一版SDK提供的功能远远超出了我的期望。因为我原本以为第一版WatchKit可能侧重于对iOS Today Extension功能的延伸，而不是真正开发Watch App。所以当知道真相后，我即惊讶又感到高兴，第一版WatchKit并不是我所想的那样，它可以为Watch App创建全新的交互界面，而且可以通过iOS App Extension去控制他们。</p>
+    <content type="html"><![CDATA[<p>总体而言，WatchKit第一版SDK提供的功能远远超出了我的期望。因为我原本以为第一版WatchKit可能侧重于对iOS Today Extension功能的延伸，而不是真正开发Watch App。所以当知道真相后，我即惊讶又感到高兴，第一版WatchKit并不是我所想的那样，它可以为Watch App创建全新的交互界面，而且可以通过iOS App Extension去控制他们。</p>
 
 <!-- more -->
 
