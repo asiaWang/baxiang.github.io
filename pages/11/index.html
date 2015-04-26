@@ -9,9 +9,9 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="Nov 14,&nbsp 2013 ios, security Comments iOS应用程序安全(7)-不用证书安装应用到设备的方法 作者：Prateek Gianchandani
+	<meta name="description" content="Nov 14,&nbsp 2013 ios, security Comments iOS应用程序安全(9)-用Snoop-it分析iOS应用的安全 作者：Prateek Gianchandani
 译者：吴发伟
-原文网址：http://resources.infosecinstitute.com/ios- &hellip;">
+原文网址：http://resources.infosecinstitute.com/ &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -152,6 +152,107 @@ Nov 14,&nbsp 2013  </div>
 
 </div>
 		
+			<span class="comments"><a href="/blog/ios-application-security-9.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-9.html" itemprop="url">iOS应用程序安全(9)-用Snoop-it分析iOS应用的安全</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it/">http://resources.infosecinstitute.com/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<h2>引言</h2>
+
+<p>在前面的文章中我们介绍了如何用class-dump-z来导出iOS应用的类信息，如何利用Cycript挂钩进程、执行运行时操纵和method swizzling，用gdb分析app的流程。
+然而，可能有更好的方式能够做这些事。如果能够有一个工具能够做所有这些事情并且能够更好的展示这些信息就太好了。</p>
+
+<p>Snoop-it就是这样一个tool。它允许我们进行运行时分析和对iOS应用进行黑盒安全评估。它提供一个非常简洁的web界面。在写本文的时候，Snoop-it还没正式发布，我给作者写了邮件，
+他们非常友好的提供给我一个beta版本做测试。你可以到它的<a href="https://code.google.com/p/snoop-it/">官网</a>查看或者你可以在<a href="http://twitter.com/aykay/">Twitter</a>上关注作者。</p>
+
+<p>Snoop-it提供的功能可以从对其<a href="https://code.google.com/p/snoop-it/">官方地址</a>的截图看到。</p>
+
+
+		
+		<a href="/blog/ios-application-security-9.html" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 14,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/security/'>security</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/ios-application-security-8.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-8.html" itemprop="url">iOS应用程序安全(8)-用Cycript进行Method Swizzling</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-8-method-swizzling-using-cycript/">http://resources.infosecinstitute.com/ios-application-security-part-8-method-swizzling-using-cycript/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<h2>引言</h2>
+
+<p>在前面的文章当中，我们学习了如何在没有开发者证书的情况下安装自己的应用。本文我们将在一个例子程序上看如何用Cycript做method Swizzling。</p>
+
+<p>第一件事情就是下载Xcode例子工程。你可以从<a href="https://dl.dropboxusercontent.com/u/34557464/MethodSwizzlingDemo.zip">这</a>下载。或者你也可以从<a href="https://dl.dropboxusercontent.com/u/34557464/MethodSwizzlingDemo.ipa">这</a>下载二进制文件。如果你已经安装了Xcode，你可以用自签名证书来构建这个工程。上一篇文章详细介绍了如何做。如果你下载了ipa文件，你可以直接把它安装到你的越狱设备上。
+推荐你下载Xcode例子工程，看看源代码。</p>
+
+
+		
+		<a href="/blog/ios-application-security-8.html" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 14,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/security/'>security</a>
+
+
+</div>
+		
 			<span class="comments"><a href="/blog/ios-application-security-7.html#disqus_thread">Comments</a></span>
 		
 	</div>
@@ -265,98 +366,6 @@ Nov 14,&nbsp 2013  </div>
 
 		
 		<a href="/blog/ios-application-security-5.html" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-Nov 14,&nbsp 2013  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/security/'>security</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/ios-application-security-4.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-4.html" itemprop="url">iOS应用程序安全(4)-用Cycript进行运行时分析(Yahoo天气应用)</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-4-runtime-analysis-using-cycript-yahoo-weather-app/">http://resources.infosecinstitute.com/ios-application-security-part-4-runtime-analysis-using-cycript-yahoo-weather-app/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<h2>引言</h2>
-
-<p>在前面的文章当中，我们学到了用Objective－C编写的、使用Cocoa framework的iOS应用的运行时能力。本文，我们将会使用一个很基本的工具Cycript来分析和修改iOS程序的运行时。本文将使用Yahoo 天气应用作为例子。</p>
-
-
-		
-		<a href="/blog/ios-application-security-4.html" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-Nov 14,&nbsp 2013  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/security/'>security</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/ios-application-security-3.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-3.html" itemprop="url">iOS应用程序安全(3)-理解Objective-C Runtime</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-3-understanding-the-objective-c-runtime/">http://resources.infosecinstitute.com/ios-application-security-part-3-understanding-the-objective-c-runtime/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<h3>引言</h3>
-
-<p>基本上所有的iOS应用都是用Objective-C编写的。所有这些应用都使用Cocoa，Cocoa在Objective-C上面，提供更高层次的API，使得Mac和iOS开发变得更容易一些。Cocoa也给应用提供了一个运行时环境。本文我们将着重理解Objective-C的运行时和关于内部函数如何运行的错综复杂的细节。这会让我们能够更深入的理解应用程序。</p>
-
-
-		
-		<a href="/blog/ios-application-security-3.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
