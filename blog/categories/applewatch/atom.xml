@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: applewatch | 小巴童鞋]]></title>
-  <link href="http://baxiang123.com//blog/categories/applewatch/atom.xml" rel="self"/>
-  <link href="http://baxiang123.com//"/>
-  <updated>2015-06-19T00:38:27+08:00</updated>
-  <id>http://baxiang123.com//</id>
+  <link href="http://ba-xiang.com//blog/categories/applewatch/atom.xml" rel="self"/>
+  <link href="http://ba-xiang.com//"/>
+  <updated>2015-06-24T03:38:13+08:00</updated>
+  <id>http://ba-xiang.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Apple Watch 和 iPhone 通信实践]]></title>
-    <link href="http://baxiang123.com//blog/iPhone-watch-communication.html"/>
+    <link href="http://ba-xiang.com//blog/iPhone-watch-communication.html"/>
     <updated>2015-04-26T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/iPhone-watch-communication</id>
+    <id>http://ba-xiang.com//blog/iPhone-watch-communication</id>
     <content type="html"><![CDATA[<p>给 iPhone App 添加 Watch App 支持需要在 iPhone 工程中添加 Watch Extension，添加后工程中对应生成两个新的target：WatchKit Extension 和 WatchKit App，分别对应逻辑和界面。开发完成后，WatchKit Extension 和 iPhone App 被一起安装到 iPhone 中，如果 iPhone 有匹配的 Watch，系统会提示是否需要将 WatchKit App 安装到 Watch 上。</p>
 
 <!--more-->
@@ -69,9 +69,9 @@ handleWatchKitExtensionRequest:(NSDictionary *)userInfo
   
   <entry>
     <title type="html"><![CDATA[使用WatchKit实现Page-Based Navigation]]></title>
-    <link href="http://baxiang123.com//blog/watchkit-pagebase-navigation.html"/>
+    <link href="http://ba-xiang.com//blog/watchkit-pagebase-navigation.html"/>
     <updated>2015-04-25T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/watchkit-pagebase-navigation</id>
+    <id>http://ba-xiang.com//blog/watchkit-pagebase-navigation</id>
     <content type="html"><![CDATA[<p>这篇文章向大家展示如何使用WatchKit创建Page-Based Navigation，我们还是在Helloworld项目的基础上进行改善。</p>
 
 <!-- more -->
@@ -121,9 +121,9 @@ handleWatchKitExtensionRequest:(NSDictionary *)userInfo
   
   <entry>
     <title type="html"><![CDATA[如何使用WatchKit创建Table]]></title>
-    <link href="http://baxiang123.com//blog/watchkit-create-table.html"/>
+    <link href="http://ba-xiang.com//blog/watchkit-create-table.html"/>
     <updated>2015-04-23T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/watchkit-create-table</id>
+    <id>http://ba-xiang.com//blog/watchkit-create-table</id>
     <content type="html"><![CDATA[<p>上篇文章向大家演示了如何创建一个Helloworld Apple Watch App。这篇文章向大家演示如何使用WatchKit给你的Watch App创建Table。我们在Helloworld项目的基础上进行完善。</p>
 
 <!-- more -->
@@ -183,9 +183,9 @@ handleWatchKitExtensionRequest:(NSDictionary *)userInfo
   
   <entry>
     <title type="html"><![CDATA[Helloworld Apple Watch App]]></title>
-    <link href="http://baxiang123.com//blog/helloworld-watchkit-app.html"/>
+    <link href="http://ba-xiang.com//blog/helloworld-watchkit-app.html"/>
     <updated>2015-04-22T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/helloworld-watchkit-app</id>
+    <id>http://ba-xiang.com//blog/helloworld-watchkit-app</id>
     <content type="html"><![CDATA[<p>首先我们需要下载最新的<a href="https://developer.apple.com/xcode/downloads/">Xcode 6.2</a>。
 启动Xcode，选择<strong>Create a new Xcode project</strong>， 然后选择<strong>Single View Application</strong>创建一个单视图应用。</p>
 
@@ -236,9 +236,9 @@ handleWatchKitExtensionRequest:(NSDictionary *)userInfo
   
   <entry>
     <title type="html"><![CDATA[WatchKit初探]]></title>
-    <link href="http://baxiang123.com//blog/watchkit-initial-impressions.html"/>
+    <link href="http://ba-xiang.com//blog/watchkit-initial-impressions.html"/>
     <updated>2015-04-20T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/watchkit-initial-impressions</id>
+    <id>http://ba-xiang.com//blog/watchkit-initial-impressions</id>
     <content type="html"><![CDATA[<p>总体而言，WatchKit第一版SDK提供的功能远远超出了我的期望。因为我原本以为第一版WatchKit可能侧重于对iOS Today Extension功能的延伸，而不是真正开发Watch App。所以当知道真相后，我即惊讶又感到高兴，第一版WatchKit并不是我所想的那样，它可以为Watch App创建全新的交互界面，而且可以通过iOS App Extension去控制他们。</p>
 
 <!-- more -->

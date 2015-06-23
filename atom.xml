@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[小巴童鞋]]></title>
-  <link href="http://baxiang123.com//atom.xml" rel="self"/>
-  <link href="http://baxiang123.com//"/>
-  <updated>2015-06-19T00:38:27+08:00</updated>
-  <id>http://baxiang123.com//</id>
+  <link href="http://ba-xiang.com//atom.xml" rel="self"/>
+  <link href="http://ba-xiang.com//"/>
+  <updated>2015-06-24T03:38:13+08:00</updated>
+  <id>http://ba-xiang.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Apple Watch 和 iPhone 通信实践]]></title>
-    <link href="http://baxiang123.com//blog/iPhone-watch-communication.html"/>
+    <link href="http://ba-xiang.com//blog/iPhone-watch-communication.html"/>
     <updated>2015-04-26T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/iPhone-watch-communication</id>
+    <id>http://ba-xiang.com//blog/iPhone-watch-communication</id>
     <content type="html"><![CDATA[<p>给 iPhone App 添加 Watch App 支持需要在 iPhone 工程中添加 Watch Extension，添加后工程中对应生成两个新的target：WatchKit Extension 和 WatchKit App，分别对应逻辑和界面。开发完成后，WatchKit Extension 和 iPhone App 被一起安装到 iPhone 中，如果 iPhone 有匹配的 Watch，系统会提示是否需要将 WatchKit App 安装到 Watch 上。</p>
 
 <!--more-->
@@ -27,7 +27,7 @@
 
 <p>WatchKit Extension 是 iPhone App 和 Watch App 通信的桥梁，下图展示了三者间的通信过程：</p>
 
-<p><img src="http://baxiang123.com//images/tech/iPhoneWatchCommunication/iphone_watch_communication.png" alt="list app" /></p>
+<p><img src="http://ba-xiang.com//images/tech/iPhoneWatchCommunication/iphone_watch_communication.png" alt="list app" /></p>
 
 <h3>1、Extension 和 Watch App ( Host App )的通信</h3>
 
@@ -43,7 +43,7 @@
 
 <p>但是修改存储文件，并没有达到直接通信的目的。存在这样的问题：iPhone App 对文件进行了修改，Extension 并不知道文件发生了修改，很显然，我们需要通过通知机制告诉 Extension 文件发生了修改，你可以更新新的数据了，本文最后的 Demo 会实现这样的效果。</p>
 
-<p><img src="http://baxiang123.com//images/tech/iPhoneWatchCommunication/share_container.png" alt="list app" /></p>
+<p><img src="http://ba-xiang.com//images/tech/iPhoneWatchCommunication/share_container.png" alt="list app" /></p>
 
 <p>Extension 和 iPhone App 另外一种通信方式是 Extension 主动向 iPhone App 发起请求，进行某种操作，或者请求数据（场景：Watch 收到新邮件通知后，点击已读按钮，在 iPhone App 上置已读）。</p>
 
@@ -69,9 +69,9 @@ handleWatchKitExtensionRequest:(NSDictionary *)userInfo
   
   <entry>
     <title type="html"><![CDATA[使用WatchKit实现Page-Based Navigation]]></title>
-    <link href="http://baxiang123.com//blog/watchkit-pagebase-navigation.html"/>
+    <link href="http://ba-xiang.com//blog/watchkit-pagebase-navigation.html"/>
     <updated>2015-04-25T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/watchkit-pagebase-navigation</id>
+    <id>http://ba-xiang.com//blog/watchkit-pagebase-navigation</id>
     <content type="html"><![CDATA[<p>这篇文章向大家展示如何使用WatchKit创建Page-Based Navigation，我们还是在Helloworld项目的基础上进行改善。</p>
 
 <!-- more -->
@@ -121,9 +121,9 @@ handleWatchKitExtensionRequest:(NSDictionary *)userInfo
   
   <entry>
     <title type="html"><![CDATA[如何使用WatchKit创建Table]]></title>
-    <link href="http://baxiang123.com//blog/watchkit-create-table.html"/>
+    <link href="http://ba-xiang.com//blog/watchkit-create-table.html"/>
     <updated>2015-04-23T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/watchkit-create-table</id>
+    <id>http://ba-xiang.com//blog/watchkit-create-table</id>
     <content type="html"><![CDATA[<p>上篇文章向大家演示了如何创建一个Helloworld Apple Watch App。这篇文章向大家演示如何使用WatchKit给你的Watch App创建Table。我们在Helloworld项目的基础上进行完善。</p>
 
 <!-- more -->
@@ -183,9 +183,9 @@ handleWatchKitExtensionRequest:(NSDictionary *)userInfo
   
   <entry>
     <title type="html"><![CDATA[Helloworld Apple Watch App]]></title>
-    <link href="http://baxiang123.com//blog/helloworld-watchkit-app.html"/>
+    <link href="http://ba-xiang.com//blog/helloworld-watchkit-app.html"/>
     <updated>2015-04-22T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/helloworld-watchkit-app</id>
+    <id>http://ba-xiang.com//blog/helloworld-watchkit-app</id>
     <content type="html"><![CDATA[<p>首先我们需要下载最新的<a href="https://developer.apple.com/xcode/downloads/">Xcode 6.2</a>。
 启动Xcode，选择<strong>Create a new Xcode project</strong>， 然后选择<strong>Single View Application</strong>创建一个单视图应用。</p>
 
@@ -236,9 +236,9 @@ handleWatchKitExtensionRequest:(NSDictionary *)userInfo
   
   <entry>
     <title type="html"><![CDATA[WatchKit初探]]></title>
-    <link href="http://baxiang123.com//blog/watchkit-initial-impressions.html"/>
+    <link href="http://ba-xiang.com//blog/watchkit-initial-impressions.html"/>
     <updated>2015-04-20T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/watchkit-initial-impressions</id>
+    <id>http://ba-xiang.com//blog/watchkit-initial-impressions</id>
     <content type="html"><![CDATA[<p>总体而言，WatchKit第一版SDK提供的功能远远超出了我的期望。因为我原本以为第一版WatchKit可能侧重于对iOS Today Extension功能的延伸，而不是真正开发Watch App。所以当知道真相后，我即惊讶又感到高兴，第一版WatchKit并不是我所想的那样，它可以为Watch App创建全新的交互界面，而且可以通过iOS App Extension去控制他们。</p>
 
 <!-- more -->
@@ -316,9 +316,9 @@ handleWatchKitExtensionRequest:(NSDictionary *)userInfo
   
   <entry>
     <title type="html"><![CDATA[在同个工程中使用 Swift 和 Objective-C]]></title>
-    <link href="http://baxiang123.com//blog/6-Swift%20and%20Objective-C%20in%20the%20Same%20Project.html"/>
+    <link href="http://ba-xiang.com//blog/6-Swift%20and%20Objective-C%20in%20the%20Same%20Project.html"/>
     <updated>2015-03-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/6-Swift and Objective-C in the Same Project</id>
+    <id>http://ba-xiang.com//blog/6-Swift and Objective-C in the Same Project</id>
     <content type="html"><![CDATA[<p>Swift 与 Objective-C 的兼容能力使你可以在同一个工程中同时使用两种语言。你可以用这种叫做 <code>mix and match</code> 的特性来开发基于混合语言的应用，可以用 Swift 的最新特性实现应用的一部分功能，并无缝地并入已有的 Objective-C 的代码中。</p>
 
 <!-- more -->
@@ -650,9 +650,9 @@ handleWatchKitExtensionRequest:(NSDictionary *)userInfo
   
   <entry>
     <title type="html"><![CDATA[与 C 语言交互编程]]></title>
-    <link href="http://baxiang123.com//blog/5-Interacting%20with%20C%20APIs.html"/>
+    <link href="http://ba-xiang.com//blog/5-Interacting%20with%20C%20APIs.html"/>
     <updated>2015-03-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/5-Interacting with C APIs</id>
+    <id>http://ba-xiang.com//blog/5-Interacting with C APIs</id>
     <content type="html"><![CDATA[<p>作为一种可与 Objective-C 相互调用的语言，Swift 也具有一些与 C 语言的类型和特性，如果你的代码有需要，Swift 也提供了和常见的 C 代码结构混合编程的编程方式。<!--more--></p>
 
 <h3>基本数据类型</h3>
@@ -1169,9 +1169,9 @@ handleWatchKitExtensionRequest:(NSDictionary *)userInfo
   
   <entry>
     <title type="html"><![CDATA[采用Cocoa设计模式]]></title>
-    <link href="http://baxiang123.com//blog/4-Adopting%20Cocoa%20Design%20Patterns.html"/>
+    <link href="http://ba-xiang.com//blog/4-Adopting%20Cocoa%20Design%20Patterns.html"/>
     <updated>2015-03-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/4-Adopting Cocoa Design Patterns</id>
+    <id>http://ba-xiang.com//blog/4-Adopting Cocoa Design Patterns</id>
     <content type="html"><![CDATA[<p>使用 Cocoa 现有的一些设计模式，是帮助开发者开发一款拥有合理设计思路、稳定的性能、良好的可扩展性应用的有效方法之一。这些模式都依赖于在 Objective-C 中定义的类。因为 Swift 与 Objective-C 的互用性，所以你依然可以在 Swift 代码中使用这些设计模式。在一些情况下，你甚至可以使用 Swift 语言的特性扩展或简化这些 Cocoa 设计模式，使这些设计模式更强大、更易于使用。</p>
 
 <!--more-->
@@ -1330,9 +1330,9 @@ handleWatchKitExtensionRequest:(NSDictionary *)userInfo
   
   <entry>
     <title type="html"><![CDATA[与 Cocoa 数据类型共舞]]></title>
-    <link href="http://baxiang123.com//blog/3-Working%20with%20Cocoa%20Data%20Types.html"/>
+    <link href="http://ba-xiang.com//blog/3-Working%20with%20Cocoa%20Data%20Types.html"/>
     <updated>2015-03-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/3-Working with Cocoa Data Types</id>
+    <id>http://ba-xiang.com//blog/3-Working with Cocoa Data Types</id>
     <content type="html"><![CDATA[<p>作为对 Objective-C 互用性（互操作性）的一部分，Swift提供快捷高效的方式来处理 Cocoa 数据类型。</p>
 
 <p>Swift 会自动将一些 Objective-C 类型转换为 Swift 类型，以及将 Swift 类型转换为 Objective-C 类型。在 Objective-C 和 Swift 中也有一些具有互用性的数据类型。那些可转换的数据类型或者具有互用性的数据类型被称为<em>bridged</em>数据类型。举个例子，在 Swift 中，您可以将一个<code>Array</code>值传递给一个要求为<code>NSArray</code>对象的方法。你也可以转换一个 bridged 类型和它的副本。当你使用<code>as</code>转换 bridged 类型或者那些由常量和变量所提供的类型时，Swift 会桥接它们的数据类型。</p>
@@ -1549,9 +1549,9 @@ handleWatchKitExtensionRequest:(NSDictionary *)userInfo
   
   <entry>
     <title type="html"><![CDATA[使用Objective-C特性编写Swift类]]></title>
-    <link href="http://baxiang123.com//blog/2-Writing%20Swift%20Classes%20with%20Objective-C%20Behavior.html"/>
+    <link href="http://ba-xiang.com//blog/2-Writing%20Swift%20Classes%20with%20Objective-C%20Behavior.html"/>
     <updated>2015-03-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/2-Writing Swift Classes with Objective-C Behavior</id>
+    <id>http://ba-xiang.com//blog/2-Writing Swift Classes with Objective-C Behavior</id>
     <content type="html"><![CDATA[<p>互用性（互操作性）使开发者可以定义融合了 Objective-C 语言特性的Swift类。编写 Swift 类时，不仅可以继承 Objective-C 语言编写的父类，采用 Objective-C 的协议，还可以利用 Objective-C 的一些其它功能。这意味着，开发者可以基于 Objective-C 中已有的熟悉、可靠的类、方法和框架来创建 Swift 类，并结合 Swift 提供的现代化和更有效的语言特点对其进行优化。</p>
 
 <!--more-->
@@ -1695,9 +1695,9 @@ handleWatchKitExtensionRequest:(NSDictionary *)userInfo
   
   <entry>
     <title type="html"><![CDATA[与 Objective-C 的 API 交互]]></title>
-    <link href="http://baxiang123.com//blog/1-Interacting%20with%20Objective-C%20APIs.html"/>
+    <link href="http://ba-xiang.com//blog/1-Interacting%20with%20Objective-C%20APIs.html"/>
     <updated>2015-03-16T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/1-Interacting with Objective-C APIs</id>
+    <id>http://ba-xiang.com//blog/1-Interacting with Objective-C APIs</id>
     <content type="html"><![CDATA[<p><strong>互用性</strong>是让 Swift 和 Objective-C 相接合的一种特性，使你能够在一种语言编写的文件中使用另一种语言。当你准备开始把 Swift 融入到你的开发流程中时，你应该懂得如何利用互用性来重新定义并提高你写 Cocoa 应用的方案。</p>
 
 <p>互用性很重要的一点就是允许你在写 Swift 代码时使用 Objective-C 的 API 接口。当你导入一个 Objective-C 框架后，你可以使用原生的 Swift 语法实例化它的 Class 并且与之交互。</p>
@@ -2098,9 +2098,9 @@ handleWatchKitExtensionRequest:(NSDictionary *)userInfo
   
   <entry>
     <title type="html"><![CDATA[swift泛型]]></title>
-    <link href="http://baxiang123.com//blog/Swif%E6%B3%9B%E5%9E%8B.html"/>
+    <link href="http://ba-xiang.com//blog/Swif%E6%B3%9B%E5%9E%8B.html"/>
     <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swif泛型</id>
+    <id>http://ba-xiang.com//blog/Swif泛型</id>
     <content type="html"><![CDATA[<p><em>泛型代码</em>可以让你写出根据自我需求定义、适用于任何类型的，灵活且可重用的函数和类型。它的可以让你避免重复的代码，用一种清晰和抽象的方式来表达代码的意图。</p>
 
 
@@ -2724,9 +2724,9 @@ if allItemsMatch(stackOfStrings, arrayOfStrings) {
   
   <entry>
     <title type="html"><![CDATA[swift集合类型]]></title>
-    <link href="http://baxiang123.com//blog/Swift%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B.html"/>
+    <link href="http://ba-xiang.com//blog/Swift%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B.html"/>
     <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swift集合类型</id>
+    <id>http://ba-xiang.com//blog/Swift集合类型</id>
     <content type="html"><![CDATA[<p>Swift 语言提供经典的数组和字典两种集合类型来存储集合数据。数组用来按顺序存储相同类型的数据。字典虽然无序存储相同类型数据值但是需要由独有的标识符引用和寻址（就是键值对）。</p>
 
 
@@ -3272,9 +3272,9 @@ namesOfIntegers = [:]
   
   <entry>
     <title type="html"><![CDATA[swift附属脚本]]></title>
-    <link href="http://baxiang123.com//blog/Swift%E9%99%84%E5%B1%9E%E8%84%9A%E6%9C%AC.html"/>
+    <link href="http://ba-xiang.com//blog/Swift%E9%99%84%E5%B1%9E%E8%84%9A%E6%9C%AC.html"/>
     <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swift附属脚本</id>
+    <id>http://ba-xiang.com//blog/Swift附属脚本</id>
     <content type="html"><![CDATA[<p><em>附属脚本</em> 可以定义在类（Class）、结构体（structure）和枚举（enumeration）这些目标中，可以认为是访问对象、集合或序列的快捷方式，不需要再调用实例的特定的赋值和访问方法。举例来说，用附属脚本访问一个数组(Array)实例中的元素可以这样写 <code>someArray[index]</code> ，访问字典(Dictionary)实例中的元素可以这样写 <code>someDictionary[key]</code>。</p>
 
 
@@ -3477,9 +3477,9 @@ matrix[1, 0] = 3.2
   
   <entry>
     <title type="html"><![CDATA[swift闭包]]></title>
-    <link href="http://baxiang123.com//blog/Swift%E9%97%AD%E5%8C%85.html"/>
+    <link href="http://ba-xiang.com//blog/Swift%E9%97%AD%E5%8C%85.html"/>
     <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swift闭包</id>
+    <id>http://ba-xiang.com//blog/Swift闭包</id>
     <content type="html"><![CDATA[<p>闭包是自包含的函数代码块，可以在代码中被传递和使用。
 Swift 中的闭包与 C 和 Objective-C 中的代码块（blocks）以及其他一些编程语言中的 lambdas 函数比较相似。</p>
 
@@ -3965,9 +3965,9 @@ alsoIncrementByTen()
   
   <entry>
     <title type="html"><![CDATA[swift基础]]></title>
-    <link href="http://baxiang123.com//blog/Swift%E8%AF%AD%E8%A8%80%E7%AE%80%E4%BB%8B.html"/>
+    <link href="http://ba-xiang.com//blog/Swift%E8%AF%AD%E8%A8%80%E7%AE%80%E4%BB%8B.html"/>
     <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swift语言简介</id>
+    <id>http://ba-xiang.com//blog/Swift语言简介</id>
     <content type="html"><![CDATA[<h3>常量和变量</h3>
 
 <p>常量和变量把一个名字（比如maximumNumberOfLoginAttempts或者welcomeMessage）和一个指定类型的值（比如数字10或者字符串&#8221;Hello&#8221;）关联起来。常量的值一旦设定就不能改变，而变量的值可以随意更改。</p>
@@ -4905,9 +4905,9 @@ assert(age &gt;= 0, "A person's age cannot be less than zero")
   
   <entry>
     <title type="html"><![CDATA[swift自动引用计数]]></title>
-    <link href="http://baxiang123.com//blog/Swift%E8%87%AA%E5%8A%A8%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0.html"/>
+    <link href="http://ba-xiang.com//blog/Swift%E8%87%AA%E5%8A%A8%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0.html"/>
     <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swift自动引用计数</id>
+    <id>http://ba-xiang.com//blog/Swift自动引用计数</id>
     <content type="html"><![CDATA[<p>Swift 使用自动引用计数（ARC）这一机制来跟踪和管理你的应用程序的内存。通常情况下，Swift 的内存管理机制会一直起着作用，你无须自己来考虑内存的管理。ARC 会在类的实例不再被使用时，自动释放其占用的内存。</p>
 
 
@@ -5600,9 +5600,9 @@ println(paragraph!.asHTML())
   
   <entry>
     <title type="html"><![CDATA[swift继承]]></title>
-    <link href="http://baxiang123.com//blog/Swift%E7%BB%A7%E6%89%BF.html"/>
+    <link href="http://ba-xiang.com//blog/Swift%E7%BB%A7%E6%89%BF.html"/>
     <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swift继承</id>
+    <id>http://ba-xiang.com//blog/Swift继承</id>
     <content type="html"><![CDATA[<p>一个类可以<em>继承（inherit）</em>另一个类的方法（methods），属性（property）和其它特性。当一个类继承其它类时，继承类叫<em>子类（subclass）</em>，被继承类叫<em>超类（或父类，superclass）</em>。在 Swift 中，继承是区分「类」与其它类型的一个基本特征。</p>
 
 
@@ -5949,9 +5949,9 @@ println("AutomaticCar: \(automatic.description())")
   
   <entry>
     <title type="html"><![CDATA[swift类型检查]]></title>
-    <link href="http://baxiang123.com//blog/Swift%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5.html"/>
+    <link href="http://ba-xiang.com//blog/Swift%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5.html"/>
     <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swift类型检查</id>
+    <id>http://ba-xiang.com//blog/Swift类型检查</id>
     <content type="html"><![CDATA[<p>  <em>类型检查</em>是一种检查类实例的方式，并且或者也是让实例作为它的父类或者子类的一种方式。</p>
 
 
@@ -6253,9 +6253,9 @@ things.append(Movie(name: "Ghostbusters", director: "Ivan Reitman"))
   
   <entry>
     <title type="html"><![CDATA[swift类型嵌套]]></title>
-    <link href="http://baxiang123.com//blog/Swift%E7%B1%BB%E5%9E%8B%E5%B5%8C%E5%A5%97.html"/>
+    <link href="http://ba-xiang.com//blog/Swift%E7%B1%BB%E5%9E%8B%E5%B5%8C%E5%A5%97.html"/>
     <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://baxiang123.com//blog/Swift类型嵌套</id>
+    <id>http://ba-xiang.com//blog/Swift类型嵌套</id>
     <content type="html"><![CDATA[<p>枚举类型常被用于实现特定类或结构体的功能。也能够在有多种变量类型的环境中，方便地定义通用类或结构体来使用，为了实现这种功能，Swift允许你定义类型嵌套，可以在枚举类型、类和结构体中定义支持嵌套的类型。</p>
 
 

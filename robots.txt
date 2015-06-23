@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://baxiang123.com//sitemap.xml 
+Sitemap: http://ba-xiang.com//sitemap.xml 
