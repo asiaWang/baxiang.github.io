@@ -1,0 +1,511 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>ios9适配指南 - 小巴童鞋</title>
+	<meta name="author" content="小巴">
+
+	
+	<meta name="description" content="ios9">
+	<meta name="keywords" content="ios9,">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="小巴童鞋" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://ba-xiang.com//blog/ios9-adatation-tips.html">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+	<link href="/stylesheets/google-fonts.css" rel="stylesheet" type="text/css">
+	
+	<meta name="baidu-site-verification" content="6a14c2aa1891f60e94e78134679099cd"/>
+<meta name="baidu-site-verification" content="tXGpoDjJRv" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d811e8c9d300f1af279a81ea7923be4d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script type="text/javascript">
+ function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+ $(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+ });
+ </script>
+ 
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script async src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/xiaoba.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1>&nbsp;&nbsp;<a href="/">小巴童鞋</a></h1>
+<p class="subtitle">BaXiang&#8217;s technology blog</p>
+<nav id="main-nav"><!--ul class="main">
+    <nav id="main-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/blog/archives">Blogs</a></li>
+		<li><a href="#">About</a></li>
+    </nav> 
+</ul><!-->
+<ul class="main-navigation">
+  <li><a href="/">Blog | 博客</a></li>
+  <li><a href="/blog/archives">Archives | 目录</a></li>
+  <li><a href="/blog/categories">Categories  | 分类</a></li>
+  <li><a href="/aboutme/">About Me | 关于</a></li>
+  
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<br/>
+	<div class="social">
+        
+            <a class="weibo" href="http://www.weibo.com/1655203353" title="Weibo" target="_blank">Weibo</a>
+        
+		
+		
+			<a class="facebook" href="http://www.facebook.com/xiang.ba.1" title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/baxiang2014" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/baxiang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Ios9适配指南</h1>
+	<div class="entry-content" itemprop="articleBody"><p> 原文作者：iOS程序犭袁</p>
+
+<p> 原文地址：<a href="https://github.com/ChenYilong/iOS9AdaptationTips">https://github.com/ChenYilong/iOS9AdaptationTips</a></p>
+
+<h2>1. Demo1_iOS9网络适配_改用更安全的HTTPS</h2>
+
+<p>TLS 1.2 协议 强制增强数据访问安全
+系统 Foundation 框架下的相关网络请求，将不再默认使用 Http 等不安全的网络协议，而默认采用 TLS 1.2。服务器因此需要更新，以解析相关数据。如不更新，可通过在 Info.plist 中声明，倒退回不安全的网络请求。</p>
+
+<h2>2.Demo2_iOS9新特性_更灵活的后台定位</h2>
+
+<p>【iOS9在定位的问题上，有一个坏消息一个好消息】坏消息：如果不适配iOS9，就不能偷偷在后台定位（不带蓝条，见图）！好消息：将允许出现这种场景：同一App中的多个location manager：一些只能在前台定位，另一些可在后台定位，并可随时开启或者关闭特定location manager的后台定位。
+如果没有请求后台定位的权限，也是可以在后台定位的，不过会带蓝条：</p>
+
+<!--more -->
+
+
+<p> <img src="https://i.imgur.com/UoqGHlG.png" alt="enter image description here" />
+如何偷偷在后台定位：请求后台定位权限：</p>
+
+<pre><code> // 1. 实例化定位管理器
+_locationManager = [[CLLocationManager alloc] init];
+// 2. 设置代理
+_locationManager.delegate = self;
+// 3. 定位精度
+[_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+// 4.请求用户权限：分为：⓵只在前台开启定位⓶在后台也可定位，
+//注意：建议只请求⓵和⓶中的一个，如果两个权限都需要，只请求⓶即可，
+//⓵⓶这样的顺序，将导致bug：第一次启动程序后，系统将只请求⓵的权限，⓶的权限系统不会请求，只会在下一次启动应用时请求⓶
+if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 8) {
+    //[_locationManager requestWhenInUseAuthorization];//⓵只在前台开启定位
+    [_locationManager requestAlwaysAuthorization];//⓶在后台也可定位
+}
+// 5.iOS9新特性：将允许出现这种场景：同一app中多个location manager：一些只能在前台定位，另一些可在后台定位（并可随时禁止其后台定位）。
+if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 9) {
+    _locationManager.allowsBackgroundLocationUpdates = YES;
+}
+// 6. 更新用户位置
+[_locationManager startUpdatingLocation];
+</code></pre>
+
+<p>但是如果照着这种方式尝试，而没有配置Info.plist，100%你的程序会崩溃掉，并报错：</p>
+
+<blockquote><p>*** Assertion failure in -[CLLocationManager setAllowsBackgroundLocationUpdates:], /BuildRoot/Library/Caches/com.apple.xbs/Sources/CoreLocationFramework_Sim/CoreLocation-1808.1.5/Framework/CoreLocation/CLLocationManager.m:593</p></blockquote>
+
+<p>要将  Info.plist 配置如下：
+ <img src="https://i.imgur.com/MAoKbUe.png" alt="enter image description here" /></p>
+
+<p>对应的 Info.plist 的XML源码是：</p>
+
+<pre><code>&lt;key&gt;NSLocationAlwaysUsageDescription&lt;/key&gt;
+&lt;string&gt;微博@iOS程序犭袁 请求后台定位权限&lt;/string&gt;
+
+&lt;key&gt;UIBackgroundModes&lt;/key&gt;
+&lt;array&gt;
+    &lt;string&gt;location&lt;/string&gt;
+&lt;/array&gt;
+</code></pre>
+
+<h2>3.企业级分发</h2>
+
+<p>iOS9之前，企业级分发十分方便：点击App出现“信任按钮”，</p>
+
+<p> <img src="https://i.imgur.com/aSmM8bk.png" alt="enter image description here" /></p>
+
+<p>iOS9以后，企业级分发ipa包将遭到与Mac上dmg安装包一样的待遇：默认不能安装，也不再出现“信任按钮”</p>
+
+<p> <img src="https://i.imgur.com/Skn9iXk.png" alt="enter image description here" /></p>
+
+<p>必须让用户进行gif图中的设置（相关Demo：<a href="https://github.com/ChenYilong/iOS9AdaptationTips/">https://github.com/ChenYilong/iOS9AdaptationTips/</a> ）</p>
+
+<p> <img src="https://i.imgur.com/PXM235L.gif" alt="enter image description here" /></p>
+
+<h2>4.Bitcode（通俗解释：在线版安卓ART模式）</h2>
+
+<p>未来Watch应用须包含Bitcode，iOS不强制，但Xcode7默认会开启Bitcode。</p>
+
+<p>如何适配？方法一：更新library使包含Bitcode，否则会出现以下中的警告；</p>
+
+<blockquote><p>(null): URGENT: all bitcode will be dropped because
+&lsquo;/Users/myname/Library/Mobile
+Documents/com~apple~CloudDocs/foldername/appname/GoogleMobileAds.framework/GoogleMobileAds(GADSlot+AdEvents.o)&rsquo;
+was built without bitcode. You must rebuild it with bitcode enabled
+(Xcode setting ENABLE_BITCODE), obtain an updated library from the
+vendor, or disable bitcode for this target. Note: This will be an
+error in the future.</p></blockquote>
+
+<p>方法二：关闭Bitcode，方法见下图</p>
+
+<blockquote><p> <img src="https://i.imgur.com/OoOogUe.gif" alt="enter image description here" /></p></blockquote>
+
+<p>更多信息，请移步
+<a href="https://developer.apple.com/library/prerelease/watchos/documentation/IDEs/Conceptual/AppDistributionGuide/AppThinning/AppThinning.html#//apple_ref/doc/uid/TP40012582-CH35-SW2">bitcode 苹果官方文档</a></p>
+
+<p>,和 WWDC 2015 Session 102: <a href="https://developer.apple.com/videos/wwdc/2015/?id=102">&ldquo;Platforms State of the Union&rdquo;</a></p>
+
+<p> <img src="http://mobileforward.net/wp-content/uploads/2015/06/Screen-Shot-2015-06-12-at-6.57.54-PM-697x351.png" alt="enter image description here" /></p>
+
+<h2>5.URL scheme</h2>
+
+<p>在iOS9中，如果使用URL scheme必须在&#8221;Info.plist&#8221;中将你要在外部调用的URL scheme列为白名单，否则不能使用。key叫做LSApplicationQueriesSchemes ，键值内容是</p>
+
+<pre><code>&lt;key&gt;LSApplicationQueriesSchemes&lt;/key&gt;
+&lt;array&gt;
+ &lt;string&gt;urlscheme&lt;/string&gt;
+ &lt;string&gt;urlscheme2&lt;/string&gt;
+ &lt;string&gt;urlscheme3&lt;/string&gt;
+ &lt;string&gt;urlscheme4&lt;/string&gt;
+&lt;/array&gt; 
+</code></pre>
+
+<p>推荐一篇博客: <a href="http://awkwardhare.com/post/121196006730/quick-take-on-ios-9-url-scheme-changes">http://awkwardhare.com/post/121196006730/quick-take-on-ios-9-url-scheme-changes</a></p>
+
+<p>其中最关键的是以下部分：</p>
+
+<blockquote><p>If you call the “canOpenURL” method on a URL that is not in your whitelist, it will return “NO”, even if there is an app installed that has registered to handle this scheme. A “This app is not allowed to query for scheme xxx” syslog entry will appear.</p>
+
+<p>If you call the “openURL” method on a URL that is not in your whitelist, it will fail silently. A “This app is not allowed to query for scheme xxx” syslog entry will appear.</p></blockquote>
+
+<p>更多信息请移步：WWDC 2015 Session 703: &ldquo;Privacy and Your App&rdquo;  <a href="https://developer.apple.com/videos/wwdc/2015/?id=703">https://developer.apple.com/videos/wwdc/2015/?id=703</a> 时间在30：18左右</p>
+
+<p> <img src="https://i.imgur.com/2HxWQqq.png" alt="enter image description here" /></p>
+
+<h2>6. iPad适配Slide Over 和 Split View</h2>
+
+<p> <img src="http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2015/06/ew-.gif" alt="enter image description here" /></p>
+
+<p>【iPad适配Slide Over 和 Split View】
+若想适配multi tasking特性，唯一的建议：弃纯代码，改用storyboard、xib，纵观苹果WWDC所有Demo均是如此：</p>
+
+<ol>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=218">Mysteries of Auto Layout, Part 1</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=215">What&rsquo;s New in Storyboards</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=407">Implementing UI Designs in Interface Builder</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=205">Getting Started with Multitasking on iPad in iOS 9</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=212">Optimizing Your App for Multitasking on iPad in iOS</a></p></li>
+</ol>
+
+
+<h4>英文</h4>
+
+<h2>1. Demo1_You&rsquo;d better Convert HTTP to HTTPS</h2>
+
+<p>How to deal with the SSL in iOS9，One solution is to  do like:
+ <img src="https://github.com/ChenYilong/iOS9AdaptationTips/blob/master/Demo1_iOS9%E7%BD%91%E7%BB%9C%E9%80%82%E9%85%8D_%E6%94%B9%E7%94%A8%E6%9B%B4%E5%AE%89%E5%85%A8%E7%9A%84HTTPS/%E5%BE%AE%E5%8D%9A%40iOS%E7%A8%8B%E5%BA%8F%E7%8A%AD%E8%A2%81/http%E9%97%AE%E9%A2%98.gif" alt="enter image description here" /></p>
+
+<p>As the <a href="https://developer.apple.com/library/prerelease/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS9.html#//apple_ref/doc/uid/TP40016198-DontLinkElementID_13">Apple</a> say :
+ <img src="https://i.imgur.com/dCD1fBB.png" alt="enter image description here" />
+   <img src="https://i.imgur.com/Tc0fS6p.jpg" alt="enter image description here" /></p>
+
+<p>   <img src="https://i.imgur.com/v2Tskwh.jpg" alt="enter image description here" /></p>
+
+<p>iOS 9 and OSX 10.11 require TLSv1.2 SSL for all hosts you plan to request data from unless you specify exception domains in your app&rsquo;s Info.plist file.</p>
+
+<p>The syntax for the Info.plist configuration looks like this:</p>
+
+<pre><code>&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
+&lt;dict&gt;
+  &lt;key&gt;NSExceptionDomains&lt;/key&gt;
+  &lt;dict&gt;
+    &lt;key&gt;yourserver.com&lt;/key&gt;
+    &lt;dict&gt;
+      &lt;!--Include to allow subdomains--&gt;
+      &lt;key&gt;NSIncludesSubdomains&lt;/key&gt;
+      &lt;true/&gt;
+      &lt;!--Include to allow insecure HTTP requests--&gt;
+      &lt;key&gt;NSTemporaryExceptionAllowsInsecureHTTPLoads&lt;/key&gt;
+      &lt;true/&gt;
+      &lt;!--Include to specify minimum TLS version--&gt;
+      &lt;key&gt;NSTemporaryExceptionMinimumTLSVersion&lt;/key&gt;
+      &lt;string&gt;TLSv1.1&lt;/string&gt;
+    &lt;/dict&gt;
+  &lt;/dict&gt;
+&lt;/dict&gt;
+</code></pre>
+
+<p>If your application (a third-party web browser, for instance) needs to connect to arbitrary hosts, you can configure it like this:</p>
+
+<pre><code>&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
+&lt;dict&gt;
+    &lt;!--Connect to anything (this is probably BAD)--&gt;
+    &lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;
+    &lt;true/&gt;
+&lt;/dict&gt;
+</code></pre>
+
+<p>If you&rsquo;re having to do this, it&rsquo;s probably best to update your servers to use TLSv1.2 and SSL, if they&rsquo;re not already doing so. This should be considered a temporary workaround.</p>
+
+<p>As of today, the prerelease documentation makes no mention of any of these configuration options in any specific way. Once it does, I&rsquo;ll update the answer to link to the relevant documentation.</p>
+
+<h2>2.Demo2_iOS9 new feature  in CoreLocation :  background only when you need</h2>
+
+<p>If you&rsquo;re using CoreLocation framework in your app in Xcode7(pre-released),and you may notice that there is a newly added property called allowsBackgroundLocationUpdates in CLLocationManager class.</p>
+
+<p>This new property is explained in the WWDC session <a href="https://developer.apple.com/videos/wwdc/2015/?id=714">&ldquo;What&rsquo;s New in Core Location&rdquo;</a>.
+ <img src="https://i.imgur.com/pvVh1fx.png" alt="enter image description here" /></p>
+
+<p>The default value is <code>NO</code> if you link against iOS 9.</p>
+
+<p>If your app uses location in the background (without showing the blue status bar) you have to set <code>allowsBackgroundLocationUpdates</code> to <code>YES</code> in addition to setting the background mode capability in Info.plist. Otherwise location updates are only delivered in foreground. The advantage is that you can now have location managers with background location updates and other location managers with only foreground location updates in the same app. You can also reset the value to <code>NO</code> to change the behavior.</p>
+
+<p>The documentation is pretty clear about it:</p>
+
+<blockquote><p>By default, this is NO for applications linked against iOS 9.0 or
+later, regardless of minimum deployment target.</p>
+
+<p>With UIBackgroundModes set to include &ldquo;location&rdquo; in Info.plist, you
+must also set this property to YES at runtime whenever calling
+-startUpdatingLocation with the intent to continue in the background.</p>
+
+<p>Setting this property to YES when UIBackgroundModes does not include
+&ldquo;location&rdquo; is a fatal error.</p>
+
+<p>Resetting this property to NO is equivalent to omitting &ldquo;location&rdquo;
+from the UIBackgroundModes value.  Access to location is still
+permitted whenever the application is running (ie not suspended), and
+has sufficient authorization (ie it has WhenInUse authorization and is
+in use, or it has Always authorization).  However, the app will still
+be subject to the usual task suspension rules.</p>
+
+<p>See -requestWhenInUseAuthorization and -requestAlwaysAuthorization for
+more details on possible authorization values.</p></blockquote>
+
+<p>Set  Info.plist like：
+ <img src="https://i.imgur.com/MAoKbUe.png" alt="enter image description here" /></p>
+
+<p>The syntax for the Info.plist configuration looks like this:</p>
+
+<pre><code>&lt;key&gt;NSLocationAlwaysUsageDescription&lt;/key&gt;
+&lt;string&gt;微博@iOS程序犭袁 请求后台定位权限&lt;/string&gt;
+
+&lt;key&gt;UIBackgroundModes&lt;/key&gt;
+&lt;array&gt;
+    &lt;string&gt;location&lt;/string&gt;
+&lt;/array&gt;
+</code></pre>
+
+<p>Use like:</p>
+
+<pre><code>_locationManager = [[CLLocationManager alloc] init];
+_locationManager.delegate = self;
+[_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 8) {
+    [_locationManager requestAlwaysAuthorization];
+}
+if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 9) {
+    _locationManager.allowsBackgroundLocationUpdates = YES;
+}
+[_locationManager startUpdatingLocation];
+</code></pre>
+
+<h2>3.iOS9 Untrusted Enterprise Developer with no option to trust</h2>
+
+<p>Since iOS9 there is no option to trust an enterprise build.
+Before iOS9，it&rsquo;s very easy to use:if you touch the app,it&rsquo;ll apear this :</p>
+
+<p> <img src="http://i.stack.imgur.com/WwF76.png" alt="enter image description here" /></p>
+
+<p>Now:</p>
+
+<p> <img src="https://i.imgur.com/Skn9iXk.png" alt="enter image description here" /></p>
+
+<p>You have to let the user  do like:
+Go to Settings - General - Profiles - tap on your Profile - tap on Trust button.</p>
+
+<p>  <img src="https://i.imgur.com/AdGNYHe.gif" alt="enter image description here" /></p>
+
+<h2>4.bitcode optional</h2>
+
+<p>After Xcode 7,bitcode option will be enabled by default,If your library was compiled without bitcode but the bitcode option is enabled in your project settings.You can</p>
+
+<blockquote><ol>
+<li>Update your library with bit code, or you&rsquo;ll get warnings like:</li>
+</ol>
+
+
+<p>(null): URGENT: all bitcode will be dropped because
+&lsquo;/Users/myname/Library/Mobile
+Documents/com~apple~CloudDocs/foldername/appname/GoogleMobileAds.framework/GoogleMobileAds(GADSlot+AdEvents.o)&rsquo;
+was built without bitcode. You must rebuild it with bitcode enabled
+(Xcode setting ENABLE_BITCODE), obtain an updated library from the
+vendor, or disable bitcode for this target. Note: This will be an
+error in the future.</p>
+
+<ol>
+<li>Say NO to Enable Bitcode in your target Build Settings</li>
+</ol>
+
+
+<p> <img src="https://i.imgur.com/OoOogUe.gif" alt="enter image description here" /></p></blockquote>
+
+<p>and the Library Build Settings to remove the warnings</p>
+
+<p>For more information,go to
+<a href="https://developer.apple.com/library/prerelease/watchos/documentation/IDEs/Conceptual/AppDistributionGuide/AppThinning/AppThinning.html#//apple_ref/doc/uid/TP40012582-CH35-SW2">documentation of bitcode in developer library</a></p>
+
+<p>,and WWDC 2015 Session 102: <a href="https://developer.apple.com/videos/wwdc/2015/?id=102">&ldquo;Platforms State of the Union&rdquo;</a></p>
+
+<p> <img src="http://mobileforward.net/wp-content/uploads/2015/06/Screen-Shot-2015-06-12-at-6.57.54-PM-697x351.png" alt="enter image description here" /></p>
+
+<h2>5.Privacy and Your App【URL scheme changes】</h2>
+
+<p>iOS 9 has made a small change to the handling of URL scheme. You must whitelist the url&rsquo;s that your app will call out to using the <code>LSApplicationQueriesSchemes</code> key in your <code>Info.plist</code>.</p>
+
+<p>Please see post here: <a href="http://awkwardhare.com/post/121196006730/quick-take-on-ios-9-url-scheme-changes">http://awkwardhare.com/post/121196006730/quick-take-on-ios-9-url-scheme-changes</a></p>
+
+<p>The main conclusion is that:</p>
+
+<blockquote><p>If you call the “canOpenURL” method on a URL that is not in your whitelist, it will return “NO”, even if there is an app installed that has registered to handle this scheme. A “This app is not allowed to query for scheme xxx” syslog entry will appear.</p>
+
+<p>If you call the “openURL” method on a URL that is not in your whitelist, it will fail silently. A “This app is not allowed to query for scheme xxx” syslog entry will appear.</p></blockquote>
+
+<p>The author also speculates that this is a bug with the OS and Apple will fix this in a subsequent release.</p>
+
+<p>This is a new security feature of iOS 9. Watch <a href="https://developer.apple.com/videos/wwdc/2015/?id=703">WWDC 2015 Session 703</a> for more information.</p>
+
+<p> <img src="https://i.imgur.com/2HxWQqq.png" alt="enter image description here" /></p>
+
+<p>Any app built with SDK 9 needs to provide a <code>LSApplicationQueriesSchemes</code> entry in its plist file, declaring which schemes it attempts to query.</p>
+
+<pre><code>&lt;key&gt;LSApplicationQueriesSchemes&lt;/key&gt;
+&lt;array&gt;
+ &lt;string&gt;urlscheme&lt;/string&gt;
+ &lt;string&gt;urlscheme2&lt;/string&gt;
+ &lt;string&gt;urlscheme3&lt;/string&gt;
+ &lt;string&gt;urlscheme4&lt;/string&gt;
+&lt;/array&gt; 
+</code></pre>
+
+<h2>6. Support Slide Over and Split View of iOS 9</h2>
+
+<p><img src="http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2015/06/ew-.gif" alt="enter image description here" />
+How to transition an an older project to support Slide Over and Split View of iOS 9？
+You may find that all the demo projects was written by storyboard or xib,
+but the older project&rsquo;s UI is written by code！</p>
+
+<p>I would suggest switching to storyboards to make your life easy.</p>
+
+<p>I would highly recommend you watch the following WWDC videos and then think about what exactly you need to do in order to support multi tasking.</p>
+
+<ol>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=218">Mysteries of Auto Layout, Part 1</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=215">What&rsquo;s New in Storyboards</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=407">Implementing UI Designs in Interface Builder</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=205">Getting Started with Multitasking on iPad in iOS 9</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=212">Optimizing Your App for Multitasking on iPad in iOS</a></p></li>
+</ol>
+
+</div>
+
+</article>
+
+	<div class="bdsharebuttonbox"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["qzone","bdysc","renren","douban","fx","youdao","mail","fbook","twi","linkedin","copy","print"],"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+<!--兼容版，可保证页面完全兼容-->
+<div id="SOHUCS"></div>
+<script>
+  (function(){
+    var appid = 'cyrof0xla',
+    conf = 'prod_33cb4369c37266cd8994da8878b17b87';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+  })()
+</script>
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2015
+
+    小巴
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+</body>
+</html>

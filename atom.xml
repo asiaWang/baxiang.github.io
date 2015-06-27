@@ -4,7 +4,7 @@
   <title><![CDATA[小巴童鞋]]></title>
   <link href="http://ba-xiang.com//atom.xml" rel="self"/>
   <link href="http://ba-xiang.com//"/>
-  <updated>2015-06-24T03:48:24+08:00</updated>
+  <updated>2015-06-28T01:09:06+08:00</updated>
   <id>http://ba-xiang.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -12,6 +12,362 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ios9适配指南]]></title>
+    <link href="http://ba-xiang.com//blog/ios9-adatation-tips.html"/>
+    <updated>2015-06-28T01:17:55+08:00</updated>
+    <id>http://ba-xiang.com//blog/ios9-adatation-tips</id>
+    <content type="html"><![CDATA[<p> 原文作者：iOS程序犭袁</p>
+
+<p> 原文地址：<a href="https://github.com/ChenYilong/iOS9AdaptationTips">https://github.com/ChenYilong/iOS9AdaptationTips</a></p>
+
+<h2>1. Demo1_iOS9网络适配_改用更安全的HTTPS</h2>
+
+<p>TLS 1.2 协议 强制增强数据访问安全
+系统 Foundation 框架下的相关网络请求，将不再默认使用 Http 等不安全的网络协议，而默认采用 TLS 1.2。服务器因此需要更新，以解析相关数据。如不更新，可通过在 Info.plist 中声明，倒退回不安全的网络请求。</p>
+
+<h2>2.Demo2_iOS9新特性_更灵活的后台定位</h2>
+
+<p>【iOS9在定位的问题上，有一个坏消息一个好消息】坏消息：如果不适配iOS9，就不能偷偷在后台定位（不带蓝条，见图）！好消息：将允许出现这种场景：同一App中的多个location manager：一些只能在前台定位，另一些可在后台定位，并可随时开启或者关闭特定location manager的后台定位。
+如果没有请求后台定位的权限，也是可以在后台定位的，不过会带蓝条：</p>
+
+<!--more -->
+
+
+<p> <img src="https://i.imgur.com/UoqGHlG.png" alt="enter image description here" />
+如何偷偷在后台定位：请求后台定位权限：</p>
+
+<pre><code> // 1. 实例化定位管理器
+_locationManager = [[CLLocationManager alloc] init];
+// 2. 设置代理
+_locationManager.delegate = self;
+// 3. 定位精度
+[_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+// 4.请求用户权限：分为：⓵只在前台开启定位⓶在后台也可定位，
+//注意：建议只请求⓵和⓶中的一个，如果两个权限都需要，只请求⓶即可，
+//⓵⓶这样的顺序，将导致bug：第一次启动程序后，系统将只请求⓵的权限，⓶的权限系统不会请求，只会在下一次启动应用时请求⓶
+if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 8) {
+    //[_locationManager requestWhenInUseAuthorization];//⓵只在前台开启定位
+    [_locationManager requestAlwaysAuthorization];//⓶在后台也可定位
+}
+// 5.iOS9新特性：将允许出现这种场景：同一app中多个location manager：一些只能在前台定位，另一些可在后台定位（并可随时禁止其后台定位）。
+if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 9) {
+    _locationManager.allowsBackgroundLocationUpdates = YES;
+}
+// 6. 更新用户位置
+[_locationManager startUpdatingLocation];
+</code></pre>
+
+<p>但是如果照着这种方式尝试，而没有配置Info.plist，100%你的程序会崩溃掉，并报错：</p>
+
+<blockquote><p>*** Assertion failure in -[CLLocationManager setAllowsBackgroundLocationUpdates:], /BuildRoot/Library/Caches/com.apple.xbs/Sources/CoreLocationFramework_Sim/CoreLocation-1808.1.5/Framework/CoreLocation/CLLocationManager.m:593</p></blockquote>
+
+<p>要将  Info.plist 配置如下：
+ <img src="https://i.imgur.com/MAoKbUe.png" alt="enter image description here" /></p>
+
+<p>对应的 Info.plist 的XML源码是：</p>
+
+<pre><code>&lt;key&gt;NSLocationAlwaysUsageDescription&lt;/key&gt;
+&lt;string&gt;微博@iOS程序犭袁 请求后台定位权限&lt;/string&gt;
+
+&lt;key&gt;UIBackgroundModes&lt;/key&gt;
+&lt;array&gt;
+    &lt;string&gt;location&lt;/string&gt;
+&lt;/array&gt;
+</code></pre>
+
+<h2>3.企业级分发</h2>
+
+<p>iOS9之前，企业级分发十分方便：点击App出现“信任按钮”，</p>
+
+<p> <img src="https://i.imgur.com/aSmM8bk.png" alt="enter image description here" /></p>
+
+<p>iOS9以后，企业级分发ipa包将遭到与Mac上dmg安装包一样的待遇：默认不能安装，也不再出现“信任按钮”</p>
+
+<p> <img src="https://i.imgur.com/Skn9iXk.png" alt="enter image description here" /></p>
+
+<p>必须让用户进行gif图中的设置（相关Demo：<a href="https://github.com/ChenYilong/iOS9AdaptationTips/">https://github.com/ChenYilong/iOS9AdaptationTips/</a> ）</p>
+
+<p> <img src="https://i.imgur.com/PXM235L.gif" alt="enter image description here" /></p>
+
+<h2>4.Bitcode（通俗解释：在线版安卓ART模式）</h2>
+
+<p>未来Watch应用须包含Bitcode，iOS不强制，但Xcode7默认会开启Bitcode。</p>
+
+<p>如何适配？方法一：更新library使包含Bitcode，否则会出现以下中的警告；</p>
+
+<blockquote><p>(null): URGENT: all bitcode will be dropped because
+&lsquo;/Users/myname/Library/Mobile
+Documents/com~apple~CloudDocs/foldername/appname/GoogleMobileAds.framework/GoogleMobileAds(GADSlot+AdEvents.o)&rsquo;
+was built without bitcode. You must rebuild it with bitcode enabled
+(Xcode setting ENABLE_BITCODE), obtain an updated library from the
+vendor, or disable bitcode for this target. Note: This will be an
+error in the future.</p></blockquote>
+
+<p>方法二：关闭Bitcode，方法见下图</p>
+
+<blockquote><p> <img src="https://i.imgur.com/OoOogUe.gif" alt="enter image description here" /></p></blockquote>
+
+<p>更多信息，请移步
+<a href="https://developer.apple.com/library/prerelease/watchos/documentation/IDEs/Conceptual/AppDistributionGuide/AppThinning/AppThinning.html#//apple_ref/doc/uid/TP40012582-CH35-SW2">bitcode 苹果官方文档</a></p>
+
+<p>,和 WWDC 2015 Session 102: <a href="https://developer.apple.com/videos/wwdc/2015/?id=102">&ldquo;Platforms State of the Union&rdquo;</a></p>
+
+<p> <img src="http://mobileforward.net/wp-content/uploads/2015/06/Screen-Shot-2015-06-12-at-6.57.54-PM-697x351.png" alt="enter image description here" /></p>
+
+<h2>5.URL scheme</h2>
+
+<p>在iOS9中，如果使用URL scheme必须在&#8221;Info.plist&#8221;中将你要在外部调用的URL scheme列为白名单，否则不能使用。key叫做LSApplicationQueriesSchemes ，键值内容是</p>
+
+<pre><code>&lt;key&gt;LSApplicationQueriesSchemes&lt;/key&gt;
+&lt;array&gt;
+ &lt;string&gt;urlscheme&lt;/string&gt;
+ &lt;string&gt;urlscheme2&lt;/string&gt;
+ &lt;string&gt;urlscheme3&lt;/string&gt;
+ &lt;string&gt;urlscheme4&lt;/string&gt;
+&lt;/array&gt; 
+</code></pre>
+
+<p>推荐一篇博客: <a href="http://awkwardhare.com/post/121196006730/quick-take-on-ios-9-url-scheme-changes">http://awkwardhare.com/post/121196006730/quick-take-on-ios-9-url-scheme-changes</a></p>
+
+<p>其中最关键的是以下部分：</p>
+
+<blockquote><p>If you call the “canOpenURL” method on a URL that is not in your whitelist, it will return “NO”, even if there is an app installed that has registered to handle this scheme. A “This app is not allowed to query for scheme xxx” syslog entry will appear.</p>
+
+<p>If you call the “openURL” method on a URL that is not in your whitelist, it will fail silently. A “This app is not allowed to query for scheme xxx” syslog entry will appear.</p></blockquote>
+
+<p>更多信息请移步：WWDC 2015 Session 703: &ldquo;Privacy and Your App&rdquo;  <a href="https://developer.apple.com/videos/wwdc/2015/?id=703">https://developer.apple.com/videos/wwdc/2015/?id=703</a> 时间在30：18左右</p>
+
+<p> <img src="https://i.imgur.com/2HxWQqq.png" alt="enter image description here" /></p>
+
+<h2>6. iPad适配Slide Over 和 Split View</h2>
+
+<p> <img src="http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2015/06/ew-.gif" alt="enter image description here" /></p>
+
+<p>【iPad适配Slide Over 和 Split View】
+若想适配multi tasking特性，唯一的建议：弃纯代码，改用storyboard、xib，纵观苹果WWDC所有Demo均是如此：</p>
+
+<ol>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=218">Mysteries of Auto Layout, Part 1</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=215">What&rsquo;s New in Storyboards</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=407">Implementing UI Designs in Interface Builder</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=205">Getting Started with Multitasking on iPad in iOS 9</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=212">Optimizing Your App for Multitasking on iPad in iOS</a></p></li>
+</ol>
+
+
+<h4>英文</h4>
+
+<h2>1. Demo1_You&rsquo;d better Convert HTTP to HTTPS</h2>
+
+<p>How to deal with the SSL in iOS9，One solution is to  do like:
+ <img src="https://github.com/ChenYilong/iOS9AdaptationTips/blob/master/Demo1_iOS9%E7%BD%91%E7%BB%9C%E9%80%82%E9%85%8D_%E6%94%B9%E7%94%A8%E6%9B%B4%E5%AE%89%E5%85%A8%E7%9A%84HTTPS/%E5%BE%AE%E5%8D%9A%40iOS%E7%A8%8B%E5%BA%8F%E7%8A%AD%E8%A2%81/http%E9%97%AE%E9%A2%98.gif" alt="enter image description here" /></p>
+
+<p>As the <a href="https://developer.apple.com/library/prerelease/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS9.html#//apple_ref/doc/uid/TP40016198-DontLinkElementID_13">Apple</a> say :
+ <img src="https://i.imgur.com/dCD1fBB.png" alt="enter image description here" />
+   <img src="https://i.imgur.com/Tc0fS6p.jpg" alt="enter image description here" /></p>
+
+<p>   <img src="https://i.imgur.com/v2Tskwh.jpg" alt="enter image description here" /></p>
+
+<p>iOS 9 and OSX 10.11 require TLSv1.2 SSL for all hosts you plan to request data from unless you specify exception domains in your app&rsquo;s Info.plist file.</p>
+
+<p>The syntax for the Info.plist configuration looks like this:</p>
+
+<pre><code>&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
+&lt;dict&gt;
+  &lt;key&gt;NSExceptionDomains&lt;/key&gt;
+  &lt;dict&gt;
+    &lt;key&gt;yourserver.com&lt;/key&gt;
+    &lt;dict&gt;
+      &lt;!--Include to allow subdomains--&gt;
+      &lt;key&gt;NSIncludesSubdomains&lt;/key&gt;
+      &lt;true/&gt;
+      &lt;!--Include to allow insecure HTTP requests--&gt;
+      &lt;key&gt;NSTemporaryExceptionAllowsInsecureHTTPLoads&lt;/key&gt;
+      &lt;true/&gt;
+      &lt;!--Include to specify minimum TLS version--&gt;
+      &lt;key&gt;NSTemporaryExceptionMinimumTLSVersion&lt;/key&gt;
+      &lt;string&gt;TLSv1.1&lt;/string&gt;
+    &lt;/dict&gt;
+  &lt;/dict&gt;
+&lt;/dict&gt;
+</code></pre>
+
+<p>If your application (a third-party web browser, for instance) needs to connect to arbitrary hosts, you can configure it like this:</p>
+
+<pre><code>&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
+&lt;dict&gt;
+    &lt;!--Connect to anything (this is probably BAD)--&gt;
+    &lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;
+    &lt;true/&gt;
+&lt;/dict&gt;
+</code></pre>
+
+<p>If you&rsquo;re having to do this, it&rsquo;s probably best to update your servers to use TLSv1.2 and SSL, if they&rsquo;re not already doing so. This should be considered a temporary workaround.</p>
+
+<p>As of today, the prerelease documentation makes no mention of any of these configuration options in any specific way. Once it does, I&rsquo;ll update the answer to link to the relevant documentation.</p>
+
+<h2>2.Demo2_iOS9 new feature  in CoreLocation :  background only when you need</h2>
+
+<p>If you&rsquo;re using CoreLocation framework in your app in Xcode7(pre-released),and you may notice that there is a newly added property called allowsBackgroundLocationUpdates in CLLocationManager class.</p>
+
+<p>This new property is explained in the WWDC session <a href="https://developer.apple.com/videos/wwdc/2015/?id=714">&ldquo;What&rsquo;s New in Core Location&rdquo;</a>.
+ <img src="https://i.imgur.com/pvVh1fx.png" alt="enter image description here" /></p>
+
+<p>The default value is <code>NO</code> if you link against iOS 9.</p>
+
+<p>If your app uses location in the background (without showing the blue status bar) you have to set <code>allowsBackgroundLocationUpdates</code> to <code>YES</code> in addition to setting the background mode capability in Info.plist. Otherwise location updates are only delivered in foreground. The advantage is that you can now have location managers with background location updates and other location managers with only foreground location updates in the same app. You can also reset the value to <code>NO</code> to change the behavior.</p>
+
+<p>The documentation is pretty clear about it:</p>
+
+<blockquote><p>By default, this is NO for applications linked against iOS 9.0 or
+later, regardless of minimum deployment target.</p>
+
+<p>With UIBackgroundModes set to include &ldquo;location&rdquo; in Info.plist, you
+must also set this property to YES at runtime whenever calling
+-startUpdatingLocation with the intent to continue in the background.</p>
+
+<p>Setting this property to YES when UIBackgroundModes does not include
+&ldquo;location&rdquo; is a fatal error.</p>
+
+<p>Resetting this property to NO is equivalent to omitting &ldquo;location&rdquo;
+from the UIBackgroundModes value.  Access to location is still
+permitted whenever the application is running (ie not suspended), and
+has sufficient authorization (ie it has WhenInUse authorization and is
+in use, or it has Always authorization).  However, the app will still
+be subject to the usual task suspension rules.</p>
+
+<p>See -requestWhenInUseAuthorization and -requestAlwaysAuthorization for
+more details on possible authorization values.</p></blockquote>
+
+<p>Set  Info.plist like：
+ <img src="https://i.imgur.com/MAoKbUe.png" alt="enter image description here" /></p>
+
+<p>The syntax for the Info.plist configuration looks like this:</p>
+
+<pre><code>&lt;key&gt;NSLocationAlwaysUsageDescription&lt;/key&gt;
+&lt;string&gt;微博@iOS程序犭袁 请求后台定位权限&lt;/string&gt;
+
+&lt;key&gt;UIBackgroundModes&lt;/key&gt;
+&lt;array&gt;
+    &lt;string&gt;location&lt;/string&gt;
+&lt;/array&gt;
+</code></pre>
+
+<p>Use like:</p>
+
+<pre><code>_locationManager = [[CLLocationManager alloc] init];
+_locationManager.delegate = self;
+[_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 8) {
+    [_locationManager requestAlwaysAuthorization];
+}
+if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 9) {
+    _locationManager.allowsBackgroundLocationUpdates = YES;
+}
+[_locationManager startUpdatingLocation];
+</code></pre>
+
+<h2>3.iOS9 Untrusted Enterprise Developer with no option to trust</h2>
+
+<p>Since iOS9 there is no option to trust an enterprise build.
+Before iOS9，it&rsquo;s very easy to use:if you touch the app,it&rsquo;ll apear this :</p>
+
+<p> <img src="http://i.stack.imgur.com/WwF76.png" alt="enter image description here" /></p>
+
+<p>Now:</p>
+
+<p> <img src="https://i.imgur.com/Skn9iXk.png" alt="enter image description here" /></p>
+
+<p>You have to let the user  do like:
+Go to Settings - General - Profiles - tap on your Profile - tap on Trust button.</p>
+
+<p>  <img src="https://i.imgur.com/AdGNYHe.gif" alt="enter image description here" /></p>
+
+<h2>4.bitcode optional</h2>
+
+<p>After Xcode 7,bitcode option will be enabled by default,If your library was compiled without bitcode but the bitcode option is enabled in your project settings.You can</p>
+
+<blockquote><ol>
+<li>Update your library with bit code, or you&rsquo;ll get warnings like:</li>
+</ol>
+
+
+<p>(null): URGENT: all bitcode will be dropped because
+&lsquo;/Users/myname/Library/Mobile
+Documents/com~apple~CloudDocs/foldername/appname/GoogleMobileAds.framework/GoogleMobileAds(GADSlot+AdEvents.o)&rsquo;
+was built without bitcode. You must rebuild it with bitcode enabled
+(Xcode setting ENABLE_BITCODE), obtain an updated library from the
+vendor, or disable bitcode for this target. Note: This will be an
+error in the future.</p>
+
+<ol>
+<li>Say NO to Enable Bitcode in your target Build Settings</li>
+</ol>
+
+
+<p> <img src="https://i.imgur.com/OoOogUe.gif" alt="enter image description here" /></p></blockquote>
+
+<p>and the Library Build Settings to remove the warnings</p>
+
+<p>For more information,go to
+<a href="https://developer.apple.com/library/prerelease/watchos/documentation/IDEs/Conceptual/AppDistributionGuide/AppThinning/AppThinning.html#//apple_ref/doc/uid/TP40012582-CH35-SW2">documentation of bitcode in developer library</a></p>
+
+<p>,and WWDC 2015 Session 102: <a href="https://developer.apple.com/videos/wwdc/2015/?id=102">&ldquo;Platforms State of the Union&rdquo;</a></p>
+
+<p> <img src="http://mobileforward.net/wp-content/uploads/2015/06/Screen-Shot-2015-06-12-at-6.57.54-PM-697x351.png" alt="enter image description here" /></p>
+
+<h2>5.Privacy and Your App【URL scheme changes】</h2>
+
+<p>iOS 9 has made a small change to the handling of URL scheme. You must whitelist the url&rsquo;s that your app will call out to using the <code>LSApplicationQueriesSchemes</code> key in your <code>Info.plist</code>.</p>
+
+<p>Please see post here: <a href="http://awkwardhare.com/post/121196006730/quick-take-on-ios-9-url-scheme-changes">http://awkwardhare.com/post/121196006730/quick-take-on-ios-9-url-scheme-changes</a></p>
+
+<p>The main conclusion is that:</p>
+
+<blockquote><p>If you call the “canOpenURL” method on a URL that is not in your whitelist, it will return “NO”, even if there is an app installed that has registered to handle this scheme. A “This app is not allowed to query for scheme xxx” syslog entry will appear.</p>
+
+<p>If you call the “openURL” method on a URL that is not in your whitelist, it will fail silently. A “This app is not allowed to query for scheme xxx” syslog entry will appear.</p></blockquote>
+
+<p>The author also speculates that this is a bug with the OS and Apple will fix this in a subsequent release.</p>
+
+<p>This is a new security feature of iOS 9. Watch <a href="https://developer.apple.com/videos/wwdc/2015/?id=703">WWDC 2015 Session 703</a> for more information.</p>
+
+<p> <img src="https://i.imgur.com/2HxWQqq.png" alt="enter image description here" /></p>
+
+<p>Any app built with SDK 9 needs to provide a <code>LSApplicationQueriesSchemes</code> entry in its plist file, declaring which schemes it attempts to query.</p>
+
+<pre><code>&lt;key&gt;LSApplicationQueriesSchemes&lt;/key&gt;
+&lt;array&gt;
+ &lt;string&gt;urlscheme&lt;/string&gt;
+ &lt;string&gt;urlscheme2&lt;/string&gt;
+ &lt;string&gt;urlscheme3&lt;/string&gt;
+ &lt;string&gt;urlscheme4&lt;/string&gt;
+&lt;/array&gt; 
+</code></pre>
+
+<h2>6. Support Slide Over and Split View of iOS 9</h2>
+
+<p><img src="http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2015/06/ew-.gif" alt="enter image description here" />
+How to transition an an older project to support Slide Over and Split View of iOS 9？
+You may find that all the demo projects was written by storyboard or xib,
+but the older project&rsquo;s UI is written by code！</p>
+
+<p>I would suggest switching to storyboards to make your life easy.</p>
+
+<p>I would highly recommend you watch the following WWDC videos and then think about what exactly you need to do in order to support multi tasking.</p>
+
+<ol>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=218">Mysteries of Auto Layout, Part 1</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=215">What&rsquo;s New in Storyboards</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=407">Implementing UI Designs in Interface Builder</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=205">Getting Started with Multitasking on iPad in iOS 9</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=212">Optimizing Your App for Multitasking on iPad in iOS</a></p></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Apple Watch 和 iPhone 通信实践]]></title>
@@ -6247,119 +6603,6 @@ things.append(Movie(name: "Ghostbusters", director: "Ivan Reitman"))
 <p>注意：</p>
 <p>在一个switch语句的case中使用强制形式的类型检查操作符（as, 而不是 as?）来检查和转换到一个明确的类型。在 switch case 语句的内容中这种检查总是安全的。</p>
 </blockquote>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[swift类型嵌套]]></title>
-    <link href="http://ba-xiang.com//blog/Swift%E7%B1%BB%E5%9E%8B%E5%B5%8C%E5%A5%97.html"/>
-    <updated>2015-03-15T00:00:00+08:00</updated>
-    <id>http://ba-xiang.com//blog/Swift类型嵌套</id>
-    <content type="html"><![CDATA[<p>枚举类型常被用于实现特定类或结构体的功能。也能够在有多种变量类型的环境中，方便地定义通用类或结构体来使用，为了实现这种功能，Swift允许你定义类型嵌套，可以在枚举类型、类和结构体中定义支持嵌套的类型。</p>
-
-
-<!-- more -->
-
-
-<p>要在一个类型中嵌套另一个类型，将需要嵌套的类型的定义写在被嵌套类型的区域{}内，而且可以根据需要定义多级嵌套。</p>
-
-
-<p><a name="nested_types_in_action"></a></p>
-
-
-<h2 id="-">类型嵌套实例</h2>
-
-
-<p>下面这个例子定义了一个结构体<code>BlackjackCard</code>(二十一点)，用来模拟<code>BlackjackCard</code>中的扑克牌点数。<code>BlackjackCard</code>结构体包含2个嵌套定义的枚举类型<code>Suit</code> 和 <code>Rank</code>。</p>
-
-
-<p>在<code>BlackjackCard</code>规则中，<code>Ace</code>牌可以表示1或者11，<code>Ace</code>牌的这一特征用一个嵌套在枚举型<code>Rank</code>的结构体<code>Values</code>来表示。</p>
-
-
-<pre><code>struct BlackjackCard {
-    // 嵌套定义枚举型Suit
-    enum Suit: Character {
-       case Spades = "♠", Hearts = "♡", Diamonds = "♢", Clubs = "♣"
-   }
-    // 嵌套定义枚举型Rank
-    enum Rank: Int {
-       case Two = 2, Three, Four, Five, Six, Seven, Eight, Nine, Ten
-       case Jack, Queen, King, Ace
-       struct Values {
-           let first: Int, second: Int?
-       }
-       var values: Values {
-        switch self {
-        case .Ace:
-            return Values(first: 1, second: 11)
-        case .Jack, .Queen, .King:
-            return Values(first: 10, second: nil)
-        default:
-            return Values(first: self.toRaw(), second: nil)
-            }
-       }
-    }
-    // BlackjackCard 的属性和方法
-    let rank: Rank, suit: Suit
-    var description: String {
-    var output = "suit is \(suit.toRaw()),"
-        output += " value is \(rank.values.first)"
-        if let second = rank.values.second {
-            output += " or \(second)"
-        }
-        return output
-    }
-}
-</code></pre>
-
-
-<p>枚举型的<code>Suit</code>用来描述扑克牌的四种花色，并分别用一个<code>Character</code>类型的值代表花色符号。</p>
-
-
-<p>枚举型的<code>Rank</code>用来描述扑克牌从<code>Ace</code>~10,<code>J</code>,<code>Q</code>,<code>K</code>,13张牌，并分别用一个<code>Int</code>类型的值表示牌的面值。(这个<code>Int</code>类型的值不适用于<code>Ace</code>,<code>J</code>,<code>Q</code>,<code>K</code>的牌)。</p>
-
-
-<p>如上文所提到的，枚举型<code>Rank</code>在自己内部定义了一个嵌套结构体<code>Values</code>。这个结构体包含两个变量，只有<code>Ace</code>有两个数值，其余牌都只有一个数值。结构体<code>Values</code>中定义的两个属性：</p>
-
-
-<p><code>first</code>, 为<code>Int</code>
-<code>second</code>, 为 <code>Int?</code>, 或 “optional <code>Int</code>”</p>
-
-
-<p><code>Rank</code>定义了一个计算属性<code>values</code>，这个计算属性会根据牌的面值，用适当的数值去初始化<code>Values</code>实例，并赋值给<code>values</code>。对于<code>J</code>,<code>Q</code>,<code>K</code>,<code>Ace</code>会使用特殊数值，对于数字面值的牌使用<code>Int</code>类型的值。</p>
-
-
-<p><code>BlackjackCard</code>结构体自身有两个属性—<code>rank</code>与<code>suit</code>，也同样定义了一个计算属性<code>description</code>，<code>description</code>属性用<code>rank</code>和<code>suit</code>的中内容来构建对这张扑克牌名字和数值的描述，并用可选类型<code>second</code>来检查是否存在第二个值，若存在，则在原有的描述中增加对第二数值的描述。</p>
-
-
-<p>因为<code>BlackjackCard</code>是一个没有自定义构造函数的结构体，在<a href="https://github.com/CocoaChina-editors/Welcome-to-Swift/blob/master/The%20Swift%20Programming%20Language/02Language%20Guide/14Initialization.md" target="_blank">Memberwise Initializers for Structure Types</a>中知道结构体有默认的成员构造函数，所以你可以用默认的<code>initializer</code>去初始化新的常量<code>theAceOfSpades</code>:</p>
-
-
-<pre><code>let theAceOfSpades = BlackjackCard(rank: .Ace, suit: .Spades)
-println("theAceOfSpades: \(theAceOfSpades.description)")
-// 打印出 "theAceOfSpades: suit is ♠, value is 1 or 11"
-</code></pre>
-
-
-<p>尽管<code>Rank</code>和<code>Suit</code>嵌套在<code>BlackjackCard</code>中，但仍可被引用，所以在初始化实例时能够通过枚举类型中的成员名称单独引用。在上面的例子中<code>description</code>属性能正确得输出对<code>Ace</code>牌有1和11两个值。</p>
-
-
-<p><a name="referring_to_nested_types"></a></p>
-
-
-<h2 id="-">类型嵌套的引用</h2>
-
-
-<p>在外部对嵌套类型的引用，以被嵌套类型的名字为前缀，加上所要引用的属性名：</p>
-
-
-<pre><code>let heartsSymbol = BlackjackCard.Suit.Hearts.toRaw()
-// 红心的符号 为 "♡"
-</code></pre>
-
-
-<p>对于上面这个例子，这样可以使<code>Suit</code>, <code>Rank</code>, 和 <code>Values</code>的名字尽可能的短，因为它们的名字会自然的由被定义的上下文来限定。</p>
 
 ]]></content>
   </entry>

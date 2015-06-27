@@ -9,9 +9,9 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="Nov 16,&nbsp 2013 ios, security Comments iOS应用程序安全(19)-在程序中使用Introspy 作者：Prateek Gianchandani
+	<meta name="description" content="Nov 16,&nbsp 2013 ios, security Comments iOS应用程序安全(20)-本地数据存储及其安全性（NSUserDefaults, CoreData, Sqlite, Plist 文件） 作者：Prateek Gianchandani
 译者：吴发伟
-原文网址：http://resources.infosecinstitute.com/ios- &hellip;">
+原文网址： &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -126,6 +126,52 @@ var _hmt = _hmt || [];
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 16,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/security/'>security</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/ios-application-security-20.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-20.html" itemprop="url">iOS应用程序安全(20)-本地数据存储及其安全性（NSUserDefaults, CoreData, Sqlite, Plist 文件）</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-20-local-data-storage-nsuserdefaults-coredata-sqlite-plist-files/">http://resources.infosecinstitute.com/ios-application-security-part-20-local-data-storage-nsuserdefaults-coredata-sqlite-plist-files/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>本文我们将看看应用在本地存储数据有哪些方法以及这些不同方法的安全性。</p>
+
+<p>我们将会在一个demo上这些这些测试，你可以从我的<a href="https://github.com/prateek147/localDataStorageDemo">github</a>账号上下载这个例子程序。对于CoreData的例子，你可以从<a href="https://github.com/ChrisDrit/Core-Data-Example-Code">这</a>下载例子程序。本例有一个不同点就是我们将会在模拟器上运行这些应用，而不是在设备上运行。这样做的目的是为了证明在前面文章中的操作都可以通过Xcode来把这些应用运行在模拟器上。当然，你也可以使用<a href="http://wufawei.com/2013/11/ios-application-security-7/">前面文章中的步骤</a>把这应用安装到设备上。</p>
+
+
+		
+		<a href="/blog/ios-application-security-20.html" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -309,51 +355,6 @@ Nov 15,&nbsp 2013  </div>
 
 		
 		<a href="/blog/ios-application-security-16.html" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-Nov 15,&nbsp 2013  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/security/'>security</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/ios-application-security-15.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-15.html" itemprop="url">iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/">http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<p>在前面的文章当中，我们看到了如何使用Sogeti Data protection tools利用bottom的漏洞，使用定制的ramdisk来启动iOS设备。本文我们将学习用iNalyzer工具来对iOS
-应用进行黑盒测试。iNalyzer允许我们查看类信息，执行运行时分析和其他一些事情。基本上它把解密应用、导出类信息这些事情自动化了，并且更好的展示了出来。我们也可以像Cycript那样挂钩运行的进程。iNalyzer由<a href="https://appsec-labs.com/">AppSec Labs</a>开发和维护，它的官方地址在<a href="https://appsec-labs.com/iNalyzer">这</a>。iNalyzer同时也已经开源了，gitub地址在<a href="https://github.com/appsec-labs/iNalyzer">这</a>。</p>
-
-
-		
-		<a href="/blog/ios-application-security-15.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>

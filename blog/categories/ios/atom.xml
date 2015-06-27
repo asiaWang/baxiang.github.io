@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | 小巴童鞋]]></title>
   <link href="http://ba-xiang.com//blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://ba-xiang.com//"/>
-  <updated>2015-06-24T03:48:24+08:00</updated>
+  <updated>2015-06-28T01:09:06+08:00</updated>
   <id>http://ba-xiang.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -12,6 +12,362 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ios9适配指南]]></title>
+    <link href="http://ba-xiang.com//blog/ios9-adatation-tips.html"/>
+    <updated>2015-06-28T01:17:55+08:00</updated>
+    <id>http://ba-xiang.com//blog/ios9-adatation-tips</id>
+    <content type="html"><![CDATA[<p> 原文作者：iOS程序犭袁</p>
+
+<p> 原文地址：<a href="https://github.com/ChenYilong/iOS9AdaptationTips">https://github.com/ChenYilong/iOS9AdaptationTips</a></p>
+
+<h2>1. Demo1_iOS9网络适配_改用更安全的HTTPS</h2>
+
+<p>TLS 1.2 协议 强制增强数据访问安全
+系统 Foundation 框架下的相关网络请求，将不再默认使用 Http 等不安全的网络协议，而默认采用 TLS 1.2。服务器因此需要更新，以解析相关数据。如不更新，可通过在 Info.plist 中声明，倒退回不安全的网络请求。</p>
+
+<h2>2.Demo2_iOS9新特性_更灵活的后台定位</h2>
+
+<p>【iOS9在定位的问题上，有一个坏消息一个好消息】坏消息：如果不适配iOS9，就不能偷偷在后台定位（不带蓝条，见图）！好消息：将允许出现这种场景：同一App中的多个location manager：一些只能在前台定位，另一些可在后台定位，并可随时开启或者关闭特定location manager的后台定位。
+如果没有请求后台定位的权限，也是可以在后台定位的，不过会带蓝条：</p>
+
+<!--more -->
+
+
+<p> <img src="https://i.imgur.com/UoqGHlG.png" alt="enter image description here" />
+如何偷偷在后台定位：请求后台定位权限：</p>
+
+<pre><code> // 1. 实例化定位管理器
+_locationManager = [[CLLocationManager alloc] init];
+// 2. 设置代理
+_locationManager.delegate = self;
+// 3. 定位精度
+[_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+// 4.请求用户权限：分为：⓵只在前台开启定位⓶在后台也可定位，
+//注意：建议只请求⓵和⓶中的一个，如果两个权限都需要，只请求⓶即可，
+//⓵⓶这样的顺序，将导致bug：第一次启动程序后，系统将只请求⓵的权限，⓶的权限系统不会请求，只会在下一次启动应用时请求⓶
+if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 8) {
+    //[_locationManager requestWhenInUseAuthorization];//⓵只在前台开启定位
+    [_locationManager requestAlwaysAuthorization];//⓶在后台也可定位
+}
+// 5.iOS9新特性：将允许出现这种场景：同一app中多个location manager：一些只能在前台定位，另一些可在后台定位（并可随时禁止其后台定位）。
+if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 9) {
+    _locationManager.allowsBackgroundLocationUpdates = YES;
+}
+// 6. 更新用户位置
+[_locationManager startUpdatingLocation];
+</code></pre>
+
+<p>但是如果照着这种方式尝试，而没有配置Info.plist，100%你的程序会崩溃掉，并报错：</p>
+
+<blockquote><p>*** Assertion failure in -[CLLocationManager setAllowsBackgroundLocationUpdates:], /BuildRoot/Library/Caches/com.apple.xbs/Sources/CoreLocationFramework_Sim/CoreLocation-1808.1.5/Framework/CoreLocation/CLLocationManager.m:593</p></blockquote>
+
+<p>要将  Info.plist 配置如下：
+ <img src="https://i.imgur.com/MAoKbUe.png" alt="enter image description here" /></p>
+
+<p>对应的 Info.plist 的XML源码是：</p>
+
+<pre><code>&lt;key&gt;NSLocationAlwaysUsageDescription&lt;/key&gt;
+&lt;string&gt;微博@iOS程序犭袁 请求后台定位权限&lt;/string&gt;
+
+&lt;key&gt;UIBackgroundModes&lt;/key&gt;
+&lt;array&gt;
+    &lt;string&gt;location&lt;/string&gt;
+&lt;/array&gt;
+</code></pre>
+
+<h2>3.企业级分发</h2>
+
+<p>iOS9之前，企业级分发十分方便：点击App出现“信任按钮”，</p>
+
+<p> <img src="https://i.imgur.com/aSmM8bk.png" alt="enter image description here" /></p>
+
+<p>iOS9以后，企业级分发ipa包将遭到与Mac上dmg安装包一样的待遇：默认不能安装，也不再出现“信任按钮”</p>
+
+<p> <img src="https://i.imgur.com/Skn9iXk.png" alt="enter image description here" /></p>
+
+<p>必须让用户进行gif图中的设置（相关Demo：<a href="https://github.com/ChenYilong/iOS9AdaptationTips/">https://github.com/ChenYilong/iOS9AdaptationTips/</a> ）</p>
+
+<p> <img src="https://i.imgur.com/PXM235L.gif" alt="enter image description here" /></p>
+
+<h2>4.Bitcode（通俗解释：在线版安卓ART模式）</h2>
+
+<p>未来Watch应用须包含Bitcode，iOS不强制，但Xcode7默认会开启Bitcode。</p>
+
+<p>如何适配？方法一：更新library使包含Bitcode，否则会出现以下中的警告；</p>
+
+<blockquote><p>(null): URGENT: all bitcode will be dropped because
+&lsquo;/Users/myname/Library/Mobile
+Documents/com~apple~CloudDocs/foldername/appname/GoogleMobileAds.framework/GoogleMobileAds(GADSlot+AdEvents.o)&rsquo;
+was built without bitcode. You must rebuild it with bitcode enabled
+(Xcode setting ENABLE_BITCODE), obtain an updated library from the
+vendor, or disable bitcode for this target. Note: This will be an
+error in the future.</p></blockquote>
+
+<p>方法二：关闭Bitcode，方法见下图</p>
+
+<blockquote><p> <img src="https://i.imgur.com/OoOogUe.gif" alt="enter image description here" /></p></blockquote>
+
+<p>更多信息，请移步
+<a href="https://developer.apple.com/library/prerelease/watchos/documentation/IDEs/Conceptual/AppDistributionGuide/AppThinning/AppThinning.html#//apple_ref/doc/uid/TP40012582-CH35-SW2">bitcode 苹果官方文档</a></p>
+
+<p>,和 WWDC 2015 Session 102: <a href="https://developer.apple.com/videos/wwdc/2015/?id=102">&ldquo;Platforms State of the Union&rdquo;</a></p>
+
+<p> <img src="http://mobileforward.net/wp-content/uploads/2015/06/Screen-Shot-2015-06-12-at-6.57.54-PM-697x351.png" alt="enter image description here" /></p>
+
+<h2>5.URL scheme</h2>
+
+<p>在iOS9中，如果使用URL scheme必须在&#8221;Info.plist&#8221;中将你要在外部调用的URL scheme列为白名单，否则不能使用。key叫做LSApplicationQueriesSchemes ，键值内容是</p>
+
+<pre><code>&lt;key&gt;LSApplicationQueriesSchemes&lt;/key&gt;
+&lt;array&gt;
+ &lt;string&gt;urlscheme&lt;/string&gt;
+ &lt;string&gt;urlscheme2&lt;/string&gt;
+ &lt;string&gt;urlscheme3&lt;/string&gt;
+ &lt;string&gt;urlscheme4&lt;/string&gt;
+&lt;/array&gt; 
+</code></pre>
+
+<p>推荐一篇博客: <a href="http://awkwardhare.com/post/121196006730/quick-take-on-ios-9-url-scheme-changes">http://awkwardhare.com/post/121196006730/quick-take-on-ios-9-url-scheme-changes</a></p>
+
+<p>其中最关键的是以下部分：</p>
+
+<blockquote><p>If you call the “canOpenURL” method on a URL that is not in your whitelist, it will return “NO”, even if there is an app installed that has registered to handle this scheme. A “This app is not allowed to query for scheme xxx” syslog entry will appear.</p>
+
+<p>If you call the “openURL” method on a URL that is not in your whitelist, it will fail silently. A “This app is not allowed to query for scheme xxx” syslog entry will appear.</p></blockquote>
+
+<p>更多信息请移步：WWDC 2015 Session 703: &ldquo;Privacy and Your App&rdquo;  <a href="https://developer.apple.com/videos/wwdc/2015/?id=703">https://developer.apple.com/videos/wwdc/2015/?id=703</a> 时间在30：18左右</p>
+
+<p> <img src="https://i.imgur.com/2HxWQqq.png" alt="enter image description here" /></p>
+
+<h2>6. iPad适配Slide Over 和 Split View</h2>
+
+<p> <img src="http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2015/06/ew-.gif" alt="enter image description here" /></p>
+
+<p>【iPad适配Slide Over 和 Split View】
+若想适配multi tasking特性，唯一的建议：弃纯代码，改用storyboard、xib，纵观苹果WWDC所有Demo均是如此：</p>
+
+<ol>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=218">Mysteries of Auto Layout, Part 1</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=215">What&rsquo;s New in Storyboards</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=407">Implementing UI Designs in Interface Builder</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=205">Getting Started with Multitasking on iPad in iOS 9</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=212">Optimizing Your App for Multitasking on iPad in iOS</a></p></li>
+</ol>
+
+
+<h4>英文</h4>
+
+<h2>1. Demo1_You&rsquo;d better Convert HTTP to HTTPS</h2>
+
+<p>How to deal with the SSL in iOS9，One solution is to  do like:
+ <img src="https://github.com/ChenYilong/iOS9AdaptationTips/blob/master/Demo1_iOS9%E7%BD%91%E7%BB%9C%E9%80%82%E9%85%8D_%E6%94%B9%E7%94%A8%E6%9B%B4%E5%AE%89%E5%85%A8%E7%9A%84HTTPS/%E5%BE%AE%E5%8D%9A%40iOS%E7%A8%8B%E5%BA%8F%E7%8A%AD%E8%A2%81/http%E9%97%AE%E9%A2%98.gif" alt="enter image description here" /></p>
+
+<p>As the <a href="https://developer.apple.com/library/prerelease/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS9.html#//apple_ref/doc/uid/TP40016198-DontLinkElementID_13">Apple</a> say :
+ <img src="https://i.imgur.com/dCD1fBB.png" alt="enter image description here" />
+   <img src="https://i.imgur.com/Tc0fS6p.jpg" alt="enter image description here" /></p>
+
+<p>   <img src="https://i.imgur.com/v2Tskwh.jpg" alt="enter image description here" /></p>
+
+<p>iOS 9 and OSX 10.11 require TLSv1.2 SSL for all hosts you plan to request data from unless you specify exception domains in your app&rsquo;s Info.plist file.</p>
+
+<p>The syntax for the Info.plist configuration looks like this:</p>
+
+<pre><code>&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
+&lt;dict&gt;
+  &lt;key&gt;NSExceptionDomains&lt;/key&gt;
+  &lt;dict&gt;
+    &lt;key&gt;yourserver.com&lt;/key&gt;
+    &lt;dict&gt;
+      &lt;!--Include to allow subdomains--&gt;
+      &lt;key&gt;NSIncludesSubdomains&lt;/key&gt;
+      &lt;true/&gt;
+      &lt;!--Include to allow insecure HTTP requests--&gt;
+      &lt;key&gt;NSTemporaryExceptionAllowsInsecureHTTPLoads&lt;/key&gt;
+      &lt;true/&gt;
+      &lt;!--Include to specify minimum TLS version--&gt;
+      &lt;key&gt;NSTemporaryExceptionMinimumTLSVersion&lt;/key&gt;
+      &lt;string&gt;TLSv1.1&lt;/string&gt;
+    &lt;/dict&gt;
+  &lt;/dict&gt;
+&lt;/dict&gt;
+</code></pre>
+
+<p>If your application (a third-party web browser, for instance) needs to connect to arbitrary hosts, you can configure it like this:</p>
+
+<pre><code>&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
+&lt;dict&gt;
+    &lt;!--Connect to anything (this is probably BAD)--&gt;
+    &lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;
+    &lt;true/&gt;
+&lt;/dict&gt;
+</code></pre>
+
+<p>If you&rsquo;re having to do this, it&rsquo;s probably best to update your servers to use TLSv1.2 and SSL, if they&rsquo;re not already doing so. This should be considered a temporary workaround.</p>
+
+<p>As of today, the prerelease documentation makes no mention of any of these configuration options in any specific way. Once it does, I&rsquo;ll update the answer to link to the relevant documentation.</p>
+
+<h2>2.Demo2_iOS9 new feature  in CoreLocation :  background only when you need</h2>
+
+<p>If you&rsquo;re using CoreLocation framework in your app in Xcode7(pre-released),and you may notice that there is a newly added property called allowsBackgroundLocationUpdates in CLLocationManager class.</p>
+
+<p>This new property is explained in the WWDC session <a href="https://developer.apple.com/videos/wwdc/2015/?id=714">&ldquo;What&rsquo;s New in Core Location&rdquo;</a>.
+ <img src="https://i.imgur.com/pvVh1fx.png" alt="enter image description here" /></p>
+
+<p>The default value is <code>NO</code> if you link against iOS 9.</p>
+
+<p>If your app uses location in the background (without showing the blue status bar) you have to set <code>allowsBackgroundLocationUpdates</code> to <code>YES</code> in addition to setting the background mode capability in Info.plist. Otherwise location updates are only delivered in foreground. The advantage is that you can now have location managers with background location updates and other location managers with only foreground location updates in the same app. You can also reset the value to <code>NO</code> to change the behavior.</p>
+
+<p>The documentation is pretty clear about it:</p>
+
+<blockquote><p>By default, this is NO for applications linked against iOS 9.0 or
+later, regardless of minimum deployment target.</p>
+
+<p>With UIBackgroundModes set to include &ldquo;location&rdquo; in Info.plist, you
+must also set this property to YES at runtime whenever calling
+-startUpdatingLocation with the intent to continue in the background.</p>
+
+<p>Setting this property to YES when UIBackgroundModes does not include
+&ldquo;location&rdquo; is a fatal error.</p>
+
+<p>Resetting this property to NO is equivalent to omitting &ldquo;location&rdquo;
+from the UIBackgroundModes value.  Access to location is still
+permitted whenever the application is running (ie not suspended), and
+has sufficient authorization (ie it has WhenInUse authorization and is
+in use, or it has Always authorization).  However, the app will still
+be subject to the usual task suspension rules.</p>
+
+<p>See -requestWhenInUseAuthorization and -requestAlwaysAuthorization for
+more details on possible authorization values.</p></blockquote>
+
+<p>Set  Info.plist like：
+ <img src="https://i.imgur.com/MAoKbUe.png" alt="enter image description here" /></p>
+
+<p>The syntax for the Info.plist configuration looks like this:</p>
+
+<pre><code>&lt;key&gt;NSLocationAlwaysUsageDescription&lt;/key&gt;
+&lt;string&gt;微博@iOS程序犭袁 请求后台定位权限&lt;/string&gt;
+
+&lt;key&gt;UIBackgroundModes&lt;/key&gt;
+&lt;array&gt;
+    &lt;string&gt;location&lt;/string&gt;
+&lt;/array&gt;
+</code></pre>
+
+<p>Use like:</p>
+
+<pre><code>_locationManager = [[CLLocationManager alloc] init];
+_locationManager.delegate = self;
+[_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 8) {
+    [_locationManager requestAlwaysAuthorization];
+}
+if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 9) {
+    _locationManager.allowsBackgroundLocationUpdates = YES;
+}
+[_locationManager startUpdatingLocation];
+</code></pre>
+
+<h2>3.iOS9 Untrusted Enterprise Developer with no option to trust</h2>
+
+<p>Since iOS9 there is no option to trust an enterprise build.
+Before iOS9，it&rsquo;s very easy to use:if you touch the app,it&rsquo;ll apear this :</p>
+
+<p> <img src="http://i.stack.imgur.com/WwF76.png" alt="enter image description here" /></p>
+
+<p>Now:</p>
+
+<p> <img src="https://i.imgur.com/Skn9iXk.png" alt="enter image description here" /></p>
+
+<p>You have to let the user  do like:
+Go to Settings - General - Profiles - tap on your Profile - tap on Trust button.</p>
+
+<p>  <img src="https://i.imgur.com/AdGNYHe.gif" alt="enter image description here" /></p>
+
+<h2>4.bitcode optional</h2>
+
+<p>After Xcode 7,bitcode option will be enabled by default,If your library was compiled without bitcode but the bitcode option is enabled in your project settings.You can</p>
+
+<blockquote><ol>
+<li>Update your library with bit code, or you&rsquo;ll get warnings like:</li>
+</ol>
+
+
+<p>(null): URGENT: all bitcode will be dropped because
+&lsquo;/Users/myname/Library/Mobile
+Documents/com~apple~CloudDocs/foldername/appname/GoogleMobileAds.framework/GoogleMobileAds(GADSlot+AdEvents.o)&rsquo;
+was built without bitcode. You must rebuild it with bitcode enabled
+(Xcode setting ENABLE_BITCODE), obtain an updated library from the
+vendor, or disable bitcode for this target. Note: This will be an
+error in the future.</p>
+
+<ol>
+<li>Say NO to Enable Bitcode in your target Build Settings</li>
+</ol>
+
+
+<p> <img src="https://i.imgur.com/OoOogUe.gif" alt="enter image description here" /></p></blockquote>
+
+<p>and the Library Build Settings to remove the warnings</p>
+
+<p>For more information,go to
+<a href="https://developer.apple.com/library/prerelease/watchos/documentation/IDEs/Conceptual/AppDistributionGuide/AppThinning/AppThinning.html#//apple_ref/doc/uid/TP40012582-CH35-SW2">documentation of bitcode in developer library</a></p>
+
+<p>,and WWDC 2015 Session 102: <a href="https://developer.apple.com/videos/wwdc/2015/?id=102">&ldquo;Platforms State of the Union&rdquo;</a></p>
+
+<p> <img src="http://mobileforward.net/wp-content/uploads/2015/06/Screen-Shot-2015-06-12-at-6.57.54-PM-697x351.png" alt="enter image description here" /></p>
+
+<h2>5.Privacy and Your App【URL scheme changes】</h2>
+
+<p>iOS 9 has made a small change to the handling of URL scheme. You must whitelist the url&rsquo;s that your app will call out to using the <code>LSApplicationQueriesSchemes</code> key in your <code>Info.plist</code>.</p>
+
+<p>Please see post here: <a href="http://awkwardhare.com/post/121196006730/quick-take-on-ios-9-url-scheme-changes">http://awkwardhare.com/post/121196006730/quick-take-on-ios-9-url-scheme-changes</a></p>
+
+<p>The main conclusion is that:</p>
+
+<blockquote><p>If you call the “canOpenURL” method on a URL that is not in your whitelist, it will return “NO”, even if there is an app installed that has registered to handle this scheme. A “This app is not allowed to query for scheme xxx” syslog entry will appear.</p>
+
+<p>If you call the “openURL” method on a URL that is not in your whitelist, it will fail silently. A “This app is not allowed to query for scheme xxx” syslog entry will appear.</p></blockquote>
+
+<p>The author also speculates that this is a bug with the OS and Apple will fix this in a subsequent release.</p>
+
+<p>This is a new security feature of iOS 9. Watch <a href="https://developer.apple.com/videos/wwdc/2015/?id=703">WWDC 2015 Session 703</a> for more information.</p>
+
+<p> <img src="https://i.imgur.com/2HxWQqq.png" alt="enter image description here" /></p>
+
+<p>Any app built with SDK 9 needs to provide a <code>LSApplicationQueriesSchemes</code> entry in its plist file, declaring which schemes it attempts to query.</p>
+
+<pre><code>&lt;key&gt;LSApplicationQueriesSchemes&lt;/key&gt;
+&lt;array&gt;
+ &lt;string&gt;urlscheme&lt;/string&gt;
+ &lt;string&gt;urlscheme2&lt;/string&gt;
+ &lt;string&gt;urlscheme3&lt;/string&gt;
+ &lt;string&gt;urlscheme4&lt;/string&gt;
+&lt;/array&gt; 
+</code></pre>
+
+<h2>6. Support Slide Over and Split View of iOS 9</h2>
+
+<p><img src="http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2015/06/ew-.gif" alt="enter image description here" />
+How to transition an an older project to support Slide Over and Split View of iOS 9？
+You may find that all the demo projects was written by storyboard or xib,
+but the older project&rsquo;s UI is written by code！</p>
+
+<p>I would suggest switching to storyboards to make your life easy.</p>
+
+<p>I would highly recommend you watch the following WWDC videos and then think about what exactly you need to do in order to support multi tasking.</p>
+
+<ol>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=218">Mysteries of Auto Layout, Part 1</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=215">What&rsquo;s New in Storyboards</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=407">Implementing UI Designs in Interface Builder</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=205">Getting Started with Multitasking on iPad in iOS 9</a></p></li>
+<li><p><a href="https://developer.apple.com/videos/wwdc/2015/?id=212">Optimizing Your App for Multitasking on iPad in iOS</a></p></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Facebook Pop 使用指南]]></title>
@@ -577,110 +933,6 @@ ptrace(PT_DENY_ATTACH, 0, 0, 0);
 
 <p>   <br/>
 本文原文 <a href="http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/">IOS Application Security Part 23 – Defending against runtime analysis and manipulation</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS应用程序安全(22)-使用GDB进行运行时分析和操作]]></title>
-    <link href="http://ba-xiang.com//blog/ios-application-security-22.html"/>
-    <updated>2013-11-17T00:00:00+08:00</updated>
-    <id>http://ba-xiang.com//blog/ios-application-security-22</id>
-    <content type="html"><![CDATA[<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/">http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<p>本文我们将看看如何使用GDB来对iOS应用进行运行时分析。 在<a href="http://wufawei.com/">前面的文章</a>中，我们已经查看了如何使用Cycript来分析和操作iOS应用的运行时行为。我们学习了如何执行<a href="http://wufawei.com/2013/11/ios-application-security-8/">method swizzling</a>，并且调用我们自己的方法而不是原来的实现。因此，为什么我们还需要GDB呢？Cycript并不运行我们设置断点，不允许在某个特定指令后修改变量和寄存器的值。用GDB，我们可以更深入应用，观察底层的汇编指令，操作寄存器的值，因此可以完全改变程序的运行流程。</p>
-
-<!-- more -->
-
-
-<p>你可以从我的github账号中下载<a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a>。然后确保安装和运行它到你的设备上。为了把这个设备运行到你的设备上，你不必成为一个注册的开发者，
-你可以依照<a href="http://wufawei.com/2013/11/ios-application-security-7/">这里</a>提到的步骤。在继续本文之前，我推荐你看看本系列关于GDB的上一篇<a href="http://wufawei.com/2013/11/ios-application-security-21/">文章</a>。这个例子应用是一个简单的单视图应用，要求你输入用户名和
-密码的组合来登入。然后它在本地验证你输入的凭证，如果用户名/密码输入正确，它会让你登录进去。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat2.png" alt="" /></p>
-
-<p>一旦应用安装到了设备上，ssh进入设备。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat2.png" alt="" />
-然后在你的设备上开启GDB-Demo这个应用。在GDB中，使用命令 attach GDB-Demo.PiD 附加到这个运行进程，这里的PID是GDB-Demo应用的进程ID。你那里的PID可能不一样。输入attach GDB-Demo然后点击TAB。就会给出你要追加的正确的进程ID。一旦你按了enter，GDB会挂钩进这个运行的进程。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat3.png" alt="" /></p>
-
-<p>从上一篇文章我们已经知道这个应用的类信息。我们知道它有一个方法叫做loginButtonTapped:。因此我们给它设置一个断点，然后输入命令c来继续运行这个应用。
-<img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat4.png" alt="" /></p>
-
-<p>现在输入任意的用户名和密码组合，然后点击登录。断点就会被触发。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat5.png" alt="" /></p>
-
-<p>使用disas来打印出这个函数的汇编信息。现在我们知道验证就会发生在这个函数内部，因为我们从这个应用的类信息里找不到其他感兴趣的其他相关信息。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat6.png" alt="" /></p>
-
-<p>从上一篇文章中，我们学习到每当一个外部方法或者属性被访问的时候，objc_msgSend就会被调用。不过，在任何程序中msgSend都会被调用成千上万次。
-我们只关心和这个函数（loginButtonTapped:）相关的objc_msgSend调用。因此，我们可以找出所有调用objc_msgSend的指令的地址，然后给它设置断点。
-一个非常简单的方法就是寻找blx指令，注意它(blx)的地址，然后为它设置一个断点。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat7.png" alt="" /></p>
-
-<p>现在我已经为这个函数调用objc_msgSend的入口设置了断点。现在我们一个一个的来看objc_msgSend指令，打印出寄存器的值，看看是否有感兴趣的。
-我们将要打印出每个objc_msgSend调用的r1的值。如果没有什么感兴趣的，输入命令c继续直到下一个断点触发。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat8.png" alt="" /></p>
-
-<p>这里有些有意思的东西。如果我们看看上图的底部，我们会看到方法isEqualToString:被调用了。因此这是一个和特定字符串的比较。利用从上一篇文章获得的知识
-我们可以知道寄存器r2会包含传递给这个函数的参数。并且，如果你有编写Objective-C代码的经验，你会知道每个Objective-C的对象都是一个指针。isEqualToString:这个函数也同样接收一个字符串指针作为参数，保存在r2寄存器中。要找出这个对象的值，GDB有一个特定的命令po，能够打印出这个寄存器中的指针的值。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat9.png" alt="" /></p>
-
-<p>因此，这个正被比较的字符串是“Admin”。这看起来像是用户名。看起来工作已经完成了一半。你也可以用如下图的方式打印出r2的值。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat10.png" alt="" /></p>
-
-<p>现在更明智的做法就是重新在应用中把用户名输入为Admin。这是因为执行流程可能还走不到检查密码的地方（因为用户名不对）。因此，让我们输入Admin作为
-用户名，输入任意的东西作为密码。让我们再次设置断点，然后看看我们是否能够找出密码。在经过一段做同样事情的时间之后，断点将会在isEqualToString:被调用的时候被触发。打印出r2的值，可以看到，密码是HELLOIOSAPPLICATIONEXPERTS。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat11.png" alt="" /></p>
-
-<p>现在我们输入找到的用户名和密码的组合，我们将看到。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat12.png" alt="" /></p>
-
-<p>另一个做到同样事情的方法就是操作寄存器的值。在汇编代码中，我们可以看到有2个调用cmp指令的地方。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat13.png" alt="" /></p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat14.png" alt="" /></p>
-
-<p>在这两个地方，r0寄存器的值都与0做比较，然后根据比较结果做决定。让我们为这两个地方都设置一个断点然后继续运行应用。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat15.png" alt="" /></p>
-
-<p>一旦断点触发，设置r0寄存器的值为1.你可以通过命令 set $r0 =1做到。在另一个地方做同样的事情然后继续运行应用。
-你会看到你成功登陆，即使你没有输入任何用户名/密码组合。</p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat16.png" alt="" /></p>
-
-<p><img src="http://resources.infosecinstitute.com/wp-content/uploads/111113_1041_IOSApplicat17.png" alt="" /></p>
-
-<p>顺便说一下，下面是我们破解的loginButtonTapped:的代码。</p>
-
-<pre><code>1. - (IBAction)loginButtonTapped:(id)sender {
-2. if([_usernameTextField.text isEqualToString:@"Admin"] &amp;&amp; [_passwordTextField.text isEqualToString:@"HELLOIOSAPPLICATIONEXPERTS"]){
-3. [self performSegueWithIdentifier:@"adminPage" sender:self];
-4. }else{
-5. [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Incorrect Username or password" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-6. }
-7. }
-</code></pre>
-
-<p><br>
-本文我们查看了如何通过GDB在运行时操作应用的执行流程。在整个逻辑都在一个函数内部的情况下，关于GDB的知识特别有用，因为我们不能够使用Cycript的method swizzling技术。掌握好GDB和ARM汇编的知识，修改和操作应用的执行流程的能力只受你的想象力限制。</p>
-
-<p> <br/>
-本文原文 <a href="http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/">IOS Application Security Part 22 – Runtime Analysis and Manipulation using GDB</a></p>
 ]]></content>
   </entry>
   

@@ -9,9 +9,9 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="Nov 15,&nbsp 2013 ios, security Comments iOS应用程序安全(14)-使用Sogeti Data Protection Tools收集信息 作者：Prateek Gianchandani
+	<meta name="description" content="Nov 15,&nbsp 2013 ios, security Comments iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析 作者：Prateek Gianchandani
 译者：吴发伟
-原文网址：http://resources. &hellip;">
+原文网址：http://resources.infosecinstitute. &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -126,6 +126,51 @@ var _hmt = _hmt || [];
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Nov 15,&nbsp 2013  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/security/'>security</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/ios-application-security-15.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-15.html" itemprop="url">iOS应用程序安全(15)-使用iNalyzer对iOS应用进行静态分析</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>作者：Prateek Gianchandani<br/>
+译者：吴发伟<br/>
+原文网址：<a href="http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/">http://resources.infosecinstitute.com/part-15-static-analysis-of-ios-apps-using-inalyzer/</a><br/>
+版权声明：自由转载-非商用-保持署名</p>
+
+<p>在前面的文章当中，我们看到了如何使用Sogeti Data protection tools利用bottom的漏洞，使用定制的ramdisk来启动iOS设备。本文我们将学习用iNalyzer工具来对iOS
+应用进行黑盒测试。iNalyzer允许我们查看类信息，执行运行时分析和其他一些事情。基本上它把解密应用、导出类信息这些事情自动化了，并且更好的展示了出来。我们也可以像Cycript那样挂钩运行的进程。iNalyzer由<a href="https://appsec-labs.com/">AppSec Labs</a>开发和维护，它的官方地址在<a href="https://appsec-labs.com/iNalyzer">这</a>。iNalyzer同时也已经开源了，gitub地址在<a href="https://github.com/appsec-labs/iNalyzer">这</a>。</p>
+
+
+		
+		<a href="/blog/ios-application-security-15.html" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -309,56 +354,6 @@ Nov 15,&nbsp 2013  </div>
 
 		
 		<a href="/blog/ios-application-security-11.html" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-Nov 15,&nbsp 2013  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/security/'>security</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/ios-application-security-10.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios-application-security-10.html" itemprop="url">iOS应用程序安全(10)-iOS文件系统和取证</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>作者：Prateek Gianchandani<br/>
-译者：吴发伟<br/>
-原文网址：<a href="http://resources.infosecinstitute.com/ios-application-security-part-10-ios-filesystem-and-forensics/">http://resources.infosecinstitute.com/ios-application-security-part-10-ios-filesystem-and-forensics/</a><br/>
-版权声明：自由转载-非商用-保持署名</p>
-
-<h2>引言</h2>
-
-<p>我们将在本文分析iOS的文件系统，了解其目录是如何组织的，查看一些重要的文件，然后看看如何才能够从数据库文件和plist文件导出数据。我们将学习应用是如何在特定目录（沙盒）内存放数据的，以及怎样才能提取这些数据。</p>
-
-<p>有一个很重要的事情需要注意，在前面的文章中，我们都是以root身份登录进设备的。设备上有另一个用户名叫mobile, 一个mobile用户拥有的权限是少于root用户的。除了Cydia和少数的应用以root权限应用之外，其他应用都是以mobile的身份应用的。有些苹果内部的daemon服务也以root权限运行。执行ps aux就可以查看清楚。在最左边，我们可以看到用户列。可以看到Cydia以root身份运行，所有其他应用都以mobile身份运行，
-例如/Applications/AppStore.app/AppStore，有些demon也以root身份运行，如/usr/sbin/wifid。一些你通过Cydia安装的应用也可能会以root身份运行。
-一旦你的设备一越狱，默认root和mobile的密码都是alpine.</p>
-
-
-		
-		<a href="/blog/ios-application-security-10.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>

@@ -9,7 +9,7 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="Apr 26,&nbsp 2015 applewatch Comments Apple Watch 和 iPhone 通信实践 给 iPhone App 添加 Watch App 支持需要在 iPhone 工程中添加 Watch Extension，添加后工程中对应生成两个新的target： &hellip;">
+	<meta name="description" content="Jun 28,&nbsp 2015 ios Comments Ios9适配指南 原文作者：iOS程序犭袁 原文地址：https://github.com/ChenYilong/iOS9AdaptationTips 1. Demo1_iOS9网络适配_改用更安全的HTTPS TLS 1.2 协议 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -124,6 +124,57 @@ var _hmt = _hmt || [];
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+    	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+Jun 28,&nbsp 2015  </div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/ios9-adatation-tips.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/ios9-adatation-tips.html" itemprop="url">Ios9适配指南</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p> 原文作者：iOS程序犭袁</p>
+
+<p> 原文地址：<a href="https://github.com/ChenYilong/iOS9AdaptationTips">https://github.com/ChenYilong/iOS9AdaptationTips</a></p>
+
+<h2>1. Demo1_iOS9网络适配_改用更安全的HTTPS</h2>
+
+<p>TLS 1.2 协议 强制增强数据访问安全
+系统 Foundation 框架下的相关网络请求，将不再默认使用 Http 等不安全的网络协议，而默认采用 TLS 1.2。服务器因此需要更新，以解析相关数据。如不更新，可通过在 Info.plist 中声明，倒退回不安全的网络请求。</p>
+
+<h2>2.Demo2_iOS9新特性_更灵活的后台定位</h2>
+
+<p>【iOS9在定位的问题上，有一个坏消息一个好消息】坏消息：如果不适配iOS9，就不能偷偷在后台定位（不带蓝条，见图）！好消息：将允许出现这种场景：同一App中的多个location manager：一些只能在前台定位，另一些可在后台定位，并可随时开启或者关闭特定location manager的后台定位。
+如果没有请求后台定位的权限，也是可以在后台定位的，不过会带蓝条：</p>
+
+
+		
+		<a href="/blog/ios9-adatation-tips.html" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -278,45 +329,6 @@ Apr 22,&nbsp 2015  </div>
 
 		
 		<a href="/blog/helloworld-watchkit-app.html" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-    	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-Apr 20,&nbsp 2015  </div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/applewatch/'>applewatch</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/watchkit-initial-impressions.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/watchkit-initial-impressions.html" itemprop="url">WatchKit初探</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>总体而言，WatchKit第一版SDK提供的功能远远超出了我的期望。因为我原本以为第一版WatchKit可能侧重于对iOS Today Extension功能的延伸，而不是真正开发Watch App。所以当知道真相后，我即惊讶又感到高兴，第一版WatchKit并不是我所想的那样，它可以为Watch App创建全新的交互界面，而且可以通过iOS App Extension去控制他们。</p>
-
-
-		
-		<a href="/blog/watchkit-initial-impressions.html" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 </article>
