@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | 小巴童鞋]]></title>
   <link href="http://ba-xiang.com//blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://ba-xiang.com//"/>
-  <updated>2015-06-28T01:20:35+08:00</updated>
+  <updated>2015-06-28T01:25:26+08:00</updated>
   <id>http://ba-xiang.com//</id>
   <author>
     <name><![CDATA[小巴]]></name>
@@ -22,7 +22,7 @@
 
 <p> 原文地址：<a href="https://github.com/ChenYilong/iOS9AdaptationTips">https://github.com/ChenYilong/iOS9AdaptationTips</a></p>
 
-<h2>1.iOS9网络适配_改用更安全的HTTPS</h2>
+<h3>1.iOS9网络适配_改用更安全的HTTPS</h3>
 
 <p>TLS 1.2 协议 强制增强数据访问安全
 系统 Foundation 框架下的相关网络请求，将不再默认使用 Http 等不安全的网络协议，而默认采用 TLS 1.2。服务器因此需要更新，以解析相关数据。如不更新，可通过在 Info.plist 中声明，倒退回不安全的网络请求。</p>
@@ -30,7 +30,7 @@
 <!--more -->
 
 
-<h2>2.iOS9新特性_更灵活的后台定位</h2>
+<h3>2.iOS9新特性_更灵活的后台定位</h3>
 
 <p>【iOS9在定位的问题上，有一个坏消息一个好消息】坏消息：如果不适配iOS9，就不能偷偷在后台定位（不带蓝条，见图）！好消息：将允许出现这种场景：同一App中的多个location manager：一些只能在前台定位，另一些可在后台定位，并可随时开启或者关闭特定location manager的后台定位。
 如果没有请求后台定位的权限，也是可以在后台定位的，不过会带蓝条：</p>
@@ -77,7 +77,7 @@ if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 9) {
 &lt;/array&gt;
 </code></pre>
 
-<h2>3.企业级分发</h2>
+<h3>3.企业级分发</h3>
 
 <p>iOS9之前，企业级分发十分方便：点击App出现“信任按钮”，</p>
 
@@ -91,7 +91,7 @@ if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 9) {
 
 <p> <img src="https://i.imgur.com/PXM235L.gif" alt="enter image description here" /></p>
 
-<h2>4.Bitcode（通俗解释：在线版安卓ART模式）</h2>
+<h3>4.Bitcode（通俗解释：在线版安卓ART模式）</h3>
 
 <p>未来Watch应用须包含Bitcode，iOS不强制，但Xcode7默认会开启Bitcode。</p>
 
@@ -116,7 +116,7 @@ error in the future.</p></blockquote>
 
 <p> <img src="http://mobileforward.net/wp-content/uploads/2015/06/Screen-Shot-2015-06-12-at-6.57.54-PM-697x351.png" alt="enter image description here" /></p>
 
-<h2>5.URL scheme</h2>
+<h3>5.URL scheme</h3>
 
 <p>在iOS9中，如果使用URL scheme必须在&#8221;Info.plist&#8221;中将你要在外部调用的URL scheme列为白名单，否则不能使用。key叫做LSApplicationQueriesSchemes ，键值内容是</p>
 
@@ -141,7 +141,7 @@ error in the future.</p></blockquote>
 
 <p> <img src="https://i.imgur.com/2HxWQqq.png" alt="enter image description here" /></p>
 
-<h2>6. iPad适配Slide Over 和 Split View</h2>
+<h3>6. iPad适配Slide Over 和 Split View</h3>
 
 <p> <img src="http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2015/06/ew-.gif" alt="enter image description here" /></p>
 
@@ -159,7 +159,7 @@ error in the future.</p></blockquote>
 
 <h4>英文</h4>
 
-<h2>1. Demo1_You&rsquo;d better Convert HTTP to HTTPS</h2>
+<h3>1. You&rsquo;d better Convert HTTP to HTTPS</h3>
 
 <p>How to deal with the SSL in iOS9，One solution is to  do like:
  <img src="https://github.com/ChenYilong/iOS9AdaptationTips/blob/master/Demo1_iOS9%E7%BD%91%E7%BB%9C%E9%80%82%E9%85%8D_%E6%94%B9%E7%94%A8%E6%9B%B4%E5%AE%89%E5%85%A8%E7%9A%84HTTPS/%E5%BE%AE%E5%8D%9A%40iOS%E7%A8%8B%E5%BA%8F%E7%8A%AD%E8%A2%81/http%E9%97%AE%E9%A2%98.gif" alt="enter image description here" /></p>
@@ -208,7 +208,7 @@ error in the future.</p></blockquote>
 
 <p>As of today, the prerelease documentation makes no mention of any of these configuration options in any specific way. Once it does, I&rsquo;ll update the answer to link to the relevant documentation.</p>
 
-<h2>2.Demo2_iOS9 new feature  in CoreLocation :  background only when you need</h2>
+<h3>2.iOS9 new feature  in CoreLocation :  background only when you need</h3>
 
 <p>If you&rsquo;re using CoreLocation framework in your app in Xcode7(pre-released),and you may notice that there is a newly added property called allowsBackgroundLocationUpdates in CLLocationManager class.</p>
 
@@ -269,7 +269,7 @@ if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 9) {
 [_locationManager startUpdatingLocation];
 </code></pre>
 
-<h2>3.iOS9 Untrusted Enterprise Developer with no option to trust</h2>
+<h3>3.iOS9 Untrusted Enterprise Developer with no option to trust</h3>
 
 <p>Since iOS9 there is no option to trust an enterprise build.
 Before iOS9，it&rsquo;s very easy to use:if you touch the app,it&rsquo;ll apear this :</p>
@@ -285,7 +285,7 @@ Go to Settings - General - Profiles - tap on your Profile - tap on Trust button.
 
 <p>  <img src="https://i.imgur.com/AdGNYHe.gif" alt="enter image description here" /></p>
 
-<h2>4.bitcode optional</h2>
+<h3>4.bitcode optional</h3>
 
 <p>After Xcode 7,bitcode option will be enabled by default,If your library was compiled without bitcode but the bitcode option is enabled in your project settings.You can</p>
 
@@ -318,7 +318,7 @@ error in the future.</p>
 
 <p> <img src="http://mobileforward.net/wp-content/uploads/2015/06/Screen-Shot-2015-06-12-at-6.57.54-PM-697x351.png" alt="enter image description here" /></p>
 
-<h2>5.Privacy and Your App【URL scheme changes】</h2>
+<h3>5.Privacy and Your App【URL scheme changes】</h3>
 
 <p>iOS 9 has made a small change to the handling of URL scheme. You must whitelist the url&rsquo;s that your app will call out to using the <code>LSApplicationQueriesSchemes</code> key in your <code>Info.plist</code>.</p>
 
@@ -347,7 +347,7 @@ error in the future.</p>
 &lt;/array&gt; 
 </code></pre>
 
-<h2>6. Support Slide Over and Split View of iOS 9</h2>
+<h3>6. Support Slide Over and Split View of iOS 9</h3>
 
 <p><img src="http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2015/06/ew-.gif" alt="enter image description here" />
 How to transition an an older project to support Slide Over and Split View of iOS 9？
