@@ -9,7 +9,7 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="Jun 28,&nbsp 2015 ios Comments Ios9适配指南 原文作者：iOS程序犭袁 原文地址：https://github.com/ChenYilong/iOS9AdaptationTips 1.iOS9网络适配_改用更安全的HTTPS TLS 1.2 协议 &hellip;">
+	<meta name="description" content="Jun 28,&nbsp 2015 ios Comments iOS9适配指南 原文作者：iOS程序犭袁 原文地址：https://github.com/ChenYilong/iOS9AdaptationTips 1.iOS9网络适配_改用更安全的HTTPS TLS 1.2 协议 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -153,7 +153,7 @@ Jun 28,&nbsp 2015  </div>
 			<span class="comments"><a href="/blog/ios9-adatation-tips.html#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/ios9-adatation-tips.html" itemprop="url">Ios9适配指南</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/ios9-adatation-tips.html" itemprop="url">iOS9适配指南</a></h1>
 	<div class="entry-content" itemprop="articleBody">
 		<p> 原文作者：iOS程序犭袁</p>
 
@@ -163,6 +163,11 @@ Jun 28,&nbsp 2015  </div>
 
 <p>TLS 1.2 协议 强制增强数据访问安全
 系统 Foundation 框架下的相关网络请求，将不再默认使用 Http 等不安全的网络协议，而默认采用 TLS 1.2。服务器因此需要更新，以解析相关数据。如不更新，可通过在 Info.plist 中声明，倒退回不安全的网络请求。</p>
+
+<h3>2.iOS9新特性_更灵活的后台定位</h3>
+
+<p>【iOS9在定位的问题上，有一个坏消息一个好消息】坏消息：如果不适配iOS9，就不能偷偷在后台定位（不带蓝条，见图）！好消息：将允许出现这种场景：同一App中的多个location manager：一些只能在前台定位，另一些可在后台定位，并可随时开启或者关闭特定location manager的后台定位。
+如果没有请求后台定位的权限，也是可以在后台定位的，不过会带蓝条：</p>
 
 
 		
