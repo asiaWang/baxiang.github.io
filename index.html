@@ -9,7 +9,8 @@
 	<meta name="author" content="小巴">
 
 	
-	<meta name="description" content="Jun 28,&nbsp 2015 ios Comments iOS9适配指南 原文作者：iOS程序犭袁 原文地址：https://github.com/ChenYilong/iOS9AdaptationTips 1.iOS9网络适配_改用更安全的HTTPS TLS 1.2 协议 &hellip;">
+	<meta name="description" content="Jun 28,&nbsp 2015 ios Comments iOS9适配指南 1.iOS9网络适配_改用更安全的HTTPS TLS 1.2 协议 强制增强数据访问安全
+系统 Foundation 框架下的相关网络请求，将不再默认使用 Http 等不安全的网络协议，而默认采用 TLS 1.2。 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -155,11 +156,7 @@ Jun 28,&nbsp 2015  </div>
 	</div>
 	<h1 class="title" itemprop="name"><a href="/blog/ios9-adatation-tips.html" itemprop="url">iOS9适配指南</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p> 原文作者：iOS程序犭袁</p>
-
-<p> 原文地址：<a href="https://github.com/ChenYilong/iOS9AdaptationTips">https://github.com/ChenYilong/iOS9AdaptationTips</a></p>
-
-<h3>1.iOS9网络适配_改用更安全的HTTPS</h3>
+		<h3>1.iOS9网络适配_改用更安全的HTTPS</h3>
 
 <p>TLS 1.2 协议 强制增强数据访问安全
 系统 Foundation 框架下的相关网络请求，将不再默认使用 Http 等不安全的网络协议，而默认采用 TLS 1.2。服务器因此需要更新，以解析相关数据。如不更新，可通过在 Info.plist 中声明，倒退回不安全的网络请求。</p>
